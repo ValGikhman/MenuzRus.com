@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Menuz R Us</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="digital menu design, digital menus, design menus " />
+    <meta name="description" content="You web restorante complete solution" />
+
+    <link href="@Url.Content("~/Content/base/jquery-ui.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/web_style.css")" rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JQuery/jquery-ui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JQuery/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/Common.js")" type="text/javascript"></script>
+</head>
+<body>
+    <div id="bowlG" style="display: none;">
+        <div id="bowl_ringG">
+            <div class="ball_holderG">
+                <div class="ballG">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <nav id="navigation" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand gradient" href="http://www.menuzrus.com" target="_blank">MenuZ 'R' Us</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user-dropdown">
+                        @{
+                            String contact = "Unknown";
+                            Int32 customerId = 0;
+                            Int32 contactId = 0;
+                            if (Model != null) {
+                                contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
+                                customerId = Model.MyCompany.id;
+                                contactId = Model.Me.id;
+                            }
+                        }
+                        <a id="UserName" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@contact<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Contact/Index/@contactId"">My Profile</a></li>
+                            <li><a href="/Customer/Index/@customerId">My Company</a></li>
+                            <li><a href="#">My Company Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Logout/">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="side-nav tree">
+                    <li>
+                        <span class="gradientYellow">Dashboard</span>
+                        <ul>
+                            <li>
+                                <span><a href="">Inventory</a></span>
+                            </li>
+                            <li>
+                                <span><a href="">Orders</a></span>
+                            </li>
+                            <li>
+                                <span><a href="">Totals</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="gradientYellow">Your menu</span>
+                        <ul>
+                            <li>
+                                <span><a href="/YourMenu/Style/">Style</a></span>
+                            </li>
+                            <li>
+                                <span><a href="/YourMenu/Create/">Create</a></span>
+                            </li>
+                            <li>
+                                <span><a href="/Menu/">Menu-et</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

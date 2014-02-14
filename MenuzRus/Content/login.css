@@ -1,0 +1,21 @@
+﻿/* Set position*/
+body {
+    padding-top: 200px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.panel {
+    width: 400px;
+    margin: 0 auto;
+}
+
+#Email, #Password {
+    width: 300px;
+    margin: 0 auto;
+}
+
+#Password {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}

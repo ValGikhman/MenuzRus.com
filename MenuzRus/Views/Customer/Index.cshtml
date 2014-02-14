@@ -1,0 +1,55 @@
+﻿@model MenuzRus.Models.CustomerModel
+@using Extensions
+<link href="@Url.Content("~/Content/customer.css")" rel="stylesheet" />
+<div class="container">
+
+    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form" })) {
+        <div id="panel" class="panel panel-primary shadow">
+            <div class="panel-heading">Customer</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter your business name", required = "" })
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control input-sm shadow", placeholder = "Enter your business address", required = "" })
+                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control input-sm shadow", placeholder = "Business address if needed" })
+                        @Html.TextBoxFor(model => model.City, new { @class = "form-control input-sm shadow", placeholder = "Enter city", required = "" })
+                    </div>
+                    <div class="imagerow col-lg-4 col-md-4">
+                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Contacts/{1}?{2}", Model.id, Model.ImageUrl1, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                        <input type="file" id="Image1" name="Image1" />
+                        <div class="col-md-1 col-lg-1">
+                            <a href="#" id="btnDeleteImage1" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        @Html.LabelFor(m => m.State)
+                        @Html.DropDownListFor(m => m.State, Model.States, new { @class = "form-control input-sm shadow" })
+                        @Html.TextBoxFor(model => model.Zip, new { @class = "form-control input-sm shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
+                    </div>
+                    <div class="imagerow col-lg-4 col-md-4">
+                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Contacts/{1}?{2}", Model.id, Model.ImageUrl2, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                        <input type="file" id="Image2" name="Image2" />
+                        <div class="col-md-1 col-lg-1">
+                            <a href="#" id="btnDeleteImage2" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer col-md-12 col-lg-12">
+                    <div class="buttons col-md-offset-4">
+                        <button id="btnSave" type="submit" class="btn btn-primary shadow">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<script>
+    $(function () {
+        initImageUploadCustomer();
+    })
+</script>

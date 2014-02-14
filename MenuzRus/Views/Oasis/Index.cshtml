@@ -1,0 +1,153 @@
+@model MenuzRus.Models.OasisMenu
+<link href="@Url.Content("~/Content/oasis-menu_style-1080.css")" rel="stylesheet" type="text/css" />
+<div class="container">
+    <header>
+    </header>
+    <div id="rm-container" class="rm-container">
+        <div class="rm-wrapper">
+            <div class="rm-cover">
+                <div class="rm-front">
+                    <div class="rm-content">
+                        <div class="rm-logo-top">
+                        </div>
+                        <h2>Oasis Grill</h2>
+                        <h3>Welcomes you</h3>
+                        <div class="rm-info">
+                            <p>
+                                <strong>Oasis Mediterranean Grill<br>
+                                    8697 Fields Erthel Rd<br>
+                                    Mason, OH 45249<br>
+                                    Phone: (513) 247-9755</strong>
+                        </div>
+                    </div>
+                    <!-- /rm-content -->
+                </div>
+                <!-- /rm-front -->
+                <div class="rm-back">
+                    <div class="rm-content">
+                        @foreach (MenuzRus.Models.OasisCategory category in Model.MenuCategories.Where(m => m.Side.ToUpper() == "Left".ToUpper()).ToList()) {
+                            if (!@category.ImageOnly) {
+                            <h4>@category.Name</h4>
+                                if (@category.Description != String.Empty && @category.Description != null) {
+                            <div class="description">@category.Description</div>
+                                }
+                            }
+                            if (@category.ImageUrl != String.Empty) {
+                            <div class="rm-item" style="background:url(/images/Menus/1/@category.ImageUrl) no-repeat center center;">
+                            </div>
+                            }
+
+                            <dl>
+                                @if (category.MenuItems != null) {
+                                    foreach (MenuzRus.Models.OasisItem item in category.MenuItems) {
+                                    <dt>
+                                        @item.Name
+                                    </dt>
+                                    <dd>
+                                        @if (item.Description != String.Empty && item.Description != null) {
+                                            @item.Description
+                                        }
+                                        <div class="price">@item.Price</div>
+                                    </dd>
+                                    }
+                                }
+                            </dl>
+                        }
+                    </div>
+                    <!-- /rm-content -->
+                    <div class="rm-overlay">
+                    </div>
+                </div>
+                <!-- /rm-back -->
+            </div>
+            <!-- /rm-cover -->
+            <div class="rm-middle">
+                <div class="rm-inner">
+                    <div class="rm-content">
+                        @foreach (MenuzRus.Models.OasisCategory category in Model.MenuCategories.Where(m => m.Side.ToUpper() == "Center".ToUpper()).ToList()) {
+                            if (!@category.ImageOnly) {
+                            <h4>@category.Name</h4>
+                                if (@category.Description != String.Empty && @category.Description != null) {
+                            <div class="description">@category.Description</div>
+                                }
+                            }
+                            if (@category.ImageUrl != String.Empty) {
+                            <div class="rm-item" style="background:url(/images/Menus/1/@category.ImageUrl) no-repeat center center;">
+                            </div>
+                            }
+
+                            <dl>
+                                @if (category.MenuItems != null) {
+                                    foreach (MenuzRus.Models.OasisItem item in category.MenuItems) {
+                                    <dt>
+                                        @item.Name
+                                    </dt>
+                                    <dd>
+                                        @if (item.Description != String.Empty && item.Description != null) {
+                                            @item.Description
+                                        }
+                                        <div class="price">@item.Price</div>
+                                    </dd>
+                                    }
+                                }
+                            </dl>
+                        }
+                    </div>
+                    <!-- /rm-content -->
+                    <div class="rm-overlay">
+                    </div>
+                </div>
+                <!-- /rm-inner -->
+            </div>
+            <!-- /rm-middle -->
+            <div class="rm-right">
+                <div class="rm-front">
+                </div>
+                <div class="rm-back">
+                    <div class="rm-content">
+                        @foreach (MenuzRus.Models.OasisCategory category in Model.MenuCategories.Where(m => m.Side.ToUpper() == "Right".ToUpper()).ToList()) {
+                            if (!@category.ImageOnly) {
+                            <h4>@category.Name</h4>
+                                if (@category.Description != String.Empty && @category.Description != null) {
+                            <div class="description">@category.Description</div>
+                                }
+                            }
+                            if (@category.ImageUrl != String.Empty) {
+                            <div class="rm-item" style="background:url(/images/Menus/1/@category.ImageUrl) no-repeat center center;">
+                            </div>
+                            }
+
+                            <dl>
+                                @if (category.MenuItems != null) {
+                                    foreach (MenuzRus.Models.OasisItem item in category.MenuItems) {
+                                    <dt>
+                                        @item.Name
+                                    </dt>
+                                    <dd>
+                                        @if (item.Description != String.Empty && item.Description != null) {
+                                            @item.Description
+                                        }
+                                        <div class="price">@item.Price</div>
+                                    </dd>
+                                    }
+                                }
+                            </dl>
+                        }
+                    </div>
+                    <!-- /rm-content -->
+                </div>
+                <!-- /rm-back -->
+            </div>
+            <!-- /rm-right -->
+        </div>
+        <!-- /rm-wrapper -->
+    </div>
+    <!-- /rm-container -->
+</div>
+<script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/menu.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        Menu.init({offsetTop : @(Model.Settings.OffsetTop), offsetLeft: @(Model.Settings.OffsetLeft)});
+    });
+</script>

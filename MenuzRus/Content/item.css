@@ -1,0 +1,47 @@
+﻿/* Set position*/
+body {
+    padding-top: 200px;
+    background-color: #eee;
+}
+
+.panel {
+    width: 550px;
+    margin: 0 auto;
+}
+
+.panel-body {
+    margin-left: 15px;
+}
+
+.form-item {
+    margin: 0 auto;
+}
+
+.form-category .form-control:focus {
+    z-index: 2;
+}
+
+#Name, #Description {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.preview {
+    width: 160px;
+    height: 160px;
+    text-align: center;
+}
+
+#Image {
+    width: 0;
+    height: 0;
+}
+
+.imagerow {
+    padding-right: 0px;
+}
+
+.panel-footer {
+    margin-top: 20px;
+    padding-top: 20px;
+}

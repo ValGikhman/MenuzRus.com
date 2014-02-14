@@ -1,0 +1,146 @@
+<Menu>
+    <!--<Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="163" OffsetTop="75" />-->
+    <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="0" OffsetTop="40" />
+    <Categories>
+        <Category Id="1" Name="Pizza" Description="Additional vegetable toppings $2, Lamb topping $3, Any other meat topping $3" ImageUrl="" Side="Left">
+            <Items>
+                <Item>
+                    <Id>1</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Cheese Pizza</Name>
+                    <Description></Description>
+                    <Price>Medium: $8 Large: $10</Price>
+                </Item>
+                <Item>
+                    <Id>2</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Pepperoni Pizza</Name>
+                    <Description></Description>
+                    <Price>Medium: $10 Large: $11</Price>
+                </Item>
+                <Item>
+                    <Id>3</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Vegetarinian Pizza</Name>
+                    <Description>Mushrooms, onion, pepper, tomatos, olives, mozarella cheese</Description>
+                    <Price>Medium: $10 Large: $12</Price>
+                </Item>
+                <Item>
+                    <Id>4</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Deluxe Pizza</Name>
+                    <Description>Pepperoni, beef, mushrooms, onion, sweet peppers, mozarella cheese</Description>
+                    <Price>Medium: $12 Large: $13</Price>
+                </Item>
+                <Item>
+                    <Id>5</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Oasis Pizza</Name>
+                    <Description>Pepperoni, beef, mushrooms, onion, sweet peppers, mozarella cheese</Description>
+                    <Price>Large: $15</Price>
+                </Item>
+                <Item>
+                    <Id>6</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Greek Pizza</Name>
+                    <Description>Spinach, olives, feta cheese, tomatos and mozarella cheese</Description>
+                    <Price>Medium: $11 Large: $12</Price>
+                </Item>
+                <Item>
+                    <Id>7</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Hawaiian Pizza</Name>
+                    <Description>Ham, Pineapple, bacon, mozarella cheese</Description>
+                    <Price>Medium: $12 Large: $13</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="1" Name="Pizza" Description="" ImageUrl="" Side="Center">
+            <Items>
+                <Item>
+                    <Id>8</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Meat-Meat Pizza</Name>
+                    <Description></Description>
+                    <Price>Medium: $12 Large: $13</Price>
+                </Item>
+                <Item>
+                    <Id>9</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken Alfredo</Name>
+                    <Description>Grilled chicken breast, alfredo sauce, red onion and bacon</Description>
+                    <Price>Medium: $12 Large: $13</Price>
+                </Item>
+                <Item>
+                    <Id>10</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Mediterranian dream</Name>
+                    <Description>Gyro meat, feta cheese, humus, black olives, tomatoes, onions, white sauce, mozarella cheese and garlic</Description>
+                    <Price>Large: $15</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="5" Name="Soups" ImageUrl="" Side="Right">
+            <Items>
+                <Item>
+                    <Id>19</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Vegetable Soup</Name>
+                    <Description>Sweet pepper, cauliflower, sweet peas, broccoli and zucchini</Description>
+                    <Price>$4</Price>
+                </Item>
+                <Item>
+                    <Id>20</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken Noodle Soup</Name>
+                    <Description>Chicken broth, tender chunk of chicken, noodles, sweet peppers and carrots</Description>
+                    <Price>$4</Price>
+                </Item>
+                <Item>
+                    <Id>21</Id>
+                    <ImageUrl></ImageUrl>
+                    <ImageOnly />
+                    <Name>Borscht</Name>
+                    <Description>Beef stock based vegitable soup with beets, cabbage and potatoes</Description>
+                    <Price>$4</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="6" Name="Salads" ImageUrl="" Side="Center">
+            <Items>
+                <Item>
+                    <Id>22</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Greek Salad</Name>
+                    <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
+                    <Price>$5,50</Price>
+                </Item>
+                <Item>
+                    <Id>23</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken Salad</Name>
+                    <Description>Walnuts, celery, red grapes, chicken breast, mayonnaise</Description>
+                    <Price>$6,50</Price>
+                </Item>
+                <Item>
+                    <Id>24</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Caesar Salad</Name>
+                    <Description>Lettuce mix, cucumbers, onions topped with croutons, parmesan and our own Caesar deressing</Description>
+                    <Price>$6</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="7" Name="Sides" ImageUrl="" Side="Right">
+            <Items>
+                <Item>
+                    <Id>26</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Mashed Potato, French Fries, White Rice</Name>
+                    <Description></Description>
+                    <Price>$3</Price>
+                </Item>
+            </Items>
+        </Category>
+    </Categories>
+</Menu>

@@ -1,0 +1,289 @@
+body {
+    background-image: url(../images/Web/body.jpg);
+}
+/* Common */
+.form-control, .btn {
+    border: 1px solid #b0adad;
+}
+
+.shadow {
+    box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.15), 0 7px 7px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+
+#bowlG {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+#bowl_ringG {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #CBD90B;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    -ms-border-radius: 40px;
+    -o-border-radius: 40px;
+    border-radius: 40px;
+}
+
+.ball_holderG {
+    position: absolute;
+    width: 11px;
+    height: 40px;
+    left: 15px;
+    top: 0px;
+    -moz-animation-name: ball_moveG;
+    -moz-animation-duration: 2.6s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -webkit-animation-name: ball_moveG;
+    -webkit-animation-duration: 2.6s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -ms-animation-name: ball_moveG;
+    -ms-animation-duration: 2.6s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    -o-animation-name: ball_moveG;
+    -o-animation-duration: 2.6s;
+    -o-animation-iteration-count: infinite;
+    -o-animation-timing-function: linear;
+    animation-name: ball_moveG;
+    animation-duration: 2.6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.ballG {
+    position: absolute;
+    left: 0px;
+    top: -9px;
+    width: 16px;
+    height: 16px;
+    background: #1515BF;
+    -moz-border-radius: 13px;
+    -webkit-border-radius: 13px;
+    -ms-border-radius: 13px;
+    -o-border-radius: 13px;
+    border-radius: 13px;
+}
+
+@-moz-keyframes ball_moveG {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes ball_moveG {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-ms-keyframes ball_moveG {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+
+    100% {
+        -ms-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes ball_moveG {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@keyframes ball_moveG {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.glyphicon:empty {
+    width: 2em;
+}
+
+/* Navbar fixed position will keep at the top when zoom*/
+.navbar-fixed-top, .navbar-fixed-bottom {
+    position: fixed;
+}
+
+.navbar-brand {
+    width: 165px;
+}
+/*Navbar Overide color*/
+
+.navbar-inverse {
+    background-color: #428BCA;
+    border-bottom: 1px yellow outset;
+}
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: yellow;
+    }
+
+    .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+        background-color: yellow;
+        color: #428BCA;
+        font-weight: bold;
+        outline: none;
+    }
+
+    .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+        color: white;
+        outline: none;
+    }
+
+    .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+        color: white;
+        outline: none;
+    }
+
+    .navbar-inverse .navbar-brand {
+        color: yellow;
+        font-weight: bold;
+    }
+/* Side Nav */
+
+.side-nav {
+    margin-left: -225px;
+    left: 225px;
+    width: 225px;
+    position: fixed;
+    top: 50px;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background-color: #428BCA;
+    overflow-y: auto;
+    border-right: 1px yellow outset;
+}
+
+    /* Bootstrap Default Overrides - Customized Dropdowns for the Side Nav */
+
+    .side-nav > li.dropdown > ul.dropdown-menu {
+        position: relative;
+        min-width: 225px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+        .side-nav > li.dropdown > ul.dropdown-menu > li > a {
+            color: yellow;
+            padding: 15px 15px 15px 25px;
+        }
+
+            .side-nav > li.dropdown > ul.dropdown-menu > li > a:hover,
+            .side-nav > li.dropdown > ul.dropdown-menu > li > a.active,
+            .side-nav > li.dropdown > ul.dropdown-menu > li > a:focus {
+                color: #428BCA;
+                background-color: yellow;
+                outline: none;
+            }
+
+.side-nav {
+    width: 165px;
+    padding-left: 5px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: yellow;
+}
+
+.navbar-collapse {
+    padding-left: 15px !important;
+    padding-right: 0px;
+}
+
+.tree {
+    min-height: 20px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+    .tree li {
+        list-style-type: none;
+        padding: 10px 0 0 0;
+        position: relative;
+    }
+
+        .tree li span {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 3px 8px;
+            text-decoration: none;
+            width: 110px;
+        }
+
+        .tree li > span > a {
+            color: yellow;
+            font-weight: bolder;
+        }
+
+        .tree li.parent_li > span {
+            color: #428BCA;
+            font-weight: bolder;
+            cursor: pointer;
+            width: 155px;
+            height: 35px;
+            padding: 8px 15px;
+        }
+
+            .tree li.parent_li > span:hover {
+                background: yellow;
+                border: 1px solid #94a0b4;
+                color: #000;
+            }
+
+.gradient {
+    background: #155185;
+    background: -webkit-linear-gradient(90deg, #155185 5%, #428BCA 100%);
+    background: -moz-linear-gradient(90deg, #155185 5%, #428BCA 100%);
+    background: -ms-linear-gradient(90deg, #155185 5%, #428BCA 100%);
+    background: -o-linear-gradient(90deg, #155185 5%, #428BCA 100%);
+}
+
+.gradientYellow {
+    background: #fbf7b0;
+    background: -webkit-linear-gradient(90deg, #fbf7b0 5%, yellow 100%);
+    background: -moz-linear-gradient(90deg, #fbf7b0 5%, yellow 100%);
+    background: -ms-linear-gradient(90deg, #fbf7b0 5%, yellow 100%);
+    background: -o-linear-gradient(90deg, #fbf7b0 5%, yellow 100%);
+    color: #428BCA;
+}

@@ -1,0 +1,102 @@
+@model MenuzRus.Models.YourMenuModel
+@using Services
+<link href="@Url.Content("~/Content/menu_style-1080.css")" rel="stylesheet" type="text/css" />
+<div class="container">
+    <header>
+    </header>
+    <div id="rm-container" class="rm-container">
+        <div class="rm-wrapper">
+            <div class="rm-cover">
+                <div class="rm-front">
+                    <div class="rm-content">
+                        <div class="rm-logo-top">
+                        </div>
+                        <h2>@Model.MyCompany.Name</h2>
+                        <h3>Welcomes you</h3>
+                        <div class="rm-info">
+                            <strong>@Model.MyCompany.Name</strong><br>
+                            @Model.MyCompany.Address<br>
+                            @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
+                            <abbr title="Phone">P:</abbr>
+                            Пока телефона нет
+                        </div>
+                    </div>
+                </div>
+                <div class="rm-back">
+                    <div class="rm-content">
+                        @ShowPage(Model, Common.Side.Left)
+                    </div>
+                    <div class="rm-overlay">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="rm-middle">
+                <div class="rm-inner">
+                    <div class="rm-content">
+                        @ShowPage(Model, Common.Side.Center)
+                    </div>
+                    <div class="rm-overlay">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="rm-right">
+                <div class="rm-front">
+                </div>
+                <div class="rm-back">
+                    <div class="rm-content">
+                        @ShowPage(Model, Common.Side.Right)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
+    <div class="category-group">
+        @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
+            if (!String.IsNullOrEmpty(category.Name)) {
+            <div class="category">
+                @category.Name
+            </div>
+            }
+            if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+            <div>
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}", category.CustomerId, category.ImageUrl))" class="categoryImage" />
+            </div>
+            }
+            if (!String.IsNullOrEmpty(@category.Description)) {
+            <div class="categoryDescription">@category.Description</div>
+            }
+            if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
+            <div class="items-group">
+                @foreach (Item item in category.Items) {
+                    if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+                    <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}", category.CustomerId, item.ImageUrl))" class="itemImage" />
+                    }
+                    <div class="item" data-value="@item.id">@item.Name</div>
+                    if (!String.IsNullOrEmpty(item.Description)) {
+                    <div class="itemDescription">@item.Description </div>
+                    }
+                    <div class="price">@item.ShowAsPrice</div>
+                }
+            </div>
+            }
+        }
+    </div>
+}
+
+<script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/menu.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        Menu.init({ offsetTop: 0, offsetLeft: 0 });
+        var bg = "url(/Images/Backgrounds/Pages/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
+        $(".rm-wrapper > div > div").css("background", bg);
+
+        bg = bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        $("body").css("background", bg)
+    });
+</script>

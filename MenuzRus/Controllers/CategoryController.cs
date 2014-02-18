@@ -12,24 +12,24 @@ namespace MenuzRus {
 
     public class CategoryController : BaseController {
 
-        public ActionResult Edit(Int32? id) {
+        [HttpGet]
+        public String EditCategory(Int32? id) {
+            CategoryModel model = new CategoryModel();
+            model = GetModel(model, id);
+            ViewData.Model = model;
+
+            using (StringWriter sw = new StringWriter()) {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_CategoryPartial");
+                ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        public ActionResult Index(Int32? id) {
             try {
                 CategoryModel model = new CategoryModel();
-                Category category;
-                Services service = new Services();
-                if (id.HasValue) {
-                    category = service.GetCategory((Int32)id);
-                    if (category != null) {
-                        model.Active = category.Active ? Common.Status.Active : Common.Status.NotActive;
-                        model.id = category.id;
-                        model.CustomerId = category.Customer.id;
-                        model.Name = category.Name;
-                        model.Description = category.Description;
-                        model.ImageUrl = String.Format("{0}?{1}", category.ImageUrl, Guid.NewGuid().ToString("N"));
-                        model.Monitor = Utility.GetEnumItem<Common.Monitor>(category.Monitor);
-                        model.Side = Utility.GetEnumItem<Common.Side>(category.Side);
-                    }
-                }
+                model = GetModel(model, id);
 
                 return View(model);
             }
@@ -47,26 +47,50 @@ namespace MenuzRus {
             category.Name = model.Name;
             category.Name = model.Name;
             category.Description = model.Description;
-            category.ImageUrl = model.Image != null ? String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName)) : null;
             category.Monitor = model.Monitor.ToString();
             category.Side = model.Side.ToString();
             category.Active = (model.Active == Common.Status.Active);
+            category.ImageUrl = model.ImageUrl;
+            if (model.Image != null)
+                category.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
             String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
-            if (model.Image != null) {
-                model.Image.SaveAs(path);
-            }
-            else {
-                String imageUrl = service.GetCategory(category.id).ImageUrl;
-                path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", imageUrl);
+            if (model.Image == null && model.ImageUrl == null) {
+                String imageUrl = service.GetCustomer(category.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
             }
+            else {
+                model.Image.SaveAs(path);
+            }
             if (!service.SaveCategory(category))
                 return RedirectToAction("Index", "Error");
 
-            return RedirectToAction("Style", "YourMenu", new { monitor = category.Monitor });
+            return RedirectToAction("Index", "YourMenu", new { monitor = category.Monitor });
         }
+
+        #region private
+
+        private CategoryModel GetModel(CategoryModel model, Int32? id) {
+            Category category;
+            Services service = new Services();
+            if (id.HasValue) {
+                category = service.GetCategory((Int32)id);
+                if (category != null) {
+                    model.Active = category.Active ? Common.Status.Active : Common.Status.NotActive;
+                    model.id = category.id;
+                    model.CustomerId = category.Customer.id;
+                    model.Name = category.Name;
+                    model.Description = category.Description;
+                    model.ImageUrl = String.Format("{0}?{1}", category.ImageUrl, Guid.NewGuid().ToString("N"));
+                    model.Monitor = Utility.GetEnumItem<Common.Monitor>(category.Monitor);
+                    model.Side = Utility.GetEnumItem<Common.Side>(category.Side);
+                }
+            }
+            return model;
+        }
+
+        #endregion private
     }
 }

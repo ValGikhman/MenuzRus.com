@@ -1,9 +1,12 @@
 ﻿@model MenuzRus.Models.CustomerModel
 @using Extensions
+<link rel="stylesheet" href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" type="text/css" />
 <link href="@Url.Content("~/Content/customer.css")" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxcore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxmaskedinput.js")"></script>
 <div class="container">
 
-    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form" })) {
+    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form", enctype = "multipart/form-data" })) {
         <div id="panel" class="panel panel-primary shadow">
             <div class="panel-heading">Customer</div>
             <div class="panel-body">
@@ -15,8 +18,8 @@
                         @Html.TextBoxFor(model => model.City, new { @class = "form-control input-sm shadow", placeholder = "Enter city", required = "" })
                     </div>
                     <div class="imagerow col-lg-4 col-md-4">
-                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Contacts/{1}?{2}", Model.id, Model.ImageUrl1, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
-                        <input type="file" id="Image1" name="Image1" />
+                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customer/{1}?{2}", Model.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                        <input type="file" id="Image" name="Image" />
                         <div class="col-md-1 col-lg-1">
                             <a href="#" id="btnDeleteImage1" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
                         </div>
@@ -24,19 +27,15 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-lg-5 col-md-5">
                         @Html.LabelFor(m => m.State)
                         @Html.DropDownListFor(m => m.State, Model.States, new { @class = "form-control input-sm shadow" })
                         @Html.TextBoxFor(model => model.Zip, new { @class = "form-control input-sm shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
-                    </div>
-                    <div class="imagerow col-lg-4 col-md-4">
-                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Contacts/{1}?{2}", Model.id, Model.ImageUrl2, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
-                        <input type="file" id="Image2" name="Image2" />
-                        <div class="col-md-1 col-lg-1">
-                            <a href="#" id="btnDeleteImage2" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
-                        </div>
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control input-sm shadow", placeholder = "Enter phone number" })
                     </div>
                 </div>
+                @Html.HiddenFor(m => m.id)
+                @Html.HiddenFor(m => m.ImageUrl)
                 <div class="panel-footer col-md-12 col-lg-12">
                     <div class="buttons col-md-offset-4">
                         <button id="btnSave" type="submit" class="btn btn-primary shadow">Save changes</button>
@@ -44,12 +43,11 @@
                 </div>
             </div>
         </div>
-
     }
 </div>
 
 <script>
     $(function () {
-        initImageUploadCustomer();
+        initImageUpload();
     })
 </script>

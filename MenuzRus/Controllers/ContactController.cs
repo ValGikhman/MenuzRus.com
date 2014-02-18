@@ -27,19 +27,20 @@ namespace MenuzRus {
             contact.MobilePhone = model.MobilePhone;
             contact.Password = model.Password;
             contact.Email = model.Email;
-            contact.ImageUrl = model.Image != null ? String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName)) : null;
+            contact.ImageUrl = model.ImageUrl;
+            if (model.Image != null)
+                contact.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
 
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
             String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Contacts", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
-            if (model.Image != null) {
-                model.Image.SaveAs(path);
-            }
-            else {
-                String imageUrl = service.GetContact(contact.id).ImageUrl;
-                path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Contacts", imageUrl);
+            if (model.Image == null && model.ImageUrl == null) {
+                String imageUrl = service.GetCustomer(contact.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
+            }
+            else {
+                model.Image.SaveAs(path);
             }
             if (!(service.SendEmailConfirmation(contact))
                     && service.SaveContact(contact))

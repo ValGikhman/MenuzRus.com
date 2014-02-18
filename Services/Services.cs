@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Services;
+using StringExtensions;
 
 namespace MenuzRus {
 
@@ -46,7 +47,7 @@ namespace MenuzRus {
 
         public List<Category> GetCategories(Int32 id, Common.Monitor monitor) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.CustomerId == id && m.Monitor == monitor.ToString() && m.Active).ToList();
+            return db.Categories.Where(m => m.CustomerId == id && m.Monitor == monitor.ToString() && m.Active).OrderBy(m => m.SortOrder).ToList();
         }
 
         public Category GetCategory(Int32 id) {
@@ -108,7 +109,7 @@ namespace MenuzRus {
         public List<Item> GetItems(Int32 id) {
             List<Item> items;
             menuzRusDataContext db = new menuzRusDataContext();
-            items = db.Items.Where(m => m.CategoryId == id && m.Active).ToList();
+            items = db.Items.Where(m => m.CategoryId == id && m.Active).OrderBy(m => m.SortOrder).ToList();
             return items;
         }
 
@@ -150,8 +151,23 @@ namespace MenuzRus {
             Boolean retVal = true;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    db.Customers.InsertOnSubmit(customer);
+                    Customer query = db.Customers.Where(m => m.id == customer.id).FirstOrDefault();
+                    if (query != default(Customer)) {
+                        query.Name = customer.Name;
+                        query.Address = customer.Address;
+                        query.Address2 = customer.Address2;
+                        query.City = customer.City;
+                        query.State = customer.State;
+                        query.Phone = customer.Phone.CleanPhone();
+                        query.Zip = customer.Zip;
+                        query.ImageUrl = customer.ImageUrl;
+                    }
+
+                    if (customer.id == 0) {
+                        db.Customers.InsertOnSubmit(customer);
+                    }
                     db.SubmitChanges();
+
                     // Create infostructure
                     String path = String.Format("{0}//Images/Menus/{1}", AppDomain.CurrentDomain.BaseDirectory, customer.id);
                     if (!Directory.Exists(path)) {
@@ -215,12 +231,52 @@ namespace MenuzRus {
             return db.Settings.Where(m => m.CustomerId == id).ToDictionary(m => m.Type, m => m.Value);
         }
 
+        public Boolean SaveOrder(String ids, String type) {
+            Boolean retVal = true;
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    Int32 i = 0;
+                    String[] order = ids.Split(',');
+                    switch (type) {
+                        case "Category":
+                            Category category;
+                            foreach (String o in order) {
+                                category = db.Categories.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
+                                if (category != default(Category)) {
+                                    category.SortOrder = i;
+                                    db.SubmitChanges();
+                                    i++;
+                                }
+                            }
+                            break;
+
+                        case "Items":
+                            Item item;
+                            foreach (String o in order) {
+                                item = db.Items.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
+                                if (item != default(Item)) {
+                                    item.SortOrder = i;
+                                    db.SubmitChanges();
+                                    i++;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                retVal = false;
+            }
+            return retVal;
+        }
+
         public Boolean SaveSetting(Setting setting) {
             Boolean retVal = true;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     Setting query = db.Settings.Where(m => m.CustomerId == SessionData.customer.id && m.Type == setting.Type).FirstOrDefault();
-
                     if (query == default(Setting)) {
                         query = new Setting();
                         db.Settings.InsertOnSubmit(query);

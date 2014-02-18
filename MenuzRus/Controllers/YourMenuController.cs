@@ -14,6 +14,19 @@ namespace MenuzRus.Controllers {
 
     public class YourMenuController : BaseController {
 
+        public ActionResult Index(String monitor) {
+            return View(GetModel(!String.IsNullOrEmpty(monitor) ? Utility.GetEnumItem<Common.Monitor>(monitor) : Common.Monitor.First));
+        }
+
+        [HttpPost]
+        public ActionResult SaveOrder(String ids, String type) {
+            Services service = new Services();
+            if (!service.SaveOrder(ids, type))
+                return RedirectToAction("Index", "Error");
+
+            return View("Index", GetModel(Common.Monitor.First));
+        }
+
         [HttpPost]
         public ActionResult SaveSettings(SettingModel model) {
             Services service = new Services();
@@ -35,10 +48,6 @@ namespace MenuzRus.Controllers {
                 return RedirectToAction("Index", "Error");
 
             return View(GetModel(Common.Monitor.First));
-        }
-
-        public ActionResult Style(String monitor) {
-            return View(GetModel(!String.IsNullOrEmpty(monitor) ? Utility.GetEnumItem<Common.Monitor>(monitor) : Common.Monitor.First));
         }
 
         #region private

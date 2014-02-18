@@ -1,6 +1,6 @@
 ﻿/* Set position*/
 body {
-    padding-top: 100px;
+    padding-top: 80px;
     padding-bottom: 40px;
     background-color: #eee;
 }
@@ -21,17 +21,15 @@ a:hover, a:focus {
     background-size: 100% 100%;
     height: 500px;
     width: 265px;
+    cursor: pointer;
+    margin-left: 16px;
     text-align: center;
 }
 
 .wall {
     padding: 35px 0px 0px 85px;
     height: 560px;
-    padding: 30px 0 0 80px;
-}
-
-.page {
-    cursor: pointer;
+    padding: 30px 0 0 0;
 }
 
 .well {
@@ -39,7 +37,9 @@ a:hover, a:focus {
 }
 
 .category-group {
+    padding: 0px;
     margin-top: 15px;
+    list-style-type: none;
 }
 
 .categoryImage {
@@ -79,6 +79,11 @@ a:hover, a:focus {
         outline: none;
     }
 
+.items-group {
+    padding: 0px;
+    list-style-type: none;
+}
+
 .item {
     text-transform: uppercase;
     font-size: 10px;
@@ -112,9 +117,19 @@ a:hover, a:focus {
 }
 
 .nav-pills {
-    margin: 20px 0 0 50px;
+    margin: 20px 0 15px 50px;
 }
 
 .tab-content {
-    margin-left: 50px;
+    margin-left: auto;
+    height: 200px;
+    overflow: auto;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 30px auto;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
 }

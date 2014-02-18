@@ -1,0 +1,218 @@
+﻿@model MenuzRus.Models.YourMenuModel
+@using Services
+<link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxcore.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxwindow.js")"></script>
+
+<div id="formCategory" style="display: none">
+</div>
+<div class="container">
+    <div id="panel" class="panel panel-default shadow">
+        <div class="panel-heading">
+            Styling you menu
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#catTab" data-toggle="tab">Categories/Items</a>
+                </li>
+                <li><a href="#pageTab" data-toggle="tab">Page background</a>
+                </li>
+                <li><a href="#wallTab" data-toggle="tab">Wall background</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                @{Uri urlRoot = new Uri(Server.MapPath("~"));}
+                <div class="tab-pane fade in active" id="catTab">
+                    <button id="btnCategory" type="button" class="btn btn-primary shadow" data-toggle="modal">New category</button>
+                    <button id="btnItem" type="button" class="btn btn-primary shadow" data-toggle="modal">New item</button>
+                </div>
+                <div class="tab-pane fade in" id="pageTab">
+                    @{
+                        foreach (String file in Model.PageBackgrounds) {
+                            Uri urlPath = new Uri(file);
+                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-page img-thumbnail" />
+                        }
+                    }
+                </div>
+
+                <div class="tab-pane fade in" id="wallTab">
+                    @{
+                        foreach (String file in Model.Wallpapers) {
+                            Uri urlPath = new Uri(file);
+                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-wall img-thumbnail" />
+                        }
+                    }
+                </div>
+            </div>
+            <div class="wall">
+                <div class="col-md-3 page">
+                    <a href="/Customer/Index/@Model.MyCompany.id">
+                        @if (!String.IsNullOrEmpty(@Model.MyCompany.ImageUrl)) {
+                            <div>
+                                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customer/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
+                            </div>
+                        }
+                        <h2>@Model.MyCompany.Name</h2>
+                        <h3>Welcomes you</h3>
+                        <div class="address">
+                            <strong>@Model.MyCompany.Name</strong><br>
+                            @Model.MyCompany.Address<br>
+                            @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
+                            @Model.MyCompany.Phone
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 page">
+                    @ShowPage(Model, Common.Side.Left)
+                </div>
+
+                <div class="col-md-3 page">
+                    @ShowPage(Model, Common.Side.Center)
+                </div>
+
+                <div class="col-md-3 page">
+                    @ShowPage(Model, Common.Side.Right)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
+    <ul class="category-group">
+        @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
+            <li data-value="@category.id">
+                <a href="/Category/Index/@category.id">
+                    @if (!String.IsNullOrEmpty(category.Name)) {
+                        <div class="category">
+                            @category.Name
+                        </div>
+                    }
+                    @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+                        <div>
+                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", category.CustomerId, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                        </div>
+                    }
+                    @if (!String.IsNullOrEmpty(@category.Description)) {
+                        <div class="categoryDescription">@category.Description</div>
+                    }
+                </a>
+                @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
+                    <ul class="items-group">
+                        @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
+                            <li  data-value="@item.id">
+                                <a href="/Item/Edit/@item.id">
+                                    @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", category.CustomerId, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                                    }
+                                    <div class="item" data-value="@item.id">@item.Name</div>
+                                    @if (!String.IsNullOrEmpty(item.Description)) {
+                                        <div class="itemDescription">@item.Description </div>
+                                    }
+                                    <div class="price">@item.ShowAsPrice</div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+}
+@Html.HiddenFor(m => m.monitor);
+<script>
+    $(function () {
+        var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
+        $(".page").css("background", bg);
+
+        bg = bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        $(".wall").css("background", bg)
+
+        $(".img-wall").click(function () {
+            var bg = "url(" + $(this).attr("src").replace("thumbnails/", "") + ") repeat";
+            $(".wall").css("background", bg)
+            var wallbackground = {
+                Type: "wallbackground",
+                Value: $(this).attr("src")
+            };
+
+            var jqxhr = $.post("/YourMenu/SaveSettings/", wallbackground)
+                      .done(function (result) {
+                      })
+                      .fail(function (e) {
+                      })
+                      .always(function () {
+                      });
+        })
+
+        $(".img-page").click(function () {
+            var bg = "url(" + $(this).attr("src").replace("thumbnails/", "preview/") + ") no-repeat";
+            $(".page").css("background", bg);
+            var pagebackground = {
+                Type: "pagebackground",
+                Value: $(this).attr("src")
+            };
+
+            var jqxhr = $.post("/YourMenu/SaveSettings/", pagebackground)
+                      .done(function (result) {
+                          alert(result);
+                      })
+                      .fail(function () {
+                      })
+                      .always(function () {
+                      });
+        });
+
+        $(".category-group").sortable({
+            stop: function (e, ui) {
+                var cats = [];
+                $(this).children().each(function (i) {
+                    var li = $(this);
+                    cats.push(li.attr("data-value"));
+                });
+
+                var postData = { ids: cats.join(), type: "Category" };
+                var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
+                              .done(function (result) {
+                              })
+                .fail(function () {
+                })
+                .always(function () {
+                });
+            }
+        }).disableSelection();
+
+        $(".items-group").sortable({
+            stop: function (e, ui) {
+                var items = [];
+                $(this).children().each(function (i) {
+                    var li = $(this);
+                    items.push(li.attr("data-value"));
+                });
+
+                var postData = { ids: items.join(), type: "Items" };
+                var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
+                              .done(function (result) {
+                              })
+                .fail(function () {
+                })
+                .always(function () {
+                });
+            }
+        }).disableSelection();
+
+        $("#btnCategory").click(function () {
+            var jqxhr = $.get("/Category/EditCategory/")
+                          .done(function (result) {
+                              $("#formCategory").html(result);
+                          })
+            .fail(function () {
+            })
+            .always(function () {
+            });
+        })
+    })
+</script>

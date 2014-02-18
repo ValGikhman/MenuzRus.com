@@ -20,10 +20,10 @@ namespace MenuzRus {
 
             routes.MapRoute(
             name: "YourMenu",
-            url: "YourMenu/Style/{monitor}",
+            url: "YourMenu/Index/{monitor}",
             defaults: new {
                 controller = "YourMenu",
-                action = "Style",
+                action = "Index",
                 monitor = UrlParameter.Optional
             });
 

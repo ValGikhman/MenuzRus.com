@@ -30,14 +30,14 @@ body {
     width: 150px;
 }
 
-.preview1, .preview2 {
+.preview {
     width: 160px;
     height: 160px;
     text-align: center;
     cursor: pointer;
 }
 
-#Image1, #Image2 {
+#Image {
     width: 0;
     height: 0;
 }

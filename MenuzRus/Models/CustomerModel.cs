@@ -24,20 +24,17 @@ namespace MenuzRus.Models {
         public Int32 id { get; set; }
 
         [DisplayName("Image")]
-        public HttpPostedFileBase Image1 { get; set; }
+        public HttpPostedFileBase Image { get; set; }
 
         [DisplayName("Image")]
-        public HttpPostedFileBase Image2 { get; set; }
-
-        [DisplayName("Image")]
-        public String ImageUrl1 { get; set; }
-
-        [DisplayName("Image")]
-        public String ImageUrl2 { get; set; }
+        public String ImageUrl { get; set; }
 
         [DisplayName("Business Name")]
         [Required]
         public String Name { get; set; }
+
+        [DisplayName("Phone#")]
+        public String Phone { get; set; }
 
         [DisplayName("State")]
         [Required]

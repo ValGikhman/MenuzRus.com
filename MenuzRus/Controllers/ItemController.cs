@@ -46,24 +46,26 @@ namespace MenuzRus.Controllers {
             item.CategoryId = model.CategoryId;
             item.Name = model.Name;
             item.Description = model.Description;
-            item.ImageUrl = model.Image != null ? String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName)) : null;
+            item.ImageUrl = model.ImageUrl;
+            if (model.Image != null)
+                item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
             item.Active = (model.Active == Common.Status.Active);
             item.ShowAsPrice = model.ShowAsPrice;
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
             String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Items", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
-            if (model.Image != null) {
-                model.Image.SaveAs(path);
-            }
-            else {
-                String imageUrl = service.GetItem(item.id).ImageUrl;
-                path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Items", imageUrl);
+            if (model.Image == null && model.ImageUrl == null) {
+                String imageUrl = service.GetCustomer(item.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
-            } if (!service.SaveItem(item))
+            }
+            else {
+                model.Image.SaveAs(path);
+            }
+            if (!service.SaveItem(item))
                 return RedirectToAction("Index", "Error");
 
-            return RedirectToAction("Style", "YourMenu");
+            return RedirectToAction("Index", "YourMenu");
         }
 
         #endregion item

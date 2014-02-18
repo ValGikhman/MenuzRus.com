@@ -8,6 +8,11 @@ using Services;
 
 namespace MenuzRus.Models {
 
+    public class OrderModel {
+
+        public String ids { get; set; }
+    }
+
     public class SettingModel {
 
         public string Type { get; set; }

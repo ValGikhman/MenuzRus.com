@@ -24,8 +24,8 @@ $(function () {
 });
 
 function deleteImage() {
-    $(".preview, .preview1, .preview2").attr("src", "");
-    $("#ImageUrl, #ImageUrl1, #ImageUrl2").val("");
+    $(".preview").attr("src", "");
+    $("#ImageUrl").val("");
 };
 
 function initImageUpload() {
@@ -38,26 +38,6 @@ function initImageUpload() {
         $(".imagerow").block();
         preViewImage(e, $(".preview"));
         $(".imagerow").unblock();
-    });
-}
-
-function initImageUploadCustomer() {
-    $(".preview1").click(function (e) {
-        $(".preview1").block();
-        $("#Image1").click();
-    });
-
-    $(".preview2").click(function (e) {
-        $(".preview2").block();
-        $("#Image2").click();
-    });
-
-    $("#Image1").change(function (e) {
-        preViewImage(e, $(".preview1"));
-    });
-
-    $("#Image2").change(function (e) {
-        preViewImage(e, $(".preview2"));
     });
 }
 

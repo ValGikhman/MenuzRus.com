@@ -23,7 +23,7 @@ namespace MenuzRus {
                     return View();
                 }
                 Session["IsLoggedIn"] = true;
-                return RedirectToAction("Style", "YourMenu");
+                return RedirectToAction("Index", "YourMenu");
             }
             catch {
                 return View();

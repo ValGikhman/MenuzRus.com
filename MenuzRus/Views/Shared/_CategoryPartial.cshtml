@@ -1,0 +1,55 @@
+﻿@model MenuzRus.Models.CategoryModel
+<link href="@Url.Content("~/Content/category.css")" rel="stylesheet" />
+<div class="container">
+    @using (Html.BeginForm("Save", "Category", FormMethod.Post, new { @id = "form-category", @class = "form-category", role = "form", enctype = "multipart/form-data" })) {
+        <div id="panel" class="panel panel-primary shadow">
+            <div class="panel-heading">Edit Category</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="imagerow col-lg-4 col-md-4">
+                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.CustomerId, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                        <input type="file" id="Image" name="Image" />
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter Category Name", required = "", type = "text", autofocus = "" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Category Name Description", type = "text" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-lg-2">
+                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+                    </div>
+                </div>
+                <div class="row lastrow">
+                    <div class="col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Side)
+                        @Html.DropDownListFor(m => m.Side, new SelectList(Enum.GetValues(typeof(Common.Side))), new { @class = "form-control input-sm shadow" })
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Active)
+                        @Html.DropDownListFor(m => m.Active, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Monitor)
+                        @Html.DropDownListFor(m => m.Monitor, new SelectList(Enum.GetValues(typeof(Common.Monitor))), new { @class = "form-control input-sm shadow" })
+                    </div>
+
+                    @Html.HiddenFor(m => m.id)
+                    @Html.HiddenFor(m => m.ImageUrl)
+                </div>
+                <div class="panel-footer col-md-12 col-lg-12">
+                    <div class="buttons col-md-offset-4">
+                        <button id="btnSave" type="submit" class="btn btn-primary shadow">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<script>
+    $(function () {
+        initImageUpload();
+    })
+</script>

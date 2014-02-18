@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
-namespace Extensions {
+namespace StringExtensions {
 
     public static class StringExtensions {
+
+        public static String CleanPhone(this String phone) {
+            Regex digitsOnly = new Regex(@"[^\d]");
+            return digitsOnly.Replace(phone, "");
+        }
 
         public static String Ellipsis(this String text, Int32 length) {
             Int32 pos;

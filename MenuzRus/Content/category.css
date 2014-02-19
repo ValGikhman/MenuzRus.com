@@ -1,16 +1,5 @@
-﻿/* Set position*/
-body {
-    padding-top: 200px;
-    background-color: #eee;
-}
-
-.panel {
+﻿.container-category {
     width: 550px;
-    margin: 0 auto;
-}
-
-.panel-body {
-    margin-left: 15px;
 }
 
 .form-category {
@@ -43,9 +32,4 @@ body {
 
 .lastrow {
     margin-top: 20px;
-}
-
-.panel-footer {
-    margin-top: 20px;
-    padding-top: 20px;
 }

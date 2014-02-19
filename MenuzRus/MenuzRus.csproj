@@ -711,7 +711,6 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\menuzrus.pubxml" />
-    <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\ContactMe\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
@@ -754,7 +753,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50257</DevelopmentServerPort>
+          <DevelopmentServerPort>64775</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -29,14 +29,21 @@ namespace MenuzRus {
             customer.Zip = model.Zip;
             customer.Phone = model.Phone;
             customer.ImageUrl = model.ImageUrl;
-            if (model.Image != null)
-                customer.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            if (model.Image != null) {
+                if (customer.id == 0)
+                    customer.ImageUrl = Path.GetExtension(model.Image.FileName);
+                else
+                    customer.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            }
+
+            Int32 result = service.SaveCustomer(customer);
+            if (result == 0)
+                return RedirectToAction("Index", "Error");
             SessionData.customer = customer;
 
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Customer", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
+            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Customer", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                String imageUrl = service.GetCustomer(customer.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
@@ -44,9 +51,6 @@ namespace MenuzRus {
             else {
                 model.Image.SaveAs(path);
             }
-
-            if (!service.SaveCustomer(customer))
-                return RedirectToAction("Index", "Error");
 
             return RedirectToAction("Index", "Customer");
         }

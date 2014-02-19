@@ -28,13 +28,20 @@ namespace MenuzRus {
             contact.Password = model.Password;
             contact.Email = model.Email;
             contact.ImageUrl = model.ImageUrl;
-            if (model.Image != null)
-                contact.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            if (model.Image != null) {
+                if (contact.id == 0)
+                    contact.ImageUrl = Path.GetExtension(model.Image.FileName);
+                else
+                    contact.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            }
+
+            Int32 result = service.SaveContact(contact);
+            if (result == 0)
+                return RedirectToAction("Index", "Error");
 
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Contacts", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
+            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Contacts", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                String imageUrl = service.GetCustomer(contact.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
@@ -42,10 +49,8 @@ namespace MenuzRus {
             else {
                 model.Image.SaveAs(path);
             }
-            if (!(service.SendEmailConfirmation(contact))
-                    && service.SaveContact(contact))
-                return RedirectToAction("Index", "Error");
 
+            service.SendEmailConfirmation(contact);
             return RedirectToAction("Index", "Login");
         }
     }

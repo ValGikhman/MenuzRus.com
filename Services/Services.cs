@@ -55,12 +55,14 @@ namespace MenuzRus {
             return db.Categories.Where(m => m.id == id && m.Active).FirstOrDefault();
         }
 
-        public Boolean SaveCategory(Category category) {
-            Boolean retVal = true;
+        public Int32 SaveCategory(Category category) {
+            Category query = new Category();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    Category query = db.Categories.Where(m => m.id == category.id && m.Active).FirstOrDefault();
+                    if (category.id != 0)
+                        query = db.Categories.Where(m => m.id == category.id && m.Active).FirstOrDefault();
                     if (query != default(Category)) {
+                        query.CustomerId = category.CustomerId;
                         query.Active = category.Active;
                         query.Name = category.Name;
                         query.Description = category.Description;
@@ -72,13 +74,18 @@ namespace MenuzRus {
                         db.Categories.InsertOnSubmit(query);
                     }
                     db.SubmitChanges();
+                    // Update ImageName for new category
+                    if (category.id == 0 && query.ImageUrl != null) {
+                        query.ImageUrl = String.Format("{0}{1}", query.id, category.ImageUrl);
+                        db.SubmitChanges();
+                    }
                 }
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return 0;
             }
-            return retVal;
+            return query.id;
         }
 
         #endregion categories
@@ -113,12 +120,14 @@ namespace MenuzRus {
             return items;
         }
 
-        public Boolean SaveItem(Item item) {
-            Boolean retVal = true;
+        public Int32 SaveItem(Item item) {
+            Item query = new Item();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    Item query = db.Items.Where(m => m.id == item.id).FirstOrDefault();
+                    if (item.id != 0)
+                        query = db.Items.Where(m => m.id == item.id).FirstOrDefault();
                     if (query != default(Item)) {
+                        query.CategoryId = item.CategoryId;
                         query.Active = item.Active;
                         query.Name = item.Name;
                         query.Description = item.Description;
@@ -129,13 +138,18 @@ namespace MenuzRus {
                         db.Items.InsertOnSubmit(query);
                     }
                     db.SubmitChanges();
+                    // Update ImageName for new category
+                    if (item.id == 0 && query.ImageUrl != null) {
+                        query.ImageUrl = String.Format("{0}{1}", query.id, item.ImageUrl);
+                        db.SubmitChanges();
+                    }
                 }
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return 0;
             }
-            return retVal;
+            return query.id;
         }
 
         #endregion items
@@ -147,11 +161,12 @@ namespace MenuzRus {
             return db.Customers.Where(m => m.id == id).FirstOrDefault();
         }
 
-        public Boolean SaveCustomer(Customer customer) {
-            Boolean retVal = true;
+        public Int32 SaveCustomer(Customer customer) {
+            Customer query = new Customer();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    Customer query = db.Customers.Where(m => m.id == customer.id).FirstOrDefault();
+                    if (customer.id != 0)
+                        query = db.Customers.Where(m => m.id == customer.id).FirstOrDefault();
                     if (query != default(Customer)) {
                         query.Name = customer.Name;
                         query.Address = customer.Address;
@@ -167,6 +182,11 @@ namespace MenuzRus {
                         db.Customers.InsertOnSubmit(customer);
                     }
                     db.SubmitChanges();
+                    // Update ImageName for new category
+                    if (customer.id == 0 && query.ImageUrl != null) {
+                        query.ImageUrl = String.Format("{0}{1}", query.id, customer.ImageUrl);
+                        db.SubmitChanges();
+                    }
 
                     // Create infostructure
                     String path = String.Format("{0}//Images/Menus/{1}", AppDomain.CurrentDomain.BaseDirectory, customer.id);
@@ -193,9 +213,9 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return 0;
             }
-            return retVal;
+            return query.id;
         }
 
         #endregion customer
@@ -207,19 +227,39 @@ namespace MenuzRus {
             return db.Contacts.Where(m => m.id == id && m.Active).FirstOrDefault();
         }
 
-        public Boolean SaveContact(Contact contact) {
-            Boolean retVal = true;
+        public Int32 SaveContact(Contact contact) {
+            Contact query = new Contact();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    db.Contacts.InsertOnSubmit(contact);
+                    if (contact.id != 0)
+                        query = db.Contacts.Where(m => m.id == contact.id).FirstOrDefault();
+                    if (query != default(Contact)) {
+                        query.CustomerId = contact.CustomerId;
+                        query.Active = contact.Active;
+                        query.FirstName = contact.FirstName;
+                        query.LastName = contact.LastName;
+                        query.MobilePhone = contact.MobilePhone;
+                        query.WorkPhone = contact.WorkPhone;
+                        query.Email = contact.Email;
+                        query.Password = contact.Password;
+                        query.ImageUrl = contact.ImageUrl;
+                    }
+                    if (contact.id == 0) {
+                        db.Contacts.InsertOnSubmit(query);
+                    }
                     db.SubmitChanges();
+                    // Update ImageName for new category
+                    if (contact.id == 0 && query.ImageUrl != null) {
+                        query.ImageUrl = String.Format("{0}{1}", query.id, contact.ImageUrl);
+                        db.SubmitChanges();
+                    }
                 }
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return 0;
             }
-            return retVal;
+            return query.id;
         }
 
         #endregion contact

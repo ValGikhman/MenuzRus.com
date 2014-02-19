@@ -47,14 +47,22 @@ namespace MenuzRus.Controllers {
             item.Name = model.Name;
             item.Description = model.Description;
             item.ImageUrl = model.ImageUrl;
-            if (model.Image != null)
-                item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            if (model.Image != null) {
+                if (item.id == 0)
+                    item.ImageUrl = Path.GetExtension(model.Image.FileName);
+                else
+                    item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            }
             item.Active = (model.Active == Common.Status.Active);
             item.ShowAsPrice = model.ShowAsPrice;
+
+            Int32 result = service.SaveItem(item);
+            if (result == 0)
+                return RedirectToAction("Index", "Error");
+
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Items", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
+            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.contact.id.ToString(), "Items", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                String imageUrl = service.GetCustomer(item.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
@@ -62,8 +70,6 @@ namespace MenuzRus.Controllers {
             else {
                 model.Image.SaveAs(path);
             }
-            if (!service.SaveItem(item))
-                return RedirectToAction("Index", "Error");
 
             return RedirectToAction("Index", "YourMenu");
         }

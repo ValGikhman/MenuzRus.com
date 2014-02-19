@@ -2,17 +2,29 @@
 @using Services
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" rel="stylesheet" />
-<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxcore.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxwindow.js")"></script>
-
-<div id="formCategory" style="display: none">
+<div class="modal fade categoryEditForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Category</h4>
+            </div>
+            <div id="categoryEditForm" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="categorySubmit btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="container">
-    <div id="panel" class="panel panel-default shadow">
+    <div id="panel" class="panel panel-default panel-yourmenu shadow">
         <div class="panel-heading">
             Styling you menu
         </div>
-        <div class="panel-body">
+        <div class="panel-yourmenu-body">
             <ul class="nav nav-pills">
                 <li class="active"><a href="#catTab" data-toggle="tab">Categories/Items</a>
                 </li>
@@ -204,10 +216,15 @@
             }
         }).disableSelection();
 
+        $(".categorySubmit").click(function () {
+            $("#form-category").submit();
+        });
+
         $("#btnCategory").click(function () {
             var jqxhr = $.get("/Category/EditCategory/")
                           .done(function (result) {
-                              $("#formCategory").html(result);
+                              $("#categoryEditForm").html(result);
+                              $(".categoryEditForm").modal("show");
                           })
             .fail(function () {
             })

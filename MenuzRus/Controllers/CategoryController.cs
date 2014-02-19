@@ -51,12 +51,20 @@ namespace MenuzRus {
             category.Side = model.Side.ToString();
             category.Active = (model.Active == Common.Status.Active);
             category.ImageUrl = model.ImageUrl;
-            if (model.Image != null)
-                category.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            if (model.Image != null) {
+                if (category.id == 0)
+                    category.ImageUrl = Path.GetExtension(model.Image.FileName);
+                else
+                    category.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+            }
+
+            Int32 result = service.SaveCategory(category);
+            if (result == 0)
+                return RedirectToAction("Index", "Error");
+
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", model.id, Path.GetExtension(fileName)));
+            String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                String imageUrl = service.GetCustomer(category.id).ImageUrl;
                 if (System.IO.File.Exists(path)) {
                     System.IO.File.Delete(path);
                 }
@@ -64,8 +72,6 @@ namespace MenuzRus {
             else {
                 model.Image.SaveAs(path);
             }
-            if (!service.SaveCategory(category))
-                return RedirectToAction("Index", "Error");
 
             return RedirectToAction("Index", "YourMenu", new { monitor = category.Monitor });
         }
@@ -73,6 +79,9 @@ namespace MenuzRus {
         #region private
 
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
+            //set for new or existing category
+            model.CustomerId = SessionData.customer.id;
+
             Category category;
             Services service = new Services();
             if (id.HasValue) {
@@ -80,7 +89,6 @@ namespace MenuzRus {
                 if (category != null) {
                     model.Active = category.Active ? Common.Status.Active : Common.Status.NotActive;
                     model.id = category.id;
-                    model.CustomerId = category.Customer.id;
                     model.Name = category.Name;
                     model.Description = category.Description;
                     model.ImageUrl = String.Format("{0}?{1}", category.ImageUrl, Guid.NewGuid().ToString("N"));

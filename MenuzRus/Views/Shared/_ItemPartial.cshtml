@@ -1,0 +1,38 @@
+﻿@model MenuzRus.Models.ItemModel
+<link href="@Url.Content("~/Content/item.css")" rel="stylesheet" />
+<div class="container container-item">
+    @using (Html.BeginForm("Save", "Item", FormMethod.Post, new { @id = "form-item", @class = "form-item", role = "form", enctype = "multipart/form-data" })) {
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                @Html.LabelFor(m => m.Categories)
+            </div>
+            <div class="col-lg-8 col-md-8">
+                @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Value", "Text"), new { @class = "form-control input-sm shadow" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter Item Name", required = "", type = "text", autofocus = "" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
+            </div>
+            <div class="imagerow col-lg-4 col-md-4">
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                <input type="file" id="Image" name="Image" />
+                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg3">
+                @Html.DropDownListFor(m => m.Active, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+            </div>
+            <div class="col-md-5 col-lg5">
+                @Html.TextBoxFor(model => model.ShowAsPrice, new { @class = "form-control input-sm shadow", placeholder = "Enter Item Price", required = "", type = "text" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.id)
+        @Html.HiddenFor(m => m.ImageUrl)
+    }
+</div>
+
+<script>
+    $(function () {
+        initImageUpload();
+    })
+</script>

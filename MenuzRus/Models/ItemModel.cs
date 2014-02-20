@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Services;
 
 namespace MenuzRus.Models {
@@ -13,6 +15,9 @@ namespace MenuzRus.Models {
         [DisplayName("Show")]
         [Required]
         public Common.Status Active { get; set; }
+
+        [DisplayName("Category")]
+        public List<ListItem> Categories { get; set; }
 
         public Int32 CategoryId { get; set; }
 

@@ -85,7 +85,7 @@ namespace MenuzRus {
             Category category;
             Services service = new Services();
             if (id.HasValue) {
-                category = service.GetCategory((Int32)id);
+                category = service.GetCategory((Int32)id.Value);
                 if (category != null) {
                     model.Active = category.Active ? Common.Status.Active : Common.Status.NotActive;
                     model.id = category.id;

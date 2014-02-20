@@ -121,12 +121,11 @@ a:hover, a:focus {
 }
 
 .nav-pills {
-    margin: 20px 0 15px 50px;
+    margin: 5px 0 5px 5px;
 }
 
 .tab-content {
     margin-left: auto;
-    height: 200px;
     overflow: auto;
 }
 
@@ -139,7 +138,8 @@ a:hover, a:focus {
 }
 
 .modal {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .modal-dialog {

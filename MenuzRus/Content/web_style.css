@@ -287,3 +287,9 @@ body {
     background: -o-linear-gradient(90deg, #fbf7b0 5%, yellow 100%);
     color: #428BCA;
 }
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using MenuzRus.Models;
 using Services;
 
@@ -13,23 +14,24 @@ namespace MenuzRus.Controllers {
 
         #region item
 
-        public ActionResult Edit(Int32? id) {
+        [HttpGet]
+        public String EditItem(Int32? id) {
+            ItemModel model = new ItemModel();
+            model = GetModel(model, id);
+            ViewData.Model = model;
+
+            using (StringWriter sw = new StringWriter()) {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_ItemPartial");
+                ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        public ActionResult Index(Int32? id) {
             try {
                 ItemModel model = new ItemModel();
-                Item item;
-                Services service = new Services();
-                if (id.HasValue) {
-                    item = service.GetItem(id.Value);
-                    if (item != null) {
-                        model.Active = item.Active ? Common.Status.Active : Common.Status.NotActive;
-                        model.id = item.id;
-                        model.Name = item.Name;
-                        model.CategoryId = item.CategoryId;
-                        model.Description = item.Description;
-                        model.ShowAsPrice = item.ShowAsPrice;
-                        model.ImageUrl = String.Format("{0}?{1}", item.ImageUrl, Guid.NewGuid().ToString("N"));
-                    }
-                }
+                model = GetModel(model, id);
 
                 return View(model);
             }
@@ -75,5 +77,29 @@ namespace MenuzRus.Controllers {
         }
 
         #endregion item
+
+        #region private
+
+        private ItemModel GetModel(ItemModel model, Int32? id) {
+            //set for new or existing category
+            Item item;
+            Services service = new Services();
+            model.Categories = service.GetCategories(SessionData.customer.id, Common.Monitor.First).Select(m => new ListItem(m.Name, m.id.ToString())).ToList();
+            if (id.HasValue) {
+                item = service.GetItem((Int32)id.Value);
+                if (item != null) {
+                    model.Active = item.Active ? Common.Status.Active : Common.Status.NotActive;
+                    model.id = item.id;
+                    model.CategoryId = item.CategoryId;
+                    model.Name = item.Name;
+                    model.Description = item.Description;
+                    model.ShowAsPrice = item.ShowAsPrice;
+                    model.ImageUrl = String.Format("{0}?{1}", item.ImageUrl, Guid.NewGuid().ToString("N"));
+                }
+            }
+            return model;
+        }
+
+        #endregion private
     }
 }

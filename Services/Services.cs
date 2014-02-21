@@ -45,9 +45,9 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public List<Category> GetCategories(Int32 id, Common.Monitor monitor) {
+        public List<Category> GetCategories(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.CustomerId == id && m.Monitor == monitor.ToString() && m.Active).OrderBy(m => m.SortOrder).ToList();
+            return db.Categories.Where(m => m.MenuId == id && m.Active).OrderBy(m => m.SortOrder).ToList();
         }
 
         public Category GetCategory(Int32 id) {
@@ -62,12 +62,11 @@ namespace MenuzRus {
                     if (category.id != 0)
                         query = db.Categories.Where(m => m.id == category.id && m.Active).FirstOrDefault();
                     if (query != default(Category)) {
-                        query.CustomerId = category.CustomerId;
+                        query.MenuId = category.MenuId;
                         query.Active = category.Active;
                         query.Name = category.Name;
                         query.Description = category.Description;
                         query.ImageUrl = category.ImageUrl;
-                        query.Monitor = category.Monitor;
                         query.Side = category.Side;
                     }
                     if (category.id == 0) {
@@ -336,6 +335,15 @@ namespace MenuzRus {
         }
 
         #endregion settings
+
+        #region menu
+
+        public List<Menus> GetMenus(Int32 id) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.Menus.Where(m => m.CustomerId == id).ToList();
+        }
+
+        #endregion menu
 
         public Boolean SendEmailConfirmation(Contact contact) {
             Boolean retVal = true;

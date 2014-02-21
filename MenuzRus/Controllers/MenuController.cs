@@ -6,18 +6,18 @@ namespace MenuzRus.Controllers {
 
     public class MenuController : BaseController {
 
-        public ActionResult Index(String monitor) {
-            return View(GetModel(!String.IsNullOrEmpty(monitor) ? Utility.GetEnumItem<Common.Monitor>(monitor) : Common.Monitor.First));
+        public ActionResult Index(Int32? id) {
+            return View(GetModel(id.HasValue ? id.Value : 0));
         }
 
         #region private
 
-        private YourMenuModel GetModel(Common.Monitor monitor) {
+        private YourMenuModel GetModel(Int32 id) {
             Services service = new Services();
             YourMenuModel model = new YourMenuModel();
-            model.Categories = service.GetCategories(SessionData.customer.id, monitor);
+            model.Categories = service.GetCategories(id);
             model.Settings = service.GetSettings(SessionData.customer.id);
-            model.monitor = monitor;
+            model.MenuId = id;
             return model;
         }
 

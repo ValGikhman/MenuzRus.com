@@ -20,7 +20,7 @@ namespace MenuzRus {
 
             routes.MapRoute(
             name: "YourMenu",
-            url: "YourMenu/Index/{monitor}",
+            url: "YourMenu/Index/{id}",
             defaults: new {
                 controller = "YourMenu",
                 action = "Index",

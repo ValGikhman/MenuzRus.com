@@ -8,11 +8,6 @@ using Services;
 
 namespace MenuzRus.Models {
 
-    public class OrderModel {
-
-        public String ids { get; set; }
-    }
-
     public class SettingModel {
 
         public string Type { get; set; }
@@ -20,11 +15,18 @@ namespace MenuzRus.Models {
         public string Value { get; set; }
     }
 
+    public class SortOrderModel {
+
+        public String ids { get; set; }
+    }
+
     public class YourMenuModel : BaseModel {
 
         public List<Category> Categories { set; get; }
 
-        public Common.Monitor monitor { set; get; }
+        public Int32 MenuId { set; get; }
+
+        public List<Menus> Menus { set; get; }
 
         public IEnumerable<String> PageBackgrounds { set; get; }
 

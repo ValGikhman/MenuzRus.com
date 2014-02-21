@@ -39,7 +39,8 @@
 <div class="container">
     <div id="panel" class="panel panel-default panel-yourmenu shadow">
         <div class="panel-heading">
-            <b>Create and style your menu</b>
+            @Html.DropDownListFor(m => m.MenuId, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3 inline" })
+
             <div class=" pull-right">
                 <button id="btnCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New category</button>
                 <button id="btnItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New item</button>
@@ -121,7 +122,7 @@
                     }
                     @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
                         <div>
-                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", category.CustomerId, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", category.MenuId, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
                         </div>
                     }
                     @if (!String.IsNullOrEmpty(@category.Description)) {
@@ -134,7 +135,7 @@
                             <li  data-value="@item.id">
                                 <a href="javascript:editItem(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", category.CustomerId, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", category.MenuId, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
                                     <div class="item" data-value="@item.id">@item.Name</div>
                                     @if (!String.IsNullOrEmpty(item.Description)) {
@@ -150,7 +151,6 @@
         }
     </ul>
 }
-@Html.HiddenFor(m => m.monitor);
 <script>
     $(function () {
         var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
@@ -243,6 +243,11 @@
         $("#btnItem").click(function () {
             editItem(0);
         })
+
+        $("#MenuId").change(function () {
+            window.location = "/YourMenu/Index/" + $(this).val();
+        })
+
     })
 
     function editCategory(id) {

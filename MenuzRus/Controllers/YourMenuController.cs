@@ -14,8 +14,8 @@ namespace MenuzRus.Controllers {
 
     public class YourMenuController : BaseController {
 
-        public ActionResult Index(String monitor) {
-            return View(GetModel(!String.IsNullOrEmpty(monitor) ? Utility.GetEnumItem<Common.Monitor>(monitor) : Common.Monitor.First));
+        public ActionResult Index(Int32? id) {
+            return View(GetModel(id));
         }
 
         [HttpPost]
@@ -24,7 +24,7 @@ namespace MenuzRus.Controllers {
             if (!service.SaveOrder(ids, type))
                 return RedirectToAction("Index", "Error");
 
-            return View("Index", GetModel(Common.Monitor.First));
+            return View("Index", GetModel(0));
         }
 
         [HttpPost]
@@ -47,19 +47,20 @@ namespace MenuzRus.Controllers {
             if (!service.SaveSetting(setting))
                 return RedirectToAction("Index", "Error");
 
-            return View(GetModel(Common.Monitor.First));
+            return View(GetModel(0));
         }
 
         #region private
 
-        private YourMenuModel GetModel(Common.Monitor monitor) {
+        private YourMenuModel GetModel(Int32? id) {
             String wallDir = Server.MapPath("~/Images/Backgrounds/Wall/thumbnails");
             String pagesDir = Server.MapPath("~/Images/Backgrounds/Pages/thumbnails");
             Services service = new Services();
             YourMenuModel model = new YourMenuModel();
-            model.Categories = service.GetCategories(SessionData.customer.id, monitor);
+            model.Categories = service.GetCategories(id.HasValue ? id.Value : 0);
+            model.Menus = service.GetMenus(SessionData.customer.id);
+            model.MenuId = id.HasValue ? id.Value : 0;
             model.Settings = service.GetSettings(SessionData.customer.id);
-            model.monitor = monitor;
 
             if (System.IO.Directory.Exists(wallDir)) {
                 model.Wallpapers = Directory.EnumerateFiles(wallDir, "*.jpg");

@@ -43,11 +43,10 @@ namespace MenuzRus {
             Services service = new Services();
             Category category = new Category();
             category.id = model.id;
-            category.CustomerId = model.CustomerId;
+            category.MenuId = model.MenuId;
             category.Name = model.Name;
             category.Name = model.Name;
             category.Description = model.Description;
-            category.Monitor = model.Monitor.ToString();
             category.Side = model.Side.ToString();
             category.Active = (model.Active == Common.Status.Active);
             category.ImageUrl = model.ImageUrl;
@@ -73,14 +72,14 @@ namespace MenuzRus {
                 model.Image.SaveAs(path);
             }
 
-            return RedirectToAction("Index", "YourMenu", new { monitor = category.Monitor });
+            return RedirectToAction("Index", "YourMenu", new { id = model.MenuId });
         }
 
         #region private
 
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
             //set for new or existing category
-            model.CustomerId = SessionData.customer.id;
+            model.MenuId = id.HasValue ? id.Value : 0;
 
             Category category;
             Services service = new Services();
@@ -92,7 +91,7 @@ namespace MenuzRus {
                     model.Name = category.Name;
                     model.Description = category.Description;
                     model.ImageUrl = String.Format("{0}?{1}", category.ImageUrl, Guid.NewGuid().ToString("N"));
-                    model.Monitor = Utility.GetEnumItem<Common.Monitor>(category.Monitor);
+                    model.MenuId = category.MenuId;
                     model.Side = Utility.GetEnumItem<Common.Side>(category.Side);
                 }
             }

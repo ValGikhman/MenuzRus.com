@@ -13,8 +13,6 @@ namespace MenuzRus.Models {
         [Required]
         public Common.Status Active { get; set; }
 
-        public Int32 CustomerId { get; set; }
-
         [DisplayName("Description")]
         public String Description { get; set; }
 
@@ -28,6 +26,8 @@ namespace MenuzRus.Models {
 
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
+
+        public Int32 MenuId { get; set; }
 
         [DisplayName("Monitor")]
         [Required]

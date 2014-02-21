@@ -84,7 +84,7 @@ namespace MenuzRus.Controllers {
             //set for new or existing category
             Item item;
             Services service = new Services();
-            model.Categories = service.GetCategories(SessionData.customer.id, Common.Monitor.First).Select(m => new ListItem(m.Name, m.id.ToString())).ToList();
+            model.Categories = service.GetCategories(id.HasValue ? id.Value : 0).Select(m => new ListItem(m.Name, m.id.ToString())).ToList();
             if (id.HasValue) {
                 item = service.GetItem((Int32)id.Value);
                 if (item != null) {

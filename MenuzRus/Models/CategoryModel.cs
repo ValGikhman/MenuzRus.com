@@ -4,13 +4,13 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Services;
 
 namespace MenuzRus.Models {
 
     public class CategoryModel : BaseModel {
 
         [DisplayName("Show")]
-        [Required]
         public Common.Status Active { get; set; }
 
         [DisplayName("Description")]
@@ -27,11 +27,12 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
+        [DisplayName("Menu name")]
         public Int32 MenuId { get; set; }
 
-        [DisplayName("Monitor")]
+        [DisplayName("Menu")]
         [Required]
-        public Common.Monitor Monitor { get; set; }
+        public List<Menus> Menus { set; get; }
 
         [DisplayName("Category Name")]
         public String Name { get; set; }

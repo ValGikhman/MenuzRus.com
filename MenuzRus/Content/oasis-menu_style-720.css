@@ -156,10 +156,10 @@
 .rm-content h4 {
     margin: 0;
     font-size: 24px;
-    color: #323b4c;
+    color: #5a1915;
     border-bottom: 4px double #323b4c;
     text-shadow: 1px 1px 0 #fff, 2px 2px 0 #E6B741;
-    letter-spacing: 5px;
+    letter-spacing: 15px;
 }
 
     .rm-content h4:not(:first-child) {
@@ -177,6 +177,7 @@
     .rm-content dl dt, .rm-content dl dd {
         display: block;
         margin: 0;
+        color: #1d483b;
     }
 
     .rm-content dl dt {
@@ -191,7 +192,6 @@
         font-size: 14px;
         line-height: 14px;
         color: #333;
-        text-align: justify;
     }
 
 .rm-content .description {
@@ -205,6 +205,7 @@
     text-transform: uppercase;
     text-align: center;
     margin-top: 3px;
+    color: #871510;
 }
 
 /* Transitions */

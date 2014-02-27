@@ -7,7 +7,7 @@
                 @Html.LabelFor(m => m.Categories)
             </div>
             <div class="col-lg-8 col-md-8">
-                @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Value", "Text"), new { @class = "form-control input-sm shadow" })
+                @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "id", "Name"), new { @class = "form-control input-sm shadow" })
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter Item Name", required = "", type = "text", autofocus = "" })
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
             </div>

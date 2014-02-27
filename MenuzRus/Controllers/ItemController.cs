@@ -49,14 +49,14 @@ namespace MenuzRus.Controllers {
             item.Name = model.Name;
             item.Description = model.Description;
             item.ImageUrl = model.ImageUrl;
+            item.Active = (model.Active == Common.Status.Active);
+            item.ShowAsPrice = model.ShowAsPrice;
             if (model.Image != null) {
                 if (item.id == 0)
                     item.ImageUrl = Path.GetExtension(model.Image.FileName);
                 else
                     item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
             }
-            item.Active = (model.Active == Common.Status.Active);
-            item.ShowAsPrice = model.ShowAsPrice;
 
             Int32 result = service.SaveItem(item);
             if (result == 0)
@@ -65,15 +65,13 @@ namespace MenuzRus.Controllers {
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
             String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.contact.id.ToString(), "Items", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                if (System.IO.File.Exists(path)) {
+                if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
-                }
             }
-            else {
+            else if (model.Image != null)
                 model.Image.SaveAs(path);
-            }
 
-            return RedirectToAction("Index", "YourMenu");
+            return RedirectToAction("Index", "YourMenu", new { id = SessionData.menu.id });
         }
 
         #endregion item
@@ -84,7 +82,7 @@ namespace MenuzRus.Controllers {
             //set for new or existing category
             Item item;
             Services service = new Services();
-            model.Categories = service.GetCategories(id.HasValue ? id.Value : 0).Select(m => new ListItem(m.Name, m.id.ToString())).ToList();
+            model.Categories = service.GetCategories(SessionData.menu.id);
             if (id.HasValue) {
                 item = service.GetItem((Int32)id.Value);
                 if (item != null) {
@@ -94,7 +92,7 @@ namespace MenuzRus.Controllers {
                     model.Name = item.Name;
                     model.Description = item.Description;
                     model.ShowAsPrice = item.ShowAsPrice;
-                    model.ImageUrl = String.Format("{0}?{1}", item.ImageUrl, Guid.NewGuid().ToString("N"));
+                    model.ImageUrl = item.ImageUrl;
                 }
             }
             return model;

@@ -1,6 +1,6 @@
 <Menu>
     <!--<Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="163" OffsetTop="75" />-->
-    <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="0" OffsetTop="40" />
+    <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="20" OffsetTop="45" />
     <Categories>
         <Category Id="1" Name="Pizza" Description="Additional vegetable toppings $2, Lamb topping $3, Any other meat topping $3" ImageUrl="" Side="Left">
             <Items>
@@ -80,21 +80,60 @@
                 </Item>
             </Items>
         </Category>
-        <Category Id="5" Name="Soups" ImageUrl="" Side="Right">
+        <Category Id="3" Name="Pastas" ImageUrl="" Side="Center">
+            <Items>
+                <Item>
+                    <Id>14</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Meaty Marinara Pasta</Name>
+                    <Description>Rothi pasta w/grilled ground beef, marinara sauce covered with melted mozarella cheese</Description>
+                    <Price>$8</Price>
+                </Item>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken Alfredo Pasta</Name>
+                    <Description>Rothi pasta w/grilled chicken breast, alfreado sauce covered with melted mozarella cheese</Description>
+                    <Price>$8</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="5" Name="Soups" Description="" ImageUrl="" Side="Right">
             <Items>
                 <Item>
                     <Id>19</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Vegetable Soup</Name>
-                    <Description>Sweet pepper, cauliflower, sweet peas, broccoli and zucchini</Description>
-                    <Price>$4</Price>
+                    <Name>Shurpa</Name>
+                    <Description>Clear beef stock with chopped beef, potatoes, peas and vegitables</Description>
+                    <Price></Price>
+                </Item>
+                <Item>
+                    <Id>19</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Lagman</Name>
+                    <Description>Lamp stock with vegitables and homemade noodles.</Description>
+                    <Price></Price>
                 </Item>
                 <Item>
                     <Id>20</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Chicken Noodle Soup</Name>
-                    <Description>Chicken broth, tender chunk of chicken, noodles, sweet peppers and carrots</Description>
-                    <Price>$4</Price>
+                    <Description>Chicken broth, shredded chicken, noodles, sweet peppers and carrots</Description>
+                    <Price></Price>
+                </Item>
+                <Item>
+                    <Id>20</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Kharcho</Name>
+                    <Description>lamb stock with chopped lamb, rice and vegetables.</Description>
+                    <Price></Price>
+                </Item>
+                <Item>
+                    <Id>20</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Mushroom</Name>
+                    <Description>Creamy mushroom soup with potatoes and barley.</Description>
+                    <Price></Price>
                 </Item>
                 <Item>
                     <Id>21</Id>
@@ -102,43 +141,15 @@
                     <ImageOnly />
                     <Name>Borscht</Name>
                     <Description>Beef stock based vegitable soup with beets, cabbage and potatoes</Description>
-                    <Price>$4</Price>
-                </Item>
-            </Items>
-        </Category>
-        <Category Id="6" Name="Salads" ImageUrl="" Side="Center">
-            <Items>
-                <Item>
-                    <Id>22</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Greek Salad</Name>
-                    <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
-                    <Price>$5,50</Price>
+                    <Price></Price>
                 </Item>
                 <Item>
-                    <Id>23</Id>
+                    <Id>21</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Chicken Salad</Name>
-                    <Description>Walnuts, celery, red grapes, chicken breast, mayonnaise</Description>
-                    <Price>$6,50</Price>
-                </Item>
-                <Item>
-                    <Id>24</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Caesar Salad</Name>
-                    <Description>Lettuce mix, cucumbers, onions topped with croutons, parmesan and our own Caesar deressing</Description>
-                    <Price>$6</Price>
-                </Item>
-            </Items>
-        </Category>
-        <Category Id="7" Name="Sides" ImageUrl="" Side="Right">
-            <Items>
-                <Item>
-                    <Id>26</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Mashed Potato, French Fries, White Rice</Name>
-                    <Description></Description>
-                    <Price>$3</Price>
+                    <ImageOnly />
+                    <Name>Solianka</Name>
+                    <Description>3 different types of smoked meat in beef broth with vegitables and spices.</Description>
+                    <Price>All soups $4</Price>
                 </Item>
             </Items>
         </Category>

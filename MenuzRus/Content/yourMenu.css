@@ -146,6 +146,16 @@ a:hover, a:focus {
     margin: 150px auto;
 }
 
-#MenuId {
+#Menu_id {
+    width: 250px;
+    margin-right: 10px;
+}
+
+#Menu_Name {
+    width: 250px;
+}
+
+#Menu_Description {
+    margin-top: 15px;
     width: 250px;
 }

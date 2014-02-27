@@ -45,7 +45,6 @@ namespace MenuzRus {
             category.id = model.id;
             category.MenuId = model.MenuId;
             category.Name = model.Name;
-            category.Name = model.Name;
             category.Description = model.Description;
             category.Side = model.Side.ToString();
             category.Active = (model.Active == Common.Status.Active);
@@ -64,13 +63,11 @@ namespace MenuzRus {
             String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
             String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
             if (model.Image == null && model.ImageUrl == null) {
-                if (System.IO.File.Exists(path)) {
+                if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
-                }
             }
-            else {
+            else if (model.Image != null)
                 model.Image.SaveAs(path);
-            }
 
             return RedirectToAction("Index", "YourMenu", new { id = model.MenuId });
         }
@@ -79,10 +76,11 @@ namespace MenuzRus {
 
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
             //set for new or existing category
-            model.MenuId = id.HasValue ? id.Value : 0;
-
+            model.id = id.HasValue ? id.Value : 0;
             Category category;
             Services service = new Services();
+            model.Menus = service.GetMenus(SessionData.customer.id);
+            model.MenuId = SessionData.menu.id;
             if (id.HasValue) {
                 category = service.GetCategory((Int32)id.Value);
                 if (category != null) {
@@ -90,7 +88,7 @@ namespace MenuzRus {
                     model.id = category.id;
                     model.Name = category.Name;
                     model.Description = category.Description;
-                    model.ImageUrl = String.Format("{0}?{1}", category.ImageUrl, Guid.NewGuid().ToString("N"));
+                    model.ImageUrl = category.ImageUrl;
                     model.MenuId = category.MenuId;
                     model.Side = Utility.GetEnumItem<Common.Side>(category.Side);
                 }

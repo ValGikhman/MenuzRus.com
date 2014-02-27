@@ -11,28 +11,6 @@ using System.Threading.Tasks;
 
 public static class Common {
 
-    public enum Side {
-        Left, Center, Right
-    }
-
-    public enum Monitor {
-
-        [Display(Name = "#1")]
-        First = 1,
-
-        [Display(Name = "#2")]
-        Second = 2
-    }
-
-    public enum Status {
-
-        [Display(Name = "Show item")]
-        Active = 1,
-
-        [Display(Name = "Do not show this item")]
-        NotActive = 0
-    }
-
     public enum Settings {
 
         [Display(Name = "#1 Image")]
@@ -52,6 +30,19 @@ public static class Common {
 
         [Display(Name = "Offset Y")]
         OffsetY = 64
+    }
+
+    public enum Side {
+        Left, Center, Right
+    }
+
+    public enum Status {
+
+        [Display(Name = "Show item")]
+        Active = 1,
+
+        [Display(Name = "Do not show this item")]
+        NotActive = 0
     }
 
     public static Boolean SendEmail(String emailTo, String emailSubject, String emailBody) {

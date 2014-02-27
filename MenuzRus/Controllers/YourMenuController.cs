@@ -14,8 +14,33 @@ namespace MenuzRus.Controllers {
 
     public class YourMenuController : BaseController {
 
+        [HttpPost]
+        public ActionResult DeleteMenu(Int32? id) {
+            Services service = new Services();
+            if (!service.DeleteMenu(id))
+                return RedirectToAction("Index", "Error");
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
+        }
+
+        [HttpPost]
+        public ActionResult SaveMenu(Int32? id, String name) {
+            Services service = new Services();
+            Menus menu = new Menus();
+            menu.id = Convert.ToInt32(id);
+            menu.CustomerId = SessionData.customer.id;
+            menu.Name = name;
+            menu.Description = null;
+            Int32 newId = service.SaveMenu(menu);
+            if (newId == 0)
+                return RedirectToAction("Index", "Error");
+
+            SessionData.menu.id = newId;
+            return Json(newId);
         }
 
         [HttpPost]
@@ -24,7 +49,7 @@ namespace MenuzRus.Controllers {
             if (!service.SaveOrder(ids, type))
                 return RedirectToAction("Index", "Error");
 
-            return View("Index", GetModel(0));
+            return View(GetModel(SessionData.menu.id));
         }
 
         [HttpPost]
@@ -47,7 +72,7 @@ namespace MenuzRus.Controllers {
             if (!service.SaveSetting(setting))
                 return RedirectToAction("Index", "Error");
 
-            return View(GetModel(0));
+            return View(GetModel(SessionData.menu.id));
         }
 
         #region private
@@ -57,9 +82,22 @@ namespace MenuzRus.Controllers {
             String pagesDir = Server.MapPath("~/Images/Backgrounds/Pages/thumbnails");
             Services service = new Services();
             YourMenuModel model = new YourMenuModel();
-            model.Categories = service.GetCategories(id.HasValue ? id.Value : 0);
             model.Menus = service.GetMenus(SessionData.customer.id);
-            model.MenuId = id.HasValue ? id.Value : 0;
+            if (model.Menu == null) {
+                model.Menu = new Menu();
+            }
+            model.Menu.id = id.HasValue ? id.Value : 0;
+            if (model.Menu.id == 0 && model.Menus.Count() > 0) {
+                model.Menu.id = model.Menus[0].id;
+                model.Menu.Name = model.Menus[0].Name;
+                SessionData.menu.Name = model.Menus[0].Name;
+            }
+            else if (model.Menu.id != 0)
+                model.Menu.Name = model.Menus.Where(m => m.id == model.Menu.id).FirstOrDefault().Name;
+
+            SessionData.menu.id = model.Menu.id;
+            SessionData.menu.Name = model.Menu.Name;
+            model.Categories = service.GetCategories(model.Menu.id);
             model.Settings = service.GetSettings(SessionData.customer.id);
 
             if (System.IO.Directory.Exists(wallDir)) {

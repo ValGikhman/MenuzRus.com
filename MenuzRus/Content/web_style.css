@@ -288,6 +288,10 @@ body {
     color: #428BCA;
 }
 
+#page-content-wrapper {
+    margin-left: 170px;
+}
+
 .center {
     float: none;
     margin-left: auto;

@@ -2,6 +2,48 @@
 @using Services
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" rel="stylesheet" />
+
+<div class="modal fade confirmDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                The menu <strong id="menuName"></strong>will be deleted.
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                Would you like to continue?
+            </div>
+            <div class="modal-footer">
+                <button id="btnDeleteMenuCancel" type="button" class="btn btn-default">Cancel</button>
+                <button id="btnDeleteMenuOK" type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade menuRenameForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title menuTitle">Menu</h4>
+            </div>
+            <div id="menuRenameForm" class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        @Html.TextBoxFor(m => m.Menu.Name, new { @class = "form-control input-sm shadow col-md-3", placeholder = "Enter new menu name" })
+                    </div>
+                    <div class="row">
+                        @Html.TextAreaFor(m => m.Menu.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelMenu" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnSaveMenu" type="button" class="categorySubmit btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade categoryEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -39,13 +81,17 @@
 <div class="container">
     <div id="panel" class="panel panel-default panel-yourmenu shadow">
         <div class="panel-heading">
-            @Html.DropDownListFor(m => m.MenuId, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3 inline" })
-
-            <div class=" pull-right">
-                <button id="btnCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New category</button>
-                <button id="btnItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New item</button>
+            <div id="default">
+                @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+                <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
+                <button id="btnRenameMenu" type="button" class="btn btn-primary  btn-sm shadow">Rename menu</button>
+                <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
+                <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
+                <div class=" pull-right">
+                    <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New category</button>
+                    <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New item</button>
+                </div>
             </div>
-            <div class="clearfix"></div>
         </div>
         <div class="panel-yourmenu-body">
             <div class="wall">
@@ -122,7 +168,7 @@
                     }
                     @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
                         <div>
-                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", category.MenuId, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
                         </div>
                     }
                     @if (!String.IsNullOrEmpty(@category.Description)) {
@@ -135,7 +181,7 @@
                             <li  data-value="@item.id">
                                 <a href="javascript:editItem(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", category.MenuId, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
                                     <div class="item" data-value="@item.id">@item.Name</div>
                                     @if (!String.IsNullOrEmpty(item.Description)) {
@@ -236,25 +282,94 @@
             $("#form-category").submit();
         });
 
-        $("#btnCategory").click(function () {
+        $(".itemSubmit").click(function () {
+            $("#form-item").submit();
+        });
+
+        $("#btnNewCategory").click(function () {
             editCategory(0);
         })
 
-        $("#btnItem").click(function () {
+        $("#btnNewItem").click(function () {
             editItem(0);
         })
 
-        $("#MenuId").change(function () {
+        $("#Menu_id").change(function () {
             window.location = "/YourMenu/Index/" + $(this).val();
+        })
+
+        $("#btnNewMenu").click(function () {
+            $("#Menu_id").val(0);
+            $("#Menu_Name").val("");
+            $(".menuTitle").html("New menu");
+            $(".menuRenameForm").modal("show");
+        })
+
+        $("#btnRenameMenu").click(function () {
+            $(".menuTitle").html("Rename menu");
+            $(".menuRenameForm").modal("show");
+        })
+
+        $("#btnDeleteMenu").click(function () {
+            $(".confirmDeleteMenu").modal("show");
+            deleteMenu($("#Menu_id").val());
+        })
+
+        $("#btnDeleteMenuCancel").click(function () {
+            $(".confirmDeleteMenu").modal("hide");
+        })
+
+        $("#btnDeleteMenuOK").click(function () {
+            deleteMenu($("#Menu_id").val());
+        })
+
+        $("#btnCancelMenu").click(function () {
+            $("#Menu_id").val(@Model.Menu.id);
+            $("#Menu_Name").val("@Model.Menu.Name");
+        })
+
+        $("#btnSaveMenu").click(function () {
+            $(".menuRenameForm").modal("hide");
+            editMenu($("#Menu_id").val(), $("#Menu_Name").val());
+        })
+
+        $("#btnMenuIt").click(function () {
+            window.open("/Menu/Index/" + $("#Menu_id").val(), "");
         })
 
     })
 
+    function editMenu(id, name) {
+        if (id == null) id = 0;
+        var postData = { id: id, name: name };
+        var jqxhr = $.post("/YourMenu/SaveMenu/", postData)
+                      .done(function (result) {
+                          window.location = "/YourMenu/Index/" + result;
+                      })
+        .fail(function () {
+        })
+        .always(function () {
+        });
+    }
+
+    function deleteMenu(id) {
+        if (id == null) id = 0;
+        var postData = { id: id };
+        var jqxhr = $.post("/YourMenu/DeleteMenu/", postData)
+                      .done(function (result) {
+                          window.location = "/YourMenu";
+                      })
+        .fail(function () {
+        })
+        .always(function () {
+        });
+    }
+
     function editCategory(id) {
         var jqxhr = $.get("/Category/EditCategory/", { id: id })
                       .done(function (result) {
-                          $("#itemEditForm").html(result);
-                          $(".itemEditForm").modal("show");
+                          $("#categoryEditForm").html(result);
+                          $(".categoryEditForm").modal("show");
                       })
         .fail(function () {
         })

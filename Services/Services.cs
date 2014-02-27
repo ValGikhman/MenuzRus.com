@@ -15,6 +15,8 @@ namespace MenuzRus {
         public static Customer customer { get; set; }
 
         public static Exception exeption { get; set; }
+
+        public static Menus menu { get; set; }
     }
 
     public class Services {
@@ -24,6 +26,7 @@ namespace MenuzRus {
             SessionData.contact = db.Contacts.Where(m => m.Email == email && m.Password == password).FirstOrDefault();
             if (SessionData.contact != null) {
                 SessionData.customer = db.Customers.Where(m => m.id == SessionData.contact.CustomerId).FirstOrDefault();
+                SessionData.menu = db.Menus.Where(m => m.id == SessionData.contact.CustomerId).FirstOrDefault();
             }
             return SessionData.contact;
         }
@@ -262,6 +265,61 @@ namespace MenuzRus {
         }
 
         #endregion contact
+
+        #region menu
+
+        public Boolean DeleteMenu(Int32? id) {
+            Menus query = new Menus();
+            id = id.HasValue ? id : 0;
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.Menus.Where(m => m.id == id).FirstOrDefault();
+                    if (query != default(Menus)) {
+                        IEnumerable<Category> categories = db.Categories.Where(m => m.MenuId == id);
+                        if (categories != null) {
+                            foreach (Category category in categories) {
+                                IEnumerable<Item> items = db.Items.Where(m => m.CategoryId == category.id);
+                                db.Items.DeleteAllOnSubmit(items);
+                            }
+                            db.Categories.DeleteAllOnSubmit(categories);
+                        }
+                        db.Menus.DeleteOnSubmit(query);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return false;
+            }
+            return true;
+        }
+
+        public Int32 SaveMenu(Menus menu) {
+            Menus query = new Menus();
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    if (menu.id != 0)
+                        query = db.Menus.Where(m => m.id == menu.id).FirstOrDefault();
+                    if (query != default(Menus)) {
+                        query.CustomerId = menu.CustomerId;
+                        query.Name = menu.Name;
+                        query.Description = menu.Description;
+                    }
+                    if (menu.id == 0) {
+                        db.Menus.InsertOnSubmit(query);
+                    }
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return 0;
+            }
+            return query.id;
+        }
+
+        #endregion menu
 
         #region settings
 

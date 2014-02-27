@@ -14,7 +14,7 @@ body {
 .rm-container {
     height: 1000px;
     width: 530px;
-    margin: 0 auto;
+    margin: 20px auto;
     position: relative;
     -webkit-perspective: 1600px;
     -moz-perspective: 1600px;
@@ -25,8 +25,8 @@ body {
 }
 
 .rm-wrapper, .rm-wrapper > div {
-    width: 100%;
-    height: 100%;
+    width: 530px;
+    height: 1000px;
     position: absolute;
     text-align: center;
     -webkit-transform-style: preserve-3d;
@@ -115,12 +115,9 @@ body {
     background: linear-gradient(to right, rgba(0,0,0,0) 64%,rgba(0,0,0,0.05) 100%);
 }
 
-.rm-content {
+.rm-logo-top, .rm-logo-bottom, .rm-content h2, .rm-content h4, a.rm-button-open, .rm-modal h5 {
+    text-transform: uppercase;
 }
-
-    .rm-logo-top, .rm-logo-bottom, .rm-content h2, .rm-content h4, a.rm-button-open, .rm-modal h5 {
-        text-transform: uppercase;
-    }
 
 .rm-logo-top {
     width: 200px;
@@ -211,10 +208,6 @@ img {
     box-sizing: border-box;
 }
 
-.category-group {
-    margin-top: 15px;
-}
-
 .categoryImage {
     width: 125px;
     height: 100px;
@@ -224,36 +217,40 @@ img {
 }
 
 .category {
-    border-bottom: 3px double #323B4C;
-    color: #323B4C;
-    font-size: 32px;
+    border-bottom: 3px double #5c1e1e;
+    color: #5a1915;
+    font-size: 30px;
     font-weight: bolder;
-    letter-spacing: 3px;
+    letter-spacing: 15px;
+    line-height: 1.1;
     margin: 0px;
     padding-bottom: 1px;
-    text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #E6B741;
+    text-shadow: 0px 0px 0 #FFFFFF, 2px 2px 0 #E6B741;
     text-transform: uppercase;
-}
-
-.item {
-    text-transform: uppercase;
-    font-size: 22px;
-    font-weight: bolder;
-    text-transform: uppercase;
-    text-shadow: 0px 0px 0 #FFFFFF, 0px 1px 0 #71706c;
-    display: block;
-    margin-top: 4px;
 }
 
 .categoryDescription {
     font-size: 18px;
-    color: #333333;
-    margin: 5px;
+    color: #666363;
+    margin: 1px;
+    line-height: 0.9;
+}
+
+.item {
+    color: #1d483b;
+    text-transform: uppercase;
+    font-size: 22px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #E6B741;
+    display: block;
+    margin-top: 1px;
 }
 
 .itemDescription {
-    color: #333333;
-    font-size: 16px;
+    color: #666363;
+    font-size: 18px;
+    line-height: 0.9;
 }
 
 .itemImage {
@@ -266,9 +263,8 @@ img {
 
 .price {
     font-size: 20px;
-    color: #333;
+    color: #871510;
     font-weight: bolder;
     text-transform: uppercase;
-    text-shadow: 0px 0px 0 #FFFFFF, 0px 1px 0 #71706c;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }

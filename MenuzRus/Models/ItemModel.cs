@@ -17,7 +17,7 @@ namespace MenuzRus.Models {
         public Common.Status Active { get; set; }
 
         [DisplayName("Category")]
-        public List<ListItem> Categories { get; set; }
+        public List<Category> Categories { get; set; }
 
         public Int32 CategoryId { get; set; }
 

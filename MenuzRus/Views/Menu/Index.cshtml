@@ -1,6 +1,8 @@
 @model MenuzRus.Models.YourMenuModel
 @using Services
 <link href="@Url.Content("~/Content/menu_style-1080.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/web_style.css")" rel="stylesheet" type="text/css" />
 <div class="container">
     <header>
     </header>
@@ -18,7 +20,7 @@
                             @Model.MyCompany.Address<br>
                             @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
                             <abbr title="Phone">P:</abbr>
-                            Пока телефона нет
+                            @Model.MyCompany.Phone
                         </div>
                     </div>
                 </div>
@@ -30,7 +32,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1"></div>
             <div class="rm-middle">
                 <div class="rm-inner">
                     <div class="rm-content">
@@ -40,7 +41,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1"></div>
             <div class="rm-right">
                 <div class="rm-front">
                 </div>
@@ -64,7 +64,7 @@
             }
             if (!String.IsNullOrEmpty(@category.ImageUrl)) {
             <div>
-                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}", category.CustomerId, category.ImageUrl))" class="categoryImage" />
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
             </div>
             }
             if (!String.IsNullOrEmpty(@category.Description)) {
@@ -72,9 +72,9 @@
             }
             if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
             <div class="items-group">
-                @foreach (Item item in category.Items) {
+                @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
                     if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                    <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}", category.CustomerId, item.ImageUrl))" class="itemImage" />
+                    <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                     }
                     <div class="item" data-value="@item.id">@item.Name</div>
                     if (!String.IsNullOrEmpty(item.Description)) {

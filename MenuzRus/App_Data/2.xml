@@ -1,122 +1,132 @@
 <Menu>
     <!--<Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="163" OffsetTop="75" />-->
-    <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="0" OffsetTop="40" />
+    <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="20" OffsetTop="45" />
     <Categories>
-        <Category Id="2" Name="Sandwiches" Description="*Platters include home fries and pickles $8,50 Sandwich: $7" ImageUrl="" Side="Left">
+        <Category Id="2" Name="Pita Sandwiches" Description="*Platters include french fries and a pickle" ImageUrl="" Side="Left">
             <Items>
                 <Item>
                     <Id>11</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Swarma</Name>
-                    <Description>Shaved roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread</Description>
-                    <Price>Shwarma $7 Platter $8.50</Price>
+                    <Name>Shawarma</Name>
+                    <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread</Description>
+                    <Price>Sandwich $7 Platter $8.50</Price>
                 </Item>
                 <Item>
                     <Id>12</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Gyro</Name>
-                    <Description>Shaved roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce on pita bread</Description>
-                    <Price>Gyro $7 Platter $8.50</Price>
+                    <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce on pita bread</Description>
+                    <Price>Sandwich $7 Platter $8.50</Price>
                 </Item>
                 <Item>
                     <Id>13</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Flafel</Name>
-                    <Description>Vegitarian sandwich handmade flafel, hummes, tomatoes, red onions and lettuce, wrapped in pita bread</Description>
-                    <Price>Flafel $7 Platter $8.50</Price>
+                    <Name>Falafel</Name>
+                    <Description>Vegitarian sandwich handmade falafel, hummes, tomatoes, red onions and lettuce, wrapped in pita bread</Description>
+                    <Price>Sandwich $7 Platter $8.50</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Panini Schnitzel</Name>
-                    <Description>Grilled chicken breast with potato pancake, tomato, jalapeno peppers, lettuce, served on panini toasted bread. Served with salad of your choice.</Description>
-                    <Price>Panini Schnitzel $8 Platter $10</Price>
+                    <Name>Lamb kebob</Name>
+                    <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce and mild signature tomato souce</Description>
+                    <Price>Sandwich $9 Platter $11</Price>
+                </Item>
+                <Item>
+                    <Id>14</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken kebob</Name>
+                    <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce and mild signature tomato souce</Description>
+                    <Price>Sandwich $8 Platter $10</Price>
                 </Item>
             </Items>
         </Category>
-        <Category Id="3" Name="Pastas" ImageUrl="" Side="Center">
+        <Category Id="6" Name="Salads" ImageUrl="" Side="Center">
+            <Items>
+                <Item>
+                    <Id>22</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Greek Salad</Name>
+                    <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
+                    <Price>$5,50</Price>
+                </Item>
+                <Item>
+                    <Id>23</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Chicken Salad</Name>
+                    <Description>Walnuts, celery, red grapes, chicken breast, mayonnaise</Description>
+                    <Price>$6,50</Price>
+                </Item>
+                <Item>
+                    <Id>24</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Caesar Salad</Name>
+                    <Description>Lettuce mix, cucumbers, onions topped with croutons, parmesan and our own Caesar deressing</Description>
+                    <Price>$6</Price>
+                </Item>
+                <Item>
+                    <Id>24</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Russian olivje</Name>
+                    <Description>Russian style potato salad made with chicken, pickles, cucumbers, sweet peas, hard boiled eggs and mayo</Description>
+                    <Price>$6</Price>
+                </Item>
+                <Item>
+                    <Id>24</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Eggplant</Name>
+                    <Description>Grilled eggplant, carrots, sweet peppers, tomatoes, cucambers, cabbage and dressing</Description>
+                    <Price>$6</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="3" Name="Dumplings" ImageUrl="" Side="Right">
             <Items>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Meaty Marinara Pasta</Name>
-                    <Description>Rothi pasta w/grilled ground beef, marinara sauce covered with melted mozarella cheese</Description>
-                    <Price>Flafel $7 Platter $8.50</Price>
+                    <Name>Khinkali</Name>
+                    <Description>Ground pork, lamb, beef with spices.</Description>
+                    <Price>$10</Price>
                 </Item>
                 <Item>
                     <Id>15</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Chicken Alfredo Pasta</Name>
-                    <Description>Rothi pasta w/grilled chicken breast, alfreado sauce covered with melted mozarella cheese</Description>
-                    <Price>Flafel $7 Platter $8.50</Price>
+                    <Name>Manti</Name>
+                    <Description>Three large steamed dumplings stuffed with beef, lamb, served with butter and sour cream.</Description>
+                    <Price>$8</Price>
+                </Item>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Pelmeni</Name>
+                    <Description>Russian ravioli. Boiled dumplings stuffed with spiced ground beef or chicken and sour cream.</Description>
+                    <Price>$8</Price>
+                </Item>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Perogies</Name>
+                    <Description>Potatoes or cheese or cabbage filled dumpling served with sour cream.</Description>
+                    <Price>$8</Price>
+                </Item>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Pot stickers</Name>
+                    <Description>Chicken and cabbage filled dumpling boiled and slightly fried.</Description>
+                    <Price>$8</Price>
                 </Item>
             </Items>
         </Category>
-        <Category Id="4" Name="Wings" ImageUrl="" Side="Center">
+        <Category Id="4" Name="Wings" ImageUrl="" Side="Right">
             <Items>
                 <Item>
                     <Id>16</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Buffalo, BBQ, Garlic</Name>
                     <Description></Description>
-                    <Price>8 Wings $6 14 Wings $10 22 Wings $15</Price>
-                </Item>
-            </Items>
-        </Category>
-        <Category Id="3" Name="Desserts" ImageUrl="" Side="Right">
-            <Items>
-                <Item>
-                    <Id>14</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Napolean Cake</Name>
-                    <Description>Layers of flaky puff pastry and pastry cream</Description>
-                    <Price>$4</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Cake Ideal</Name>
-                    <Description>Dulce de Leche layer cake</Description>
-                    <Price>$3.50</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Cake du jour</Name>
-                    <Description>Our specialty of the day</Description>
-                    <Price>$(varies)</Price>
-                </Item>
-            </Items>
-        </Category>
-        <Category Id="3" Name="Beverages" ImageUrl="" Side="Right">
-            <Items>
-                <Item>
-                    <Id>14</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Juices</Name>
-                    <Description>Mango, Orange, Apple, Cranberry, Tomato</Description>
-                    <Price>$2.50</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Yogurt drink (Aryn)</Name>
-                    <Description></Description>
-                    <Price>$2</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Hot tea</Name>
-                    <Description></Description>
-                    <Price>Cup $1.50 Tea pot $3</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Espresso</Name>
-                    <Description></Description>
-                    <Price>Cappuccino $3.50 Mocha $4 Espresso Shot $2.50 Cofee $1.50</Price>
+                    <Price>8-$6, 14-$10, 22-$15</Price>
                 </Item>
             </Items>
         </Category>

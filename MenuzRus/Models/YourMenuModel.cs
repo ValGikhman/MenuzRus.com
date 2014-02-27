@@ -8,6 +8,15 @@ using Services;
 
 namespace MenuzRus.Models {
 
+    public class Menu {
+
+        public String Description { set; get; }
+
+        public Int32 id { set; get; }
+
+        public String Name { set; get; }
+    }
+
     public class SettingModel {
 
         public string Type { get; set; }
@@ -24,7 +33,7 @@ namespace MenuzRus.Models {
 
         public List<Category> Categories { set; get; }
 
-        public Int32 MenuId { set; get; }
+        public Menu Menu { set; get; }
 
         public List<Menus> Menus { set; get; }
 

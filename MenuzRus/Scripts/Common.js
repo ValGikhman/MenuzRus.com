@@ -2,6 +2,7 @@
 $(function () {
     $.blockUI.defaults.message = $("#bowlG");
     $.blockUI.defaults.css = " border: '0px none transparent; ";
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
     $(".tree li:has(ul)").addClass("parent_li");
     $(".tree li.parent_li > span").on("click", function (e) {
@@ -28,16 +29,15 @@ function deleteImage() {
     $("#ImageUrl").val("");
 };
 
-function initImageUpload() {
+function initImageUpload(element) {
     $(".preview").click(function (e) {
-        $(".preview").block();
+        element.block();
         $("#Image").click();
     });
 
     $("#Image").change(function (e) {
-        $(".imagerow").block();
         preViewImage(e, $(".preview"));
-        $(".imagerow").unblock();
+        element.unblock();
     });
 }
 

@@ -10,7 +10,7 @@
         z-index: 2;
     }
 
-#Name, #Description, #CategoryId {
+#Name, #Description {
     margin-top: 0;
     margin-bottom: 10px;
 }
@@ -20,6 +20,7 @@
     height: 160px;
     text-align: center;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 #Image {

@@ -33,19 +33,27 @@ namespace MenuzRus {
 
         #region categories
 
-        public Boolean DeleteCategory(Category category) {
-            Boolean retVal = true;
+        public Boolean DeleteCategory(Int32? id) {
+            Category query = new Category();
+            id = id.HasValue ? id : 0;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    db.Categories.DeleteOnSubmit(category);
-                    db.SubmitChanges();
+                    query = db.Categories.Where(m => m.id == id).FirstOrDefault();
+                    if (query != default(Category)) {
+                        IEnumerable<Item> items = db.Items.Where(m => m.CategoryId == id);
+                        if (items != null) {
+                            db.Items.DeleteAllOnSubmit(items);
+                        }
+                        db.Categories.DeleteOnSubmit(query);
+                        db.SubmitChanges();
+                    }
                 }
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return false;
             }
-            return retVal;
+            return true;
         }
 
         public List<Category> GetCategories(Int32 id) {

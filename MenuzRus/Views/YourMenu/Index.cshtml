@@ -3,17 +3,33 @@
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" rel="stylesheet" />
 
-<div class="modal fade confirmDelete">
+<div class="modal fade confirmMenuDelete">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                The menu <strong id="menuName"></strong>will be deleted.
+                The menu <em><strong id="menuName"></strong></em>&nbsp;will be deleted.
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 Would you like to continue?
             </div>
             <div class="modal-footer">
                 <button id="btnDeleteMenuCancel" type="button" class="btn btn-default">Cancel</button>
                 <button id="btnDeleteMenuOK" type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirmCategoryDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                Category <em><strong id="categoryName"></strong></em>&nbsp;will be deleted.
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                Would you like to continue?
+            </div>
+            <div class="modal-footer">
+                <button id="btnDeleteCategoryCancel" type="button" class="btn btn-default">Cancel</button>
+                <button id="btnDeleteCategpryOK" type="button" class="btn btn-primary">OK</button>
             </div>
         </div>
     </div>
@@ -29,7 +45,7 @@
             <div id="menuRenameForm" class="modal-body">
                 <div class="container">
                     <div class="row">
-                        @Html.TextBoxFor(m => m.Menu.Name, new { @class = "form-control input-sm shadow col-md-3", placeholder = "Enter new menu name" })
+                        @Html.TextBoxFor(m => m.Menu.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = "Enter new menu name" })
                     </div>
                     <div class="row">
                         @Html.TextAreaFor(m => m.Menu.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
@@ -88,8 +104,8 @@
                 <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
                 <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
                 <div class=" pull-right">
-                    <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New category</button>
-                    <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal">New item</button>
+                    <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
+                    <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
                 </div>
             </div>
         </div>
@@ -159,8 +175,14 @@
 @helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
     <ul class="category-group">
         @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
-            <li data-value="@category.id">
-                <a href="javascript:editCategory(@category.id)">
+            <li>
+                <div class="btn-group" data-value="@category.id">
+                    <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
+                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id, @category.Name)"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+                <a href="javascript:showCategoryMenu(@category.id)">
                     @if (!String.IsNullOrEmpty(category.Name)) {
                         <div class="category">
                             @category.Name
@@ -175,6 +197,7 @@
                         <div class="categoryDescription">@category.Description</div>
                     }
                 </a>
+
                 @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
                     <ul class="items-group">
                         @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
@@ -286,14 +309,6 @@
             $("#form-item").submit();
         });
 
-        $("#btnNewCategory").click(function () {
-            editCategory(0);
-        })
-
-        $("#btnNewItem").click(function () {
-            editItem(0);
-        })
-
         $("#Menu_id").change(function () {
             window.location = "/YourMenu/Index/" + $(this).val();
         })
@@ -311,16 +326,20 @@
         })
 
         $("#btnDeleteMenu").click(function () {
-            $(".confirmDeleteMenu").modal("show");
-            deleteMenu($("#Menu_id").val());
+            $("#menuName").html($("#Menu_Name").val());
+            $(".confirmMenuDelete").modal("show");
         })
 
         $("#btnDeleteMenuCancel").click(function () {
-            $(".confirmDeleteMenu").modal("hide");
+            $(".confirmMenuDelete").modal("hide");
         })
 
         $("#btnDeleteMenuOK").click(function () {
-            deleteMenu($("#Menu_id").val());
+            deleteCategory($("#Menu_id").val());
+        })
+
+        $("#btnDeleteCategoryCancel").click(function () {
+            $(".confirmCategoryDelete").modal("hide");
         })
 
         $("#btnCancelMenu").click(function () {
@@ -336,7 +355,6 @@
         $("#btnMenuIt").click(function () {
             window.open("/Menu/Index/" + $("#Menu_id").val(), "");
         })
-
     })
 
     function editMenu(id, name) {
@@ -365,7 +383,13 @@
         });
     }
 
+    function showCategoryMenu(id) {
+        $(".btn-group").css("display", "none");
+        $(".btn-group[data-value=" + id + "]").css("display", "inline");
+    }
+
     function editCategory(id) {
+        $(".btn-group").css("display", "none");
         var jqxhr = $.get("/Category/EditCategory/", { id: id })
                       .done(function (result) {
                           $("#categoryEditForm").html(result);
@@ -374,6 +398,23 @@
         .fail(function () {
         })
         .always(function () {
+        });
+    }
+
+    function deleteCategory(id, name) {
+        $(".btn-group").css("display", "none");
+        $("#CategoryName").html(name);
+        $(".confirmCategoryDelete").modal("show");
+        $("#btnDeleteCategoryOK").click(function () {
+            $(".confirmCategoryDelete").modal("hide");
+            var jqxhr = $.get("/Category/DeleteCategory/", { id: id })
+                          .done(function (result) {
+                              window.location = "/YourMenu/Index/" + id;
+                          })
+            .fail(function () {
+            })
+            .always(function () {
+            });
         });
     }
 

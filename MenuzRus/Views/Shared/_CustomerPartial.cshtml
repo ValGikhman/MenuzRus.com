@@ -2,10 +2,7 @@
 @using Extensions
 <link rel="stylesheet" href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" type="text/css" />
 <link href="@Url.Content("~/Content/customer.css")" rel="stylesheet" />
-<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxcore.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jqwidgets/jqxmaskedinput.js")"></script>
-<div class="container">
-
+<div class="container container-customer">
     @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form", enctype = "multipart/form-data" })) {
         <div id="panel" class="panel panel-primary shadow">
             <div class="panel-heading">Customer</div>
@@ -48,6 +45,6 @@
 
 <script>
     $(function () {
-        initImageUpload();
+        initImageUpload($(".container-customer"));
     })
 </script>

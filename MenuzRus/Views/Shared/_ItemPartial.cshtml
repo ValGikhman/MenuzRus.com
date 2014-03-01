@@ -14,7 +14,7 @@
             <div class="imagerow col-lg-4 col-md-4">
                 <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                 <input type="file" id="Image" name="Image" />
-                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">Delete Image</a>
             </div>
         </div>
         <div class="row">
@@ -33,6 +33,6 @@
 
 <script>
     $(function () {
-        initImageUpload();
+        initImageUpload($(".container-item"));
     })
 </script>

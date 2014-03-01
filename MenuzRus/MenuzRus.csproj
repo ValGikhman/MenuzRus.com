@@ -713,7 +713,7 @@
     <None Include="Properties\PublishProfiles\menuzrus.pubxml" />
     <Content Include="Views\ContactMe\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
-    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Shared\_CustomerPartial.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_ItemPartial.cshtml" />
@@ -730,7 +730,9 @@
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Shared\_CategoryPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Customer\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

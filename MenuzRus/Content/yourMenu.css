@@ -159,3 +159,16 @@ a:hover, a:focus {
     margin-top: 15px;
     width: 250px;
 }
+
+.btn-group {
+    display: none;
+    position: fixed;
+    margin-top: -13px;
+    margin-left: -18px;
+}
+
+    .btn-group > .btn {
+        float: left;
+        position: relative;
+        width: 35px;
+    }

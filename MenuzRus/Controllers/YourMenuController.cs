@@ -15,9 +15,18 @@ namespace MenuzRus.Controllers {
     public class YourMenuController : BaseController {
 
         [HttpPost]
-        public ActionResult DeleteMenu(Int32? id) {
+        public ActionResult DeleteCategory(Int32? id) {
             Services service = new Services();
             if (!service.DeleteMenu(id))
+                return RedirectToAction("Index", "Error");
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMenu(Int32? id) {
+            Services service = new Services();
+            if (!service.DeleteCategory(id))
                 return RedirectToAction("Index", "Error");
 
             return RedirectToAction("Index");

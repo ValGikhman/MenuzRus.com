@@ -1,20 +1,16 @@
 ﻿@model MenuzRus.Models.CategoryModel
 <link href="@Url.Content("~/Content/category.css")" rel="stylesheet" />
-<div class="container container-category">
+<div class="container container-category blockable">
     @using (Html.BeginForm("Save", "Category", FormMethod.Post, new { @id = "form-category", @class = "form-category", role = "form", enctype = "multipart/form-data" })) {
         <div class="row">
-            <div class="imagerow col-lg-4 col-md-4">
-                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
-                <input type="file" id="Image" name="Image" />
-            </div>
             <div class="col-lg-8 col-md-8">
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter Category Name", required = "", type = "text", autofocus = "" })
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Category Name Description", type = "text" })
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-lg-2">
-                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+            <div class="imagerow col-lg-4 col-md-4">
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                <input type="file" id="Image" name="Image" />
+                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">Delete Image</a>
             </div>
         </div>
         <div class="row lastrow">
@@ -39,6 +35,6 @@
 
 <script>
     $(function () {
-        initImageUpload();
+        initImageUpload($(".container-category"));
     })
 </script>

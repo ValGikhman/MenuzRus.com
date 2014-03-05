@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumHelper.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Extensions\RegexPattern.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

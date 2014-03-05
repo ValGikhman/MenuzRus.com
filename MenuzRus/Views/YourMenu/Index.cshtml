@@ -190,10 +190,11 @@
                         if (color != Common.Settings.PageBackground
                                 && color != Common.Settings.WallBackground) {
                             var description = EnumHelper<Common.Settings>.GetDisplayValue(color);
+                            var kolor = Model.Settings[color.ToString()];
                         <div class="row settings">
                             <div class="col-md-2">@description
                             </div>
-                            <div id="@color" class="color-box col-md-1"></div>
+                            <div id="@color" class="color-box col-md-1"  style="background-color:@kolor"></div>
                         </div>
                         }
                     }
@@ -460,8 +461,7 @@
                           .always(function () {
                           });
             }
-        })
-        .css("background-color", "#ff8800");
+        });
 
     })
 

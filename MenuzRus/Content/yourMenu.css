@@ -183,8 +183,9 @@ a:hover, a:focus {
 .color-box {
     width: 30px;
     height: 30px;
-    margin: 0px;
-    border: 1px solid white;
+    margin: 1px;
+    border: 1px solid #428BCA;
+    cursor: pointer;
 }
 
 .row.settings {

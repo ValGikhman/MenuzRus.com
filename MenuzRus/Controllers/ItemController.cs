@@ -14,6 +14,15 @@ namespace MenuzRus.Controllers {
 
         #region item
 
+        [HttpPost]
+        public ActionResult DeleteItem(Int32? id) {
+            Services service = new Services();
+            if (!service.DeleteItem(id))
+                return RedirectToAction("Index", "Error");
+
+            return Json("OK");
+        }
+
         [HttpGet]
         public String EditItem(Int32? id) {
             ItemModel model = new ItemModel();
@@ -83,6 +92,7 @@ namespace MenuzRus.Controllers {
             Item item;
             Services service = new Services();
             model.Categories = service.GetCategories(SessionData.menu.id);
+            model.Active = Common.Status.Active;
             if (id.HasValue) {
                 item = service.GetItem((Int32)id.Value);
                 if (item != null) {

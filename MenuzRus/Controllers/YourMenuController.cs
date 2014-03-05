@@ -15,18 +15,9 @@ namespace MenuzRus.Controllers {
     public class YourMenuController : BaseController {
 
         [HttpPost]
-        public ActionResult DeleteCategory(Int32? id) {
-            Services service = new Services();
-            if (!service.DeleteMenu(id))
-                return RedirectToAction("Index", "Error");
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
         public ActionResult DeleteMenu(Int32? id) {
             Services service = new Services();
-            if (!service.DeleteCategory(id))
+            if (!service.DeleteMenu(id))
                 return RedirectToAction("Index", "Error");
 
             return RedirectToAction("Index");
@@ -69,8 +60,6 @@ namespace MenuzRus.Controllers {
             switch (Utility.GetEnumItem<Common.Settings>(model.Type)) {
                 case Common.Settings.PageBackground:
                 case Common.Settings.WallBackground:
-                case Common.Settings.Image1:
-                case Common.Settings.Image2:
                     setting.Value = Path.GetFileName(model.Value.Replace("/", "\\"));
                     break;
 
@@ -108,6 +97,20 @@ namespace MenuzRus.Controllers {
             SessionData.menu.Name = model.Menu.Name;
             model.Categories = service.GetCategories(model.Menu.id);
             model.Settings = service.GetSettings(SessionData.customer.id);
+            if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString()))
+                model.Settings.Add(Common.Settings.PageBackground.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.WallBackground.ToString()))
+                model.Settings.Add(Common.Settings.WallBackground.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.Category.ToString()))
+                model.Settings.Add(Common.Settings.Category.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.CategoryDescription.ToString()))
+                model.Settings.Add(Common.Settings.CategoryDescription.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.Item.ToString()))
+                model.Settings.Add(Common.Settings.Item.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.ItemDescription.ToString()))
+                model.Settings.Add(Common.Settings.ItemDescription.ToString(), "");
+            if (!model.Settings.ContainsKey(Common.Settings.Price.ToString()))
+                model.Settings.Add(Common.Settings.Price.ToString(), "");
 
             if (System.IO.Directory.Exists(wallDir)) {
                 model.Wallpapers = Directory.EnumerateFiles(wallDir, "*.jpg");

@@ -2,7 +2,7 @@
 $(function () {
     $.blockUI.defaults.message = $("#bowlG");
     $.blockUI.defaults.css = " border: '0px none transparent; ";
-    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+    //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
     $(".tree li:has(ul)").addClass("parent_li");
     $(".tree li.parent_li > span").on("click", function (e) {

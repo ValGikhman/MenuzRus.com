@@ -60,11 +60,11 @@ public static class Utility {
             { "WY", "Wyoming" }
         };
 
-    public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {
-        return dic.Select(x => new SelectListItem() { Text = x.Value.ToString(), Value = x.Key.ToString() });
-    }
-
     public static T GetEnumItem<T>(String value) {
         return (T)Enum.Parse(typeof(T), value, true);
+    }
+
+    public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {
+        return dic.Select(x => new SelectListItem() { Text = x.Value.ToString(), Value = x.Key.ToString() });
     }
 }

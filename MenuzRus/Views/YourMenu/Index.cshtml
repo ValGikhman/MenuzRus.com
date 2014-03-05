@@ -1,8 +1,8 @@
 ﻿@model MenuzRus.Models.YourMenuModel
 @using Services
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/jqwidgets/styles/jqx.bootstrap.css")" rel="stylesheet" />
-
+<link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <div class="modal fade confirmMenuDelete">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -29,7 +29,23 @@
             </div>
             <div class="modal-footer">
                 <button id="btnDeleteCategoryCancel" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnDeleteCategpryOK" type="button" class="btn btn-primary">OK</button>
+                <button id="btnDeleteCategoryOK" type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirmItemDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                Item <em><strong id="itemName"></strong></em>&nbsp;will be deleted.
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                Would you like to continue?
+            </div>
+            <div class="modal-footer">
+                <button id="btnDeleteItemCancel" type="button" class="btn btn-default">Cancel</button>
+                <button id="btnDeleteItemOK" type="button" class="btn btn-primary">OK</button>
             </div>
         </div>
     </div>
@@ -145,6 +161,8 @@
                 </li>
                 <li><a href="#wallTab" data-toggle="tab">Wall background</a>
                 </li>
+                <li><a href="#settingsTab" data-toggle="tab">Settings</a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -167,6 +185,19 @@
                         }
                     }
                 </div>
+                <div class="tab-pane fade in" id="settingsTab">
+                    @foreach (Common.Settings color in Enum.GetValues(typeof(Common.Settings))) {
+                        if (color != Common.Settings.PageBackground
+                                && color != Common.Settings.WallBackground) {
+                            var description = EnumHelper<Common.Settings>.GetDisplayValue(color);
+                        <div class="row settings">
+                            <div class="col-md-2">@description
+                            </div>
+                            <div id="@color" class="color-box col-md-1"></div>
+                        </div>
+                        }
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -176,11 +207,11 @@
     <ul class="category-group">
         @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
             <li>
-                <div class="btn-group" data-value="@category.id">
+                <div class="btn-group category" data-value="@category.id">
                     <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
-                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id, @category.Name)"><span class="glyphicon glyphicon-trash"></span></button>
                     <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                     <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id, '@category.Name')"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
                 <a href="javascript:showCategoryMenu(@category.id)">
                     @if (!String.IsNullOrEmpty(category.Name)) {
@@ -202,7 +233,13 @@
                     <ul class="items-group">
                         @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
                             <li  data-value="@item.id">
-                                <a href="javascript:editItem(@item.id)">
+                                <div class="btn-group item" data-value="@item.id">
+                                    <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id, '@item.Name')"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <a href="javascript:showItemMenu(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                                         <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
@@ -222,12 +259,32 @@
 }
 <script>
     $(function () {
+        /// ********** APPLY SETTINGS ************///
         var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
-        $(".page").css("background", bg);
+        if (bg != "")
+            $(".page").css("background", bg);
 
-        bg = bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
-        $(".wall").css("background", bg)
+        bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        if (bg != "")
+            $(".wall").css("background", bg);
 
+        var kolor = "@Model.Settings[Common.Settings.Category.ToString()]";
+        if (kolor != "")
+            $(".category").css("color", kolor);
+        kolor = "@Model.Settings[Common.Settings.CategoryDescription.ToString()]";
+        if (kolor != "")
+            $(".categoryDescription").css("color", "@Model.Settings[Common.Settings.CategoryDescription.ToString()]");
+        kolor = "@Model.Settings[Common.Settings.Item.ToString()]";
+        if (kolor != "")
+            $(".item").css("color", "@Model.Settings[Common.Settings.Item.ToString()]");
+        kolor = "@Model.Settings[Common.Settings.ItemDescription.ToString()]";
+        if (kolor != "")
+            $(".itemDescription").css("color", "@Model.Settings[Common.Settings.ItemDescription.ToString()]");
+        kolor = "@Model.Settings[Common.Settings.Price.ToString()]";
+        if (kolor != "")
+            $(".price").css("color", "@Model.Settings[Common.Settings.Price.ToString()]");
+
+        /// ********** APPLY IMAGES ************///
         $(".img-wall").click(function () {
             var bg = "url(" + $(this).attr("src").replace("thumbnails/", "") + ") repeat";
             $(".wall").css("background", bg)
@@ -255,7 +312,6 @@
 
             var jqxhr = $.post("/YourMenu/SaveSettings/", pagebackground)
                       .done(function (result) {
-                          alert(result);
                       })
                       .fail(function () {
                       })
@@ -335,10 +391,14 @@
         })
 
         $("#btnDeleteMenuOK").click(function () {
-            deleteCategory($("#Menu_id").val());
+            deleteMenu($("#Menu_id").val());
         })
 
         $("#btnDeleteCategoryCancel").click(function () {
+            $(".confirmCategoryDelete").modal("hide");
+        })
+
+        $("#btnDeleteItemCancel").click(function () {
             $(".confirmCategoryDelete").modal("hide");
         })
 
@@ -355,8 +415,57 @@
         $("#btnMenuIt").click(function () {
             window.open("/Menu/Index/" + $("#Menu_id").val(), "");
         })
+
+        $(".color-box").colpick({
+            colorScheme: "light",
+            layout: "hex",
+            submit: 1,
+            color: "ff8800",
+            onChange: function (hsb, hex, rgb, el) {
+                $(el).css("background-color", "#" + hex);
+            },
+            onSubmit: function (hsb, hex, rgb, el) {
+                $(el).colpickHide();
+                var klass = "";
+                switch (el.id) {
+                    case "Category":
+                        klass = ".category";
+                        break;
+                    case "CategoryDescription":
+                        klass = ".categoryDescription";
+                        break;
+                    case "Item":
+                        klass = ".item";
+                        break;
+                    case "ItemDescription":
+                        klass = ".itemDescription";
+                        break;
+                    case "Price":
+                        klass = ".price";
+                        break;
+                }
+
+                var colorData = {
+                    Type: el.id,
+                    Value: "#" + hex
+                };
+
+                $(klass).css("color", colorData.Value);
+
+                var jqxhr = $.post("/YourMenu/SaveSettings/", colorData)
+                          .done(function (result) {
+                          })
+                          .fail(function () {
+                          })
+                          .always(function () {
+                          });
+            }
+        })
+        .css("background-color", "#ff8800");
+
     })
 
+    /// ****** MENU ********///
     function editMenu(id, name) {
         if (id == null) id = 0;
         var postData = { id: id, name: name };
@@ -383,13 +492,16 @@
         });
     }
 
+    /// ****** CATEGORY ***************///
     function showCategoryMenu(id) {
-        $(".btn-group").css("display", "none");
-        $(".btn-group[data-value=" + id + "]").css("display", "inline");
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
+        $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
     }
 
     function editCategory(id) {
-        $(".btn-group").css("display", "none");
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
         var jqxhr = $.get("/Category/EditCategory/", { id: id })
                       .done(function (result) {
                           $("#categoryEditForm").html(result);
@@ -402,14 +514,15 @@
     }
 
     function deleteCategory(id, name) {
-        $(".btn-group").css("display", "none");
-        $("#CategoryName").html(name);
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
+        $("#categoryName").html(name);
         $(".confirmCategoryDelete").modal("show");
         $("#btnDeleteCategoryOK").click(function () {
-            $(".confirmCategoryDelete").modal("hide");
-            var jqxhr = $.get("/Category/DeleteCategory/", { id: id })
+            var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
                           .done(function (result) {
-                              window.location = "/YourMenu/Index/" + id;
+                              $(".confirmCategoryDelete").modal("hide");
+                              window.location = "/YourMenu/Index/" + $("#Menu_id").val();
                           })
             .fail(function () {
             })
@@ -418,7 +531,16 @@
         });
     }
 
+    /// ****** ITEMS ***************///
+    function showItemMenu(id) {
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
+        $(".btn-group.item[data-value=" + id + "]").css("display", "inline");
+    }
+
     function editItem(id) {
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
         var jqxhr = $.get("/Item/EditItem/", { id: id })
                       .done(function (result) {
                           $("#itemEditForm").html(result);
@@ -427,6 +549,24 @@
         .fail(function () {
         })
         .always(function () {
+        });
+    }
+
+    function deleteItem(id, name) {
+        $(".btn-group.category").css("display", "none");
+        $(".btn-group.item").css("display", "none");
+        $("#itemName").html(name);
+        $(".confirmItemDelete").modal("show");
+        $("#btnDeleteItemOK").click(function () {
+            var jqxhr = $.post("/Item/DeleteItem/", { id: id })
+                          .done(function (result) {
+                              $(".confirmItemDelete").modal("hide");
+                              window.location = "/YourMenu/Index/" + $("#Menu_id").val();
+                          })
+            .fail(function () {
+            })
+            .always(function () {
+            });
         });
     }
 </script>

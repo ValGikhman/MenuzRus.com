@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 col-lg3">
-                @Html.DropDownListFor(m => m.Active, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+                @Html.DropDownListFor(m => m.Active, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow", @disabled = "disabled" })
             </div>
             <div class="col-md-5 col-lg5">
                 @Html.TextBoxFor(model => model.ShowAsPrice, new { @class = "form-control input-sm shadow", placeholder = "Enter Item Price", required = "", type = "text" })

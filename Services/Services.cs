@@ -26,7 +26,7 @@ namespace MenuzRus {
             SessionData.contact = db.Contacts.Where(m => m.Email == email && m.Password == password).FirstOrDefault();
             if (SessionData.contact != null) {
                 SessionData.customer = db.Customers.Where(m => m.id == SessionData.contact.CustomerId).FirstOrDefault();
-                SessionData.menu = db.Menus.Where(m => m.id == SessionData.contact.CustomerId).FirstOrDefault();
+                SessionData.menu = db.Menus.Where(m => m.CustomerId == SessionData.contact.CustomerId).FirstOrDefault();
             }
             return SessionData.contact;
         }
@@ -58,12 +58,12 @@ namespace MenuzRus {
 
         public List<Category> GetCategories(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.MenuId == id && m.Active).OrderBy(m => m.SortOrder).ToList();
+            return db.Categories.Where(m => m.MenuId == id).OrderBy(m => m.SortOrder).ToList();
         }
 
         public Category GetCategory(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.id == id && m.Active).FirstOrDefault();
+            return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
         public Int32 SaveCategory(Category category) {
@@ -102,31 +102,35 @@ namespace MenuzRus {
 
         #region items
 
-        public Boolean DeleteItem(Item item) {
-            Boolean retVal = true;
+        public Boolean DeleteItem(Int32? id) {
+            Item query = new Item();
+            id = id.HasValue ? id : 0;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    db.Items.DeleteOnSubmit(item);
+                    query = db.Items.Where(m => m.id == id).FirstOrDefault();
+                    if (query != default(Item)) {
+                        db.Items.DeleteOnSubmit(query);
+                    }
                     db.SubmitChanges();
                 }
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                retVal = false;
+                return false;
             }
-            return retVal;
+            return true;
         }
 
         public Item GetItem(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            Item item = db.Items.Where(m => m.id == id && m.Active).FirstOrDefault();
+            Item item = db.Items.Where(m => m.id == id).FirstOrDefault();
             return item;
         }
 
         public List<Item> GetItems(Int32 id) {
             List<Item> items;
             menuzRusDataContext db = new menuzRusDataContext();
-            items = db.Items.Where(m => m.CategoryId == id && m.Active).OrderBy(m => m.SortOrder).ToList();
+            items = db.Items.Where(m => m.CategoryId == id).OrderBy(m => m.SortOrder).ToList();
             return items;
         }
 

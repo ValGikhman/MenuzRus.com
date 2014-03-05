@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
@@ -11,6 +12,15 @@ using Services;
 namespace MenuzRus {
 
     public class CategoryController : BaseController {
+
+        [HttpPost]
+        public ActionResult DeleteCategory(Int32? id) {
+            Services service = new Services();
+            if (!service.DeleteCategory(id))
+                return RedirectToAction("Index", "Error");
+
+            return Json("OK");
+        }
 
         [HttpGet]
         public String EditCategory(Int32? id) {
@@ -47,7 +57,7 @@ namespace MenuzRus {
             category.Name = model.Name;
             category.Description = model.Description;
             category.Side = model.Side.ToString();
-            category.Active = (model.Active == Common.Status.Active);
+            category.Active = true;
             category.ImageUrl = model.ImageUrl;
             if (model.Image != null) {
                 if (category.id == 0)
@@ -81,10 +91,10 @@ namespace MenuzRus {
             Services service = new Services();
             model.Menus = service.GetMenus(SessionData.customer.id);
             model.MenuId = SessionData.menu.id;
+            model.Active = Common.Status.Active;
             if (id.HasValue) {
                 category = service.GetCategory((Int32)id.Value);
                 if (category != null) {
-                    model.Active = Common.Status.Active;
                     model.id = category.id;
                     model.Name = category.Name;
                     model.Description = category.Description;

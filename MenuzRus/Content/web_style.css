@@ -125,10 +125,6 @@ body {
     outline: none;
 }
 
-.glyphicon:empty {
-    width: 2em;
-}
-
 /* Navbar fixed position will keep at the top when zoom*/
 .navbar-fixed-top, .navbar-fixed-bottom {
     position: fixed;

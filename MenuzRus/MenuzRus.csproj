@@ -184,6 +184,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\jquery.colpick.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\item.css" />
     <Content Include="Content\customer.css" />
@@ -282,6 +283,7 @@
     <Content Include="Content\oasis-menu_style-1080.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Common.js" />
+    <Content Include="Scripts\JQuery\jquery.colpick.js" />
     <Content Include="Scripts\JQuery\jquery.blockUI.js" />
     <Content Include="Scripts\JQuery\jquery-1.10.2.min.js" />
     <Content Include="Scripts\JQuery\jquery-ui.min.js" />

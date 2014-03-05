@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,23 +14,26 @@ public static class Common {
 
     public enum Settings {
 
-        [Display(Name = "#1 Image")]
-        Image1 = 2,
-
-        [Display(Name = "#2 Image")]
-        Image2 = 4,
-
         [Display(Name = "Wall Background")]
-        WallBackground = 8,
+        WallBackground = 2,
 
         [Display(Name = "Page Background")]
-        PageBackground = 16,
+        PageBackground = 4,
 
-        [Display(Name = "Offset X")]
-        OffsetX = 32,
+        [Display(Name = "Category")]
+        Category = 8,
 
-        [Display(Name = "Offset Y")]
-        OffsetY = 64
+        [Display(Name = "Category Description")]
+        CategoryDescription = 16,
+
+        [Display(Name = "Item")]
+        Item = 32,
+
+        [Display(Name = "Item Description")]
+        ItemDescription = 64,
+
+        [Display(Name = "Price")]
+        Price = 128
     }
 
     public enum Side {

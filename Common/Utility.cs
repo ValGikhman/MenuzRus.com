@@ -15,25 +15,58 @@ public static class Common {
     public enum Settings {
 
         [Display(Name = "Wall Background")]
-        WallBackground = 2,
+        WallBackground = 1,
 
         [Display(Name = "Page Background")]
-        PageBackground = 4,
+        PageBackground = 2,
+
+        [Display(Name = "Category Color")]
+        CategoryColor = 3,
+
+        [Display(Name = "Category Description Color")]
+        CategoryDescriptionColor = 4,
+
+        [Display(Name = "Item Color")]
+        ItemColor = 5,
+
+        [Display(Name = "Item Description Color")]
+        ItemDescriptionColor = 6,
+
+        [Display(Name = "Price  Color")]
+        PriceColor = 7,
+
+        [Display(Name = "Category Font Size")]
+        CategoryFontSize = 8,
+
+        [Display(Name = "Category Description FontSize")]
+        CategoryDescriptionFontSize = 9,
+
+        [Display(Name = "Item FontSize")]
+        ItemFontSize = 10,
+
+        [Display(Name = "Item Description FontSize")]
+        ItemDescriptionFontSize = 11,
+
+        [Display(Name = "Price FontSize")]
+        PriceFontSize = 12
+    }
+
+    public enum SettingsItems {
 
         [Display(Name = "Category")]
-        Category = 8,
+        Category = 1,
 
         [Display(Name = "Category Description")]
-        CategoryDescription = 16,
+        CategoryDescription = 2,
 
         [Display(Name = "Item")]
-        Item = 32,
+        Item = 3,
 
         [Display(Name = "Item Description")]
-        ItemDescription = 64,
+        ItemDescription = 4,
 
         [Display(Name = "Price")]
-        Price = 128
+        Price = 5
     }
 
     public enum Side {

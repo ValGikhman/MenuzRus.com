@@ -109,22 +109,71 @@
         </div>
     </div>
 </div>
-
+<div class="well toolbar">
+    <div id="default">
+        <button id="btnSettings" type="button" class="btn btn-default btn">
+            <span class="glyphicon glyphicon-cog"></span>
+        </button>
+        @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+        <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
+        <button id="btnRenameMenu" type="button" class="btn btn-primary  btn-sm shadow">Rename menu</button>
+        <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
+        <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
+        <div class=" pull-right">
+            <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
+            <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div id="panel" class="panel panel-default panel-yourmenu shadow">
-        <div class="panel-heading">
-            <div id="default">
-                @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
-                <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
-                <button id="btnRenameMenu" type="button" class="btn btn-primary  btn-sm shadow">Rename menu</button>
-                <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
-                <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
-                <div class=" pull-right">
-                    <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
-                    <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+        <div class="panel-setting-body">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#pageTab" data-toggle="tab">Page background</a>
+                </li>
+                <li><a href="#wallTab" data-toggle="tab">Wall background</a>
+                </li>
+                <li><a href="#settingsTab" data-toggle="tab">Settings</a>
+                </li>
+            </ul>
+            <button id="btnCloseSetting" class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                @{Uri urlRoot = new Uri(Server.MapPath("~"));}
+                <div class="tab-pane fade in active" id="pageTab">
+                    @{
+                        foreach (String file in Model.PageBackgrounds) {
+                            Uri urlPath = new Uri(file);
+                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-page img-thumbnail" />
+                        }
+                    }
+                </div>
+
+                <div class="tab-pane fade in" id="wallTab">
+                    @{
+                        foreach (String file in Model.Wallpapers) {
+                            Uri urlPath = new Uri(file);
+                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-wall img-thumbnail" />
+                        }
+                    }
+                </div>
+                <div class="tab-pane fade in" id="settingsTab">
+                    @foreach (Common.SettingsItems item in Enum.GetValues(typeof(Common.SettingsItems))) {
+                        var description = EnumHelper<Common.SettingsItems>.GetDisplayValue(item);
+                        var kolor = Model.Settings[String.Format("{0}{1}", item.ToString(), "Color")];
+                        var fontsize = Model.Settings[String.Format("{0}{1}", item.ToString(), "FontSize")];
+                        <div class="row settings">
+                            <div class="col-md-2">@description
+                            </div>
+                            <div id="@String.Format("{0}{1}", item, "Color")" class="color-box col-md-1"  style="background-color:@kolor"></div>
+                            <input id="@String.Format("{0}{1}", item, "FontSize")" class="spinner font" value="@fontsize" />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
+
         <div class="panel-yourmenu-body">
             <div class="wall">
                 <div class="col-md-3 page">
@@ -154,50 +203,6 @@
 
                 <div class="col-md-3 page">
                     @ShowPage(Model, Common.Side.Right)
-                </div>
-            </div>
-            <ul class="nav nav-pills">
-                <li class="active"><a href="#pageTab" data-toggle="tab">Page background</a>
-                </li>
-                <li><a href="#wallTab" data-toggle="tab">Wall background</a>
-                </li>
-                <li><a href="#settingsTab" data-toggle="tab">Settings</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                @{Uri urlRoot = new Uri(Server.MapPath("~"));}
-                <div class="tab-pane fade in active" id="pageTab">
-                    @{
-                        foreach (String file in Model.PageBackgrounds) {
-                            Uri urlPath = new Uri(file);
-                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-page img-thumbnail" />
-                        }
-                    }
-                </div>
-
-                <div class="tab-pane fade in" id="wallTab">
-                    @{
-                        foreach (String file in Model.Wallpapers) {
-                            Uri urlPath = new Uri(file);
-                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-wall img-thumbnail" />
-                        }
-                    }
-                </div>
-                <div class="tab-pane fade in" id="settingsTab">
-                    @foreach (Common.Settings color in Enum.GetValues(typeof(Common.Settings))) {
-                        if (color != Common.Settings.PageBackground
-                                && color != Common.Settings.WallBackground) {
-                            var description = EnumHelper<Common.Settings>.GetDisplayValue(color);
-                            var kolor = Model.Settings[color.ToString()];
-                        <div class="row settings">
-                            <div class="col-md-2">@description
-                            </div>
-                            <div id="@color" class="color-box col-md-1"  style="background-color:@kolor"></div>
-                        </div>
-                        }
-                    }
                 </div>
             </div>
         </div>
@@ -269,21 +274,47 @@
         if (bg != "")
             $(".wall").css("background", bg);
 
-        var kolor = "@Model.Settings[Common.Settings.Category.ToString()]";
+        // Color
+        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
         if (kolor != "")
             $(".category").css("color", kolor);
-        kolor = "@Model.Settings[Common.Settings.CategoryDescription.ToString()]";
+
+        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
         if (kolor != "")
-            $(".categoryDescription").css("color", "@Model.Settings[Common.Settings.CategoryDescription.ToString()]");
-        kolor = "@Model.Settings[Common.Settings.Item.ToString()]";
+            $(".categoryDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
         if (kolor != "")
-            $(".item").css("color", "@Model.Settings[Common.Settings.Item.ToString()]");
-        kolor = "@Model.Settings[Common.Settings.ItemDescription.ToString()]";
+            $(".item").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
         if (kolor != "")
-            $(".itemDescription").css("color", "@Model.Settings[Common.Settings.ItemDescription.ToString()]");
-        kolor = "@Model.Settings[Common.Settings.Price.ToString()]";
+            $(".itemDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
         if (kolor != "")
-            $(".price").css("color", "@Model.Settings[Common.Settings.Price.ToString()]");
+            $(".price").css("color", kolor);
+
+        // Font Size
+        var fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.CategoryFontSize.ToString()], "px")";
+        if (fontsize != "")
+            $(".category").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()], "px")";
+        if (fontsize != "")
+            $(".categoryDescription").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.ItemFontSize.ToString()], "px")";
+        if (fontsize != "")
+            $(".item").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()], "px")";
+        if (fontsize != "")
+            $(".itemDescription").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.PriceFontSize.ToString()], "px")";
+        if (fontsize != "")
+            $(".price").css("font-size", fontsize);
 
         /// ********** APPLY IMAGES ************///
         $(".img-wall").click(function () {
@@ -417,6 +448,56 @@
             window.open("/Menu/Index/" + $("#Menu_id").val(), "");
         })
 
+        $("#btnSettings, #btnCloseSetting").click(function () {
+            $(".panel-setting-body").toggle(800);
+        })
+
+        $(".spinner.font").spinner({
+            spin: function (event, ui) {
+                if (ui.value > 36) {
+                    $(this).spinner("value", 36);
+                    return false;
+                } else if (ui.value < 12) {
+                    $(this).spinner("value", 12);
+                    return false;
+                }
+
+                var klass = "";
+                switch (this.id) {
+                    case "CategoryFontSize":
+                        klass = ".category";
+                        break;
+                    case "CategoryDescriptionFontSize":
+                        klass = ".categoryDescription";
+                        break;
+                    case "ItemFontSize":
+                        klass = ".item";
+                        break;
+                    case "ItemDescriptionFontSize":
+                        klass = ".itemDescription";
+                        break;
+                    case "PriceFontSize":
+                        klass = ".price";
+                        break;
+                }
+
+                var fontsizeData = {
+                    Type: this.id,
+                    Value: ui.value
+                };
+
+                $(klass).css("font-size", fontsizeData.Value);
+
+                var jqxhr = $.post("/YourMenu/SaveSettings/", fontsizeData)
+                          .done(function (result) {
+                          })
+                          .fail(function () {
+                          })
+                          .always(function () {
+                          });
+
+            }
+        });
         $(".color-box").colpick({
             colorScheme: "light",
             layout: "hex",
@@ -429,19 +510,19 @@
                 $(el).colpickHide();
                 var klass = "";
                 switch (el.id) {
-                    case "Category":
+                    case "CategoryColor":
                         klass = ".category";
                         break;
-                    case "CategoryDescription":
+                    case "CategoryDescriptionColor":
                         klass = ".categoryDescription";
                         break;
-                    case "Item":
+                    case "ItemColor":
                         klass = ".item";
                         break;
-                    case "ItemDescription":
+                    case "ItemDescriptionColor":
                         klass = ".itemDescription";
                         break;
-                    case "Price":
+                    case "PriceColor":
                         klass = ".price";
                         break;
                 }

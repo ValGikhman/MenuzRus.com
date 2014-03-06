@@ -183,9 +183,15 @@ a:hover, a:focus {
 .color-box {
     width: 30px;
     height: 30px;
-    margin: 1px;
+    margin: 1px 10px 1px 1px;
     border: 1px solid #428BCA;
     cursor: pointer;
+}
+
+.spinner.font {
+    width: 30px;
+    text-align: end;
+    height: 23px;
 }
 
 .row.settings {
@@ -195,4 +201,23 @@ a:hover, a:focus {
 
 #settingsTab {
     margin: 10px;
+}
+
+.toolbar {
+    padding: 3px;
+    margin: 0 0 5px 0;
+}
+
+#btnSettings {
+    float: left;
+    margin-right: 10px;
+}
+
+.panel-setting-body {
+    display: none;
+}
+
+#btnCloseSetting {
+    margin-right: 5px;
+    margin-top: -50px;
 }

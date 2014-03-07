@@ -3,54 +3,6 @@
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
-<div class="modal fade confirmMenuDelete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                The menu <em><strong id="menuName"></strong></em>&nbsp;will be deleted.
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                Would you like to continue?
-            </div>
-            <div class="modal-footer">
-                <button id="btnDeleteMenuCancel" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnDeleteMenuOK" type="button" class="btn btn-primary">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade confirmCategoryDelete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                Category <em><strong id="categoryName"></strong></em>&nbsp;will be deleted.
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                Would you like to continue?
-            </div>
-            <div class="modal-footer">
-                <button id="btnDeleteCategoryCancel" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnDeleteCategoryOK" type="button" class="btn btn-primary">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade confirmItemDelete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                Item <em><strong id="itemName"></strong></em>&nbsp;will be deleted.
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                Would you like to continue?
-            </div>
-            <div class="modal-footer">
-                <button id="btnDeleteItemCancel" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnDeleteItemOK" type="button" class="btn btn-primary">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade menuRenameForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -70,7 +22,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCancelMenu" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="btnSaveMenu" type="button" class="categorySubmit btn btn-primary">Save changes</button>
+                <button id="btnSaveMenu" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -79,15 +31,7 @@
 <div class="modal fade categoryEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Category</h4>
-            </div>
             <div id="categoryEditForm" class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="categorySubmit btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -96,15 +40,7 @@
 <div class="modal fade itemEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Item</h4>
-            </div>
             <div id="itemEditForm" class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="itemSubmit btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -389,14 +325,6 @@
             }
         }).disableSelection();
 
-        $(".categorySubmit").click(function () {
-            $("#form-category").submit();
-        });
-
-        $(".itemSubmit").click(function () {
-            $("#form-item").submit();
-        });
-
         $("#Menu_id").change(function () {
             window.location = "/YourMenu/Index/" + $(this).val();
         })
@@ -414,24 +342,23 @@
         })
 
         $("#btnDeleteMenu").click(function () {
-            $("#menuName").html($("#Menu_Name").val());
-            $(".confirmMenuDelete").modal("show");
-        })
-
-        $("#btnDeleteMenuCancel").click(function () {
-            $(".confirmMenuDelete").modal("hide");
-        })
-
-        $("#btnDeleteMenuOK").click(function () {
-            deleteMenu($("#Menu_id").val());
-        })
-
-        $("#btnDeleteCategoryCancel").click(function () {
-            $(".confirmCategoryDelete").modal("hide");
-        })
-
-        $("#btnDeleteItemCancel").click(function () {
-            $(".confirmCategoryDelete").modal("hide");
+            $(".toolbar").noty({
+                layout: "topCenter",
+                type: "error",
+                text: "Menu <em><strong>" + $("#Menu_Name").val() + "</strong></em> will be deleted.<br />Would you like to continue ?",
+                buttons: [{
+                    addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
+                        $noty.close();
+                        deleteMenu($("#Menu_id").val());
+                    }
+                },
+                  {
+                      addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
+                          $noty.close();
+                      }
+                  }
+                ]
+            });
         })
 
         $("#btnCancelMenu").click(function () {
@@ -457,11 +384,10 @@
                 if (ui.value > 36) {
                     $(this).spinner("value", 36);
                     return false;
-                } else if (ui.value < 12) {
-                    $(this).spinner("value", 12);
+                } else if (ui.value < 6) {
+                    $(this).spinner("value", 6);
                     return false;
                 }
-
                 var klass = "";
                 switch (this.id) {
                     case "CategoryFontSize":
@@ -480,24 +406,17 @@
                         klass = ".price";
                         break;
                 }
-
+                $(klass).css("font-size", ui.value);
+            },
+            change: function (event, ui) {
                 var fontsizeData = {
                     Type: this.id,
-                    Value: ui.value
+                    Value: this.value
                 };
-
-                $(klass).css("font-size", fontsizeData.Value);
-
-                var jqxhr = $.post("/YourMenu/SaveSettings/", fontsizeData)
-                          .done(function (result) {
-                          })
-                          .fail(function () {
-                          })
-                          .always(function () {
-                          });
-
+                saveSettings(fontsizeData);
             }
         });
+
         $(".color-box").colpick({
             colorScheme: "light",
             layout: "hex",
@@ -531,16 +450,9 @@
                     Type: el.id,
                     Value: "#" + hex
                 };
-
                 $(klass).css("color", colorData.Value);
 
-                var jqxhr = $.post("/YourMenu/SaveSettings/", colorData)
-                          .done(function (result) {
-                          })
-                          .fail(function () {
-                          })
-                          .always(function () {
-                          });
+                saveSettings(colorData);
             }
         });
 
@@ -552,9 +464,11 @@
         var postData = { id: id, name: name };
         var jqxhr = $.post("/YourMenu/SaveMenu/", postData)
                       .done(function (result) {
+                          message("Save successfully.", "success", "topCenter");
                           window.location = "/YourMenu/Index/" + result;
                       })
         .fail(function () {
+            message("Save menu failed.", "error", "topCenter");
         })
         .always(function () {
         });
@@ -565,9 +479,11 @@
         var postData = { id: id };
         var jqxhr = $.post("/YourMenu/DeleteMenu/", postData)
                       .done(function (result) {
+                          message("Menu deleted successfully.", "success", "topCenter");
                           window.location = "/YourMenu";
                       })
         .fail(function () {
+            message("Delete menu failed.", "error", "topCenter");
         })
         .always(function () {
         });
@@ -597,19 +513,50 @@
     function deleteCategory(id, name) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
-        $("#categoryName").html(name);
-        $(".confirmCategoryDelete").modal("show");
-        $("#btnDeleteCategoryOK").click(function () {
-            var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
-                          .done(function (result) {
-                              $(".confirmCategoryDelete").modal("hide");
-                              window.location = "/YourMenu/Index/" + $("#Menu_id").val();
-                          })
-            .fail(function () {
-            })
-            .always(function () {
-            });
+        $(".toolbar").noty({
+            layout: "topCenter",
+            type: "error",
+            text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
+            buttons: [{
+                addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
+                    $noty.close();
+                    var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
+                                     .done(function (result) {
+                                         message("Category successfully deletes.", "success", "topCenter");
+                                         window.location = "/YourMenu/Index/" + $("#Menu_id").val();
+                                     })
+                       .fail(function () {
+                           message("Delete category failed.", "error", "topCenter");
+                       })
+                       .always(function () {
+                       });
+                }
+            },
+              {
+                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
+                      $noty.close();
+                  }
+              }
+            ]
         });
+    }
+
+    /// ****** SETTINGS ***************///
+    function saveSettings(obj) {
+        var jqxhr = $.post("/YourMenu/SaveSettings/", obj)
+          .done(function (result) {
+              var text = result; // Will contain error if exception
+
+              if (result == "OK")
+                  text = "Settings successfully saved.";
+
+              message(text, "success", "topCenter");
+          })
+          .fail(function () {
+              message("Settings was not saved.", "error", "topCenter");
+          })
+          .always(function () {
+          });
     }
 
     /// ****** ITEMS ***************///
@@ -636,18 +583,31 @@
     function deleteItem(id, name) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
-        $("#itemName").html(name);
-        $(".confirmItemDelete").modal("show");
-        $("#btnDeleteItemOK").click(function () {
-            var jqxhr = $.post("/Item/DeleteItem/", { id: id })
-                          .done(function (result) {
-                              $(".confirmItemDelete").modal("hide");
-                              window.location = "/YourMenu/Index/" + $("#Menu_id").val();
-                          })
-            .fail(function () {
-            })
-            .always(function () {
-            });
+        $(".toolbar").noty({
+            layout: "topCenter",
+            type: "error",
+            text: "Item <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
+            buttons: [{
+                addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {
+                    $noty.close();
+                    var jqxhr = $.post("/Item/DeleteItem/", { id: id })
+                                  .done(function (result) {
+                                      message("Deleted successfully.", "success", "topCenter");
+                                      window.location = "/YourMenu/Index/" + $("#Menu_id").val();
+                                  })
+                    .fail(function () {
+                        message("Delete item failed.", "error", "topCenter");
+                    })
+                    .always(function () {
+                    });
+                }
+            },
+              {
+                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
+                      $noty.close();
+                  }
+              }
+            ]
         });
     }
 </script>

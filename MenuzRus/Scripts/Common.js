@@ -55,5 +55,14 @@ function preViewImage(e, element) {
     }
 }
 
-function saveSettings() {
+function message(text, type, position) {
+    noty({
+        text: text,
+        layout: position,
+        type: type,
+        timeout: "5000",
+        closable: true,
+        closeOnSelfClick: true,
+        closeWith: ["click", "button", "hover"]
+    });
 }

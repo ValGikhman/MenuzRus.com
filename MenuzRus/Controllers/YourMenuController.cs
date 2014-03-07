@@ -54,6 +54,7 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveSettings(SettingModel model) {
+            String retVal = "OK";
             Services service = new Services();
             Setting setting = new Setting();
             setting.Type = Utility.GetEnumItem<Common.Settings>(model.Type).ToString();
@@ -68,9 +69,9 @@ namespace MenuzRus.Controllers {
                     break;
             }
             if (!service.SaveSetting(setting))
-                return RedirectToAction("Index", "Error");
+                retVal = SessionData.exeption.Message;
 
-            return View(GetModel(SessionData.menu.id));
+            return Json(retVal);
         }
 
         #region private

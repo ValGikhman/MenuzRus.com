@@ -39,3 +39,8 @@
 #MenuId {
     width: 170px;
 }
+
+.modal-body {
+    padding: 0px;
+    position: relative;
+}

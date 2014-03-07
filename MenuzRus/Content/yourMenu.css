@@ -171,6 +171,7 @@ a:hover, a:focus {
     margin-top: -13px;
     margin-left: -18px;
     position: fixed;
+    border-bottom: none;
 }
 
 .btn-group.item {

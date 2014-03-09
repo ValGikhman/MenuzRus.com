@@ -19,3 +19,7 @@ body {
     margin-top: 15px;
     margin-bottom: 30px;
 }
+
+#page-content-wrapper {
+    margin-left: 0px;
+}

@@ -69,8 +69,7 @@ namespace MenuzRus.Controllers {
 
                     // These 3 controllers do not need to check if logged in or not
                     if (route.ToUpper() != "login".ToUpper()
-                            && route.ToUpper() != "customer".ToUpper()
-                            && route.ToUpper() != "contact".ToUpper()) {
+                            && route.ToUpper() != "registration".ToUpper()) {
                         if (!this.IsLoggedIn)
                             filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new {
                                 controller = "Login",

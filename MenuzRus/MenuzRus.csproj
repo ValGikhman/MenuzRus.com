@@ -131,6 +131,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ContactMeController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\LogOutController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\ContactMeModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -184,6 +186,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\registration.css" />
     <Content Include="Content\jquery.colpick.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\item.css" />
@@ -748,6 +751,8 @@
     <Content Include="Views\Menu\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Shared\_CategoryPartial.cshtml" />
+    <Content Include="Views\Registration\Index.cshtml" />
+    <Content Include="Views\Shared\_RegistrationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Customer\" />

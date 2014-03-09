@@ -38,6 +38,10 @@ a:hover, a:focus {
 
 .well {
     background-color: #EEEEEE;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 0px;
+    width: 1185px;
 }
 
 .category-group {
@@ -59,7 +63,7 @@ a:hover, a:focus {
     color: #323B4C;
     font-size: 14px;
     font-weight: bolder;
-    letter-spacing: 3px;
+    letter-spacing: 7px;
     line-height: 1.1;
     margin: 0px;
     padding-bottom: 1px;
@@ -133,7 +137,7 @@ a:hover, a:focus {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin: 30px auto;
+    margin: 70px auto;
     box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
 }
 
@@ -205,8 +209,17 @@ a:hover, a:focus {
 }
 
 .toolbar {
-    padding: 3px;
-    margin: 0 0 5px 0;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.panel-setting-body {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
 }
 
 #btnSettings {
@@ -221,4 +234,14 @@ a:hover, a:focus {
 #btnCloseSetting {
     margin-right: 5px;
     margin-top: -50px;
+}
+
+.badge {
+    margin-left: 5px;
+    margin-top: 7px;
+}
+
+.slider {
+    margin-left: 5px;
+    margin-top: 10px;
 }

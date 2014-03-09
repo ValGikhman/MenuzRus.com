@@ -28,23 +28,6 @@
     </div>
 </div>
 
-<div class="modal fade categoryEditForm" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id="categoryEditForm" class="modal-body">
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade itemEditForm" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id="itemEditForm" class="modal-body">
-            </div>
-        </div>
-    </div>
-</div>
 <div class="well toolbar">
     <div id="default">
         <button id="btnSettings" type="button" class="btn btn-default btn">
@@ -61,55 +44,55 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div id="panel" class="panel panel-default panel-yourmenu shadow">
-        <div class="panel-setting-body">
-            <ul class="nav nav-pills">
-                <li class="active"><a href="#pageTab" data-toggle="tab">Page background</a>
-                </li>
-                <li><a href="#wallTab" data-toggle="tab">Wall background</a>
-                </li>
-                <li><a href="#settingsTab" data-toggle="tab">Settings</a>
-                </li>
-            </ul>
-            <button id="btnCloseSetting" class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+<div class="well panel-setting-body">
+    <ul class="nav nav-pills">
+        <li class="active"><a href="#pageTab" data-toggle="tab">Page background</a>
+        </li>
+        <li><a href="#wallTab" data-toggle="tab">Wall background</a>
+        </li>
+        <li><a href="#settingsTab" data-toggle="tab">Settings</a>
+        </li>
+    </ul>
+    <button id="btnCloseSetting" class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                @{Uri urlRoot = new Uri(Server.MapPath("~"));}
-                <div class="tab-pane fade in active" id="pageTab">
-                    @{
-                        foreach (String file in Model.PageBackgrounds) {
-                            Uri urlPath = new Uri(file);
-                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-page img-thumbnail" />
-                        }
-                    }
-                </div>
-
-                <div class="tab-pane fade in" id="wallTab">
-                    @{
-                        foreach (String file in Model.Wallpapers) {
-                            Uri urlPath = new Uri(file);
-                        <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-wall img-thumbnail" />
-                        }
-                    }
-                </div>
-                <div class="tab-pane fade in" id="settingsTab">
-                    @foreach (Common.SettingsItems item in Enum.GetValues(typeof(Common.SettingsItems))) {
-                        var description = EnumHelper<Common.SettingsItems>.GetDisplayValue(item);
-                        var kolor = Model.Settings[String.Format("{0}{1}", item.ToString(), "Color")];
-                        var fontsize = Model.Settings[String.Format("{0}{1}", item.ToString(), "FontSize")];
-                        <div class="row settings">
-                            <div class="col-md-2">@description
-                            </div>
-                            <div id="@String.Format("{0}{1}", item, "Color")" class="color-box col-md-1"  style="background-color:@kolor"></div>
-                            <input id="@String.Format("{0}{1}", item, "FontSize")" class="spinner font" value="@fontsize" />
-                        </div>
-                    }
-                </div>
-            </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        @{Uri urlRoot = new Uri(Server.MapPath("~"));}
+        <div class="tab-pane fade in active" id="pageTab">
+            @{
+                foreach (String file in Model.PageBackgrounds) {
+                    Uri urlPath = new Uri(file);
+                <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-page img-thumbnail" />
+                }
+            }
         </div>
 
+        <div class="tab-pane fade in" id="wallTab">
+            @{
+                foreach (String file in Model.Wallpapers) {
+                    Uri urlPath = new Uri(file);
+                <img src="/@urlRoot.MakeRelativeUri(urlPath).ToString()" class="img-wall img-thumbnail" />
+                }
+            }
+        </div>
+        <div class="tab-pane fade in" id="settingsTab">
+            @foreach (Common.SettingsItems item in Enum.GetValues(typeof(Common.SettingsItems))) {
+                var description = EnumHelper<Common.SettingsItems>.GetDisplayValue(item);
+                var kolor = Model.Settings[String.Format("{0}{1}", item.ToString(), "Color")];
+                var fontsize = Model.Settings[String.Format("{0}{1}", item.ToString(), "FontSize")];
+                <div class="row settings">
+                    <div class="col-md-2">@description
+                    </div>
+                    <div id="@String.Format("{0}{1}", item, "Color")" class="color-box col-md-1 col-lg-1"  style="background-color:@kolor"></div>
+                    <div id="@String.Format("{0}{1}", item, "FontSize")" class="slider font col-md-3 col-lg-3"></div>
+                    <span id="@String.Format("{0}{1}", item, "FontSizeBadge")" class="badge font">@fontsize</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="well container">
+    <div id="panel" class="panel panel-default panel-yourmenu shadow">
         <div class="panel-yourmenu-body">
             <div class="wall">
                 <div class="col-md-3 page">
@@ -119,10 +102,9 @@
                                 <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customer/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
                             </div>
                         }
-                        <h2>@Model.MyCompany.Name</h2>
-                        <h3>Welcomes you</h3>
-                        <div class="address">
-                            <strong>@Model.MyCompany.Name</strong><br>
+                        <div class="category">@Model.MyCompany.Name</div>
+                        <div class="item">Welcomes you</div>
+                        <div class="price">
                             @Model.MyCompany.Address<br>
                             @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
                             @Model.MyCompany.Phone
@@ -201,57 +183,6 @@
 }
 <script>
     $(function () {
-        /// ********** APPLY SETTINGS ************///
-        var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
-        if (bg != "")
-            $(".page").css("background", bg);
-
-        bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
-        if (bg != "")
-            $(".wall").css("background", bg);
-
-        // Color
-        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
-        if (kolor != "")
-            $(".category").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
-        if (kolor != "")
-            $(".categoryDescription").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
-        if (kolor != "")
-            $(".item").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
-        if (kolor != "")
-            $(".itemDescription").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
-        if (kolor != "")
-            $(".price").css("color", kolor);
-
-        // Font Size
-        var fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.CategoryFontSize.ToString()], "px")";
-        if (fontsize != "")
-            $(".category").css("font-size", fontsize);
-
-        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()], "px")";
-        if (fontsize != "")
-            $(".categoryDescription").css("font-size", fontsize);
-
-        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.ItemFontSize.ToString()], "px")";
-        if (fontsize != "")
-            $(".item").css("font-size", fontsize);
-
-        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()], "px")";
-        if (fontsize != "")
-            $(".itemDescription").css("font-size", fontsize);
-
-        fontsize = "@String.Format("{0}{1}", Model.Settings[Common.Settings.PriceFontSize.ToString()], "px")";
-        if (fontsize != "")
-            $(".price").css("font-size", fontsize);
-
         /// ********** APPLY IMAGES ************///
         $(".img-wall").click(function () {
             var bg = "url(" + $(this).attr("src").replace("thumbnails/", "") + ") repeat";
@@ -342,9 +273,11 @@
         })
 
         $("#btnDeleteMenu").click(function () {
-            $(".toolbar").noty({
-                layout: "topCenter",
+            noty({
+                layout: "center",
                 type: "error",
+                killer: true,
+                model: true,
                 text: "Menu <em><strong>" + $("#Menu_Name").val() + "</strong></em> will be deleted.<br />Would you like to continue ?",
                 buttons: [{
                     addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
@@ -376,18 +309,15 @@
         })
 
         $("#btnSettings, #btnCloseSetting").click(function () {
-            $(".panel-setting-body").toggle(800);
+            $(".panel-setting-body").toggle();
         })
 
-        $(".spinner.font").spinner({
-            spin: function (event, ui) {
-                if (ui.value > 36) {
-                    $(this).spinner("value", 36);
-                    return false;
-                } else if (ui.value < 6) {
-                    $(this).spinner("value", 6);
-                    return false;
-                }
+        $(".slider.font").slider({
+            range: "max",
+            min: 6,
+            max: 36,
+            animate: true,
+            slide: function (event, ui) {
                 var klass = "";
                 switch (this.id) {
                     case "CategoryFontSize":
@@ -407,11 +337,12 @@
                         break;
                 }
                 $(klass).css("font-size", ui.value);
+                $($.validator.format("#{0}Badge", this.id)).html(ui.value);
             },
-            change: function (event, ui) {
+            stop: function (event, ui) {
                 var fontsizeData = {
                     Type: this.id,
-                    Value: this.value
+                    Value: ui.value
                 };
                 saveSettings(fontsizeData);
             }
@@ -455,7 +386,7 @@
                 saveSettings(colorData);
             }
         });
-
+        applySettings();
     })
 
     /// ****** MENU ********///
@@ -501,8 +432,8 @@
         $(".btn-group.item").css("display", "none");
         var jqxhr = $.get("/Category/EditCategory/", { id: id })
                       .done(function (result) {
-                          $("#categoryEditForm").html(result);
-                          $(".categoryEditForm").modal("show");
+                          $("#modalEditForm").html(result);
+                          $(".modalEditForm").modal("show");
                       })
         .fail(function () {
         })
@@ -513,9 +444,11 @@
     function deleteCategory(id, name) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
-        $(".toolbar").noty({
-            layout: "topCenter",
+        noty({
+            layout: "center",
             type: "error",
+            killer: true,
+            model: true,
             text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
             buttons: [{
                 addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
@@ -542,6 +475,69 @@
     }
 
     /// ****** SETTINGS ***************///
+    function applySettings() {
+        var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
+        if (bg != "")
+            $(".page").css("background", bg);
+
+        bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        if (bg != "")
+            $(".wall").css("background", bg);
+
+        // Color
+        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
+        if (kolor != "")
+            $(".category").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
+        if (kolor != "")
+            $(".categoryDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
+        if (kolor != "")
+            $(".item").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
+        if (kolor != "")
+            $(".itemDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
+        if (kolor != "")
+            $(".price").css("color", kolor);
+
+        // Font Size
+        var fontsize = "@Model.Settings[Common.Settings.CategoryFontSize.ToString()].ToString()";
+        if (fontsize != "") {
+            $(".category").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#CategoryFontSize").slider("value", fontsize);
+        }
+
+        fontsize = "@Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()].ToString()";
+        if (fontsize != "") {
+            $(".categoryDescription").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#CategoryDescriptionFontSize").slider("value", fontsize);
+        }
+
+        fontsize = "@Model.Settings[Common.Settings.ItemFontSize.ToString()].ToString()";
+        if (fontsize != "") {
+            $(".item").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#ItemFontSize").slider("value", fontsize);
+        }
+
+        fontsize = "@Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()].ToString()";
+        if (fontsize != "") {
+            $(".itemDescription").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#ItemDescriptionFontSize").slider("value", fontsize);
+        }
+
+        fontsize = "@Model.Settings[Common.Settings.PriceFontSize.ToString()].ToString()";
+        if (fontsize != "") {
+            $(".price").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#PriceFontSize").slider("value", fontsize);
+        }
+
+    }
+
     function saveSettings(obj) {
         var jqxhr = $.post("/YourMenu/SaveSettings/", obj)
           .done(function (result) {
@@ -571,8 +567,8 @@
         $(".btn-group.item").css("display", "none");
         var jqxhr = $.get("/Item/EditItem/", { id: id })
                       .done(function (result) {
-                          $("#itemEditForm").html(result);
-                          $(".itemEditForm").modal("show");
+                          $("#modalEditForm").html(result);
+                          $(".modalEditForm").modal("show");
                       })
         .fail(function () {
         })
@@ -583,9 +579,11 @@
     function deleteItem(id, name) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
-        $(".toolbar").noty({
-            layout: "topCenter",
+        noty({
+            layout: "center",
             type: "error",
+            killer: true,
+            model: true,
             text: "Item <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
             buttons: [{
                 addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {

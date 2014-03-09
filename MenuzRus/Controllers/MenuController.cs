@@ -19,7 +19,7 @@ namespace MenuzRus.Controllers {
                 model.Menu = new Menu();
             model.Menu.id = id.HasValue ? id.Value : 1;
             model.Categories = service.GetCategories(model.Menu.id);
-            model.Settings = service.GetSettings(SessionData.customer.id);
+            model.Settings = service.GetSettings(model.MyCompany.id);
             return model;
         }
 

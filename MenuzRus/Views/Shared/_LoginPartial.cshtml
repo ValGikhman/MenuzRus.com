@@ -2,7 +2,6 @@
 @using Services
 <link href="@Url.Content("~/Content/Login.css")" rel="stylesheet" />
 <div class="container">
-
     @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @id = "loginForm", @name = "loginForm", @class = "form-signin", role = "form" })) {
         <div id="panel" class="panel panel-primary shadow">
             <div class="panel-heading">Please sign in</div>
@@ -26,7 +25,7 @@
 <script type="text/javascript">
     $(function () {
         $("#register").click(function () {
-            window.location.replace("@Url.Action("Index", "Customer")");
+            window.location = "/Registration/";
         });
     });
 </script>

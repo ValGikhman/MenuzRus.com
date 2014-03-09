@@ -115,28 +115,6 @@ body {
     background: linear-gradient(to right, rgba(0,0,0,0) 64%,rgba(0,0,0,0.05) 100%);
 }
 
-.rm-logo-top, .rm-logo-bottom, .rm-content h2, .rm-content h4, a.rm-button-open, .rm-modal h5 {
-    text-transform: uppercase;
-}
-
-.rm-logo-top {
-    width: 200px;
-    height: 200px;
-    background: #323b4c url(../images/Menus/1/foodTop.jpg) no-repeat center center;
-    border-radius: 50%;
-    margin: 20px auto;
-    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
-}
-
-.rm-logo-bottom {
-    width: 200px;
-    height: 200px;
-    background: #323b4c url(../images/Menus/1/foodBottom.jpg) no-repeat center center;
-    border-radius: 50%;
-    margin: 20px auto;
-    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
-}
-
 .rm-item {
     width: 250px;
     height: 200px;
@@ -231,9 +209,8 @@ img {
 
 .categoryDescription {
     font-size: 18px;
-    color: #666363;
-    margin: 1px;
-    line-height: 0.9;
+    color: #333333;
+    margin: 10px;
 }
 
 .item {
@@ -244,13 +221,12 @@ img {
     text-transform: uppercase;
     text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #E6B741;
     display: block;
-    margin-top: 1px;
+    margin-top: 8px;
 }
 
 .itemDescription {
     color: #666363;
     font-size: 18px;
-    line-height: 0.9;
 }
 
 .itemImage {
@@ -266,5 +242,13 @@ img {
     color: #871510;
     font-weight: bolder;
     text-transform: uppercase;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin: 140px auto;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
 }

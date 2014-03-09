@@ -11,12 +11,12 @@
             <div class="rm-cover">
                 <div class="rm-front">
                     <div class="rm-content">
-                        <div class="rm-logo-top">
+                        <div>
+                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customer/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
                         </div>
-                        <h2>@Model.MyCompany.Name</h2>
-                        <h3>Welcomes you</h3>
-                        <div class="rm-info">
-                            <strong>@Model.MyCompany.Name</strong><br>
+                        <div class="category">@Model.MyCompany.Name</div>
+                        <div class="item">Welcomes you</div>
+                        <div class="price">
                             @Model.MyCompany.Address<br>
                             @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
                             <abbr title="Phone">P:</abbr>
@@ -92,11 +92,54 @@
 <script src="@Url.Content("~/Scripts/menu.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
-        Menu.init({ offsetTop: 0, offsetLeft: 0 });
+        Menu.init();
         var bg = "url(/Images/Backgrounds/Pages/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
         $(".rm-wrapper > div > div").css("background", bg);
 
         bg = bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
         $("body").css("background", bg)
+
+        // Color
+        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
+        if (kolor != "")
+            $(".category").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
+        if (kolor != "")
+            $(".categoryDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
+        if (kolor != "")
+            $(".item").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
+        if (kolor != "")
+            $(".itemDescription").css("color", kolor);
+
+        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
+        if (kolor != "")
+            $(".price").css("color", kolor);
+
+        // Font Size
+        var fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.CategoryFontSize.ToString()]), "px")";
+        if (fontsize != "")
+            $(".category").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()]), "px")";
+        if (fontsize != "")
+            $(".categoryDescription").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.ItemFontSize.ToString()]), "px")";
+        if (fontsize != "")
+            $(".item").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()]), "px")";
+        if (fontsize != "")
+            $(".itemDescription").css("font-size", fontsize);
+
+        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.PriceFontSize.ToString()]), "px")";
+        if (fontsize != "")
+            $(".price").css("font-size", fontsize);
+
     });
 </script>

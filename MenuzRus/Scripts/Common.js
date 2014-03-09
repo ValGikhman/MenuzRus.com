@@ -60,9 +60,12 @@ function message(text, type, position) {
         text: text,
         layout: position,
         type: type,
+        template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
         timeout: "5000",
+        maxVisible: 1,
+        killer: true,
         closable: true,
         closeOnSelfClick: true,
-        closeWith: ["click", "button", "hover"]
+        closeWith: ["click", "button"]
     });
 }

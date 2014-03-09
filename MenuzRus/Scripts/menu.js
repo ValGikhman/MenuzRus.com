@@ -5,9 +5,7 @@ var Menu = (function () {
 
     var $container = $('#rm-container'),
 		$wrapper = $container.find('.rm-wrapper')
-    init = function (settings) {
-        $(".rm-wrapper").css("margin-left", settings.offsetLeft).css("margin-top", settings.offsetTop);
-
+    init = function () {
         $(".rm-container").fadeIn(animationSpeed);
         setTimeout(function () { openMenu(); }, timeout);
     },

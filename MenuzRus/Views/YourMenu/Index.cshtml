@@ -130,16 +130,17 @@
 @helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
     <ul class="category-group">
         @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
-            <li>
+            <li  data-value="@category.id">
                 <div class="btn-group category" data-value="@category.id">
                     <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
                     <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                     <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id, '@category.Name')"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id)"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
                 <a href="javascript:showCategoryMenu(@category.id)">
                     @if (!String.IsNullOrEmpty(category.Name)) {
-                        <div class="category">
+                        String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
+                        <div id="@categoryDataValue" class="category" data-value="@category.id">
                             @category.Name
                         </div>
                     }
@@ -161,13 +162,18 @@
                                     <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
                                     <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                                     <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id, '@item.Name')"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </div>
                                 <a href="javascript:showItemMenu(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                                         <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
-                                    <div class="item" data-value="@item.id">@item.Name</div>
+                                    @if (!String.IsNullOrEmpty(item.Name)) {
+                                        String itemDataValue = String.Format("{0}{1}", "item_", item.id);
+                                        <div id="@itemDataValue"class="item" data-value="@item.id">
+                                            @item.Name
+                                        </div>
+                                    }
                                     @if (!String.IsNullOrEmpty(item.Description)) {
                                         <div class="itemDescription">@item.Description </div>
                                     }
@@ -229,8 +235,10 @@
                 var postData = { ids: cats.join(), type: "Category" };
                 var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
                               .done(function (result) {
+                                  message("Sort order saved successfully.", "success", "topCenter");
                               })
                 .fail(function () {
+                    message("Sort order was not saved.", "error", "topCenter");
                 })
                 .always(function () {
                 });
@@ -248,8 +256,10 @@
                 var postData = { ids: items.join(), type: "Items" };
                 var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
                               .done(function (result) {
+                                  message("Sort order saved successfully.", "success", "topCenter");
                               })
                 .fail(function () {
+                    message("Sort order was not saved.", "error", "topCenter");
                 })
                 .always(function () {
                 });
@@ -441,9 +451,10 @@
         });
     }
 
-    function deleteCategory(id, name) {
+    function deleteCategory(id) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
+        var name = $(".category[id=category_" + id + "]").html();
         noty({
             layout: "center",
             type: "error",
@@ -542,10 +553,8 @@
         var jqxhr = $.post("/YourMenu/SaveSettings/", obj)
           .done(function (result) {
               var text = result; // Will contain error if exception
-
               if (result == "OK")
                   text = "Settings successfully saved.";
-
               message(text, "success", "topCenter");
           })
           .fail(function () {
@@ -576,9 +585,10 @@
         });
     }
 
-    function deleteItem(id, name) {
+    function deleteItem(id) {
         $(".btn-group.category").css("display", "none");
         $(".btn-group.item").css("display", "none");
+        var name = $(".item[id=item_" + id + "]").html();
         noty({
             layout: "center",
             type: "error",

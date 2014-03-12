@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
@@ -9,14 +10,21 @@ namespace MenuzRus {
     public class LoginController : BaseController {
 
         public ActionResult Index() {
-            Session["IsLoggedIn"] = false;
-            LoginModel model = new LoginModel();
-            return View();
+            try {
+                Session["IsLoggedIn"] = false;
+                LoginModel model = new LoginModel();
+                return View();
+            }
+            catch (Exception ex) {
+            }
+            finally {
+            }
+            return null;
         }
 
         [HttpPost]
         public ActionResult Index(LoginModel model) {
-            Services service = new Services();
+            LoginService service = new LoginService();
             try {
                 Contact contact = service.Login(model.Email, model.Password);
                 if (contact == null) {
@@ -25,9 +33,12 @@ namespace MenuzRus {
                 Session["IsLoggedIn"] = true;
                 return RedirectToAction("Index", "YourMenu");
             }
-            catch {
-                return View();
+            catch (Exception ex) {
             }
+            finally {
+                service = null;
+            }
+            return null;
         }
     }
 }

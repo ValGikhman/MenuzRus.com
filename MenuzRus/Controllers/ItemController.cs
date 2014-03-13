@@ -69,7 +69,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Save(ItemModel model) {
+        public ActionResult SaveItem(ItemModel model) {
             ItemService service = new ItemService();
             Item item = new Item();
             try {

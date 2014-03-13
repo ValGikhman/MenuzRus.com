@@ -20,25 +20,6 @@
       <Association Name="Customer_Setting" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Contacts" Member="Contacts">
-    <Type Name="Contact">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="WorkPhone" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="MobilePhone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
-      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Contact_Log" Member="Logs" ThisKey="id" OtherKey="ContactId" Type="Log" />
-      <Association Name="Customer_Contact" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Customers" Member="Customers">
     <Type Name="Customer">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -53,8 +34,8 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
-      <Association Name="Customer_Contact" Member="Contacts" ThisKey="id" OtherKey="CustomerId" Type="Contact" />
       <Association Name="Customer_Menus" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menus" />
+      <Association Name="Customer_Contact" Member="Contacts" ThisKey="id" OtherKey="CustomerId" Type="Contact" />
     </Type>
   </Table>
   <Table Name="dbo.Items" Member="Items">
@@ -108,6 +89,27 @@
       <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Contact_Log" Member="Contact" ThisKey="ContactId" OtherKey="id" Type="Contact" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Contacts" Member="Contacts">
+    <Type Name="Contact">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="WorkPhone" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MobilePhone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Hash" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(25)" CanBeNull="true" />
+      <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Contact_Log" Member="Logs" ThisKey="id" OtherKey="ContactId" Type="Log" />
+      <Association Name="Customer_Contact" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

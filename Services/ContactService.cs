@@ -12,9 +12,35 @@ namespace MenuzRus {
 
         #region contact
 
+        public Boolean DeleteContact(Int32? id) {
+            Contact query = new Contact();
+            id = id.HasValue ? id : 0;
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.Contacts.Where(m => m.id == id).FirstOrDefault();
+                    if (query != default(Contact)) {
+                        db.Contacts.DeleteOnSubmit(query);
+                    }
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return false;
+            }
+            return true;
+        }
+
         public Contact GetContact(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
             return db.Contacts.Where(m => m.id == id && m.Active).FirstOrDefault();
+        }
+
+        public List<Contact> GetContacts(Int32 id) {
+            List<Contact> contacts;
+            menuzRusDataContext db = new menuzRusDataContext();
+            contacts = db.Contacts.Where(m => m.CustomerId == id).OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
+            return contacts;
         }
 
         public Int32 SaveContact(Contact contact) {

@@ -36,9 +36,6 @@ namespace Services
     partial void InsertSetting(Setting instance);
     partial void UpdateSetting(Setting instance);
     partial void DeleteSetting(Setting instance);
-    partial void InsertContact(Contact instance);
-    partial void UpdateContact(Contact instance);
-    partial void DeleteContact(Contact instance);
     partial void InsertCustomer(Customer instance);
     partial void UpdateCustomer(Customer instance);
     partial void DeleteCustomer(Customer instance);
@@ -54,6 +51,9 @@ namespace Services
     partial void InsertLog(Log instance);
     partial void UpdateLog(Log instance);
     partial void DeleteLog(Log instance);
+    partial void InsertContact(Contact instance);
+    partial void UpdateContact(Contact instance);
+    partial void DeleteContact(Contact instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -102,14 +102,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<Contact> Contacts
-		{
-			get
-			{
-				return this.GetTable<Contact>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Customer> Customers
 		{
 			get
@@ -147,6 +139,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<Log>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Contact> Contacts
+		{
+			get
+			{
+				return this.GetTable<Contact>();
 			}
 		}
 	}
@@ -549,425 +549,6 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Contacts")]
-	public partial class Contact : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _CustomerId;
-		
-		private string _FirstName;
-		
-		private string _LastName;
-		
-		private string _WorkPhone;
-		
-		private string _MobilePhone;
-		
-		private string _Email;
-		
-		private string _Password;
-		
-		private bool _EmailConfirmed;
-		
-		private bool _Active;
-		
-		private string _ImageUrl;
-		
-		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntitySet<Log> _Logs;
-		
-		private EntityRef<Customer> _Customer;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnCustomerIdChanging(int value);
-    partial void OnCustomerIdChanged();
-    partial void OnFirstNameChanging(string value);
-    partial void OnFirstNameChanged();
-    partial void OnLastNameChanging(string value);
-    partial void OnLastNameChanged();
-    partial void OnWorkPhoneChanging(string value);
-    partial void OnWorkPhoneChanged();
-    partial void OnMobilePhoneChanging(string value);
-    partial void OnMobilePhoneChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnEmailConfirmedChanging(bool value);
-    partial void OnEmailConfirmedChanged();
-    partial void OnActiveChanging(bool value);
-    partial void OnActiveChanged();
-    partial void OnImageUrlChanging(string value);
-    partial void OnImageUrlChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public Contact()
-		{
-			this._Logs = new EntitySet<Log>(new Action<Log>(this.attach_Logs), new Action<Log>(this.detach_Logs));
-			this._Customer = default(EntityRef<Customer>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
-		public int CustomerId
-		{
-			get
-			{
-				return this._CustomerId;
-			}
-			set
-			{
-				if ((this._CustomerId != value))
-				{
-					if (this._Customer.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCustomerIdChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerId = value;
-					this.SendPropertyChanged("CustomerId");
-					this.OnCustomerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string FirstName
-		{
-			get
-			{
-				return this._FirstName;
-			}
-			set
-			{
-				if ((this._FirstName != value))
-				{
-					this.OnFirstNameChanging(value);
-					this.SendPropertyChanging();
-					this._FirstName = value;
-					this.SendPropertyChanged("FirstName");
-					this.OnFirstNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string LastName
-		{
-			get
-			{
-				return this._LastName;
-			}
-			set
-			{
-				if ((this._LastName != value))
-				{
-					this.OnLastNameChanging(value);
-					this.SendPropertyChanging();
-					this._LastName = value;
-					this.SendPropertyChanged("LastName");
-					this.OnLastNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WorkPhone", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string WorkPhone
-		{
-			get
-			{
-				return this._WorkPhone;
-			}
-			set
-			{
-				if ((this._WorkPhone != value))
-				{
-					this.OnWorkPhoneChanging(value);
-					this.SendPropertyChanging();
-					this._WorkPhone = value;
-					this.SendPropertyChanged("WorkPhone");
-					this.OnWorkPhoneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobilePhone", DbType="VarChar(50)")]
-		public string MobilePhone
-		{
-			get
-			{
-				return this._MobilePhone;
-			}
-			set
-			{
-				if ((this._MobilePhone != value))
-				{
-					this.OnMobilePhoneChanging(value);
-					this.SendPropertyChanging();
-					this._MobilePhone = value;
-					this.SendPropertyChanged("MobilePhone");
-					this.OnMobilePhoneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailConfirmed", DbType="Bit NOT NULL")]
-		public bool EmailConfirmed
-		{
-			get
-			{
-				return this._EmailConfirmed;
-			}
-			set
-			{
-				if ((this._EmailConfirmed != value))
-				{
-					this.OnEmailConfirmedChanging(value);
-					this.SendPropertyChanging();
-					this._EmailConfirmed = value;
-					this.SendPropertyChanged("EmailConfirmed");
-					this.OnEmailConfirmedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Active", DbType="Bit NOT NULL")]
-		public bool Active
-		{
-			get
-			{
-				return this._Active;
-			}
-			set
-			{
-				if ((this._Active != value))
-				{
-					this.OnActiveChanging(value);
-					this.SendPropertyChanging();
-					this._Active = value;
-					this.SendPropertyChanged("Active");
-					this.OnActiveChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
-		public string ImageUrl
-		{
-			get
-			{
-				return this._ImageUrl;
-			}
-			set
-			{
-				if ((this._ImageUrl != value))
-				{
-					this.OnImageUrlChanging(value);
-					this.SendPropertyChanging();
-					this._ImageUrl = value;
-					this.SendPropertyChanged("ImageUrl");
-					this.OnImageUrlChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Contact_Log", Storage="_Logs", ThisKey="id", OtherKey="ContactId")]
-		public EntitySet<Log> Logs
-		{
-			get
-			{
-				return this._Logs;
-			}
-			set
-			{
-				this._Logs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Contact", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
-		public Customer Customer
-		{
-			get
-			{
-				return this._Customer.Entity;
-			}
-			set
-			{
-				Customer previousValue = this._Customer.Entity;
-				if (((previousValue != value) 
-							|| (this._Customer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Customer.Entity = null;
-						previousValue.Contacts.Remove(this);
-					}
-					this._Customer.Entity = value;
-					if ((value != null))
-					{
-						value.Contacts.Add(this);
-						this._CustomerId = value.id;
-					}
-					else
-					{
-						this._CustomerId = default(int);
-					}
-					this.SendPropertyChanged("Customer");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Logs(Log entity)
-		{
-			this.SendPropertyChanging();
-			entity.Contact = this;
-		}
-		
-		private void detach_Logs(Log entity)
-		{
-			this.SendPropertyChanging();
-			entity.Contact = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Customers")]
 	public partial class Customer : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -998,9 +579,9 @@ namespace Services
 		
 		private EntitySet<Setting> _Settings;
 		
-		private EntitySet<Contact> _Contacts;
-		
 		private EntitySet<Menus> _Menus;
+		
+		private EntitySet<Contact> _Contacts;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1033,8 +614,8 @@ namespace Services
 		public Customer()
 		{
 			this._Settings = new EntitySet<Setting>(new Action<Setting>(this.attach_Settings), new Action<Setting>(this.detach_Settings));
-			this._Contacts = new EntitySet<Contact>(new Action<Contact>(this.attach_Contacts), new Action<Contact>(this.detach_Contacts));
 			this._Menus = new EntitySet<Menus>(new Action<Menus>(this.attach_Menus), new Action<Menus>(this.detach_Menus));
+			this._Contacts = new EntitySet<Contact>(new Action<Contact>(this.attach_Contacts), new Action<Contact>(this.detach_Contacts));
 			OnCreated();
 		}
 		
@@ -1271,19 +852,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Contact", Storage="_Contacts", ThisKey="id", OtherKey="CustomerId")]
-		public EntitySet<Contact> Contacts
-		{
-			get
-			{
-				return this._Contacts;
-			}
-			set
-			{
-				this._Contacts.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menus", Storage="_Menus", ThisKey="id", OtherKey="CustomerId")]
 		public EntitySet<Menus> Menus
 		{
@@ -1294,6 +862,19 @@ namespace Services
 			set
 			{
 				this._Menus.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Contact", Storage="_Contacts", ThisKey="id", OtherKey="CustomerId")]
+		public EntitySet<Contact> Contacts
+		{
+			get
+			{
+				return this._Contacts;
+			}
+			set
+			{
+				this._Contacts.Assign(value);
 			}
 		}
 		
@@ -1329,18 +910,6 @@ namespace Services
 			entity.Customer = null;
 		}
 		
-		private void attach_Contacts(Contact entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = this;
-		}
-		
-		private void detach_Contacts(Contact entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = null;
-		}
-		
 		private void attach_Menus(Menus entity)
 		{
 			this.SendPropertyChanging();
@@ -1348,6 +917,18 @@ namespace Services
 		}
 		
 		private void detach_Menus(Menus entity)
+		{
+			this.SendPropertyChanging();
+			entity.Customer = null;
+		}
+		
+		private void attach_Contacts(Contact entity)
+		{
+			this.SendPropertyChanging();
+			entity.Customer = this;
+		}
+		
+		private void detach_Contacts(Contact entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = null;
@@ -2471,6 +2052,473 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Contacts")]
+	public partial class Contact : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CustomerId;
+		
+		private string _FirstName;
+		
+		private string _LastName;
+		
+		private string _WorkPhone;
+		
+		private string _MobilePhone;
+		
+		private string _Email;
+		
+		private string _Password;
+		
+		private bool _EmailConfirmed;
+		
+		private bool _Active;
+		
+		private string _Hash;
+		
+		private string _Type;
+		
+		private string _ImageUrl;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntitySet<Log> _Logs;
+		
+		private EntityRef<Customer> _Customer;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCustomerIdChanging(int value);
+    partial void OnCustomerIdChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnWorkPhoneChanging(string value);
+    partial void OnWorkPhoneChanged();
+    partial void OnMobilePhoneChanging(string value);
+    partial void OnMobilePhoneChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnEmailConfirmedChanging(bool value);
+    partial void OnEmailConfirmedChanged();
+    partial void OnActiveChanging(bool value);
+    partial void OnActiveChanged();
+    partial void OnHashChanging(string value);
+    partial void OnHashChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public Contact()
+		{
+			this._Logs = new EntitySet<Log>(new Action<Log>(this.attach_Logs), new Action<Log>(this.detach_Logs));
+			this._Customer = default(EntityRef<Customer>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
+		public int CustomerId
+		{
+			get
+			{
+				return this._CustomerId;
+			}
+			set
+			{
+				if ((this._CustomerId != value))
+				{
+					if (this._Customer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCustomerIdChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerId = value;
+					this.SendPropertyChanged("CustomerId");
+					this.OnCustomerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WorkPhone", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string WorkPhone
+		{
+			get
+			{
+				return this._WorkPhone;
+			}
+			set
+			{
+				if ((this._WorkPhone != value))
+				{
+					this.OnWorkPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._WorkPhone = value;
+					this.SendPropertyChanged("WorkPhone");
+					this.OnWorkPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobilePhone", DbType="VarChar(50)")]
+		public string MobilePhone
+		{
+			get
+			{
+				return this._MobilePhone;
+			}
+			set
+			{
+				if ((this._MobilePhone != value))
+				{
+					this.OnMobilePhoneChanging(value);
+					this.SendPropertyChanging();
+					this._MobilePhone = value;
+					this.SendPropertyChanged("MobilePhone");
+					this.OnMobilePhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailConfirmed", DbType="Bit NOT NULL")]
+		public bool EmailConfirmed
+		{
+			get
+			{
+				return this._EmailConfirmed;
+			}
+			set
+			{
+				if ((this._EmailConfirmed != value))
+				{
+					this.OnEmailConfirmedChanging(value);
+					this.SendPropertyChanging();
+					this._EmailConfirmed = value;
+					this.SendPropertyChanged("EmailConfirmed");
+					this.OnEmailConfirmedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Active", DbType="Bit NOT NULL")]
+		public bool Active
+		{
+			get
+			{
+				return this._Active;
+			}
+			set
+			{
+				if ((this._Active != value))
+				{
+					this.OnActiveChanging(value);
+					this.SendPropertyChanging();
+					this._Active = value;
+					this.SendPropertyChanged("Active");
+					this.OnActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hash", DbType="VarChar(50)")]
+		public string Hash
+		{
+			get
+			{
+				return this._Hash;
+			}
+			set
+			{
+				if ((this._Hash != value))
+				{
+					this.OnHashChanging(value);
+					this.SendPropertyChanging();
+					this._Hash = value;
+					this.SendPropertyChanged("Hash");
+					this.OnHashChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="VarChar(25)")]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Contact_Log", Storage="_Logs", ThisKey="id", OtherKey="ContactId")]
+		public EntitySet<Log> Logs
+		{
+			get
+			{
+				return this._Logs;
+			}
+			set
+			{
+				this._Logs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Contact", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
+		public Customer Customer
+		{
+			get
+			{
+				return this._Customer.Entity;
+			}
+			set
+			{
+				Customer previousValue = this._Customer.Entity;
+				if (((previousValue != value) 
+							|| (this._Customer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Customer.Entity = null;
+						previousValue.Contacts.Remove(this);
+					}
+					this._Customer.Entity = value;
+					if ((value != null))
+					{
+						value.Contacts.Add(this);
+						this._CustomerId = value.id;
+					}
+					else
+					{
+						this._CustomerId = default(int);
+					}
+					this.SendPropertyChanged("Customer");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Logs(Log entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = this;
+		}
+		
+		private void detach_Logs(Log entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = null;
 		}
 	}
 }

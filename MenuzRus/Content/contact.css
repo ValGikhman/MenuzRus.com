@@ -4,35 +4,24 @@ body {
     background-color: #eee;
 }
 
-.panel {
-    width: 650px;
-    margin: 0 auto;
+.container-contact {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.panel-body {
-    margin-left: 15px;
+#page-content-wrapper {
+    margin-left: 0px;
 }
-
-.form-customer {
-    margin: 0 auto;
-}
-
-    .form-customer .form-control:focus {
-        z-index: 2;
-    }
 
 .input-sm {
     margin-top: 0;
     margin-bottom: 10px;
 }
 
-#State {
-    width: 150px;
-}
-
 .preview {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
     text-align: center;
     cursor: pointer;
 }
@@ -46,7 +35,24 @@ body {
     padding-right: 0px;
 }
 
-.panel-footer {
+.modal-footer {
+    padding: 20px 0 0 0;
+}
+
+.modal-header {
+    padding-top: 0px;
+}
+
+h2, h5 {
+    color: #787878;
+    text-shadow: 2px 2px 3px #8D8484;
+}
+
+#btnDeleteImage {
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+.row {
     margin-top: 20px;
-    padding-top: 20px;
 }

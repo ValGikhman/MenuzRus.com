@@ -9,6 +9,9 @@ namespace MenuzRus.Models {
 
     public class ContactModel : BaseModel {
 
+        [DisplayName("Active")]
+        public Common.Status Active { get; set; }
+
         [DisplayName("ConfirmPassword")]
         [DataType(DataType.Password)]
         [Required]
@@ -23,6 +26,9 @@ namespace MenuzRus.Models {
 
         [DisplayName("First Name")]
         public String FirstName { get; set; }
+
+        [DisplayName("Hash")]
+        public String Hash { get; set; }
 
         public Int32 id { get; set; }
 
@@ -44,6 +50,9 @@ namespace MenuzRus.Models {
         [DataType(DataType.Password)]
         [Required]
         public String Password { get; set; }
+
+        [DisplayName("Type")]
+        public Common.ContactType Type { get; set; }
 
         [DisplayName("Work Phone#")]
         [DataType(DataType.PhoneNumber)]

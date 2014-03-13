@@ -12,6 +12,18 @@ using System.Threading.Tasks;
 
 public static class Common {
 
+    public enum ContactType {
+
+        [Display(Name = "Administrator")]
+        Administrator = 1,
+
+        [Display(Name = "Manager")]
+        Manager = 2,
+
+        [Display(Name = "Waiter")]
+        Waiter = 4
+    }
+
     public enum Settings {
 
         [Display(Name = "Wall Background")]

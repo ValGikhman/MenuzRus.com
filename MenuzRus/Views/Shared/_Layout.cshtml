@@ -53,6 +53,22 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Menu <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">New menu</a>
+                            </li>
+                            <li><a href="#">Edit menu</a>
+                            </li>
+                            <li><a href="#">Delete menu</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#">Add category</a>
+                            </li>
+                            <li><a href="#">Add item</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown user-dropdown">
                         @{
                             String contact = "Unknown";
                             Int32 customerId = 0;
@@ -67,36 +83,10 @@
                         <ul class="dropdown-menu">
                             <li><a href="/Contact/Index/@contactId"">My Profile</a></li>
                             <li><a href="/Customer/Index/@customerId">My Company</a></li>
-                            <li><a href="#">My Company Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Users</a></li>
                             <li class="divider"></li>
                             <li><a href="/Logout/">Log Out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <ul class="side-nav tree">
-                    @if (false) {
-                        <li>
-                            <span class="gradientYellow">Dashboard</span>
-                            <ul>
-                                <li>
-                                    <span><a href="">Inventory</a></span>
-                                </li>
-                                <li>
-                                    <span><a href="">Orders</a></span>
-                                </li>
-                                <li>
-                                    <span><a href="">Totals</a></span>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    <li>
-                        <span class="gradientYellow">Your menu</span>
-                        <ul>
-                            <li>
-                                <span><a href="/YourMenu">Style</a></span>
-                            </li>
                         </ul>
                     </li>
                 </ul>

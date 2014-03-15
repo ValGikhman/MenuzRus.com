@@ -1,6 +1,7 @@
 var Menu = (function () {
     var timeout = 10 * 1000;
-    var stayOpened = 240 * timeout; // 4 hours
+    var mins = 120 // 2 hours
+    var stayOpened = mins * timeout;
     var animationSpeed = 3 * 500;
 
     var $container = $('#rm-container'),

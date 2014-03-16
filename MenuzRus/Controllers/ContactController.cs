@@ -128,7 +128,7 @@ namespace MenuzRus {
                         model.MobilePhone = contact.MobilePhone;
                         model.Email = contact.Email;
                         model.Password = contact.Password;
-                        model.Active = contact.Active ? Common.Status.Active : Common.Status.NotActive;
+                        model.Active = Common.Status.Active;
                         model.Type = Utility.GetEnumItem<Common.ContactType>(contact.Type);
                         model.Hash = contact.Hash;
                         model.ImageUrl = contact.ImageUrl;

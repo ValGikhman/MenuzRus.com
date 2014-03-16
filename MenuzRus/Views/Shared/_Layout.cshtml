@@ -52,8 +52,8 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown user-dropdown">
-                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Menu <b class="caret"></b></a>
+                    <li class="dropdown user-dropdown menuDesigner">
+                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Designer <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">New menu</a>
                             </li>
@@ -68,7 +68,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown user-dropdown">
+                    <li class="dropdown user-dropdown menuAlways">
                         @{
                             String contact = "Unknown";
                             Int32 customerId = 0;
@@ -79,7 +79,7 @@
                                 contactId = Model.Me.id;
                             }
                         }
-                        <a id="UserName" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@contact<b class="caret"></b></a>
+                        <a id="userMenu" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@contact<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/Contact/Index/@contactId"">My Profile</a></li>
                             <li><a href="/Customer/Index/@customerId">My Company</a></li>

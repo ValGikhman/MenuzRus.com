@@ -186,11 +186,11 @@
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\customer.css" />
     <Content Include="Content\registration.css" />
     <Content Include="Content\jquery.colpick.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\item.css" />
-    <Content Include="Content\customer.css" />
     <Content Include="Content\menu_style-1080.css" />
     <Content Include="Content\oasis-menu_style-720.css" />
     <Content Include="Content\login.css" />
@@ -282,7 +282,6 @@
     <Content Include="Images\Web\valid.png" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Content\design_menu_style.css" />
     <Content Include="Content\oasis-menu_style-1080.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Common.js" />

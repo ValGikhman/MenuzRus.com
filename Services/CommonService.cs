@@ -8,17 +8,6 @@ using StringExtensions;
 
 namespace MenuzRus {
 
-    public static class SessionData {
-
-        public static Contact contact { get; set; }
-
-        public static Customer customer { get; set; }
-
-        public static Exception exeption { get; set; }
-
-        public static Menus menu { get; set; }
-    }
-
     public class CommonService {
 
         public Boolean SendEmailConfirmation(Contact contact) {

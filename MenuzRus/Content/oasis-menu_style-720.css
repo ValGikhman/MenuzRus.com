@@ -344,7 +344,7 @@ body {
     font-family: 'Arvo', 'Arial', sans-serif;
     font-size: 18px;
     font-weight: bold;
-    background: url(../images/Backgrounds/Wall/24.jpg) repeat;
+    background: url(../images/Backgrounds/Wall/23.jpg) repeat;
     background-attachment: fixed;
     background-position: center;
     background-color: transparent;
@@ -361,7 +361,6 @@ strong {
 .container {
     width: 100%;
     position: relative;
-    margin-left: 30px;
 }
 
     .container > header {

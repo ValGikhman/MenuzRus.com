@@ -25,7 +25,7 @@ namespace MenuzRus {
         }
 
         [HttpPost]
-        public ActionResult Index(CustomerModel model) {
+        public ActionResult SaveCustomer(CustomerModel model) {
             CustomerService service = new CustomerService();
             Customer customer = new Customer();
             try {
@@ -60,7 +60,7 @@ namespace MenuzRus {
                 else {
                     model.Image.SaveAs(path);
                 }
-                return RedirectToAction("Index", "Customer");
+                return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
             }
@@ -70,6 +70,8 @@ namespace MenuzRus {
             }
             return null;
         }
+
+        #region private
 
         private CustomerModel GetModel(Int32? id, CustomerModel model) {
             CustomerService service = new CustomerService();
@@ -97,5 +99,7 @@ namespace MenuzRus {
             }
             return null;
         }
+
+        #endregion private
     }
 }

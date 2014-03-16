@@ -165,107 +165,16 @@ body {
         color: yellow;
         font-weight: bold;
     }
-/* Side Nav */
 
-.side-nav {
-    margin-left: -225px;
-    left: 225px;
-    width: 225px;
-    position: fixed;
-    top: 50px;
-    height: 100%;
-    border-radius: 0;
-    border: none;
-    background-color: #428BCA;
-    overflow-y: auto;
-    border-right: 1px yellow outset;
-}
-
-    /* Bootstrap Default Overrides - Customized Dropdowns for the Side Nav */
-
-    .side-nav > li.dropdown > ul.dropdown-menu {
-        position: relative;
-        min-width: 225px;
-        margin: 0;
-        padding: 0;
-        border: none;
-        border-radius: 0;
-        background-color: transparent;
-        box-shadow: none;
-        -webkit-box-shadow: none;
+    .navbar-inverse .navbar-nav > li > a:hover,
+    .navbar-inverse .navbar-nav > li > a:focus {
+        background-color: yellow;
     }
-
-        .side-nav > li.dropdown > ul.dropdown-menu > li > a {
-            color: yellow;
-            padding: 15px 15px 15px 25px;
-        }
-
-            .side-nav > li.dropdown > ul.dropdown-menu > li > a:hover,
-            .side-nav > li.dropdown > ul.dropdown-menu > li > a.active,
-            .side-nav > li.dropdown > ul.dropdown-menu > li > a:focus {
-                color: #428BCA;
-                background-color: yellow;
-                outline: none;
-            }
-
-.side-nav {
-    width: 165px;
-    padding-left: 5px;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus {
-    background-color: yellow;
-}
 
 .navbar-collapse {
     padding-left: 15px !important;
     padding-right: 0px;
 }
-
-.tree {
-    min-height: 20px;
-    margin-bottom: 20px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-    .tree li {
-        list-style-type: none;
-        padding: 10px 0 0 0;
-        position: relative;
-    }
-
-        .tree li span {
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            display: inline-block;
-            padding: 3px 8px;
-            text-decoration: none;
-            width: 110px;
-        }
-
-        .tree li > span > a {
-            color: yellow;
-            font-weight: bolder;
-        }
-
-        .tree li.parent_li > span {
-            color: #428BCA;
-            font-weight: bolder;
-            cursor: pointer;
-            width: 155px;
-            height: 35px;
-            padding: 8px 15px;
-        }
-
-            .tree li.parent_li > span:hover {
-                background: yellow;
-                border: 1px solid #94a0b4;
-                color: #000;
-            }
 
 .gradient {
     background: #155185;
@@ -292,4 +201,12 @@ body {
     float: none;
     margin-left: auto;
     margin-right: auto;
+}
+
+#userMenu {
+    margin-right: 15px;
+}
+
+.navbar-nav > li {
+    border-right: 1px #5c5b37 solid;
 }

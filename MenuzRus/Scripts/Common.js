@@ -4,20 +4,20 @@ $(function () {
     $.blockUI.defaults.css = " border: '0px none transparent; ";
     //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
-    $(".tree li:has(ul)").addClass("parent_li");
-    $(".tree li.parent_li > span").on("click", function (e) {
-        var children = $(this).parent("li.parent_li").find(" > ul > li");
-        if (children.is(":visible")) {
-            children.hide("fast");
-            //.find(" > i").addClass("icon-plus-sign").removeClass("icon-minus-sign");
-        } else {
-            children.show("fast");
-            //$(this).find(" > i").addClass("icon-minus-sign").removeClass("icon-plus-sign");
-        }
-    });
-
     $(".page").sortable();
+    setMenu();
 });
+
+function setMenu() {
+    if (window.location.href.indexOf("/Login") == -1)
+        $(".menuAlways").show();
+    else
+        $(".menuAlways").hide();
+    if (window.location.href.indexOf("/YourMenu") > -1)
+        $(".menuDesigner").show();
+    else
+        $(".menuDesigner").hide();
+};
 
 function deleteImage() {
     $(".preview").attr("src", "");

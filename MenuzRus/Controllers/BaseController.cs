@@ -18,6 +18,8 @@ namespace MenuzRus.Controllers {
 
         public Boolean IsLoggedIn { set; get; }
 
+        public String Referer { set; get; }
+
         #endregion Properties
 
         #region Construtors

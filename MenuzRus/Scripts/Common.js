@@ -13,10 +13,11 @@ function setMenu() {
         $(".menuAlways").show();
     else
         $(".menuAlways").hide();
+
     if (window.location.href.indexOf("/YourMenu") > -1)
-        $(".menuDesigner").show();
+        $(".menuDesigner").removeClass("hide").slideDown("fast");
     else
-        $(".menuDesigner").hide();
+        $(".menuDesigner").addClass("hide").slideDown("fast");
 };
 
 function deleteImage() {
@@ -62,5 +63,91 @@ function message(text, type, position) {
         closable: true,
         closeOnSelfClick: true,
         closeWith: ["click", "button"]
+    });
+}
+
+/// ****** MENU ********///
+function editMenu(id, name) {
+    if (id == null) id = 0;
+    var postData = { id: id, name: name };
+    var jqxhr = $.post("/YourMenu/SaveMenu/", postData)
+                  .done(function (result) {
+                      message("Save successfully.", "success", "topCenter");
+                      window.location = "/YourMenu/Index/" + result;
+                  })
+    .fail(function () {
+        message("Save menu failed.", "error", "topCenter");
+    })
+    .always(function () {
+    });
+}
+
+function deleteMenu(id) {
+    if (id == null) id = 0;
+    var postData = { id: id };
+    var jqxhr = $.post("/YourMenu/DeleteMenu/", postData)
+                  .done(function (result) {
+                      message("Menu deleted successfully.", "success", "topCenter");
+                      window.location = "/YourMenu";
+                  })
+    .fail(function () {
+        message("Delete menu failed.", "error", "topCenter");
+    })
+    .always(function () {
+    });
+}
+
+/// ****** CATEGORY ***************///
+function showCategoryMenu(id) {
+    $(".btn-group.category").css("display", "none");
+    $(".btn-group.item").css("display", "none");
+    $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
+}
+
+function editCategory(id) {
+    $(".btn-group.category").css("display", "none");
+    $(".btn-group.item").css("display", "none");
+    var jqxhr = $.get("/Category/EditCategory/", { id: id })
+                  .done(function (result) {
+                      $("#modalEditForm").html(result);
+                      $(".modalEditForm").modal("show");
+                  })
+    .fail(function () {
+    })
+    .always(function () {
+    });
+}
+
+function deleteCategory(id) {
+    $(".btn-group.category").css("display", "none");
+    $(".btn-group.item").css("display", "none");
+    var name = $(".category[id=category_" + id + "]").html();
+    noty({
+        layout: "center",
+        type: "error",
+        killer: true,
+        model: true,
+        text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
+        buttons: [{
+            addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
+                $noty.close();
+                var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
+                                 .done(function (result) {
+                                     message("Category successfully deletes.", "success", "topCenter");
+                                     window.location = "/YourMenu/Index/" + $("#Menu_id").val();
+                                 })
+                   .fail(function () {
+                       message("Delete category failed.", "error", "topCenter");
+                   })
+                   .always(function () {
+                   });
+            }
+        },
+          {
+              addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
+                  $noty.close();
+              }
+          }
+        ]
     });
 }

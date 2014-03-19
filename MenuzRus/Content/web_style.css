@@ -138,6 +138,8 @@ body {
 .navbar-inverse {
     background-color: #428BCA;
     border-bottom: 1px yellow outset;
+    background-image: linear-gradient(to bottom, #428BCA 0px, #155185 100%);
+    background-repeat: repeat-x;
 }
 
     .navbar-inverse .navbar-nav > li > a {
@@ -208,5 +210,9 @@ body {
 }
 
 .navbar-nav > li {
+    border-left: 1px #5c5b37 solid;
+}
+
+.navbar-header {
     border-right: 1px #5c5b37 solid;
 }

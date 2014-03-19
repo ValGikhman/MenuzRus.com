@@ -1,0 +1,139 @@
+﻿/* Set position*/
+body {
+    padding-top: 150px;
+    background-color: #eee;
+}
+
+.container-floor {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modal-footer {
+    padding: 20px 0 0 0;
+}
+
+.modal-header {
+    padding-top: 0px;
+}
+
+.floorArea {
+    min-height: 430px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h2, h5 {
+    color: #787878;
+    text-shadow: 2px 2px 3px #8D8484;
+}
+
+.deleteTable {
+    float: right;
+    color: #787878;
+    font-size: 12px;
+    font-weight: bolder;
+    padding: 2px 15px;
+}
+
+.editTable {
+    float: left;
+    color: #787878;
+    font-size: 12px;
+    font-weight: bolder;
+    padding: 2px 2px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.gridster ul {
+    background-color: #EFEFEF;
+}
+
+.gridster li {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100%;
+}
+
+    .gridster li.active {
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+        line-height: 100%;
+    }
+
+.gridster {
+    opacity: .8;
+    -webkit-transition: opacity .6s;
+    -moz-transition: opacity .6s;
+    -o-transition: opacity .6s;
+    -ms-transition: opacity .6s;
+    transition: opacity .6s;
+}
+
+    .gridster .gs-w {
+        background: #DDD;
+        cursor: pointer;
+        border: 1px outset #787878;
+    }
+
+    .gridster .player {
+        background: #BBB;
+    }
+
+    .gridster .preview-holder {
+        border: none!important;
+        background: red!important;
+    }
+
+    .gridster > * {
+        margin: 0px!important;
+    }
+
+.filler {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #efefef!important;
+    border: 1px solid #BBB!important;
+}
+
+.square {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.circle {
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.modal-dialog {
+    margin: 150px auto;
+}
+
+#Floor_id {
+    width: 250px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#Floor_Name {
+    width: 250px;
+}
+
+#Floor_Description {
+    margin-top: 15px;
+    width: 250px;
+}

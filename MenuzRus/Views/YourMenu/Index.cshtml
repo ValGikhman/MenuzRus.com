@@ -3,14 +3,14 @@
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
-<div class="modal fade menuRenameForm" role="dialog">
+<div class="modal fade menuEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title menuTitle">Menu</h4>
             </div>
-            <div id="menuRenameForm" class="modal-body">
+            <div id="menuEditForm" class="modal-body">
                 <div class="container">
                     <div class="row">
                         @Html.TextBoxFor(m => m.Menu.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = "Enter new menu name" })
@@ -35,7 +35,7 @@
         </button>
         @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
         <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
-        <button id="btnRenameMenu" type="button" class="btn btn-primary  btn-sm shadow">Rename menu</button>
+        <button id="btnEditMenu" type="button" class="btn btn-primary  btn-sm shadow">Edit menu</button>
         <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
         <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
         <div class=" pull-right">
@@ -270,19 +270,19 @@
             window.location = "/YourMenu/Index/" + $(this).val();
         })
 
-        $("#btnNewMenu").click(function () {
+        $("#btnNewMenu, #newMenu").click(function () {
             $("#Menu_id").val(0);
             $("#Menu_Name").val("");
             $(".menuTitle").html("New menu");
-            $(".menuRenameForm").modal("show");
+            $(".menuEditForm").modal("show");
         })
 
-        $("#btnRenameMenu").click(function () {
-            $(".menuTitle").html("Rename menu");
-            $(".menuRenameForm").modal("show");
+        $("#btnEditMenu, #editMenu").click(function () {
+            $(".menuTitle").html("Edit menu");
+            $(".menuEditForm").modal("show");
         })
 
-        $("#btnDeleteMenu").click(function () {
+        $("#btnDeleteMenu, #deleteMenu").click(function () {
             noty({
                 layout: "center",
                 type: "error",
@@ -310,7 +310,7 @@
         })
 
         $("#btnSaveMenu").click(function () {
-            $(".menuRenameForm").modal("hide");
+            $(".menuEditForm").modal("hide");
             editMenu($("#Menu_id").val(), $("#Menu_Name").val());
         })
 
@@ -398,92 +398,6 @@
         });
         applySettings();
     })
-
-    /// ****** MENU ********///
-    function editMenu(id, name) {
-        if (id == null) id = 0;
-        var postData = { id: id, name: name };
-        var jqxhr = $.post("/YourMenu/SaveMenu/", postData)
-                      .done(function (result) {
-                          message("Save successfully.", "success", "topCenter");
-                          window.location = "/YourMenu/Index/" + result;
-                      })
-        .fail(function () {
-            message("Save menu failed.", "error", "topCenter");
-        })
-        .always(function () {
-        });
-    }
-
-    function deleteMenu(id) {
-        if (id == null) id = 0;
-        var postData = { id: id };
-        var jqxhr = $.post("/YourMenu/DeleteMenu/", postData)
-                      .done(function (result) {
-                          message("Menu deleted successfully.", "success", "topCenter");
-                          window.location = "/YourMenu";
-                      })
-        .fail(function () {
-            message("Delete menu failed.", "error", "topCenter");
-        })
-        .always(function () {
-        });
-    }
-
-    /// ****** CATEGORY ***************///
-    function showCategoryMenu(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
-    }
-
-    function editCategory(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        var jqxhr = $.get("/Category/EditCategory/", { id: id })
-                      .done(function (result) {
-                          $("#modalEditForm").html(result);
-                          $(".modalEditForm").modal("show");
-                      })
-        .fail(function () {
-        })
-        .always(function () {
-        });
-    }
-
-    function deleteCategory(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        var name = $(".category[id=category_" + id + "]").html();
-        noty({
-            layout: "center",
-            type: "error",
-            killer: true,
-            model: true,
-            text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
-            buttons: [{
-                addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
-                    $noty.close();
-                    var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
-                                     .done(function (result) {
-                                         message("Category successfully deletes.", "success", "topCenter");
-                                         window.location = "/YourMenu/Index/" + $("#Menu_id").val();
-                                     })
-                       .fail(function () {
-                           message("Delete category failed.", "error", "topCenter");
-                       })
-                       .always(function () {
-                       });
-                }
-            },
-              {
-                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                      $noty.close();
-                  }
-              }
-            ]
-        });
-    }
 
     /// ****** SETTINGS ***************///
     function applySettings() {

@@ -36,6 +36,7 @@
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
       <Association Name="Customer_Menus" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menus" />
       <Association Name="Customer_Contact" Member="Contacts" ThisKey="id" OtherKey="CustomerId" Type="Contact" />
+      <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floors" />
     </Type>
   </Table>
   <Table Name="dbo.Items" Member="Items">
@@ -110,6 +111,17 @@
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Contact_Log" Member="Logs" ThisKey="id" OtherKey="ContactId" Type="Log" />
       <Association Name="Customer_Contact" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Floors" Member="Floors">
+    <Type Name="Floors">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 using MenuzRus.Models;
 using Services;
@@ -56,6 +57,20 @@ namespace MenuzRus.Controllers {
                 service = null;
             }
             return null;
+        }
+
+        [HttpPost]
+        public ActionResult SaveTables(String tables) {
+            try {
+                List<Tables> dermas = new JavaScriptSerializer().Deserialize<List<Tables>>(tables);
+            }
+            catch (Exception ex) {
+            }
+
+            finally {
+            }
+
+            return Json("OK");
         }
 
         #endregion floor

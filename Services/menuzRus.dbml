@@ -36,7 +36,7 @@
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
       <Association Name="Customer_Menus" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menus" />
       <Association Name="Customer_Contact" Member="Contacts" ThisKey="id" OtherKey="CustomerId" Type="Contact" />
-      <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floors" />
+      <Association Name="Customer_Floors" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floors" />
     </Type>
   </Table>
   <Table Name="dbo.Items" Member="Items">
@@ -121,7 +121,24 @@
       <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Floors_Tables" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Tables" />
+      <Association Name="Customer_Floors" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tables" Member="Tables">
+    <Type Name="Tables">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FloorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TableId" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="Col" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Row" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="X" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Y" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Floors_Tables" Member="Floors" ThisKey="FloorId" OtherKey="id" Type="Floors" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

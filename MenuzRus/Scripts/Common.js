@@ -1,4 +1,8 @@
 ﻿var root = location.protocol + '//' + location.host;
+
+// Sequential number per session
+var uid = (function () { var id = 1; return function () { if (arguments[0] === 1) id = 1; return id++; } })();
+
 $(function () {
     $.blockUI.defaults.message = $("#bowlG");
     $.blockUI.defaults.css = " border: '0px none transparent; ";
@@ -8,6 +12,25 @@ $(function () {
     setMenu();
 });
 
+// Big guid
+function guid() {
+    var buf = new Uint16Array(8);
+    window.crypto.getRandomValues(buf);
+    var S4 = function (num) {
+        var ret = num.toString(16);
+        while (ret.length < 4) {
+            ret = "0" + ret;
+        };
+        return ret;
+    };
+    return (S4(buf[0]) + S4(buf[1]) + "-" + S4(buf[2]) + "-4" + S4(buf[3]).substring(1) + "-y" + S4(buf[4]).substring(1) + "-" + S4(buf[5]) + S4(buf[6]) + S4(buf[7]));
+}
+
+// short guid
+function shortGuid() {
+    return guid().substring(0, 8);
+}
+
 function setMenu() {
     if (window.location.href.indexOf("/Login") == -1)
         $(".menuAlways").show();
@@ -15,9 +38,9 @@ function setMenu() {
         $(".menuAlways").hide();
 
     if (window.location.href.indexOf("/YourMenu") > -1)
-        $(".menuDesigner").removeClass("hide").slideDown("fast");
+        $(".menuDesigner").removeClass("hide");
     else
-        $(".menuDesigner").addClass("hide").slideDown("fast");
+        $(".menuDesigner").addClass("hide");
 };
 
 function deleteImage() {
@@ -63,91 +86,5 @@ function message(text, type, position) {
         closable: true,
         closeOnSelfClick: true,
         closeWith: ["click", "button"]
-    });
-}
-
-/// ****** MENU ********///
-function editMenu(id, name) {
-    if (id == null) id = 0;
-    var postData = { id: id, name: name };
-    var jqxhr = $.post("/YourMenu/SaveMenu/", postData)
-                  .done(function (result) {
-                      message("Save successfully.", "success", "topCenter");
-                      window.location = "/YourMenu/Index/" + result;
-                  })
-    .fail(function () {
-        message("Save menu failed.", "error", "topCenter");
-    })
-    .always(function () {
-    });
-}
-
-function deleteMenu(id) {
-    if (id == null) id = 0;
-    var postData = { id: id };
-    var jqxhr = $.post("/YourMenu/DeleteMenu/", postData)
-                  .done(function (result) {
-                      message("Menu deleted successfully.", "success", "topCenter");
-                      window.location = "/YourMenu";
-                  })
-    .fail(function () {
-        message("Delete menu failed.", "error", "topCenter");
-    })
-    .always(function () {
-    });
-}
-
-/// ****** CATEGORY ***************///
-function showCategoryMenu(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
-}
-
-function editCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/Category/EditCategory/", { id: id })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      $(".modalEditForm").modal("show");
-                  })
-    .fail(function () {
-    })
-    .always(function () {
-    });
-}
-
-function deleteCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    var name = $(".category[id=category_" + id + "]").html();
-    noty({
-        layout: "center",
-        type: "error",
-        killer: true,
-        model: true,
-        text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
-        buttons: [{
-            addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
-                $noty.close();
-                var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
-                                 .done(function (result) {
-                                     message("Category successfully deletes.", "success", "topCenter");
-                                     window.location = "/YourMenu/Index/" + $("#Menu_id").val();
-                                 })
-                   .fail(function () {
-                       message("Delete category failed.", "error", "topCenter");
-                   })
-                   .always(function () {
-                   });
-            }
-        },
-          {
-              addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                  $noty.close();
-              }
-          }
-        ]
     });
 }

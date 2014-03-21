@@ -1,6 +1,6 @@
 ﻿/* Set position*/
 body {
-    padding-top: 150px;
+    padding-top: 85px;
     background-color: #eee;
 }
 
@@ -9,18 +9,19 @@ body {
     margin-right: auto;
 }
 
-.modal-footer {
-    padding: 20px 0 0 0;
-}
-
 .modal-header {
     padding-top: 0px;
+}
+
+.modal-new {
+    padding-top: 25px;
 }
 
 .floorArea {
     min-height: 430px;
     margin-top: 20px;
     margin-bottom: 20px;
+    border-radius: 15px;
 }
 
 h2, h5 {
@@ -109,6 +110,12 @@ ul {
 }
 
 .circle {
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.round {
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;

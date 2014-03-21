@@ -3,10 +3,11 @@
 <link href="@Url.Content("~/Content/yourMenu.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
+<script src="@Url.Content("~/Scripts/yourmenu.js")"></script>
 <div class="modal fade menuEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-new">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title menuTitle">Menu</h4>
             </div>
@@ -29,6 +30,9 @@
 </div>
 
 <div class="well toolbar">
+    <div class="modal-header main-header">
+        <h2>Menu designer</h2>
+    </div>
     <div id="default">
         <button id="btnSettings" type="button" class="btn btn-default btn">
             <span class="glyphicon glyphicon-cog"></span>
@@ -126,6 +130,18 @@
         </div>
     </div>
 </div>
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PageBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PriceColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
 
 @helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
     <ul class="category-group">
@@ -187,349 +203,3 @@
         }
     </ul>
 }
-<script>
-    $(function () {
-        /// ********** APPLY IMAGES ************///
-        $(".img-wall").click(function () {
-            var bg = "url(" + $(this).attr("src").replace("thumbnails/", "") + ") repeat";
-            $(".wall").css("background", bg)
-            var wallbackground = {
-                Type: "wallbackground",
-                Value: $(this).attr("src")
-            };
-
-            var jqxhr = $.post("/YourMenu/SaveSettings/", wallbackground)
-                      .done(function (result) {
-                      })
-                      .fail(function (e) {
-                      })
-                      .always(function () {
-                      });
-        })
-
-        $(".img-page").click(function () {
-            var bg = "url(" + $(this).attr("src").replace("thumbnails/", "preview/") + ") no-repeat";
-            $(".page").css("background", bg);
-            var pagebackground = {
-                Type: "pagebackground",
-                Value: $(this).attr("src")
-            };
-
-            var jqxhr = $.post("/YourMenu/SaveSettings/", pagebackground)
-                      .done(function (result) {
-                      })
-                      .fail(function () {
-                      })
-                      .always(function () {
-                      });
-        });
-
-        $(".category-group").sortable({
-            stop: function (e, ui) {
-                var cats = [];
-                $(this).children().each(function (i) {
-                    var li = $(this);
-                    cats.push(li.attr("data-value"));
-                });
-
-                var postData = { ids: cats.join(), type: "Category" };
-                var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
-                              .done(function (result) {
-                                  message("Sort order saved successfully.", "success", "topCenter");
-                              })
-                .fail(function () {
-                    message("Sort order was not saved.", "error", "topCenter");
-                })
-                .always(function () {
-                });
-            }
-        }).disableSelection();
-
-        $(".items-group").sortable({
-            stop: function (e, ui) {
-                var items = [];
-                $(this).children().each(function (i) {
-                    var li = $(this);
-                    items.push(li.attr("data-value"));
-                });
-
-                var postData = { ids: items.join(), type: "Items" };
-                var jqxhr = $.post("/YourMenu/SaveOrder/", postData)
-                              .done(function (result) {
-                                  message("Sort order saved successfully.", "success", "topCenter");
-                              })
-                .fail(function () {
-                    message("Sort order was not saved.", "error", "topCenter");
-                })
-                .always(function () {
-                });
-            }
-        }).disableSelection();
-
-        $("#Menu_id").change(function () {
-            window.location = "/YourMenu/Index/" + $(this).val();
-        })
-
-        $("#btnNewMenu, #newMenu").click(function () {
-            $("#Menu_id").val(0);
-            $("#Menu_Name").val("");
-            $(".menuTitle").html("New menu");
-            $(".menuEditForm").modal("show");
-        })
-
-        $("#btnEditMenu, #editMenu").click(function () {
-            $(".menuTitle").html("Edit menu");
-            $(".menuEditForm").modal("show");
-        })
-
-        $("#btnDeleteMenu, #deleteMenu").click(function () {
-            noty({
-                layout: "center",
-                type: "error",
-                killer: true,
-                model: true,
-                text: "Menu <em><strong>" + $("#Menu_Name").val() + "</strong></em> will be deleted.<br />Would you like to continue ?",
-                buttons: [{
-                    addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
-                        $noty.close();
-                        deleteMenu($("#Menu_id").val());
-                    }
-                },
-                  {
-                      addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                          $noty.close();
-                      }
-                  }
-                ]
-            });
-        })
-
-        $("#btnCancelMenu").click(function () {
-            $("#Menu_id").val(@Model.Menu.id);
-            $("#Menu_Name").val("@Model.Menu.Name");
-        })
-
-        $("#btnSaveMenu").click(function () {
-            $(".menuEditForm").modal("hide");
-            editMenu($("#Menu_id").val(), $("#Menu_Name").val());
-        })
-
-        $("#btnMenuIt").click(function () {
-            window.open("/Menu/Index/" + $("#Menu_id").val(), "");
-        })
-
-        $("#btnSettings, #btnCloseSetting").click(function () {
-            $(".panel-setting-body").toggle();
-        })
-
-        $(".slider.font").slider({
-            range: "max",
-            min: 6,
-            max: 36,
-            animate: true,
-            slide: function (event, ui) {
-                var klass = "";
-                switch (this.id) {
-                    case "CategoryFontSize":
-                        klass = ".category";
-                        break;
-                    case "CategoryDescriptionFontSize":
-                        klass = ".categoryDescription";
-                        break;
-                    case "ItemFontSize":
-                        klass = ".item";
-                        break;
-                    case "ItemDescriptionFontSize":
-                        klass = ".itemDescription";
-                        break;
-                    case "PriceFontSize":
-                        klass = ".price";
-                        break;
-                }
-                $(klass).css("font-size", ui.value);
-                $($.validator.format("#{0}Badge", this.id)).html(ui.value);
-            },
-            stop: function (event, ui) {
-                var fontsizeData = {
-                    Type: this.id,
-                    Value: ui.value
-                };
-                saveSettings(fontsizeData);
-            }
-        });
-
-        $(".color-box").colpick({
-            colorScheme: "light",
-            layout: "hex",
-            submit: 1,
-            color: "ff8800",
-            onChange: function (hsb, hex, rgb, el) {
-                $(el).css("background-color", "#" + hex);
-            },
-            onSubmit: function (hsb, hex, rgb, el) {
-                $(el).colpickHide();
-                var klass = "";
-                switch (el.id) {
-                    case "CategoryColor":
-                        klass = ".category";
-                        break;
-                    case "CategoryDescriptionColor":
-                        klass = ".categoryDescription";
-                        break;
-                    case "ItemColor":
-                        klass = ".item";
-                        break;
-                    case "ItemDescriptionColor":
-                        klass = ".itemDescription";
-                        break;
-                    case "PriceColor":
-                        klass = ".price";
-                        break;
-                }
-
-                var colorData = {
-                    Type: el.id,
-                    Value: "#" + hex
-                };
-                $(klass).css("color", colorData.Value);
-
-                saveSettings(colorData);
-            }
-        });
-        applySettings();
-    })
-
-    /// ****** SETTINGS ***************///
-    function applySettings() {
-        var bg = "url(/Images/Backgrounds/Pages/preview/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
-        if (bg != "")
-            $(".page").css("background", bg);
-
-        bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
-        if (bg != "")
-            $(".wall").css("background", bg);
-
-        // Color
-        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
-        if (kolor != "")
-            $(".category").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
-        if (kolor != "")
-            $(".categoryDescription").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
-        if (kolor != "")
-            $(".item").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
-        if (kolor != "")
-            $(".itemDescription").css("color", kolor);
-
-        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
-        if (kolor != "")
-            $(".price").css("color", kolor);
-
-        // Font Size
-        var fontsize = "@Model.Settings[Common.Settings.CategoryFontSize.ToString()].ToString()";
-        if (fontsize != "") {
-            $(".category").css("font-size", $.validator.format("{0}px", fontsize));
-            $("#CategoryFontSize").slider("value", fontsize);
-        }
-
-        fontsize = "@Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()].ToString()";
-        if (fontsize != "") {
-            $(".categoryDescription").css("font-size", $.validator.format("{0}px", fontsize));
-            $("#CategoryDescriptionFontSize").slider("value", fontsize);
-        }
-
-        fontsize = "@Model.Settings[Common.Settings.ItemFontSize.ToString()].ToString()";
-        if (fontsize != "") {
-            $(".item").css("font-size", $.validator.format("{0}px", fontsize));
-            $("#ItemFontSize").slider("value", fontsize);
-        }
-
-        fontsize = "@Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()].ToString()";
-        if (fontsize != "") {
-            $(".itemDescription").css("font-size", $.validator.format("{0}px", fontsize));
-            $("#ItemDescriptionFontSize").slider("value", fontsize);
-        }
-
-        fontsize = "@Model.Settings[Common.Settings.PriceFontSize.ToString()].ToString()";
-        if (fontsize != "") {
-            $(".price").css("font-size", $.validator.format("{0}px", fontsize));
-            $("#PriceFontSize").slider("value", fontsize);
-        }
-
-    }
-
-    function saveSettings(obj) {
-        var jqxhr = $.post("/YourMenu/SaveSettings/", obj)
-          .done(function (result) {
-              var text = result; // Will contain error if exception
-              if (result == "OK")
-                  text = "Settings successfully saved.";
-              message(text, "success", "topCenter");
-          })
-          .fail(function () {
-              message("Settings was not saved.", "error", "topCenter");
-          })
-          .always(function () {
-          });
-    }
-
-    /// ****** ITEMS ***************///
-    function showItemMenu(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        $(".btn-group.item[data-value=" + id + "]").css("display", "inline");
-    }
-
-    function editItem(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        var jqxhr = $.get("/Item/EditItem/", { id: id })
-                      .done(function (result) {
-                          $("#modalEditForm").html(result);
-                          $(".modalEditForm").modal("show");
-                      })
-        .fail(function () {
-        })
-        .always(function () {
-        });
-    }
-
-    function deleteItem(id) {
-        $(".btn-group.category").css("display", "none");
-        $(".btn-group.item").css("display", "none");
-        var name = $(".item[id=item_" + id + "]").html();
-        noty({
-            layout: "center",
-            type: "error",
-            killer: true,
-            model: true,
-            text: "Item <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
-            buttons: [{
-                addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {
-                    $noty.close();
-                    var jqxhr = $.post("/Item/DeleteItem/", { id: id })
-                                  .done(function (result) {
-                                      message("Deleted successfully.", "success", "topCenter");
-                                      window.location = "/YourMenu/Index/" + $("#Menu_id").val();
-                                  })
-                    .fail(function () {
-                        message("Delete item failed.", "error", "topCenter");
-                    })
-                    .always(function () {
-                    });
-                }
-            },
-              {
-                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                      $noty.close();
-                  }
-              }
-            ]
-        });
-    }
-</script>

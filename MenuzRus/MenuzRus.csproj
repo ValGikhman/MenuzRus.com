@@ -289,6 +289,9 @@
     <Content Include="Content\oasis-menu_style-1080.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Common.js" />
+    <Content Include="Scripts\floor.js" />
+    <Content Include="Scripts\JQuery\jquery.json-2.4.min.js" />
+    <Content Include="Scripts\yourmenu.js" />
     <Content Include="Scripts\gridster\jquery.gridster.css" />
     <Content Include="Scripts\gridster\jquery.gridster.js" />
     <Content Include="Scripts\gridster\jquery.gridster.min.css" />

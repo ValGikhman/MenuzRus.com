@@ -3,18 +3,20 @@
 <link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
+<script src="@Url.Content("~/Scripts/floor.js")"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 
-<div class="modal fade menuEditForm" role="dialog">
+<div class="modal fade floorEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-new">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title menuTitle">Menu</h4>
+                <h4 class="modal-title floorTitle">Menu</h4>
             </div>
-            <div id="menuEditForm" class="modal-body">
+            <div id="floorEditForm" class="modal-body">
                 <div class="container">
                     <div class="row">
-                        @Html.TextBoxFor(m => m.Floor.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = "Enter new menu name" })
+                        @Html.TextBoxFor(m => m.Floor.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = "Enter new floor name" })
                     </div>
                     <div class="row">
                         @Html.TextAreaFor(m => m.Floor.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
@@ -31,30 +33,30 @@
 
 @using (Html.BeginForm("SaveFloor", "Floor", FormMethod.Post, new { @id = "form-floor", @class = "form-floor", role = "form" })) {
     <div class="well container container-floor shadow">
-        <div class="modal-header">
+        <div class="modal-header main-header">
             <h2>Floor Setup</h2>
         </div>
-        <div class="well toolbar">
-            <div id="default">
-                <div class="btn-group pull-left addMenu">
-                    <button type="button" class="btn btn-default dropdown-toggle shadow" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-plus">&nbsp;</span><span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="javascript:addTable('square')">Square</a></li>
-                        <li><a href="javascript:addTable('circle')">Circle</a></li>
-                        <li class="divider"></li>
-                        <li><a href="javascript:addTable('filler')">Filler</a></li>
-                    </ul>
-                </div>
-
-                @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
-                <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New floor</button>
-                <button id="btnRenameMenu" type="button" class="btn btn-primary  btn-sm shadow">Edit floor</button>
-                <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete floor</button>
+        <div id="default">
+            <div class="btn-group pull-left addMenu">
+                <button type="button" class="btn btn-default dropdown-toggle shadow" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-plus">&nbsp;</span><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="javascript:addTable('square')">Square</a></li>
+                    <li><a href="javascript:addTable('circle')">Circle</a></li>
+                    <li><a href="javascript:addTable('round')">Round</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:addTable('filler')">Filler</a></li>
+                </ul>
             </div>
+
+            @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+            <button id="btnNewFloor" type="button" class="btn btn-primary  btn-sm shadow">New floor</button>
+            <button id="btnEditFloor" type="button" class="btn btn-primary  btn-sm shadow">Edit floor</button>
+            <button id="btnDeleteFloor" type="button" class="btn btn-primary  btn-sm shadow">Delete floor</button>
+            <button id="btnSerialize" type="button" class="btn btn-primary  btn-sm shadow">Serialize floor</button>
         </div>
-        <div class="gridster floorArea  col-lg-12 col-md-12 shadow">
+        <div class="gridster floorArea shadow">
             <ul>
             </ul>
         </div>
@@ -64,39 +66,6 @@
             <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
     </div>
+    @Html.HiddenFor(m => m.Floor.id)
+    @Html.HiddenFor(m => m.Floor.Name)
 }
-<script type="text/javascript">
-    var gridster;
-    var grid_size = 50;
-    var grid_margin = 10;
-    var block_params = {
-        max_width: 3,
-        max_height: 3
-    };
-    $(function () {
-        gridster = $(".gridster ul").gridster({
-            widget_margins: [grid_margin, grid_margin],
-            widget_base_dimensions: [grid_size, grid_size],
-            helper: "clone",
-            resize: {
-                enabled: true
-            }
-        }).data("gridster");
-    });
-
-    function addTable(style) {
-        var element = '<li data-sizex="1" data-sizey="1" class="shape ' + style + '"><span onclick="javascript:editTable($(this).parent());" class="editTable glyphicon glyphicon-pencil"></span><span onclick="javascript:deleteTable($(this).parent());" class="deleteTable glyphicon glyphicon-trash"></span></li>';
-        gridster.add_widget(element, 1, 1);
-        refreshTotal();
-    }
-
-    function deleteTable(element) {
-        gridster.remove_widget(element);
-        refreshTotal();
-    }
-
-    function refreshTotal() {
-        var total = $("li.shape").length;
-        $(".tables.badge").html(total);
-    }
-</script>

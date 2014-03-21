@@ -5,10 +5,27 @@ body {
     background-color: #eee;
 }
 
+h2, h5 {
+    color: #787878;
+    text-shadow: 2px 2px 3px #8D8484;
+}
+
 a:hover, a:focus {
     text-decoration: none;
     color: #71706c;
     outline: none;
+}
+
+.modal-header {
+    padding-top: 0px;
+}
+
+.modal-new {
+    padding-top: 25px;
+}
+
+.main-header {
+    border: none;
 }
 
 .panel-yourmenu {

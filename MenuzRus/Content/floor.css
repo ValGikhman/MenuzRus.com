@@ -29,28 +29,51 @@ h2, h5 {
     text-shadow: 2px 2px 3px #8D8484;
 }
 
-.deleteTable {
-    float: right;
-    color: #787878;
-    font-size: 12px;
-    font-weight: bolder;
-    padding: 2px 15px;
+.tableName {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    white-space: normal;
 }
 
-.editTable {
-    float: left;
-    color: #787878;
+#TableName, #ddlShape {
+    width: 250px;
+}
+
+.toolbar {
+    background-color: #999999;
+    color: #fff;
     font-size: 12px;
     font-weight: bolder;
-    padding: 2px 2px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 65px;
+    padding: 2px;
+    height: 20px;
+    border-radius: 4px;
 }
+
+    .toolbar .copyTable {
+        float: left;
+        width: 20px;
+    }
+
+    .toolbar .editTable {
+        float: left;
+        width: 20px;
+    }
+
+    .toolbar .deleteTable {
+        float: left;
+        width: 20px;
+    }
 
 ul {
     list-style-type: none;
 }
 
 .gridster ul {
-    background-color: #EFEFEF;
 }
 
 .gridster li {
@@ -143,4 +166,9 @@ ul {
 #Floor_Description {
     margin-top: 15px;
     width: 250px;
+}
+
+.gs-resize-handle-both {
+    bottom: -12px;
+    right: -12px;
 }

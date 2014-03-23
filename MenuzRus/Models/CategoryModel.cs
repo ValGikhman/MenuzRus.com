@@ -32,7 +32,7 @@ namespace MenuzRus.Models {
 
         [DisplayName("Menu")]
         [Required]
-        public List<Menus> Menus { set; get; }
+        public List<Services.Menu> Menus { set; get; }
 
         [DisplayName("Category Name")]
         public String Name { get; set; }

@@ -11,7 +11,7 @@
         <div class="modal-content">
             <div class="modal-header modal-new">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title floorTitle">Menu</h4>
+                <h4 class="modal-title floorTitle"></h4>
             </div>
             <div id="floorEditForm" class="modal-body">
                 <div class="container">
@@ -31,41 +31,74 @@
     </div>
 </div>
 
-@using (Html.BeginForm("SaveFloor", "Floor", FormMethod.Post, new { @id = "form-floor", @class = "form-floor", role = "form" })) {
-    <div class="well container container-floor shadow">
-        <div class="modal-header main-header">
-            <h2>Floor Setup</h2>
-        </div>
-        <div id="default">
-            <div class="btn-group pull-left addMenu">
-                <button type="button" class="btn btn-default dropdown-toggle shadow" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-plus">&nbsp;</span><span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="javascript:addTable('square')">Square</a></li>
-                    <li><a href="javascript:addTable('circle')">Circle</a></li>
-                    <li><a href="javascript:addTable('round')">Round</a></li>
-                    <li class="divider"></li>
-                    <li><a href="javascript:addTable('filler')">Filler</a></li>
-                </ul>
+<div class="modal fade tableEditForm" role="dialog">
+    @Html.Hidden("currentTableId")
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-new">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title tableTitle"></h4>
             </div>
+            <div id="tableEditForm" class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        @{
+                            List<SelectListItem> list = new List<SelectListItem>();
+                            list.Add(new SelectListItem() { Text = "Square", Value = "square" });
+                            list.Add(new SelectListItem() { Text = "Circle", Value = "circle" });
+                            list.Add(new SelectListItem() { Text = "Round", Value = "round" });
+                            list.Add(new SelectListItem() { Text = "Filler", Value = "filler" });
+                        }
 
-            @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
-            <button id="btnNewFloor" type="button" class="btn btn-primary  btn-sm shadow">New floor</button>
-            <button id="btnEditFloor" type="button" class="btn btn-primary  btn-sm shadow">Edit floor</button>
-            <button id="btnDeleteFloor" type="button" class="btn btn-primary  btn-sm shadow">Delete floor</button>
-            <button id="btnSerialize" type="button" class="btn btn-primary  btn-sm shadow">Serialize floor</button>
-        </div>
-        <div class="gridster floorArea shadow">
-            <ul>
-            </ul>
-        </div>
-        <a href="#">Tables <span class="tables badge"></span></a>
-        <div class="modal-footer">
-            <button id="btnCancel" type="button" class="btn btn-default">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+                        @Html.Label("Change shape")
+                        @Html.DropDownList("ddlShape", list, new { @class = "form-control input-sm shadow" })
+                        <br />
+                        @Html.Label("Change table name")
+                        @Html.TextBox("TableName", "", new { @class = "form-control input-sm shadow", required = "", placeholder = "Enter new table ID" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelTable" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnSaveTable" type="button" class="btn btn-primary">Save</button>
+            </div>
         </div>
     </div>
-    @Html.HiddenFor(m => m.Floor.id)
-    @Html.HiddenFor(m => m.Floor.Name)
-}
+</div>
+
+<div class="well container container-floor shadow">
+    <div class="modal-header main-header">
+        <h2>Floor Setup</h2>
+    </div>
+    <div id="default">
+        <div class="btn-group pull-left addMenu">
+            <button type="button" class="btn btn-default dropdown-toggle shadow" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-plus">&nbsp;</span><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="javascript:addNewTable('square')">Square</a></li>
+                <li><a href="javascript:addNewTable('circle')">Circle</a></li>
+                <li><a href="javascript:addNewTable('round')">Round</a></li>
+                <li class="divider"></li>
+                <li><a href="javascript:addNewTable('filler')">Filler</a></li>
+            </ul>
+        </div>
+
+        @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+        <button id="btnNewFloor" type="button" class="btn btn-primary  btn-sm shadow">New floor</button>
+        <button id="btnEditFloor" type="button" class="btn btn-primary  btn-sm shadow">Edit floor</button>
+        <button id="btnDeleteFloor" type="button" class="btn btn-primary  btn-sm shadow">Delete floor</button>
+    </div>
+    <div class="gridster floorArea shadow">
+        <ul>
+        </ul>
+    </div>
+    <a href="#">Tables <span class="tables badge"></span></a>
+    <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-default">Cancel</button>
+        <button id="btnSave" type="button" class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+@Html.HiddenFor(m => m.Floor.id)
+@Html.HiddenFor(m => m.Floor.Name)
+@Html.HiddenFor(m => m.Floor.Layout)

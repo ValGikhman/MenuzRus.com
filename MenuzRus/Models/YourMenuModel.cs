@@ -35,7 +35,7 @@ namespace MenuzRus.Models {
 
         public Menu Menu { set; get; }
 
-        public List<Menus> Menus { set; get; }
+        public List<Services.Menu> Menus { set; get; }
 
         public IEnumerable<String> PageBackgrounds { set; get; }
 

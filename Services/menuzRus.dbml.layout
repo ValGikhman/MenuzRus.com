@@ -20,7 +20,7 @@
         <elementListCompartment Id="7f6c7f5d-a2fc-407d-9ece-d69cb7bfdaa1" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 2.23159912109375); (3.38541666666667 : 2.23159912109375 : JumpStart); (3.55208333333333 : 2.23159912109375 : JumpEnd); (3.75 : 2.23159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 2.23159912109375); (3.38541666666667 : 2.23159912109375 : JumpStart); (3.55208333333333 : 2.23159912109375 : JumpEnd); (3.75 : 2.23159912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Setting" />
       <nodes>
         <classShapeMoniker Id="8b06e953-4ce9-464f-a99d-397d18597229" />
@@ -41,31 +41,17 @@
       </nodes>
     </associationConnector>
     <classShape Id="40d231c5-edfe-4215-bb65-5892e7d6d63e" absoluteBounds="0.5, 4, 2, 1.9631982421875">
-      <DataClassMoniker Name="/menuzRusDataContext/Menus" />
+      <DataClassMoniker Name="/menuzRusDataContext/Menu" />
       <nestedChildShapes>
         <elementListCompartment Id="62f1a846-60d2-40f0-b1ea-9dcae2c65f9d" absoluteBounds="0.51499999999999968, 4.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.47920048872293 : 3.42470540364583); (1.47920048872293 : 4)]" manuallyRouted="true" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Menus" />
-      <nodes>
-        <classShapeMoniker Id="8b06e953-4ce9-464f-a99d-397d18597229" />
-        <classShapeMoniker Id="40d231c5-edfe-4215-bb65-5892e7d6d63e" />
-      </nodes>
-    </associationConnector>
     <classShape Id="ccfb1508-4103-4e17-88c3-e437db5ce503" absoluteBounds="0.5, 6.375, 2, 2.3478011067708335">
       <DataClassMoniker Name="/menuzRusDataContext/Category" />
       <nestedChildShapes>
         <elementListCompartment Id="0dcee673-2ed9-4a80-96f0-731cda55ab55" absoluteBounds="0.515, 6.835, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.5 : 5.9631982421875); (1.5 : 6.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/menuzRusDataContext/Menus/Menus_Category" />
-      <nodes>
-        <classShapeMoniker Id="40d231c5-edfe-4215-bb65-5892e7d6d63e" />
-        <classShapeMoniker Id="ccfb1508-4103-4e17-88c3-e437db5ce503" />
-      </nodes>
-    </associationConnector>
     <associationConnector edgePoints="[(2.5 : 7.54890055338542); (3.375 : 7.54890055338542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Category/Category_Item" />
       <nodes>
@@ -85,7 +71,7 @@
         <elementListCompartment Id="8dec4677-0784-489d-aa65-b544a5f85d29" absoluteBounds="6.64, 0.96, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 0.84375); (6.625 : 0.84375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 0.84375); (6.625 : 0.84375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Contact" />
       <nodes>
         <classShapeMoniker Id="8b06e953-4ce9-464f-a99d-397d18597229" />
@@ -100,26 +86,40 @@
       </nodes>
     </associationConnector>
     <classShape Id="436b0642-d9de-49df-ba28-5c8b8154981b" absoluteBounds="3.25, 4, 2, 1.9631982421875">
-      <DataClassMoniker Name="/menuzRusDataContext/Floors" />
+      <DataClassMoniker Name="/menuzRusDataContext/Floor" />
       <nestedChildShapes>
         <elementListCompartment Id="7e2e19c5-3684-4854-98c5-fbf5f3ac98cf" absoluteBounds="3.2649999999999997, 4.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="9607691b-20e6-40c1-bd09-87783718a1e0" absoluteBounds="9.25, 3.375, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/menuzRusDataContext/Table" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a300bf41-24e8-4663-987b-9648335e21b6" absoluteBounds="9.265, 3.835, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.5 : 3.42470540364583); (1.5 : 4)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Menu" />
+      <nodes>
+        <classShapeMoniker Id="8b06e953-4ce9-464f-a99d-397d18597229" />
+        <classShapeMoniker Id="40d231c5-edfe-4215-bb65-5892e7d6d63e" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.5 : 5.9631982421875); (1.5 : 6.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/menuzRusDataContext/Menu/Menu_Category" />
+      <nodes>
+        <classShapeMoniker Id="40d231c5-edfe-4215-bb65-5892e7d6d63e" />
+        <classShapeMoniker Id="ccfb1508-4103-4e17-88c3-e437db5ce503" />
+      </nodes>
+    </associationConnector>
     <associationConnector edgePoints="[(2.5 : 1.0468775); (3.46875 : 1.0468775); (3.46875 : 4)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Floors" />
+      <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_Floor" />
       <nodes>
         <classShapeMoniker Id="8b06e953-4ce9-464f-a99d-397d18597229" />
         <classShapeMoniker Id="436b0642-d9de-49df-ba28-5c8b8154981b" />
       </nodes>
     </associationConnector>
-    <classShape Id="9607691b-20e6-40c1-bd09-87783718a1e0" absoluteBounds="9.25, 3.375, 2, 2.9247054036458331">
-      <DataClassMoniker Name="/menuzRusDataContext/Tables" />
-      <nestedChildShapes>
-        <elementListCompartment Id="a300bf41-24e8-4663-987b-9648335e21b6" absoluteBounds="9.265, 3.835, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <associationConnector edgePoints="[(5.25 : 5.1098046875); (9.25 : 5.1098046875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/menuzRusDataContext/Floors/Floors_Tables" />
+      <AssociationMoniker Name="/menuzRusDataContext/Floor/Floor_Table" />
       <nodes>
         <classShapeMoniker Id="436b0642-d9de-49df-ba28-5c8b8154981b" />
         <classShapeMoniker Id="9607691b-20e6-40c1-bd09-87783718a1e0" />

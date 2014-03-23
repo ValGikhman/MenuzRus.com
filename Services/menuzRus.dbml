@@ -34,9 +34,9 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
-      <Association Name="Customer_Menus" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menus" />
+      <Association Name="Customer_Menu" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menu" />
       <Association Name="Customer_Contact" Member="Contacts" ThisKey="id" OtherKey="CustomerId" Type="Contact" />
-      <Association Name="Customer_Floors" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floors" />
+      <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
     </Type>
   </Table>
   <Table Name="dbo.Items" Member="Items">
@@ -54,15 +54,15 @@
     </Type>
   </Table>
   <Table Name="dbo.Menus" Member="Menus">
-    <Type Name="Menus">
+    <Type Name="Menu">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Menus_Category" Member="Categories" ThisKey="id" OtherKey="MenuId" Type="Category" />
-      <Association Name="Customer_Menus" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Menu_Category" Member="Categories" ThisKey="id" OtherKey="MenuId" Type="Category" />
+      <Association Name="Customer_Menu" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Categories" Member="Categories">
@@ -76,7 +76,7 @@
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Category_Item" Member="Items" ThisKey="id" OtherKey="CategoryId" Type="Item" />
-      <Association Name="Menus_Category" Member="Menus" ThisKey="MenuId" OtherKey="id" Type="Menus" IsForeignKey="true" />
+      <Association Name="Menu_Category" Member="Menu" Storage="_Menus" ThisKey="MenuId" OtherKey="id" Type="Menu" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Logs" Member="Logs">
@@ -114,31 +114,30 @@
     </Type>
   </Table>
   <Table Name="dbo.Floors" Member="Floors">
-    <Type Name="Floors">
+    <Type Name="Floor">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Floors_Tables" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Tables" />
-      <Association Name="Customer_Floors" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Floor_Table" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Table" />
+      <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Tables" Member="Tables">
-    <Type Name="Tables">
+    <Type Name="Table">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="FloorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TableId" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="Col" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Row" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="X" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Y" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Floors_Tables" Member="Floors" ThisKey="FloorId" OtherKey="id" Type="Floors" IsForeignKey="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Floor_Table" Member="Floor" Storage="_Floors" ThisKey="FloorId" OtherKey="id" Type="Floor" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

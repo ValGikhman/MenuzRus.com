@@ -37,7 +37,7 @@ namespace MenuzRus.Controllers {
         [HttpPost]
         public ActionResult SaveMenu(Int32? id, String name) {
             MenuService service = new MenuService();
-            Menus menu = new Menus();
+            Services.Menu menu = new Services.Menu();
             try {
                 menu.id = Convert.ToInt32(id);
                 menu.CustomerId = SessionData.customer.id;
@@ -117,7 +117,7 @@ namespace MenuzRus.Controllers {
             try {
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 if (model.Menu == null) {
-                    model.Menu = new Menu();
+                    model.Menu = new MenuzRus.Models.Menu();
                 }
                 model.Menu.id = id.HasValue ? id.Value : 0;
                 if (model.Menu.id == 0 && model.Menus.Count() > 0) {

@@ -16,6 +16,8 @@ namespace MenuzRus.Models {
 
         public Int32 id { set; get; }
 
+        public String Layout { set; get; }
+
         public String Name { set; get; }
     }
 
@@ -23,6 +25,6 @@ namespace MenuzRus.Models {
 
         public Floor Floor { set; get; }
 
-        public List<Floors> Floors { set; get; }
+        public List<Services.Floor> Floors { set; get; }
     }
 }

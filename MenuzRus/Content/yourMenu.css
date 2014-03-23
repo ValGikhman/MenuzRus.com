@@ -264,3 +264,7 @@ a:hover, a:focus {
     margin-top: 10px;
     z-index: 0;
 }
+
+#menuEditForm {
+    padding: 20px;
+}

@@ -42,9 +42,9 @@ namespace Services
     partial void InsertItem(Item instance);
     partial void UpdateItem(Item instance);
     partial void DeleteItem(Item instance);
-    partial void InsertMenus(Menus instance);
-    partial void UpdateMenus(Menus instance);
-    partial void DeleteMenus(Menus instance);
+    partial void InsertMenu(Menu instance);
+    partial void UpdateMenu(Menu instance);
+    partial void DeleteMenu(Menu instance);
     partial void InsertCategory(Category instance);
     partial void UpdateCategory(Category instance);
     partial void DeleteCategory(Category instance);
@@ -54,12 +54,12 @@ namespace Services
     partial void InsertContact(Contact instance);
     partial void UpdateContact(Contact instance);
     partial void DeleteContact(Contact instance);
-    partial void InsertFloors(Floors instance);
-    partial void UpdateFloors(Floors instance);
-    partial void DeleteFloors(Floors instance);
-    partial void InsertTables(Tables instance);
-    partial void UpdateTables(Tables instance);
-    partial void DeleteTables(Tables instance);
+    partial void InsertFloor(Floor instance);
+    partial void UpdateFloor(Floor instance);
+    partial void DeleteFloor(Floor instance);
+    partial void InsertTable(Table instance);
+    partial void UpdateTable(Table instance);
+    partial void DeleteTable(Table instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -124,11 +124,11 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<Menus> Menus
+		public System.Data.Linq.Table<Menu> Menus
 		{
 			get
 			{
-				return this.GetTable<Menus>();
+				return this.GetTable<Menu>();
 			}
 		}
 		
@@ -156,19 +156,19 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<Floors> Floors
+		public System.Data.Linq.Table<Floor> Floors
 		{
 			get
 			{
-				return this.GetTable<Floors>();
+				return this.GetTable<Floor>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Tables> Tables
+		public System.Data.Linq.Table<Table> Tables
 		{
 			get
 			{
-				return this.GetTable<Tables>();
+				return this.GetTable<Table>();
 			}
 		}
 	}
@@ -601,11 +601,11 @@ namespace Services
 		
 		private EntitySet<Setting> _Settings;
 		
-		private EntitySet<Menus> _Menus;
+		private EntitySet<Menu> _Menus;
 		
 		private EntitySet<Contact> _Contacts;
 		
-		private EntitySet<Floors> _Floors;
+		private EntitySet<Floor> _Floors;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -638,9 +638,9 @@ namespace Services
 		public Customer()
 		{
 			this._Settings = new EntitySet<Setting>(new Action<Setting>(this.attach_Settings), new Action<Setting>(this.detach_Settings));
-			this._Menus = new EntitySet<Menus>(new Action<Menus>(this.attach_Menus), new Action<Menus>(this.detach_Menus));
+			this._Menus = new EntitySet<Menu>(new Action<Menu>(this.attach_Menus), new Action<Menu>(this.detach_Menus));
 			this._Contacts = new EntitySet<Contact>(new Action<Contact>(this.attach_Contacts), new Action<Contact>(this.detach_Contacts));
-			this._Floors = new EntitySet<Floors>(new Action<Floors>(this.attach_Floors), new Action<Floors>(this.detach_Floors));
+			this._Floors = new EntitySet<Floor>(new Action<Floor>(this.attach_Floors), new Action<Floor>(this.detach_Floors));
 			OnCreated();
 		}
 		
@@ -877,8 +877,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menus", Storage="_Menus", ThisKey="id", OtherKey="CustomerId")]
-		public EntitySet<Menus> Menus
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menu", Storage="_Menus", ThisKey="id", OtherKey="CustomerId")]
+		public EntitySet<Menu> Menus
 		{
 			get
 			{
@@ -903,8 +903,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Floors", Storage="_Floors", ThisKey="id", OtherKey="CustomerId")]
-		public EntitySet<Floors> Floors
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Floor", Storage="_Floors", ThisKey="id", OtherKey="CustomerId")]
+		public EntitySet<Floor> Floors
 		{
 			get
 			{
@@ -948,13 +948,13 @@ namespace Services
 			entity.Customer = null;
 		}
 		
-		private void attach_Menus(Menus entity)
+		private void attach_Menus(Menu entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = this;
 		}
 		
-		private void detach_Menus(Menus entity)
+		private void detach_Menus(Menu entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = null;
@@ -972,13 +972,13 @@ namespace Services
 			entity.Customer = null;
 		}
 		
-		private void attach_Floors(Floors entity)
+		private void attach_Floors(Floor entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = this;
 		}
 		
-		private void detach_Floors(Floors entity)
+		private void detach_Floors(Floor entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = null;
@@ -1285,7 +1285,7 @@ namespace Services
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Menus")]
-	public partial class Menus : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1324,7 +1324,7 @@ namespace Services
     partial void OnDateModifiedChanged();
     #endregion
 		
-		public Menus()
+		public Menu()
 		{
 			this._Categories = new EntitySet<Category>(new Action<Category>(this.attach_Categories), new Action<Category>(this.detach_Categories));
 			this._Customer = default(EntityRef<Customer>);
@@ -1455,7 +1455,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menus_Category", Storage="_Categories", ThisKey="id", OtherKey="MenuId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menu_Category", Storage="_Categories", ThisKey="id", OtherKey="MenuId")]
 		public EntitySet<Category> Categories
 		{
 			get
@@ -1468,7 +1468,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menus", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menu", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
 		public Customer Customer
 		{
 			get
@@ -1525,13 +1525,13 @@ namespace Services
 		private void attach_Categories(Category entity)
 		{
 			this.SendPropertyChanging();
-			entity.Menus = this;
+			entity.Menu = this;
 		}
 		
 		private void detach_Categories(Category entity)
 		{
 			this.SendPropertyChanging();
-			entity.Menus = null;
+			entity.Menu = null;
 		}
 	}
 	
@@ -1559,7 +1559,7 @@ namespace Services
 		
 		private EntitySet<Item> _Items;
 		
-		private EntityRef<Menus> _Menus;
+		private EntityRef<Menu> _Menus;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1586,7 +1586,7 @@ namespace Services
 		public Category()
 		{
 			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			this._Menus = default(EntityRef<Menus>);
+			this._Menus = default(EntityRef<Menu>);
 			OnCreated();
 		}
 		
@@ -1767,8 +1767,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menus_Category", Storage="_Menus", ThisKey="MenuId", OtherKey="id", IsForeignKey=true)]
-		public Menus Menus
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menu_Category", Storage="_Menus", ThisKey="MenuId", OtherKey="id", IsForeignKey=true)]
+		public Menu Menu
 		{
 			get
 			{
@@ -1776,7 +1776,7 @@ namespace Services
 			}
 			set
 			{
-				Menus previousValue = this._Menus.Entity;
+				Menu previousValue = this._Menus.Entity;
 				if (((previousValue != value) 
 							|| (this._Menus.HasLoadedOrAssignedValue == false)))
 				{
@@ -1796,7 +1796,7 @@ namespace Services
 					{
 						this._MenuId = default(int);
 					}
-					this.SendPropertyChanged("Menus");
+					this.SendPropertyChanged("Menu");
 				}
 			}
 		}
@@ -2573,7 +2573,7 @@ namespace Services
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Floors")]
-	public partial class Floors : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Floor : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2590,7 +2590,7 @@ namespace Services
 		
 		private System.DateTime _DateModified;
 		
-		private EntitySet<Tables> _Tables;
+		private EntitySet<Table> _Tables;
 		
 		private EntityRef<Customer> _Customer;
 		
@@ -2612,9 +2612,9 @@ namespace Services
     partial void OnDateModifiedChanged();
     #endregion
 		
-		public Floors()
+		public Floor()
 		{
-			this._Tables = new EntitySet<Tables>(new Action<Tables>(this.attach_Tables), new Action<Tables>(this.detach_Tables));
+			this._Tables = new EntitySet<Table>(new Action<Table>(this.attach_Tables), new Action<Table>(this.detach_Tables));
 			this._Customer = default(EntityRef<Customer>);
 			OnCreated();
 		}
@@ -2743,8 +2743,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floors_Tables", Storage="_Tables", ThisKey="id", OtherKey="FloorId")]
-		public EntitySet<Tables> Tables
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floor_Table", Storage="_Tables", ThisKey="id", OtherKey="FloorId")]
+		public EntitySet<Table> Tables
 		{
 			get
 			{
@@ -2756,7 +2756,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Floors", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Floor", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
 		public Customer Customer
 		{
 			get
@@ -2810,21 +2810,21 @@ namespace Services
 			}
 		}
 		
-		private void attach_Tables(Tables entity)
+		private void attach_Tables(Table entity)
 		{
 			this.SendPropertyChanging();
-			entity.Floors = this;
+			entity.Floor = this;
 		}
 		
-		private void detach_Tables(Tables entity)
+		private void detach_Tables(Table entity)
 		{
 			this.SendPropertyChanging();
-			entity.Floors = null;
+			entity.Floor = null;
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tables")]
-	public partial class Tables : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Table : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2832,8 +2832,6 @@ namespace Services
 		private int _id;
 		
 		private int _FloorId;
-		
-		private string _TableId;
 		
 		private string _Name;
 		
@@ -2851,7 +2849,7 @@ namespace Services
 		
 		private System.DateTime _DateModified;
 		
-		private EntityRef<Floors> _Floors;
+		private EntityRef<Floor> _Floors;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2861,8 +2859,6 @@ namespace Services
     partial void OnidChanged();
     partial void OnFloorIdChanging(int value);
     partial void OnFloorIdChanged();
-    partial void OnTableIdChanging(string value);
-    partial void OnTableIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
     partial void OnTypeChanging(string value);
@@ -2881,9 +2877,9 @@ namespace Services
     partial void OnDateModifiedChanged();
     #endregion
 		
-		public Tables()
+		public Table()
 		{
-			this._Floors = default(EntityRef<Floors>);
+			this._Floors = default(EntityRef<Floor>);
 			OnCreated();
 		}
 		
@@ -2927,26 +2923,6 @@ namespace Services
 					this._FloorId = value;
 					this.SendPropertyChanged("FloorId");
 					this.OnFloorIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TableId", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string TableId
-		{
-			get
-			{
-				return this._TableId;
-			}
-			set
-			{
-				if ((this._TableId != value))
-				{
-					this.OnTableIdChanging(value);
-					this.SendPropertyChanging();
-					this._TableId = value;
-					this.SendPropertyChanged("TableId");
-					this.OnTableIdChanged();
 				}
 			}
 		}
@@ -3071,7 +3047,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -3091,7 +3067,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -3111,8 +3087,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floors_Tables", Storage="_Floors", ThisKey="FloorId", OtherKey="id", IsForeignKey=true)]
-		public Floors Floors
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floor_Table", Storage="_Floors", ThisKey="FloorId", OtherKey="id", IsForeignKey=true)]
+		public Floor Floor
 		{
 			get
 			{
@@ -3120,7 +3096,7 @@ namespace Services
 			}
 			set
 			{
-				Floors previousValue = this._Floors.Entity;
+				Floor previousValue = this._Floors.Entity;
 				if (((previousValue != value) 
 							|| (this._Floors.HasLoadedOrAssignedValue == false)))
 				{
@@ -3140,7 +3116,7 @@ namespace Services
 					{
 						this._FloorId = default(int);
 					}
-					this.SendPropertyChanged("Floors");
+					this.SendPropertyChanged("Floor");
 				}
 			}
 		}

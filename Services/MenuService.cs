@@ -11,12 +11,12 @@ namespace MenuzRus {
     public class MenuService {
 
         public Boolean DeleteMenu(Int32? id) {
-            Menus query = new Menus();
+            Menu query = new Menu();
             id = id.HasValue ? id : 0;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Menus.Where(m => m.id == id).FirstOrDefault();
-                    if (query != default(Menus)) {
+                    if (query != default(Menu)) {
                         IEnumerable<Category> categories = db.Categories.Where(m => m.MenuId == id);
                         if (categories != null) {
                             foreach (Category category in categories) {
@@ -37,18 +37,18 @@ namespace MenuzRus {
             return true;
         }
 
-        public List<Menus> GetMenus(Int32 id) {
+        public List<Menu> GetMenus(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
             return db.Menus.Where(m => m.CustomerId == id).ToList();
         }
 
-        public Int32 SaveMenu(Menus menu) {
-            Menus query = new Menus();
+        public Int32 SaveMenu(Menu menu) {
+            Menu query = new Menu();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     if (menu.id != 0)
                         query = db.Menus.Where(m => m.id == menu.id).FirstOrDefault();
-                    if (query != default(Menus)) {
+                    if (query != default(Menu)) {
                         query.CustomerId = menu.CustomerId;
                         query.Name = menu.Name;
                         query.Description = menu.Description;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 public static class Utility {
 
@@ -62,6 +63,19 @@ public static class Utility {
 
     public static T GetEnumItem<T>(String value) {
         return (T)Enum.Parse(typeof(T), value, true);
+    }
+
+    public static string ToJson(this object obj, int recursionDepth = 100) {
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        serializer.RecursionLimit = recursionDepth;
+        return serializer.Serialize(obj);
+    }
+
+    public static List<T> ToListObject<T>(this string obj, int recursionDepth = 100) {
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        serializer.RecursionLimit = recursionDepth;
+        List<T> returnList = serializer.Deserialize<List<T>>(obj);
+        return returnList;
     }
 
     public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {

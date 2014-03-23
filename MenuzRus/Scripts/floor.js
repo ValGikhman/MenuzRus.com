@@ -9,15 +9,18 @@ $(function () {
     gridster = $(".gridster ul").gridster({
         widget_margins: [grid_margin, grid_margin],
         widget_base_dimensions: [grid_size, grid_size],
+        avoid_overlapped_widgets: true,
         helper: "clone",
         resize: {
             enabled: true
         },
         serialize_params: function ($w, wgd) {
+            floorId = $("#Floor_id").val();
             return {
                 TableId: $($w).attr("id"),
                 Type: $($w).attr("data-type"),
                 Name: $($w).attr("data-name"),
+                FloorId: floorId,
                 Col: wgd.col,
                 Row: wgd.row,
                 X: wgd.size_x,
@@ -27,9 +30,11 @@ $(function () {
     }).data("gridster");
     $(".floorArea").resizable({ grid: [1000, 1] });
 
-    $("#btnSerialize").on("click", function () {
+    $("#btnSave").on("click", function () {
         saveTables();
     });
+
+    addLayout();
 
     $("#Floor_id").change(function () {
         window.location = "/Floor/Index/" + $(this).val();
@@ -77,14 +82,42 @@ $(function () {
         $(".floorEditForm").modal("hide");
         editFloor($("#Floor_id").val(), $("#Floor_Name").val());
     })
+
+    $("#btnSaveTable").click(function () {
+        var element = $($.validator.format("#{0}", $("#currentTableId").val()));
+        element.removeClass(element.attr("data-type"));
+        element.addClass($("#ddlShape").val());
+        element.attr("data-type", $("#ddlShape").val());
+        element.attr("data-name", $("#TableName").val());
+        element.children(".tableName").html(element.attr("data-name"));
+        $(".tableEditForm").modal("hide");
+    })
 });
 
-function addTable(style) {
+function addLayout() {
+    gridster.remove_all_widgets();
+    var serialization = $.parseJSON($("#Floor_Layout").val());
+
+    $.each(serialization, function () {
+        var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil'></span>";
+        var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
+        var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
+        var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
+        var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
+        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
+        gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
+        refreshTotal();
+    });
+}
+
+function addNewTable(style) {
     var name = uid();
-    var deleteButton = "<span onclick='javascript:editTable($(this).parent());' class='editTable glyphicon glyphicon-pencil'></span>";
-    var editButton = "<span onclick='javascript:deleteTable($(this).parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
-    var elementName = $.validator.format("<span class='label label-default'>{0}</span>", name);
-    var element = $.validator.format("<li id='{4}' data-name='{5}' data-type='{0}' data-sizex='1' data-sizey='1' class='shape {0}'>{1}{2}{3}</li>", style, editButton, deleteButton, elementName, shortGuid(), name);
+    var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil hide'></span>";
+    var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash hide'></span>";
+    var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus hide'></span>";
+    var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
+    var elementName = $.validator.format("<div class='label label-default shadow'>{0}</div>", name);
+    var element = $.validator.format("<li id='{4}' data-name='{1}' data-type='{0}' data-sizex='1' data-sizey='1' class='shape {0}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{2}{3}</li>", style, name, toolbar, elementName, shortGuid());
     gridster.add_widget(element, 1, 1);
     refreshTotal();
 }
@@ -94,7 +127,37 @@ function deleteTable(element) {
     refreshTotal();
 }
 
+function copyTable(element) {
+    var newElement = element.clone();
+    gridster.add_widget(newElement);
+    newElement.attr("data-type", element.attr("data-type"));
+    newElement.attr("data-name", element.attr("data-name"));
+    newElement.attr("data-sizex", element.attr("data-sizex"));
+    newElement.attr("data-sizey", element.attr("data-sizey"));
+    newElement.attr("id", shortGuid());
+    refreshTotal();
+}
+
+function editTable(element) {
+    $(".tableTitle").html("Edit table");
+    $("#ddlShape").val(element.attr("data-type"));
+    $("#TableName").val(element.attr("data-name"));
+    $("#currentTableId").val(element.attr("id"));
+    $(".tableEditForm").modal("show");
+}
+
+function showTools(element, show) {
+    if (show) {
+        $(element).children(".toolbar").removeClass("hide");
+    }
+    else {
+        $(element).children(".toolbar").addClass("hide");
+    }
+}
+
 function saveTables() {
+    var container = $(".container-floor");
+    container.block();
     var postData = JSON.stringify(gridster.serialize());
     var jqxhr = $.post("/Floor/SaveTables", { "tables": postData }, "json")
                   .done(function (result) {
@@ -104,6 +167,7 @@ function saveTables() {
         message("Save tables failed.", "error", "center");
     })
     .always(function () {
+        container.unblock();
     });
 }
 

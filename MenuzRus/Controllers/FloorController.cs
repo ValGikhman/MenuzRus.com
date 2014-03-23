@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 using MenuzRus.Models;
+using Newtonsoft.Json;
 using Services;
 
 namespace MenuzRus.Controllers {
@@ -36,9 +37,9 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SaveFloor(Floor model) {
+        public ActionResult SaveFloor(Services.Floor model) {
             FloorService service = new FloorService();
-            Floors floor = new Floors();
+            Services.Floor floor = new Services.Floor();
             try {
                 floor.id = model.id;
                 floor.CustomerId = SessionData.customer.id;
@@ -61,8 +62,9 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveTables(String tables) {
+            FloorService service = new FloorService();
             try {
-                List<Tables> dermas = new JavaScriptSerializer().Deserialize<List<Tables>>(tables);
+                service.SaveTables(new JavaScriptSerializer().Deserialize<List<Services.Table>>(tables));
             }
             catch (Exception ex) {
             }
@@ -77,29 +79,52 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private FloorModel GetModel(Int32? id) {
-            FloorService menuService = new FloorService();
-            FloorModel model = new FloorModel();
-            try {
-                model.Floors = menuService.GetFloors(SessionData.customer.id);
-                if (model.Floor == null) {
-                    model.Floor = new Floor();
-                }
-                model.Floor.id = id.HasValue ? id.Value : 0;
-                if (model.Floor.id == 0 && model.Floors.Count() > 0) {
-                    model.Floor.id = model.Floors[0].id;
-                    model.Floor.Name = model.Floors[0].Name;
-                    SessionData.menu.Name = model.Floors[0].Name;
-                }
-                else if (model.Floor.id != 0)
-                    model.Floor.Name = model.Floors.Where(m => m.id == model.Floor.id).FirstOrDefault().Name;
+        public String GetTables(Int32 id) {
+            FloorService service = new FloorService();
+            List<Services.Table> tables = service.GetTables(id);
+            var result = (from var in tables
+                          where var.FloorId == id
+                          select new {
+                              var.Col,
+                              var.FloorId,
+                              var.id,
+                              var.Name,
+                              var.Row,
+                              var.Type,
+                              var.X,
+                              var.Y
+                          }).ToList();
+            return result.ToJson();
+        }
 
+        private FloorModel GetModel(Int32? id) {
+            FloorService service = new FloorService();
+            FloorModel model = new FloorModel();
+            Services.Floor floor;
+            try {
+                id = id.HasValue ? id.Value : 0;
+                model.Floors = service.GetFloors(SessionData.customer.id);
+                floor = service.GetFloor(id.Value);
+                if (floor == null && model.Floors.Count > 0) {
+                    floor = model.Floors[0];
+                }
+                model.Floor = new Models.Floor();
+                if (floor != null) {
+                    SessionData.floor = floor;
+                    model.Floor.id = floor.id;
+                    model.Floor.id = floor.id;
+                    model.Floor.Name = floor.Name;
+                    model.Floor.Layout = GetTables(model.Floor.id);
+                }
                 return model;
             }
+
             catch (Exception ex) {
             }
             finally {
+                service = null;
             }
+
             return null;
         }
 

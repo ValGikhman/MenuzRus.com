@@ -16,6 +16,8 @@ namespace MenuzRus {
 
         public static Exception exeption { get; set; }
 
-        public static Menus menu { get; set; }
+        public static Services.Floor floor { get; set; }
+
+        public static Services.Menu menu { get; set; }
     }
 }

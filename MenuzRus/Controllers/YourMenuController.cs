@@ -130,7 +130,7 @@ namespace MenuzRus.Controllers {
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetCategories(model.Menu.id);
+                model.Categories = categoryService.GetCategories(model.Menu.id, Common.CategoryType.Menu);
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);
                 // Backgrounds
                 if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString()))

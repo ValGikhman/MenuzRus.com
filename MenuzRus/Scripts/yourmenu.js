@@ -315,7 +315,7 @@ function showCategoryMenu(id) {
 function editCategory(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/Category/EditCategory/", { id: id })
+    var jqxhr = $.get("/Category/EditCategory/", { id: id, type: "Menu" })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");

@@ -52,7 +52,7 @@ namespace MenuzRus {
                         if (!Directory.Exists(subpath)) {
                             di = Directory.CreateDirectory(subpath);
                         }
-                        subpath = String.Format("{0}/Contacts", path);
+                        subpath = String.Format("{0}/Users", path);
                         if (!Directory.Exists(subpath)) {
                             di = Directory.CreateDirectory(subpath);
                         }

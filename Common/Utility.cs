@@ -12,16 +12,13 @@ using System.Threading.Tasks;
 
 public static class Common {
 
-    public enum ContactType {
+    public enum CategoryType {
 
-        [Display(Name = "Administrator")]
-        Administrator = 1,
+        [Display(Name = "Menu")]
+        Menu = 1,
 
-        [Display(Name = "Manager")]
-        Manager = 2,
-
-        [Display(Name = "Waiter")]
-        Waiter = 4
+        [Display(Name = "Inventory")]
+        Inventory = 2
     }
 
     public enum Settings {
@@ -92,6 +89,18 @@ public static class Common {
 
         [Display(Name = "Do not show this item")]
         NotActive = 0
+    }
+
+    public enum UserType {
+
+        [Display(Name = "Administrator")]
+        Administrator = 1,
+
+        [Display(Name = "Manager")]
+        Manager = 2,
+
+        [Display(Name = "Waiter")]
+        Waiter = 4
     }
 
     public static Boolean SendEmail(String emailTo, String emailSubject, String emailBody) {

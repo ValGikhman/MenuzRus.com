@@ -1,5 +1,5 @@
-﻿@model MenuzRus.Models.ContactModel
-<link href="@Url.Content("~/Content/contact.css")" rel="stylesheet" />
+﻿@model MenuzRus.Models.UserModel
+<link href="@Url.Content("~/Content/user.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery-ui.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
@@ -13,10 +13,10 @@
     </div>
 </div>
 
-@using (Html.BeginForm("SaveContact", "Contact", FormMethod.Post, new { @id = "form-contact", @class = "form-contact", role = "form", enctype = "multipart/form-data" })) {
-    <div class="well container container-contact shadow">
+@using (Html.BeginForm("SaveUser", "User", FormMethod.Post, new { @id = "form-user", @class = "form-user", role = "form", enctype = "multipart/form-data" })) {
+    <div class="well container container-user shadow">
         <div class="modal-header">
-            <h2>Contact Form</h2>
+            <h2>User Form</h2>
         </div>
         <div class="row">
             <div class="col-lg-8 col-md-8">
@@ -24,7 +24,7 @@
                 @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
                 @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
                 @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work mobile number", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(Common.ContactType))), new { @class = "form-control input-sm shadow" })
+                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(Common.UserType))), new { @class = "form-control input-sm shadow" })
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
                 @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
                 @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
@@ -34,12 +34,13 @@
                 </div>
             </div>
             <div class="imagerow col-lg-4 col-md-4">
-                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Contacts/{1}?{2}", Model.CustomerId, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Users/{1}?{2}", Model.CustomerId, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                 <input type="file" id="Image" name="Image" />
                 <div class="col-md-1 col-lg-1">
                     <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
                 </div>
             </div>
+            @Html.HiddenFor(m => m.Active)
             @Html.HiddenFor(m => m.id)
             @Html.HiddenFor(m => m.CustomerId)
             @Html.HiddenFor(m => m.ImageUrl)
@@ -52,7 +53,7 @@
 }
 <script type="text/javascript">
     $(function () {
-        initImageUpload($(".container-contact"));
+        initImageUpload($(".container-user"));
         $("#ConfirmPassword").focusout(function (e) {
             $("#passwordsError").addClass("hide");
             if ($("#Password").val() != $("#ConfirmPassword").val()) {

@@ -10,11 +10,11 @@ namespace MenuzRus {
 
     public class CommonService {
 
-        public Boolean SendEmailConfirmation(Contact contact) {
+        public Boolean SendEmailConfirmation(User user) {
             Boolean retVal = true;
             String html = System.IO.File.ReadAllText(String.Format("{0}/App_Data/emailTemplates/EmailConfirmation.html", AppDomain.CurrentDomain.BaseDirectory));
-            html = html.Replace("<<FirstName>>", contact.FirstName).Replace("<<LastName>>", contact.LastName);
-            retVal = Common.SendEmail(contact.Email, "MenuzRus email confirmation", html);
+            html = html.Replace("<<FirstName>>", user.FirstName).Replace("<<LastName>>", user.LastName);
+            retVal = Common.SendEmail(user.Email, "MenuzRus email confirmation", html);
             if (!retVal) {
                 SessionData.exeption = new Exception("Cannot send Email");
             }

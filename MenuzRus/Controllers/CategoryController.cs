@@ -30,10 +30,12 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32? id) {
+        public String EditCategory(Int32? id, Common.CategoryType type) {
             CategoryModel model = new CategoryModel();
             try {
                 model = GetModel(model, id);
+                model.Type = type;
+
                 ViewData.Model = model;
 
                 using (StringWriter sw = new StringWriter()) {
@@ -75,6 +77,7 @@ namespace MenuzRus {
                 category.Description = model.Description;
                 category.Side = model.Side.ToString();
                 category.Active = true;
+                category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
                 if (model.Image != null) {
                     if (category.id == 0)

@@ -40,13 +40,13 @@
             </div>
             <div class="col-lg-4 col-md-4 personal">
                 <h5>Enter your personal information</h5>
-                @Html.TextBoxFor(model => model.Contact.FirstName, new { @class = "form-control input-sm shadow", placeholder = "Enter your first name", required = "" })
-                @Html.TextBoxFor(model => model.Contact.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
-                @Html.TextBoxFor(model => model.Contact.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-                @Html.TextBoxFor(model => model.Contact.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your mobile number", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-                @Html.TextBoxFor(model => model.Contact.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
-                @Html.TextBoxFor(model => model.Contact.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
-                @Html.TextBoxFor(model => model.Contact.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
+                @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control input-sm shadow", placeholder = "Enter your first name", required = "" })
+                @Html.TextBoxFor(model => model.User.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
+                @Html.TextBoxFor(model => model.User.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+                @Html.TextBoxFor(model => model.User.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your mobile number", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+                @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
+                @Html.TextBoxFor(model => model.User.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
+                @Html.TextBoxFor(model => model.User.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
                 <div id="passwordsError" class="hide alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     Password does not match confirmation password. Please revise.

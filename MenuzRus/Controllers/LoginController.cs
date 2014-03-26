@@ -26,8 +26,8 @@ namespace MenuzRus {
         public ActionResult Index(LoginModel model) {
             LoginService service = new LoginService();
             try {
-                Contact contact = service.Login(model.Email, model.Password);
-                if (contact == null) {
+                User user = service.Login(model.Email, model.Password);
+                if (user == null) {
                     return View();
                 }
                 Session["IsLoggedIn"] = true;

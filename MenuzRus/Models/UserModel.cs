@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MenuzRus.Models {
 
-    public class ContactModel : BaseModel {
+    public class UserModel : BaseModel {
 
         [DisplayName("Active")]
         public Common.Status Active { get; set; }
@@ -52,7 +52,7 @@ namespace MenuzRus.Models {
         public String Password { get; set; }
 
         [DisplayName("Type")]
-        public Common.ContactType Type { get; set; }
+        public Common.UserType Type { get; set; }
 
         [DisplayName("Work Phone#")]
         [DataType(DataType.PhoneNumber)]

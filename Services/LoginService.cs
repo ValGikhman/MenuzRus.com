@@ -10,14 +10,14 @@ namespace MenuzRus {
 
     public class LoginService {
 
-        public Contact Login(String email, String password) {
+        public User Login(String email, String password) {
             menuzRusDataContext db = new menuzRusDataContext();
-            SessionData.contact = db.Contacts.Where(m => m.Email == email && m.Password == password).FirstOrDefault();
-            if (SessionData.contact != null) {
-                SessionData.customer = db.Customers.Where(m => m.id == SessionData.contact.CustomerId).FirstOrDefault();
-                SessionData.menu = db.Menus.Where(m => m.CustomerId == SessionData.contact.CustomerId).FirstOrDefault();
+            SessionData.user = db.Users.Where(m => m.Email == email && m.Password == password).FirstOrDefault();
+            if (SessionData.user != null) {
+                SessionData.customer = db.Customers.Where(m => m.id == SessionData.user.CustomerId).FirstOrDefault();
+                SessionData.menu = db.Menus.Where(m => m.CustomerId == SessionData.user.CustomerId).FirstOrDefault();
             }
-            return SessionData.contact;
+            return SessionData.user;
         }
     }
 }

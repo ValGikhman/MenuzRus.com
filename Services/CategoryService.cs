@@ -33,9 +33,9 @@ namespace MenuzRus {
             return true;
         }
 
-        public List<Category> GetCategories(Int32 id) {
+        public List<Category> GetCategories(Int32 id, Common.CategoryType type) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.MenuId == id).OrderBy(m => m.SortOrder).ToList();
+            return db.Categories.Where(m => m.MenuId == id && m.Active && m.Type == (Int32)type).OrderBy(m => m.SortOrder).ToList();
         }
 
         public Category GetCategory(Int32 id) {
@@ -56,6 +56,7 @@ namespace MenuzRus {
                         query.Description = category.Description;
                         query.ImageUrl = category.ImageUrl;
                         query.Side = category.Side;
+                        query.Type = category.Type;
                     }
                     if (category.id == 0) {
                         db.Categories.InsertOnSubmit(query);

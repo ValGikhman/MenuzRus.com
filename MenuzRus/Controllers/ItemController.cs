@@ -92,7 +92,7 @@ namespace MenuzRus.Controllers {
                     return RedirectToAction("Index", "Error");
 
                 String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.contact.id.ToString(), "Items", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
+                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.user.id.ToString(), "Items", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
                 if (model.Image == null && model.ImageUrl == null) {
                     if (System.IO.File.Exists(path))
                         System.IO.File.Delete(path);
@@ -120,7 +120,7 @@ namespace MenuzRus.Controllers {
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.menu.id);
+                model.Categories = categoryService.GetCategories(SessionData.menu.id, Common.CategoryType.Menu);
                 model.Active = Common.Status.Active;
                 if (id.HasValue) {
                     item = itemService.GetItem((Int32)id.Value);

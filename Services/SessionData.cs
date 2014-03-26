@@ -10,8 +10,6 @@ namespace MenuzRus {
 
     public static class SessionData {
 
-        public static Contact contact { get; set; }
-
         public static Customer customer { get; set; }
 
         public static Exception exeption { get; set; }
@@ -19,5 +17,7 @@ namespace MenuzRus {
         public static Services.Floor floor { get; set; }
 
         public static Services.Menu menu { get; set; }
+
+        public static User user { get; set; }
     }
 }

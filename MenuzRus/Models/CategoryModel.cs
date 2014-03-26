@@ -40,5 +40,8 @@ namespace MenuzRus.Models {
         [DisplayName("Side")]
         [Required]
         public Common.Side Side { get; set; }
+
+        [DisplayName("Type")]
+        public Common.CategoryType Type { get; set; }
     }
 }

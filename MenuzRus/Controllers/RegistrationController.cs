@@ -16,7 +16,7 @@ namespace MenuzRus {
             RegistrationModel model = new RegistrationModel();
             try {
                 model.Customer = new CustomerModel();
-                model.Contact = new ContactModel();
+                model.User = new UserModel();
                 ViewData.Model = model;
 
                 using (StringWriter sw = new StringWriter()) {
@@ -36,7 +36,7 @@ namespace MenuzRus {
         public ActionResult Index(Int32? id) {
             RegistrationModel model = new RegistrationModel();
             model.Customer = new CustomerModel();
-            model.Contact = new ContactModel();
+            model.User = new UserModel();
             return View();
         }
 
@@ -44,7 +44,7 @@ namespace MenuzRus {
         public ActionResult Index(RegistrationModel model) {
             // Save Customer info
             CustomerService customerService = new CustomerService();
-            ContactService contactService = new ContactService();
+            UserService userService = new UserService();
             CommonService commonService = new CommonService();
             Customer customer = new Customer();
             try {
@@ -80,29 +80,29 @@ namespace MenuzRus {
                     model.Customer.Image.SaveAs(path);
                 }
 
-                // Save contact personal info
-                Contact contact = new Contact();
-                contact.id = 0;
-                contact.CustomerId = SessionData.customer.id;
-                contact.FirstName = model.Contact.FirstName;
-                contact.LastName = model.Contact.LastName;
-                contact.WorkPhone = model.Contact.WorkPhone;
-                contact.MobilePhone = model.Contact.MobilePhone;
-                contact.Password = model.Contact.Password;
-                contact.Email = model.Contact.Email;
+                // Save user personal info
+                User user = new User();
+                user.id = 0;
+                user.CustomerId = SessionData.customer.id;
+                user.FirstName = model.User.FirstName;
+                user.LastName = model.User.LastName;
+                user.WorkPhone = model.User.WorkPhone;
+                user.MobilePhone = model.User.MobilePhone;
+                user.Password = model.User.Password;
+                user.Email = model.User.Email;
 
-                result = contactService.SaveContact(contact);
+                result = userService.SaveUser(user);
                 if (result == 0)
                     return RedirectToAction("Index", "Error");
 
-                commonService.SendEmailConfirmation(contact);
+                commonService.SendEmailConfirmation(user);
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
             }
             finally {
                 customerService = null;
-                contactService = null;
+                userService = null;
                 commonService = null;
             }
             return null;

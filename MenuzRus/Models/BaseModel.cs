@@ -11,13 +11,13 @@ namespace MenuzRus.Models {
 
     public class BaseModel {
 
-        public Contact Me { get; set; }
-
-        public Customer MyCompany { get; set; }
-
         public BaseModel() {
-            Me = SessionData.contact;
+            Me = SessionData.user;
             MyCompany = SessionData.customer;
         }
+
+        public User Me { get; set; }
+
+        public Customer MyCompany { get; set; }
     }
 }

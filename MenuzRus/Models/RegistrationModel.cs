@@ -10,8 +10,8 @@ namespace MenuzRus.Models {
 
     public class RegistrationModel : BaseModel {
 
-        public ContactModel Contact { get; set; }
-
         public CustomerModel Customer { get; set; }
+
+        public UserModel User { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-@model MenuzRus.Models.YourMenuModel
+@model MenuzRus.Models.MenuDesignerModel
 @using Services
 <link href="@Url.Content("~/Content/menu_style-1080.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
@@ -12,7 +12,7 @@
                 <div class="rm-front">
                     <div class="rm-content">
                         <div>
-                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customer/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
+                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
                         </div>
                         <div class="category">@Model.MyCompany.Name</div>
                         <div class="item">Welcomes you</div>
@@ -54,7 +54,7 @@
     </div>
 </div>
 
-@helper ShowPage(MenuzRus.Models.YourMenuModel Model, Common.Side side) {
+@helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
     <div class="category-group">
         @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
             if (!String.IsNullOrEmpty(category.Name)) {

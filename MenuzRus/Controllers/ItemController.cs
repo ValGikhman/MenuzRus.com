@@ -25,7 +25,6 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
             }
-
             finally {
                 service = null;
             }
@@ -48,7 +47,6 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
             return null;
@@ -62,7 +60,6 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
             return null;
@@ -100,7 +97,7 @@ namespace MenuzRus.Controllers {
                 else if (model.Image != null)
                     model.Image.SaveAs(path);
 
-                return RedirectToAction("Index", "YourMenu", new { id = SessionData.menu.id });
+                return RedirectToAction("Index", "MenuDesigner", new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
             }

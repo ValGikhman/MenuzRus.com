@@ -1,0 +1,50 @@
+﻿@model MenuzRus.Models.UsersModel
+<link href="@Url.Content("~/Content/base/jquery-ui.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/base/jquery-ui-custom.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/users.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
+
+<div id="bowlG" style="display: none;">
+    <div id="bowl_ringG">
+        <div class="ball_holderG">
+            <div class="ballG">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="well container container-users shadow">
+    <div class="modal-header">
+        <h2>Users Form</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <table id="usersGrid"></table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        jQuery("#usersGrid").jqGrid({
+            url: "@Url.Action("LoadUsersData/1")",
+            datatype: "json",
+            mtype: 'POST',
+            colNames: ["id", "First Name", "Last Name"],
+            colModel: [
+                { name: 'id', index: 'id', width: 55 },
+                { name: 'firstname', index: 'firstdate', width: 90 },
+                { name: 'lastname', index: 'lastname asc, firstname', width: 100 }
+            ],
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            sortname: 'id',
+            viewrecords: true,
+            loadonce: true,
+            sortorder: "desc",
+            height: "100%",
+            width: "100%",
+        });
+    });
+</script>

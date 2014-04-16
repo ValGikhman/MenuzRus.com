@@ -37,7 +37,7 @@ function setMenu() {
     else
         $(".menuAlways").hide();
 
-    if (window.location.href.indexOf("/YourMenu") > -1)
+    if (window.location.href.indexOf("/MenuDesigner") > -1)
         $(".menuDesigner").removeClass("hide");
     else
         $(".menuDesigner").addClass("hide");

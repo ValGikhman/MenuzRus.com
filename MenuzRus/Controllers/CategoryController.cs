@@ -22,7 +22,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
 
@@ -47,7 +46,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
             return null;
@@ -104,7 +102,7 @@ namespace MenuzRus {
             finally {
                 service = null;
             }
-            return RedirectToAction("Index", "YourMenu", new { id = model.MenuId });
+            return RedirectToAction("Index", "MenuDesigner", new { id = model.MenuId });
         }
 
         #region private

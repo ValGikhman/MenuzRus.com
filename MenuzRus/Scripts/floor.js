@@ -112,9 +112,9 @@ function addLayout() {
 
 function addNewTable(style) {
     var name = uid();
-    var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil hide'></span>";
-    var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash hide'></span>";
-    var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus hide'></span>";
+    var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil'></span>";
+    var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
+    var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
     var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
     var elementName = $.validator.format("<div class='label label-default shadow'>{0}</div>", name);
     var element = $.validator.format("<li id='{4}' data-name='{1}' data-type='{0}' data-sizex='1' data-sizey='1' class='shape {0}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{2}{3}</li>", style, name, toolbar, elementName, shortGuid());

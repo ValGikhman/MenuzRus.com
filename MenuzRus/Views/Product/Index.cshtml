@@ -1,0 +1,23 @@
+﻿@model MenuzRus.Models.ProductModel
+@using Services
+<link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
+<script src="@Url.Content("~/Scripts/product.js")"></script>
+
+<div class="well toolbar">
+    <div class="modal-header main-header">
+        <h2>Product Editor</h2>
+    </div>
+    <div id="default">
+        <div class="pull-right btns-category">
+            <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
+            <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+        </div>
+    </div>
+</div>
+
+<div class="well container">
+    <div id="panel" class="panel panel-default panel-Product shadow">
+    </div>
+</div>

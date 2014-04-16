@@ -22,7 +22,7 @@
                     <Id>13</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Falafel</Name>
-                    <Description>Vegitarian sandwich handmade falafel, hummes, tomatoes, red onions and lettuce, wrapped in pita bread</Description>
+                    <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce, wrapped in pita bread</Description>
                     <Price>Sandwich $7 Platter $8.50</Price>
                 </Item>
                 <Item>
@@ -49,13 +49,6 @@
                     <Name>Greek Salad</Name>
                     <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
                     <Price>$5,50</Price>
-                </Item>
-                <Item>
-                    <Id>23</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Chicken Salad</Name>
-                    <Description>Walnuts, celery, red grapes, chicken breast, mayonnaise</Description>
-                    <Price>$6,50</Price>
                 </Item>
                 <Item>
                     <Id>24</Id>

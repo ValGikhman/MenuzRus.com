@@ -12,10 +12,10 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private YourMenuModel GetModel(Int32? id) {
+        private MenuDesignerModel GetModel(Int32? id) {
             CategoryService categoryService = new CategoryService();
             SettingsService settingsService = new SettingsService();
-            YourMenuModel model = new YourMenuModel();
+            MenuDesignerModel model = new MenuDesignerModel();
             try {
                 if (model.Menu == null)
                     model.Menu = new Menu();

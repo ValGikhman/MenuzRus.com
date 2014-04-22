@@ -54,7 +54,7 @@ namespace MenuzRus {
                         query.Name = item.Name;
                         query.Description = item.Description;
                         query.ImageUrl = item.ImageUrl;
-                        query.ShowAsPrice = item.ShowAsPrice;
+                        query.AdditionalInfo = item.AdditionalInfo;
                     }
                     if (item.id == 0) {
                         db.Items.InsertOnSubmit(query);

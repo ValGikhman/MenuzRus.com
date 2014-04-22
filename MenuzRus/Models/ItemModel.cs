@@ -16,6 +16,9 @@ namespace MenuzRus.Models {
         [Required]
         public Common.Status Active { get; set; }
 
+        [DisplayName("Additional Information")]
+        public String AdditionalInfo { get; set; }
+
         [DisplayName("Category")]
         public List<Category> Categories { get; set; }
 
@@ -34,8 +37,5 @@ namespace MenuzRus.Models {
 
         [DisplayName("Name")]
         public String Name { get; set; }
-
-        [DisplayName("Show As Price")]
-        public String ShowAsPrice { get; set; }
     }
 }

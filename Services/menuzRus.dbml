@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="menuzrus" Class="menuzRusDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=184.168.47.19;Initial Catalog=menuzrus;User ID=menuzrus" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.ItemPrice" Member="ItemPrices">
-    <Type Name="ItemPrice">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
-      <Association Name="Item_ItemPrice" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Settings" Member="Settings">
     <Type Name="Setting">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -37,20 +28,6 @@
       <Association Name="Customer_Menu" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menu" />
       <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
       <Association Name="Customer_User" Member="Users" ThisKey="id" OtherKey="CustomerId" Type="User" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Items" Member="Items">
-    <Type Name="Item">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
-      <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ShowAsPrice" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
-      <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Menus" Member="Menus">
@@ -141,6 +118,19 @@
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Category_Item" Member="Items" ThisKey="id" OtherKey="CategoryId" Type="Item" />
       <Association Name="Menu_Category" Member="Menu" ThisKey="MenuId" OtherKey="id" Type="Menu" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Items" Member="Items">
+    <Type Name="Item">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AdditionalInfo" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

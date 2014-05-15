@@ -1,0 +1,57 @@
+﻿@model MenuzRus.Models.MenuDesignerModel
+<link href="../../Scripts/chosen/chosen.css" rel="stylesheet" />
+<link href="@Url.Content("~/Content/item.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
+<div class="modal-header  modal-new">
+    <button type="button" class="close itemProductClose" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Edit Item Association
+        <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:addAssosiation()"><span class="glyphicon glyphicon-plus"></span></button>
+    </h4>
+</div>
+<div class="container container-item">
+    @{
+        foreach (Services.ItemProduct itemProduct in MenuzRus.SessionData.item.ItemProducts) {
+        <div>
+            <div style="margin-top: 25px;">Product association #@itemProduct.id</div>
+            <select id="itemProduct.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add product assosiation" class="chosen-select items" multiple>
+                @foreach (Services.Category category in Model.Categories) {
+                    <option value=""></option>
+                    <optgroup label="@category.Name">
+                        @foreach (Services.Item item in category.Items) {
+                            String select = String.Empty;
+                            if (itemProduct.ItemProductAssociations.Any(m => m.ItemId == item.id)) {
+                                select = "selected";
+                            }
+                            <option id="item.@item.id" value="@item.id" @select>@item.Name</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+            <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        }
+    }
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" onclick="javascript:saveItems()">Save changes</button>
+</div>
+<div class="hide">
+    <div class="template">
+        <div style='margin-top: 25px;'>New product association</div>
+        <select data-placeholder="Click to add product assosiation" class="chosen-select items" multiple>
+            @foreach (Services.Category category in Model.Categories) {
+                <option value=""></option>
+                <optgroup label="@category.Name">
+                    @foreach (Services.Item item in category.Items) {
+                        <option value="@item.id">@item.Name</option>
+                    }
+                </optgroup>
+            }
+        </select>
+        <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+</div>
+<input type="hidden" id="id" />
+<script>initChosen()</script>

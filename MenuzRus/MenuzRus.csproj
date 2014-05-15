@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ItemProductController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
@@ -149,7 +150,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ItemProductModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\FloorModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
@@ -294,7 +295,24 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Content\oasis-menu_style-1080.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\chosen\chosen-sprite%402x.png" />
+    <Content Include="Scripts\chosen\chosen-sprite.png" />
+    <Content Include="Scripts\chosen\chosen.css" />
+    <Content Include="Scripts\chosen\chosen.jquery.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen\chosen.min.css" />
+    <Content Include="Scripts\chosen\chosen.proto.js" />
+    <Content Include="Scripts\chosen\chosen.proto.min.js" />
+    <Content Include="Scripts\chosen\docsupport\chosen.png" />
+    <Content Include="Scripts\chosen\docsupport\oss-credit.png" />
+    <Content Include="Scripts\chosen\docsupport\prism.css" />
+    <Content Include="Scripts\chosen\docsupport\prism.js" />
+    <Content Include="Scripts\chosen\docsupport\style.css" />
+    <Content Include="Scripts\chosen\index.html" />
+    <Content Include="Scripts\chosen\index.proto.html" />
+    <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\itemProduct.js" />
     <Content Include="Scripts\floor.js" />
     <Content Include="Scripts\JQGrid\css\ui.jqgrid.css" />
     <Content Include="Scripts\JQGrid\js\Changes.txt" />
@@ -489,6 +507,7 @@
     <Content Include="Scripts\noty\packaged\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\default.js" />
+    <Content Include="Scripts\product.js" />
     <Content Include="Trirand.Web.Mvc.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -540,6 +559,8 @@
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

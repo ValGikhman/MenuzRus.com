@@ -16,6 +16,8 @@ namespace MenuzRus {
 
         public static Services.Floor floor { get; set; }
 
+        public static Services.Item item { get; set; }
+
         public static Services.Menu menu { get; set; }
 
         public static User user { get; set; }

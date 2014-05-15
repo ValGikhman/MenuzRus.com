@@ -34,29 +34,8 @@ namespace MenuzRus {
         }
 
         public List<Category> GetCategories(Int32 id, Common.CategoryType type) {
-            if (type == Common.CategoryType.Menu) {
-                menuzRusDataContext db = new menuzRusDataContext();
-                return db.Categories.Where(m => m.MenuId == id && m.Active && m.Type == (Int32)type).OrderBy(m => m.SortOrder).ToList();
-            }
-            else if (type == Common.CategoryType.Inventory)
-                return GetCategories(id);
-            return null;
-        }
-
-        public List<Category> GetCategories(Int32 id) {
-            List<Category> retVal = new List<Category>();
-            try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    retVal = (from var in db.Menus
-                              join cat in db.Categories on var.CustomerId equals id
-                              where var.id == cat.MenuId && cat.Type == (Int32)Common.CategoryType.Inventory
-                              select cat).ToList();
-                }
-            }
-            catch (Exception ex) {
-                SessionData.exeption = ex;
-            }
-            return retVal;
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.Categories.Where(m => m.MenuId == id && m.Active && m.Type == (Int32)type).OrderBy(m => m.SortOrder).ToList();
         }
 
         public Category GetCategory(Int32 id) {

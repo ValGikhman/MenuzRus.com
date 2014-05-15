@@ -29,11 +29,10 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32? id, Common.CategoryType type) {
+        public String EditCategory(Int32? id) {
             CategoryModel model = new CategoryModel();
             try {
                 model = GetModel(model, id);
-                model.Type = type;
 
                 ViewData.Model = model;
 
@@ -66,6 +65,8 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
+            // Converts /MenuDesigner to Menu, /Product to Product etc
+            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty);
             CategoryService service = new CategoryService();
             Category category = new Category();
             try {
@@ -102,12 +103,14 @@ namespace MenuzRus {
             finally {
                 service = null;
             }
-            return RedirectToAction("Index", "MenuDesigner", new { id = model.MenuId });
+            return RedirectToAction("Index", base.Referer, new { id = model.MenuId });
         }
 
         #region private
 
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
+            // Converts /MenuDesigner to Menu, /Product to Product etc
+            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty).Replace("Designer", String.Empty);
             try {
                 //set for new or existing category
                 model.id = id.HasValue ? id.Value : 0;
@@ -117,6 +120,7 @@ namespace MenuzRus {
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 model.MenuId = SessionData.menu.id;
                 model.Active = Common.Status.Active;
+                model.Type = Utility.GetEnumItem<Common.CategoryType>(base.Referer);
                 if (id.HasValue) {
                     category = categoryService.GetCategory((Int32)id.Value);
                     if (category != null) {

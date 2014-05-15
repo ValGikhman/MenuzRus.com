@@ -32,18 +32,9 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String EditItem(Int32? id) {
-            ItemModel model = new ItemModel();
+        public ActionResult EditItem(Int32? id) {
             try {
-                model = GetModel(model, id);
-                ViewData.Model = model;
-
-                using (StringWriter sw = new StringWriter()) {
-                    ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_ItemPartial");
-                    ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                    viewResult.View.Render(viewContext, sw);
-                    return sw.GetStringBuilder().ToString();
-                }
+                return PartialView("_ItemPartial", GetModel(id));
             }
             catch (Exception ex) {
             }
@@ -53,10 +44,8 @@ namespace MenuzRus.Controllers {
         }
 
         public ActionResult Index(Int32? id) {
-            ItemModel model = new ItemModel();
             try {
-                model = GetModel(model, id);
-                return View(model);
+                return View(GetModel(id));
             }
             catch (Exception ex) {
             }
@@ -67,6 +56,8 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveItem(ItemModel model) {
+            // Converts /MenuDesigner to Menu, /Product to Product etc
+            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty);
             ItemService service = new ItemService();
             Item item = new Item();
             try {
@@ -97,7 +88,7 @@ namespace MenuzRus.Controllers {
                 else if (model.Image != null)
                     model.Image.SaveAs(path);
 
-                return RedirectToAction("Index", "MenuDesigner", new { id = SessionData.menu.id });
+                return RedirectToAction("Index", base.Referer, new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
             }
@@ -111,13 +102,15 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private ItemModel GetModel(ItemModel model, Int32? id) {
-            //set for new or existing category
+        private ItemModel GetModel(Int32? id) {
+            ItemModel model = new ItemModel();
+            // Converts /MenuDesigner to Menu, /Product to Product etc
+            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty).Replace("Designer", String.Empty);
             Item item;
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.menu.id, Common.CategoryType.Menu);
+                model.Categories = categoryService.GetCategories(SessionData.menu.id, Utility.GetEnumItem<Common.CategoryType>(base.Referer));
                 model.Active = Common.Status.Active;
                 if (id.HasValue) {
                     item = itemService.GetItem((Int32)id.Value);

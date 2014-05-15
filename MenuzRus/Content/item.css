@@ -1,14 +1,16 @@
 ﻿.container-item {
-    width: 600px;
+    width: 595px;
+    height: 300px;
+    overflow: auto;
 }
 
 .form-item {
     margin: 0 auto;
 }
 
-    .form-item .form-control:focus {
-        z-index: 2;
-    }
+.form-item .form-control:focus {
+    z-index: 2;
+}
 
 #Name, #Description {
     margin-top: 10px;
@@ -39,4 +41,8 @@
 
 .modal-new {
     padding-top: 25px;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    height: 25px;
 }

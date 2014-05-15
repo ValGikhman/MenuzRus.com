@@ -4,6 +4,8 @@
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <script src="@Url.Content("~/Scripts/MenuDesigner.js")"></script>
+<script src="@Url.Content("~/Scripts/itemProduct.js")"></script>
+
 <div class="modal fade menuEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -179,6 +181,7 @@
                                     <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                                     <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
                                     <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(@item.id)"><span class="glyphicon glyphicon-transfer"></span></button>
                                 </div>
                                 <a href="javascript:showItemMenu(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {

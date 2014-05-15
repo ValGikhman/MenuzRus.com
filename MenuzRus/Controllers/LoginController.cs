@@ -31,7 +31,7 @@ namespace MenuzRus {
                     return View();
                 }
                 Session["IsLoggedIn"] = true;
-                return RedirectToAction("Index/1", "Users");
+                return RedirectToAction("Index", "Product");
             }
             catch (Exception ex) {
             }

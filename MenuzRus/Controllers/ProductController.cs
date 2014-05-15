@@ -20,19 +20,34 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private ProductModel GetModel(Int32? id) {
+        private MenuDesignerModel GetModel(Int32? id) {
             CategoryService categoryService = new CategoryService();
-            ProductModel model = new ProductModel();
+            MenuService menuService = new MenuService();
+            MenuDesignerModel model = new MenuDesignerModel();
             try {
-                if (model.Categories == null)
-                    model.Categories = new List<Category>();
-                model.Categories = categoryService.GetCategories(model.Menu.id, Common.CategoryType.Inventory);
+                model.Menus = menuService.GetMenus(SessionData.customer.id);
+                if (model.Menu == null) {
+                    model.Menu = new MenuzRus.Models.Menu();
+                }
+                model.Menu.id = id.HasValue ? id.Value : 0;
+                if (model.Menu.id == 0 && model.Menus.Count() > 0) {
+                    model.Menu.id = model.Menus[0].id;
+                    model.Menu.Name = model.Menus[0].Name;
+                    SessionData.menu.Name = model.Menus[0].Name;
+                }
+                else if (model.Menu.id != 0)
+                    model.Menu.Name = model.Menus.Where(m => m.id == model.Menu.id).FirstOrDefault().Name;
+
+                SessionData.menu.id = model.Menu.id;
+                SessionData.menu.Name = model.Menu.Name;
+                model.Categories = categoryService.GetCategories(model.Menu.id, Common.CategoryType.Product);
                 return model;
             }
             catch (Exception ex) {
             }
             finally {
                 categoryService = null;
+                menuService = null;
             }
             return null;
         }

@@ -21,7 +21,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
                 service = null;
             }
@@ -42,7 +41,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
             return null;
@@ -65,7 +63,7 @@ namespace MenuzRus {
                 user.WorkPhone = model.WorkPhone;
                 user.MobilePhone = model.MobilePhone;
                 user.Password = model.Password;
-                user.Hash = "";
+                user.Hash = String.Empty;
                 user.Active = (model.Active == Common.Status.Active);
                 user.Type = model.Type.ToString();
                 user.Email = model.Email;
@@ -88,7 +86,7 @@ namespace MenuzRus {
                         System.IO.File.Delete(path);
                     }
                 }
-                else {
+                else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
 

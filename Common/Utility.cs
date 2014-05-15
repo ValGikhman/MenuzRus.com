@@ -18,7 +18,10 @@ public static class Common {
         Menu = 1,
 
         [Display(Name = "Inventory")]
-        Inventory = 2
+        Inventory = 2,
+
+        [Display(Name = "Product")]
+        Product = 4
     }
 
     public enum Settings {

@@ -315,7 +315,7 @@ function showCategoryMenu(id) {
 function editCategory(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/Category/EditCategory/", { id: id, type: "Menu" })
+    var jqxhr = $.get("/Category/EditCategory/", { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -386,6 +386,20 @@ function editItem(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
     var jqxhr = $.get("/Item/EditItem/", { id: id })
+                  .done(function (result) {
+                      $("#modalEditForm").html(result);
+                      $(".modalEditForm").modal("show");
+                  })
+    .fail(function () {
+    })
+    .always(function () {
+    });
+}
+
+function associateItem(id) {
+    $(".btn-group.category").css("display", "none");
+    $(".btn-group.item").css("display", "none");
+    var jqxhr = $.get("/ItemProduct/ItemProductAssociate/", { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");

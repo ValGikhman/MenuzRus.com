@@ -199,7 +199,7 @@ a:hover, a:focus {
 .btn-group.item {
     display: none;
     margin-top: -4px;
-    margin-left: -18px;
+    margin-left: -50px;
     position: fixed;
 }
 

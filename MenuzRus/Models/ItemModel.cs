@@ -35,6 +35,9 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
+        [DisplayName("ItemPrices")]
+        public List<ItemPrice> ItemPrices { get; set; }
+
         [DisplayName("Name")]
         public String Name { get; set; }
     }

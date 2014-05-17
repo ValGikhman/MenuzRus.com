@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="menuzrus" Class="menuzRusDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=184.168.47.19;Initial Catalog=menuzrus;User ID=menuzrus" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=184.168.47.19;Initial Catalog=menuzrus;Persist Security Info=True;User ID=menuzrus" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Settings" Member="Settings">
     <Type Name="Setting">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -130,19 +130,9 @@
       <Column Name="AdditionalInfo" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
-      <Association Name="ItemProductAssociation_Item" Member="ItemProductAssociation" ThisKey="id" OtherKey="ItemId" Type="ItemProductAssociation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.ItemProduct" Member="ItemProducts">
-    <Type Name="ItemProduct">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="ItemProduct_ItemProductAssociation" Member="ItemProductAssociations" ThisKey="id" OtherKey="ItemProductId" Type="ItemProductAssociation" />
-      <Association Name="Item_ItemProduct" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ItemProductAssociation" Member="ItemProductAssociations">
@@ -152,8 +142,28 @@
       <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="ItemProductAssociation_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
       <Association Name="ItemProduct_ItemProductAssociation" Member="ItemProduct" ThisKey="ItemProductId" OtherKey="id" Type="ItemProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemPrices" Member="ItemPrices">
+    <Type Name="ItemPrice">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Item_ItemPrice" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemProduct" Member="ItemProducts">
+    <Type Name="ItemProduct">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ItemProduct_ItemProductAssociation" Member="ItemProductAssociations" ThisKey="id" OtherKey="ItemProductId" Type="ItemProductAssociation" />
+      <Association Name="Item_ItemProduct" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

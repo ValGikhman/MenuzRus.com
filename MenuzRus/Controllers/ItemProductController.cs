@@ -32,23 +32,6 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
-        [HttpPost]
-        public ActionResult DeleteItemProductDetail(Int32 id) {
-            ItemProductService service = new ItemProductService();
-            try {
-                if (!service.DeleteItemProductAssociations(id))
-                    return RedirectToAction("Index", "Error");
-
-                return Json("OK");
-            }
-            catch (Exception ex) {
-            }
-            finally {
-                service = null;
-            }
-            return null;
-        }
-
         [HttpGet]
         public ActionResult ItemProductAssociate(Int32 id) {
             CategoryService categoryService = new CategoryService();
@@ -81,6 +64,7 @@ namespace MenuzRus.Controllers {
                         itemProduct = new Services.ItemProduct();
                         itemProduct.id = item.id;
                         itemProduct.ItemId = item.ItemId;
+                        itemProduct.Type = (Int32)Common.ProductType.Alternatives;
                         foreach (ItemProductAssociation itemAssosiation in item.ItemProductAssociation) {
                             itemProductAssociation = new Services.ItemProductAssociation();
                             itemProductAssociation.ItemId = itemAssosiation.ItemId;

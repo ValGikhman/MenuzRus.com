@@ -53,12 +53,6 @@ namespace MenuzRus {
             return true;
         }
 
-        public ItemProduct GetItemProduct(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
-            ItemProduct item = db.ItemProducts.Where(m => m.id == id).FirstOrDefault();
-            return item;
-        }
-
         public Boolean SaveItemProduct(ItemProduct item) {
             ItemProduct itemQuery = new ItemProduct();
             try {
@@ -67,6 +61,7 @@ namespace MenuzRus {
                         itemQuery = db.ItemProducts.Where(m => m.id == item.id).FirstOrDefault();
                     if (itemQuery != default(ItemProduct)) {
                         itemQuery.id = item.id;
+                        itemQuery.Type = item.Type;
                         itemQuery.ItemId = item.ItemId;
                     }
                     if (item.id == 0) {

@@ -15,6 +15,23 @@ namespace MenuzRus.Controllers {
         #region item
 
         [HttpPost]
+        public ActionResult AddItemPrice(Int32 id, Decimal price) {
+            ItemService service = new ItemService();
+            try {
+                if (!service.AddItemPrice(id, price))
+                    return RedirectToAction("Index", "Error");
+
+                return Json("OK");
+            }
+            catch (Exception ex) {
+            }
+            finally {
+                service = null;
+            }
+            return null;
+        }
+
+        [HttpPost]
         public ActionResult DeleteItem(Int32? id) {
             ItemService service = new ItemService();
             try {
@@ -122,6 +139,7 @@ namespace MenuzRus.Controllers {
                         model.Description = item.Description;
                         model.AdditionalInfo = item.AdditionalInfo;
                         model.ImageUrl = item.ImageUrl;
+                        model.ItemPrices = itemService.GetItemPrices(model.id);
                     }
                 }
                 return model;

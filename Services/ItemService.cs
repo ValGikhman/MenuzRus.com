@@ -10,6 +10,23 @@ namespace MenuzRus {
 
     public class ItemService {
 
+        public Boolean AddItemPrice(Int32 id, Decimal price) {
+            ItemPrice query = new ItemPrice();
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query.Price = price;
+                    query.ItemId = id;
+                    db.ItemPrices.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return false;
+            }
+            return true;
+        }
+
         public Boolean DeleteItem(Int32? id) {
             Item query = new Item();
             id = id.HasValue ? id : 0;
@@ -33,6 +50,13 @@ namespace MenuzRus {
             menuzRusDataContext db = new menuzRusDataContext();
             Item item = db.Items.Where(m => m.id == id).FirstOrDefault();
             return item;
+        }
+
+        public List<ItemPrice> GetItemPrices(Int32 id) {
+            List<ItemPrice> items;
+            menuzRusDataContext db = new menuzRusDataContext();
+            items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateModified).ToList();
+            return items;
         }
 
         public List<Item> GetItems(Int32 id) {

@@ -24,6 +24,15 @@ public static class Common {
         Product = 4
     }
 
+    public enum ProductType {
+
+        [Display(Name = "Alternatives")]
+        Alternatives = 1,
+
+        [Display(Name = "Add On's")]
+        Addons = 2
+    }
+
     public enum Settings {
 
         [Display(Name = "Wall Background")]

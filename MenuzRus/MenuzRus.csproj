@@ -436,7 +436,9 @@
     <Content Include="Scripts\JQGrid\src\jquery.fmatter.js" />
     <Content Include="Scripts\JQGrid\src\jquery.jqGrid.js" />
     <Content Include="Scripts\JQGrid\src\JsonXml.js" />
+    <Content Include="Scripts\JQuery\jquery.tablesorter.widgets.js" />
     <Content Include="Scripts\JQuery\jquery.json-2.4.min.js" />
+    <Content Include="Scripts\JQuery\jquery.tablesorter.min.js" />
     <Content Include="Scripts\menuDesigner.js" />
     <Content Include="Scripts\gridster\jquery.gridster.css" />
     <Content Include="Scripts\gridster\jquery.gridster.js" />

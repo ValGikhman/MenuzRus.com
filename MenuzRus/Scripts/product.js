@@ -2,18 +2,32 @@
     $("#Menu_id").change(function () {
         window.location = "/Product/Index/" + $(this).val();
     })
+
+    $("span#popover").popover({
+        placement: "right",
+        html: true,
+        trigger: "hover",
+    });
 })
 
 /// ****** CATEGORY ***************///
-function showCategoryMenu(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
+function collapseCategory(thisObject, toggleObject) {
+    $(toggleObject).toggle();
+
+    if ($(toggleObject).is(":visible"))
+        $(thisObject).removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    else
+        $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
+}
+
+function showCategoryMenu(id, object) {
+    $(object).hide();
+    $(".btn-group").hide();
+    $(".btn-group[data-value=" + id + "]").show();
 }
 
 function editCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+    $(".btn-group").hide();
     var jqxhr = $.get("/Category/EditCategory/", { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -22,12 +36,12 @@ function editCategory(id) {
     .fail(function () {
     })
     .always(function () {
+        $('.glyphicon-cog').show();
     });
 }
 
 function deleteCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+    $(".btn-group").hide();
     var name = $(".category[id=category_" + id + "]").html();
     noty({
         layout: "center",
@@ -47,6 +61,7 @@ function deleteCategory(id) {
                        message("Delete category failed.", "error", "center");
                    })
                    .always(function () {
+                       $('.glyphicon-cog').show();
                    });
             }
         },
@@ -60,15 +75,14 @@ function deleteCategory(id) {
 }
 
 /// ****** ITEMS ***************///
-function showItemMenu(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    $(".btn-group.item[data-value=" + id + "]").css("display", "inline");
+function showItemMenu(id, object) {
+    $(object).hide();
+    $(".btn-group").hide();
+    $(".btn-group[data-value=" + id + "]").show();
 }
 
 function editItem(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+    $(".btn-group").hide();
     var jqxhr = $.get("/Item/EditItem/", { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -77,12 +91,12 @@ function editItem(id) {
     .fail(function () {
     })
     .always(function () {
+        $('.glyphicon-cog').show();
     });
 }
 
 function deleteItem(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+    $(".btn-group").hide();
     var name = $(".item[id=item_" + id + "]").html();
     noty({
         layout: "center",
@@ -102,6 +116,7 @@ function deleteItem(id) {
                     message("Delete item failed.", "error", "center");
                 })
                 .always(function () {
+                    $('.glyphicon-cog').show();
                 });
             }
         },

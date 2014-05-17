@@ -17,79 +17,97 @@
     </div>
 </div>
 <div class="well container">
-    <div id="panel" class="panel panel-default panel-MenuDesigner shadow">
-        <div class="panel-MenuDesigner-body">
-            <div class="wall">
-                <div class="page">
-                    @ShowPage(Model)
-                </div>
-            </div>
-        </div>
+    <div id="panel" class="page shadow">
+        @ShowPage(Model)
     </div>
 </div>
 
 @helper ShowPage(MenuzRus.Models.MenuDesignerModel Model) {
-    <ul class="category-group media-list">
-        @if (Model.Categories != null) {
-            foreach (Category category in Model.Categories.ToList()) {
-            <li  class="media" data-value="@category.id">
-                <hr>
-                <div class="pull-left category_column">
-                    <div class="btn-group category" data-value="@category.id">
-                        <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
-                        <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                        <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <div class="media-body">
-                        <a href="javascript:showCategoryMenu(@category.id)">
+    if (Model.Categories != null) {
+    <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
+        <thead style="color: #fff">
+            <tr>
+                <th style="width: 4%"></th>
+                <th style="width: 2%"><span class="glyphicon glyphicon-picture"></span></th>
+                <th style="width: 30%">Name</th>
+                <th style="width: 47%">Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable">
+        <table class="table">
+            <tbody>
+                @foreach (Category category in Model.Categories.ToList()) {
+                    String selector = String.Format(".items_{0}", category.id);
+                    <tr class="categoryRow">
+                        <td style="width: 4%">
+                            <span class="glyphicon glyphicon-minus pointer" onclick="javascript:collapseCategory(this, '@selector');"></span>
+                        </td>
+                        <td style="width: 2%">
+                            @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+                                <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
+                            }
+                        </td>
+                        <td style="width: 30%">
                             @if (!String.IsNullOrEmpty(category.Name)) {
-                                String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
-                                <div id="@categoryDataValue" class="category" data-value="@category.id">
+                                <div class="category" data-value="@category.id">
                                     @category.Name
                                 </div>
                             }
+                        </td>
+                        <td style="width: 49%">
                             @if (!String.IsNullOrEmpty(@category.Description)) {
                                 <div class="categoryDescription">@category.Description</div>
                             }
-                            @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
-                                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object categoryImage" />
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showCategoryMenu(@category.id, this)"></span>
+                            <div class="btn-group" data-value="@category.id">
+                                <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
+                                <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
+                        </td>
+                    </tr>
+                            if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
+                                foreach (Item item in category.Items) {
+                                    String classname = String.Format("items_{0}", category.id);
+                    <tr class="@classname">
+                        <td></td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+                                <span id="popover" class="glyphicon glyphicon-picture pointer" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
                             }
-                        </a>
-                    </div>
-                </div>
-                <div class="pull-left item_column">
-                    @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
-                        <ul class="items-group media-list">
-                            @foreach (Item item in category.Items) {
-                                <li class="media"  data-value="@item.id">
-                                    <div class="btn-group item" data-value="@item.id">
-                                        <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
-                                        <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                        <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                                        <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    </div>
-                                    <a href="javascript:showItemMenu(@item.id)">
-                                        @if (!String.IsNullOrEmpty(item.Name)) {
-                                            String itemDataValue = String.Format("{0}{1}", "item_", item.id);
-                                            <div id="@itemDataValue" class="item" data-value="@item.id">
-                                                @item.Name
-                                            </div>
-                                        }
-                                        @if (!String.IsNullOrEmpty(item.Description)) {
-                                            <div class="itemDescription">@item.Description </div>
-                                        }
-                                        @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object itemImage" />
-                                        }
-                                    </a>
-                                </li>
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(item.Name)) {
+                                <div class="item" data-value="@item.id">
+                                    @item.Name
+                                </div>
                             }
-                        </ul>
-                    }
-                </div>
-            </li>
-            }
-        }
-    </ul>
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(item.Description)) {
+                                <div class="itemDescription">@item.Description </div>
+                            }
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-cog" onclick="javascript:showItemMenu(@item.id, this)"></span>
+                            <div class="btn-group" data-value="@item.id">
+                                <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript: $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
+                                <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
+                        </td>
+                    </tr>
+                                }
+                            }
+                }
+            </tbody>
+        </table>
+    </div>
+    }
 }

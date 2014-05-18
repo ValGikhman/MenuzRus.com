@@ -64,7 +64,7 @@ namespace MenuzRus.Controllers {
                         itemProduct = new Services.ItemProduct();
                         itemProduct.id = item.id;
                         itemProduct.ItemId = item.ItemId;
-                        itemProduct.Type = (Int32)Common.ProductType.Alternatives;
+                        itemProduct.Type = (Int32)item.Type;
                         foreach (ItemProductAssociation itemAssosiation in item.ItemProductAssociation) {
                             itemProductAssociation = new Services.ItemProductAssociation();
                             itemProductAssociation.ItemId = itemAssosiation.ItemId;
@@ -122,6 +122,7 @@ namespace MenuzRus.Controllers {
                         Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
 
                         itemProduct.id = Int32.Parse(vars.GetValue(0).ToString());
+                        itemProduct.Type = EnumHelper<Common.ProductType>.Parse(vars.GetValue(2).ToString());
                         itemProductAssociation.ItemProductId = Int32.Parse(vars.GetValue(0).ToString());
                         itemProductAssociation.ItemId = Int32.Parse(vars.GetValue(1).ToString());
 

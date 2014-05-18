@@ -57,3 +57,8 @@
 #Price {
     width: 80px;
 }
+
+.chosen-container-multi .chosen-drop .chosen-results {
+    max-height: 150px !important;
+    overflow-y: auto;
+}

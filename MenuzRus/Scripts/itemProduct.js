@@ -11,7 +11,7 @@ function saveItems() {
     $(".items:not(.template)").each(function (i, e) {
         var values = "";
         $.each(e.selectedOptions, function (index, item) {
-            values += $.validator.format("{0}:{1},", $(e).attr("data-value"), item.value);
+            values += $.validator.format("{0}:{1}:{2},", $(e).attr("data-value"), item.value, $(e).parent().find("button").text());
         });
         if (values != "")
             model.push(values);
@@ -55,4 +55,11 @@ function deleteItself(object) {
             .always(function () {
                 container.unblock();
             });
+}
+
+function toggleProductType(object) {
+    if ($(object).text() == "Alternatives")
+        $(object).text("Addons")
+    else
+        $(object).text("Alternatives")
 }

@@ -29,7 +29,7 @@ public static class Common {
         [Display(Name = "Alternatives")]
         Alternatives = 1,
 
-        [Display(Name = "Add On's")]
+        [Display(Name = "Addons")]
         Addons = 2
     }
 

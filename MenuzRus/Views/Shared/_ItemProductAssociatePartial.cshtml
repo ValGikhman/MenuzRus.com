@@ -1,7 +1,9 @@
 ﻿@model MenuzRus.Models.MenuDesignerModel
+@using Services
 <link href="../../Scripts/chosen/chosen.css" rel="stylesheet" />
 <link href="@Url.Content("~/Content/item.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
+
 <div class="modal-header  modal-new">
     <button type="button" class="close itemProductClose" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">Edit Item Association
@@ -12,8 +14,12 @@
     @{
         foreach (Services.ItemProduct itemProduct in MenuzRus.SessionData.item.ItemProducts) {
         <div>
-            <div style="margin-top: 25px;">Product association #@itemProduct.id</div>
-            <select id="itemProduct.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add product assosiation" class="chosen-select items" multiple>
+            <div style="margin: 12px 0 12px;">Product association #@itemProduct.id</div>
+            @{
+            var description = EnumHelper<Common.ProductType>.GetDisplayValue((Common.ProductType)itemProduct.Type);
+            }
+            <button type="button" class="btn btn-default" style="width: 100px;" onclick="javascript:toggleProductType(this)">@description</button>
+            <select id="itemProduct.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add product assosiation" class="chosen-select items shadow" multiple>
                 @foreach (Services.Category category in Model.Categories) {
                     <option value=""></option>
                     <optgroup label="@category.Name">
@@ -39,8 +45,9 @@
 </div>
 <div class="hide">
     <div class="template">
-        <div style='margin-top: 25px;'>New product association</div>
-        <select data-placeholder="Click to add product assosiation" class="chosen-select items" multiple>
+        <div style="margin: 12px 0 12px;">New product association</div>
+        <button type="button" class="btn btn-default" style="width: 100px;" onclick="javascript:toggleProductType(this)">Alternatives</button>
+        <select data-value="0" data-placeholder="Click to add product assosiation" class="chosen-select items shadow" multiple>
             @foreach (Services.Category category in Model.Categories) {
                 <option value=""></option>
                 <optgroup label="@category.Name">

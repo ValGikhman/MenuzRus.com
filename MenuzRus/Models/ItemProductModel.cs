@@ -17,6 +17,8 @@ namespace MenuzRus.Models {
         public Int32 ItemId { set; get; }
 
         public List<ItemProductAssociation> ItemProductAssociation { set; get; }
+
+        public Common.ProductType Type { set; get; }
     }
 
     public class ItemProductModel : BaseModel {

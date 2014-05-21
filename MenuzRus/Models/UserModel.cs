@@ -51,6 +51,8 @@ namespace MenuzRus.Models {
         [Required]
         public String Password { get; set; }
 
+        public String Referer { get; set; }
+
         [DisplayName("Type")]
         public Common.UserType Type { get; set; }
 

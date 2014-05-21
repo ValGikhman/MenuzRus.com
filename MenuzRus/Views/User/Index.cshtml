@@ -1,1 +1,10 @@
-﻿@{Html.RenderPartial("_UserPartial");}
+﻿<div class="well container container-user shadow">
+    @{Html.RenderPartial("_UserPartial");}
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#Referer").val("Form");
+        $("#btnCancel").click(function () {
+            window.location = "/Login/";
+        })
+    });</script>

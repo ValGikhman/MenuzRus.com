@@ -18,7 +18,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
             return null;
@@ -51,7 +50,7 @@ namespace MenuzRus {
                 SessionData.customer = customer;
 
                 String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Customer", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
+                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Customers", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
                 if (model.Image == null && model.ImageUrl == null) {
                     if (System.IO.File.Exists(path)) {
                         System.IO.File.Delete(path);
@@ -64,7 +63,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
                 service = null;
             }
@@ -93,7 +91,6 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
             }
-
             finally {
                 service = null;
             }

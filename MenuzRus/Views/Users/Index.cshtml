@@ -1,50 +1,69 @@
 ﻿@model MenuzRus.Models.UsersModel
+@using Services
 <link href="@Url.Content("~/Content/base/jquery-ui.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/base/jquery-ui-custom.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/users.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
-
-<div id="bowlG" style="display: none;">
-    <div id="bowl_ringG">
-        <div class="ball_holderG">
-            <div class="ballG">
-            </div>
-        </div>
-    </div>
-</div>
+<script src="@Url.Content("~/Scripts/users.js")"></script>
 
 <div class="well container container-users shadow">
     <div class="modal-header">
         <h2>Users Form</h2>
     </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-8">
-            <table id="usersGrid"></table>
+    <div id="panel" class="page shadow">
+        <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
+            <thead style="color: #fff">
+                <tr>
+                    <th style="width: 2%"><span class="glyphicon glyphicon-picture"></span></th>
+                    <th style="width: 15%">First Name</th>
+                    <th style="width: 15%">Last Name</th>
+                    <th style="width: 15%">Email</th>
+                    <th style="width: 15%">Mobile #</th>
+                    <th style="width: 15%">Work #</th>
+                    <th style="width: 23%">Actions</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="bodycontainer scrollable">
+            <table class="table">
+                <tbody>
+                    @if (Model.Users != null) {
+                        foreach (User user in Model.Users) {
+                            String selector = String.Format(".items_{0}", user.id);
+                        <tr>
+                            <td style="width: 2%">
+                                @if (!String.IsNullOrEmpty(user.ImageUrl)) {
+                                    <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Users/{1}?{2}", Model.MyCompany.id, user.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
+                                }
+                            </td>
+                            <td style="width: 15%">
+                                @user.FirstName
+                            </td>
+                            <td style="width: 15%">
+                                @user.LastName
+                            </td>
+                            <td style="width: 15%">
+                                @user.Email
+                            </td>
+                            <td style="width: 15%">
+                                @user.MobilePhone
+                            </td>
+                            <td style="width: 17%">
+                                @user.WorkPhone
+                            </td>
+                            <td style="width: 23%">
+                                <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showUserMenu(@user.id, this)"></span>
+                                <div class="btn-group" data-value="@user.id">
+                                    <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editUser(@user.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editUser(0)"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteUser(@user.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<script>
-    $(function () {
-        jQuery("#usersGrid").jqGrid({
-            url: "@Url.Action("LoadUsersData/1")",
-            datatype: "json",
-            mtype: 'POST',
-            colNames: ["id", "First Name", "Last Name"],
-            colModel: [
-                { name: 'id', index: 'id', width: 55 },
-                { name: 'firstname', index: 'firstdate', width: 90 },
-                { name: 'lastname', index: 'lastname asc, firstname', width: 100 }
-            ],
-            rowNum: 10,
-            rowList: [10, 20, 30],
-            sortname: 'id',
-            viewrecords: true,
-            loadonce: true,
-            sortorder: "desc",
-            height: "100%",
-            width: "100%",
-        });
-    });
-</script>

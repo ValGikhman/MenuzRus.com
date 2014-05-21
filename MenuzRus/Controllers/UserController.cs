@@ -28,16 +28,9 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String Edituser(Int32? id) {
+        public ActionResult Edituser(Int32? id) {
             try {
-                ViewData.Model = GetModel(id);
-
-                using (StringWriter sw = new StringWriter()) {
-                    ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_UserPartial");
-                    ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                    viewResult.View.Render(viewContext, sw);
-                    return sw.GetStringBuilder().ToString();
-                }
+                return PartialView("_UserPartial", GetModel(id));
             }
             catch (Exception ex) {
             }
@@ -54,6 +47,7 @@ namespace MenuzRus {
         public ActionResult SaveUser(UserModel model) {
             UserService userService = new UserService();
             CommonService commonService = new CommonService();
+            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty);
             try {
                 User user = new User();
                 user.id = model.id;
@@ -90,8 +84,11 @@ namespace MenuzRus {
                     model.Image.SaveAs(path);
                 }
 
-                commonService.SendEmailConfirmation(user);
-                return RedirectToAction("Index", "Login");
+                //commonService.SendEmailConfirmation(user);
+                if (model.Referer == "Form")
+                    return RedirectToAction("Index", "Login");
+                else
+                    return RedirectToAction("Index", base.Referer, new { id = user.id });
             }
             catch (Exception ex) {
             }

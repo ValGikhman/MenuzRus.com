@@ -6,12 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Services;
 
 namespace MenuzRus.Models {
 
     public class UsersModel : BaseModel {
 
-        public UsersModel() {
-        }
+        public List<User> Users { set; get; }
     }
 }

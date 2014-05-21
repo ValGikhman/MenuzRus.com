@@ -82,8 +82,26 @@
                     </li>
                     <li class="dropdown user-dropdown menuAlways">
                         @{
-                            String contact = "Unknown";
+                            String picture = String.Empty;
                             Int32 customerId = 0;
+                            Int32 userId = 0;
+
+                            if (MenuzRus.SessionData.user != null) {
+                                customerId = MenuzRus.SessionData.user.CustomerId;
+                                userId = MenuzRus.SessionData.user.id;
+                                picture = String.Format("/Images/Menus/{0}/Users/{1}?{2}", customerId, MenuzRus.SessionData.user.ImageUrl, Guid.NewGuid().ToString("N"));
+                            }
+                            if (!String.IsNullOrEmpty(picture)) {
+                            <a href="/Users/Index/@customerId" style="padding:0px">
+                                <img src="@Url.Content(picture)" class="img-thumbnail" id="userImage" /></a>
+
+                            }
+                        }
+                    </li>
+
+                    <li class="dropdown user-dropdown menuAlways">
+                        @{
+                            String contact = "Unknown";
                             Int32 contactId = 0;
                             if (Model != null) {
                                 contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
@@ -91,12 +109,15 @@
                                 contactId = Model.Me.id;
                             }
                         }
-                        <a id="userMenu" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@contact<b class="caret"></b></a>
+                        <a id="userMenu" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">
+                            @contact
+                            <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="/User/Index/@contactId"">My Profile</a></li>
                             <li><a href="/Customer/Index/@customerId">My Company</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Users</a></li>
+                            <li><a href="/Users/Index/@customerId">My Users</a></li>
                             <li class="divider"></li>
                             <li><a href="/Logout/">Log Out</a></li>
                         </ul>

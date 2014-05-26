@@ -44,6 +44,7 @@ namespace MenuzRus.Controllers {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 categoryService = null;

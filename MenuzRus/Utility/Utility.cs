@@ -61,10 +61,6 @@ public static class Utility {
             { "WY", "Wyoming" }
         };
 
-    public static T GetEnumItem<T>(String value) {
-        return (T)Enum.Parse(typeof(T), value, true);
-    }
-
     public static string ToJson(this object obj, int recursionDepth = 100) {
         JavaScriptSerializer serializer = new JavaScriptSerializer();
         serializer.RecursionLimit = recursionDepth;

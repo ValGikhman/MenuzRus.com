@@ -4,17 +4,15 @@
 <div class="container">
     @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @id = "loginForm", @name = "loginForm", @class = "form-signin", role = "form" })) {
         <div id="panel" class="panel panel-primary shadow">
-            <div class="panel-heading btn-default">Please sign in</div>
+            <div class="navbar-inverse header">Please sign in</div>
             <div class="panel-body">
                 <div class="row">
                     @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-lg shadow", placeholder = "Email address", required = "", type = "email", autofocus = "" })
                     @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg shadow", placeholder = "Password", required = "", type = "password" })
                 </div>
-                <div id="lastRow" class="row">
-                    <div class="col-md-offset-3">
-                        <button id="register" class="btn btn-lg btn-default shadow" type="button">Register</button>
-                        <button class="btn btn-lg btn-primary shadow" type="submit">Sign in</button>
-                    </div>
+                <div id="lastRow" class="row col-sm-8 col-md-8 col-lg-8 centered">
+                    <button id="register" class="btn btn-lg btn-default shadow" type="button">Register</button>
+                    <button class="btn btn-lg btn-primary shadow" type="submit">Sign in</button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -15,6 +16,8 @@ namespace MenuzRus.Controllers {
         #endregion Declarations
 
         #region Properties
+
+        public LogService _LogService { set; get; }
 
         public Boolean IsLoggedIn { set; get; }
 
@@ -35,24 +38,23 @@ namespace MenuzRus.Controllers {
 
         #region Private/Protected Functions
 
-        public void LogSessionInfo() {
-        }
-
         #endregion Private/Protected Functions
 
         #region Overrides
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext) {
             base.Initialize(requestContext);
-            if (requestContext.HttpContext.Session["IsLoggedIn"] == null)
-                requestContext.HttpContext.Session["IsLoggedIn"] = false;
-            this.IsLoggedIn = (Boolean)requestContext.HttpContext.Session["IsLoggedIn"];
+            if (_LogService == null)
+                _LogService = new LogService();
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext) {
             MvcHandler handler;
             String route = null;
 
+            this.IsLoggedIn = !(SessionData.user == null);
+
+            SessionData.route = this.BuildRoute();
             base.OnActionExecuting(filterContext);
 
             try {
@@ -79,6 +81,9 @@ namespace MenuzRus.Controllers {
                             }));
                     }
                 }
+
+                if (SessionData.user != null)
+                    this.LogAcvitity(filterContext);
             }
             catch (Exception ex) {
                 throw;
@@ -95,5 +100,58 @@ namespace MenuzRus.Controllers {
         }
 
         #endregion Overrides
+
+        #region public
+
+        public void Log(Common.LogType logType, String message, params Object[] data) {
+            LogData(logType, message, null, data);
+        }
+
+        public void Log(Exception exception) {
+            LogData(Common.LogType.Exception, exception);
+        }
+
+        public void Log(String message, Exception exceptionToLog) {
+            LogData(Common.LogType.Exception, message, exceptionToLog);
+        }
+
+        private String BuildRoute() {
+            String retValue = String.Empty;
+            if (RouteData.Values["controller"] != null)
+                retValue = String.Format("{0}/", RouteData.Values["controller"].ToString());
+
+            if (RouteData.Values["action"] != null)
+                retValue = String.Format("{0}/{1}", retValue, RouteData.Values["action"].ToString());
+
+            if (RouteData.Values["id"] != null)
+                retValue = String.Format("{0}/{1}", retValue, RouteData.Values["id"].ToString());
+
+            return retValue;
+        }
+
+        private void LogAcvitity(ActionExecutingContext filterContext) {
+            var actionDescriptor = filterContext.ActionDescriptor;
+            Log(Common.LogType.Activity, "Navigating", "User Name", String.Format("{0} {1} [2]", SessionData.user.FirstName, SessionData.user.LastName, SessionData.user.id), String.Format("Route: {0}/{1}/", actionDescriptor.ControllerDescriptor.ControllerName, actionDescriptor.ActionName));
+        }
+
+        private void LogData(Common.LogType logType, String message, params Object[] data) {
+            try {
+                _LogService.Log(logType, message, data);
+            }
+            catch {
+                //Ignore
+            }
+        }
+
+        private void LogData(Common.LogType logType, Exception exception, params Object[] data) {
+            try {
+                _LogService.Log(logType, exception.Message, exception.StackTrace, data);
+            }
+            catch {
+                //Ignore
+            }
+        }
+
+        #endregion public
     }
 }

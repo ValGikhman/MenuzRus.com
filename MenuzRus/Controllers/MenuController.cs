@@ -4,7 +4,7 @@ using MenuzRus.Models;
 
 namespace MenuzRus.Controllers {
 
-    public class MenuController : Controller {
+    public class MenuController : BaseController {
 
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
@@ -25,6 +25,7 @@ namespace MenuzRus.Controllers {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 categoryService = null;

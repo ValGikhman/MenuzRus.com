@@ -24,6 +24,66 @@ public static class Common {
         Product = 4
     }
 
+    public enum LogType {
+
+        [Display(Name = "Exception")]
+        Exception = 0,
+
+        [Display(Name = "LogIn")]
+        LogIn = 1,
+
+        [Display(Name = "LogOut")]
+        LogOut = 2,
+
+        [Display(Name = "Get")]
+        Get = 3,
+
+        [Display(Name = "Post")]
+        Post = 4,
+
+        [Display(Name = "Service")]
+        Service = 5,
+
+        [Display(Name = "Add Floor")]
+        AddFloor = 6,
+
+        [Display(Name = "Add Menu")]
+        AddMenu = 7,
+
+        [Display(Name = "Add Category")]
+        AddCategory = 8,
+
+        [Display(Name = "Add Item")]
+        AddItem = 9,
+
+        [Display(Name = "Add ItemProduct")]
+        AddItemProduct = 10,
+
+        [Display(Name = "Add ItemPrice")]
+        AddItemPrice = 12,
+
+        [Display(Name = "Delete Floor")]
+        DeleteFloor = 13,
+
+        [Display(Name = "Delete Menu")]
+        DeleteMenu = 14,
+
+        [Display(Name = "Delete Category")]
+        DeleteCategory = 15,
+
+        [Display(Name = "Delete Item")]
+        DeleteItem = 16,
+
+        [Display(Name = "Delete ItemProduct")]
+        DeleteItemProduct = 17,
+
+        [Display(Name = "Delete ItemPrice")]
+        DeleteItemPrice = 18,
+
+        [Display(Name = "Activity")]
+        Activity = 36,
+    }
+
     public enum ProductType {
 
         [Display(Name = "Alternatives")]
@@ -115,6 +175,14 @@ public static class Common {
         Waiter = 4
     }
 
+    public static String GetIP() {
+        String strHostName = "";
+        strHostName = System.Net.Dns.GetHostName();
+        IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
+        IPAddress[] addr = ipEntry.AddressList;
+        return addr[addr.Length - 2].ToString();
+    }
+
     public static Boolean SendEmail(String emailTo, String emailSubject, String emailBody) {
         Boolean success = true;
 
@@ -164,7 +232,7 @@ public static class EnumHelper<T> {
         return enumValues;
     }
 
-    public static T Parse(string value) {
+    public static T Parse(String value) {
         return (T)Enum.Parse(typeof(T), value, true);
     }
 }

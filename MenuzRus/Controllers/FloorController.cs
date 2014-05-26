@@ -26,6 +26,7 @@ namespace MenuzRus.Controllers {
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -53,6 +54,7 @@ namespace MenuzRus.Controllers {
                 return Json(newId);
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -68,7 +70,6 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
             }
-
             finally {
             }
 
@@ -118,8 +119,8 @@ namespace MenuzRus.Controllers {
                 }
                 return model;
             }
-
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;

@@ -11,11 +11,11 @@ namespace MenuzRus {
 
         public ActionResult Index() {
             try {
-                Session["IsLoggedIn"] = false;
                 LoginModel model = new LoginModel();
                 return View();
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -30,10 +30,12 @@ namespace MenuzRus {
                 if (user == null) {
                     return View();
                 }
-                Session["IsLoggedIn"] = true;
+                SessionData.sessionId = Session.SessionID;
+                base.Log(Common.LogType.LogIn, "Logged in", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
                 return RedirectToAction("Index", "Product");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;

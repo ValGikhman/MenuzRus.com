@@ -23,3 +23,18 @@ body {
 #page-content-wrapper {
     margin-left: 0px;
 }
+
+.header {
+    height: 51px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.centered {
+    float: none;
+    margin: 0 auto;
+}

@@ -24,6 +24,7 @@ namespace MenuzRus.Controllers {
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -51,6 +52,7 @@ namespace MenuzRus.Controllers {
                 return Json(newId);
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -68,6 +70,7 @@ namespace MenuzRus.Controllers {
                 return Json("OK");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -81,8 +84,8 @@ namespace MenuzRus.Controllers {
             SettingsService service = new SettingsService();
             Setting setting = new Setting();
             try {
-                setting.Type = Utility.GetEnumItem<Common.Settings>(model.Type).ToString();
-                switch (Utility.GetEnumItem<Common.Settings>(model.Type)) {
+                setting.Type = EnumHelper<Common.Settings>.Parse(model.Type).ToString();
+                switch (EnumHelper<Common.Settings>.Parse(model.Type)) {
                     case Common.Settings.PageBackground:
                     case Common.Settings.WallBackground:
                         setting.Value = Path.GetFileName(model.Value.Replace("/", "\\"));
@@ -92,12 +95,15 @@ namespace MenuzRus.Controllers {
                         setting.Value = model.Value;
                         break;
                 }
-                if (!service.SaveSetting(setting))
+                if (!service.SaveSetting(setting)) {
+                    base.Log(SessionData.exeption);
                     retVal = SessionData.exeption.Message;
+                }
 
                 return Json(retVal);
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -170,6 +176,7 @@ namespace MenuzRus.Controllers {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 settingsService = null;

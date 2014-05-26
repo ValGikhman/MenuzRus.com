@@ -66,11 +66,6 @@ h2 {
     color: #333333;
 }
 
-    .categoryDescription:hover {
-        color: #71706c;
-        outline: none;
-    }
-
 .items-group {
     padding: 0px;
     list-style-type: none;

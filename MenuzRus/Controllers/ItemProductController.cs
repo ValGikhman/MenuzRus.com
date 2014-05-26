@@ -25,6 +25,7 @@ namespace MenuzRus.Controllers {
                 return Json("OK");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -43,6 +44,7 @@ namespace MenuzRus.Controllers {
                 return PartialView("_ItemProductAssociatePartial", model);
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 categoryService = null;
@@ -76,6 +78,7 @@ namespace MenuzRus.Controllers {
                 }
             }
             catch (Exception ex) {
+                base.Log(ex);
                 return ex.Message;
             }
             finally {
@@ -95,6 +98,7 @@ namespace MenuzRus.Controllers {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }

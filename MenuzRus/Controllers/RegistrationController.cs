@@ -27,6 +27,7 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -99,6 +100,7 @@ namespace MenuzRus {
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 customerService = null;

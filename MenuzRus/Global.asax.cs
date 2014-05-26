@@ -39,5 +39,14 @@ namespace MenuzRus {
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Session_End(Object sender, EventArgs e) {
+            SessionData.user = null;
+            SessionData.floor = null;
+            SessionData.item = null;
+            SessionData.customer = null;
+            SessionData.menu = null;
+            SessionData.sessionId = null;
+        }
     }
 }

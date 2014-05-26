@@ -20,6 +20,10 @@ namespace MenuzRus {
 
         public static Services.Menu menu { get; set; }
 
+        public static String route { get; set; }
+
+        public static String sessionId { get; set; }
+
         public static User user { get; set; }
     }
 }

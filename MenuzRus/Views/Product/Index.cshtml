@@ -89,7 +89,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <span class="glyphicon glyphicon-cog" onclick="javascript:showItemMenu(@item.id, this)"></span>
+                                    <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showItemMenu(@item.id, this)"></span>
                                     <div class="btn-group" data-value="@item.id">
                                         <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript: $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
                                         <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>

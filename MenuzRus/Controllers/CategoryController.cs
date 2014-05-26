@@ -21,6 +21,7 @@ namespace MenuzRus {
                     return RedirectToAction("Index", "Error");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -44,6 +45,7 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -99,6 +101,7 @@ namespace MenuzRus {
                     model.Image.SaveAs(path);
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -120,7 +123,7 @@ namespace MenuzRus {
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 model.MenuId = SessionData.menu.id;
                 model.Active = Common.Status.Active;
-                model.Type = Utility.GetEnumItem<Common.CategoryType>(base.Referer);
+                model.Type = EnumHelper<Common.CategoryType>.Parse(base.Referer);
                 if (id.HasValue) {
                     category = categoryService.GetCategory((Int32)id.Value);
                     if (category != null) {
@@ -129,11 +132,12 @@ namespace MenuzRus {
                         model.Description = category.Description;
                         model.ImageUrl = category.ImageUrl;
                         model.MenuId = category.MenuId;
-                        model.Side = Utility.GetEnumItem<Common.Side>(category.Side);
+                        model.Side = EnumHelper<Common.Side>.Parse(category.Side);
                     }
                 }
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }

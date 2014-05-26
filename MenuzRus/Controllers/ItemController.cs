@@ -24,6 +24,7 @@ namespace MenuzRus.Controllers {
                 return Json("OK");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -41,6 +42,7 @@ namespace MenuzRus.Controllers {
                 return Json("OK");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -65,6 +67,7 @@ namespace MenuzRus.Controllers {
                 return View(GetModel(id));
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -108,6 +111,7 @@ namespace MenuzRus.Controllers {
                 return RedirectToAction("Index", base.Referer, new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -127,7 +131,7 @@ namespace MenuzRus.Controllers {
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.menu.id, Utility.GetEnumItem<Common.CategoryType>(base.Referer));
+                model.Categories = categoryService.GetCategories(SessionData.menu.id, EnumHelper<Common.CategoryType>.Parse(base.Referer));
                 model.Active = Common.Status.Active;
                 if (id.HasValue) {
                     item = itemService.GetItem((Int32)id.Value);
@@ -145,6 +149,7 @@ namespace MenuzRus.Controllers {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 itemService = null;

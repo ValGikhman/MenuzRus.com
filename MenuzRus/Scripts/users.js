@@ -7,6 +7,15 @@
 })
 
 /// ****** User ***************///
+function collapseUser(thisObject, toggleObject) {
+    $(toggleObject).toggle();
+
+    if ($(toggleObject).is(":visible"))
+        $(thisObject).removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    else
+        $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
+}
+
 function showUserMenu(id, object) {
     $(object).hide();
     $(".btn-group").hide();

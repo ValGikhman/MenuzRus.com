@@ -92,7 +92,7 @@
                                 picture = String.Format("/Images/Menus/{0}/Users/{1}?{2}", customerId, MenuzRus.SessionData.user.ImageUrl, Guid.NewGuid().ToString("N"));
                             }
                             if (!String.IsNullOrEmpty(picture)) {
-                            <a href="/Users/Index/@customerId" style="padding:0px">
+                            <a href="/User/Index/@customerId" style="padding:0px">
                                 <img src="@Url.Content(picture)" class="img-thumbnail" id="userImage" /></a>
 
                             }

@@ -17,6 +17,7 @@ namespace MenuzRus {
                 return View(GetModel(id, model));
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }
@@ -62,6 +63,7 @@ namespace MenuzRus {
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -90,6 +92,7 @@ namespace MenuzRus {
                 return model;
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;

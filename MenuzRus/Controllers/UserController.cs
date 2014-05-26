@@ -20,6 +20,7 @@ namespace MenuzRus {
                 return Json("OK");
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 service = null;
@@ -91,6 +92,7 @@ namespace MenuzRus {
                     return RedirectToAction("Index", base.Referer, new { id = user.id });
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
                 userService = null;
@@ -121,13 +123,14 @@ namespace MenuzRus {
                         model.Email = user.Email;
                         model.Password = user.Password;
                         model.Active = Common.Status.Active;
-                        model.Type = Utility.GetEnumItem<Common.UserType>(user.Type);
+                        model.Type = EnumHelper<Common.UserType>.Parse(user.Type);
                         model.Hash = user.Hash;
                         model.ImageUrl = user.ImageUrl;
                     }
                 }
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
             }

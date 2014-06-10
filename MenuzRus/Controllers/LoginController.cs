@@ -32,7 +32,7 @@ namespace MenuzRus {
                 }
                 SessionData.sessionId = Session.SessionID;
                 base.Log(Common.LogType.LogIn, "Logged in", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
-                return RedirectToAction("Index", "Product");
+                return RedirectToAction("Tables", "Order");
             }
             catch (Exception ex) {
                 base.Log(ex);

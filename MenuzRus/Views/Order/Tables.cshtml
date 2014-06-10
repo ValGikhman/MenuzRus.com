@@ -1,0 +1,27 @@
+﻿@model MenuzRus.Models.FloorModel
+@using Services
+<link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
+<script src="@Url.Content("~/Scripts/order.js")"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
+
+<div class="well container container-floor shadow">
+    <div class="modal-header main-header">
+        <h2>Order System </h2>
+    </div>
+    @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+
+    <div class="gridster floorArea shadow">
+        <ul>
+        </ul>
+    </div>
+    <a href="#">Tables <span class="tables badge"></span></a>
+</div>
+@Html.HiddenFor(m => m.Floor.id)
+@Html.HiddenFor(m => m.Floor.Name)
+@Html.HiddenFor(m => m.Floor.Layout)
+<script>
+    initGridster();
+</script>

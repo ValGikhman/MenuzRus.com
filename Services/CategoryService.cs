@@ -33,6 +33,13 @@ namespace MenuzRus {
             return true;
         }
 
+        public List<Category> GetAllCategories(Common.CategoryType type) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.Menus.Join(db.Categories, menus => menus.id, categories => categories.MenuId, (menu, category) => new { menu = menu, category = category })
+                            .Where(m => m.menu.CustomerId == SessionData.customer.id && m.category.Active && m.category.Type == (Int32)type)
+                            .Select(m => m.category).ToList();
+        }
+
         public List<Category> GetCategories(Int32 id, Common.CategoryType type) {
             menuzRusDataContext db = new menuzRusDataContext();
             return db.Categories.Where(m => m.MenuId == id && m.Active && m.Type == (Int32)type).OrderBy(m => m.SortOrder).ToList();

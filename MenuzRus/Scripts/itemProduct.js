@@ -41,7 +41,10 @@ function addAssosiation() {
 }
 
 function deleteItself(object) {
-    object.remove();
+    $(object).fadeOut("slow", function () {
+        object.remove();
+    });
+
     var id = object.find("select").attr("data-value");
     var container = $("#modalEditForm");
     container.block();

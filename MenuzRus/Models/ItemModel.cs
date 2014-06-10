@@ -11,6 +11,7 @@ using Services;
 namespace MenuzRus.Models {
 
     public class ItemModel : BaseModel {
+        private Decimal _Price;
 
         [DisplayName("Show")]
         [Required]
@@ -40,5 +41,18 @@ namespace MenuzRus.Models {
 
         [DisplayName("Name")]
         public String Name { get; set; }
+
+        [DisplayName("Price")]
+        public Decimal Price {
+            get {
+                if (_Price == 0)
+                    _Price = (Decimal)ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+
+                return _Price;
+            }
+            set {
+                _Price = value;
+            }
+        }
     }
 }

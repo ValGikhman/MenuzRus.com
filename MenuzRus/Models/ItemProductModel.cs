@@ -11,6 +11,7 @@ using Services;
 namespace MenuzRus.Models {
 
     public class ItemProduct {
+        private Decimal _Price;
 
         public Int32 id { set; get; }
 

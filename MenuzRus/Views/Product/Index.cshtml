@@ -25,7 +25,9 @@
                         <th style="width: 4%"></th>
                         <th style="width: 2%"><span class="glyphicon glyphicon-picture"></span></th>
                         <th style="width: 30%">Name</th>
-                        <th style="width: 47%">Description</th>
+                        <th style="width: 33%">Description</th>
+                        <th style="width: 9%">Price</th>
+                        <th style="width: 4%"></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -51,11 +53,13 @@
                                         </div>
                                     }
                                 </td>
-                                <td style="width: 49%">
+                                <td style="width: 31%">
                                     @if (!String.IsNullOrEmpty(@category.Description)) {
                                         <div class="categoryDescription">@category.Description</div>
                                     }
                                 </td>
+                                <td style="width: 8%"></td>
+                                <td style="width: 10%"></td>
                                 <td>
                                     <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showCategoryMenu(@category.id, this)"></span>
                                     <div class="btn-group" data-value="@category.id">
@@ -88,6 +92,16 @@
                                         <div class="itemDescription">@item.Description </div>
                                     }
                                 </td>
+
+                                <td>
+                                    @if (item.ItemPrices != null) {
+                                        Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                                        if (price != 0) {
+                                        <div class="itemPrice pull-right">$@price</div>
+                                        }
+                                    }
+                                </td>
+                                <td></td>
                                 <td>
                                     <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showItemMenu(@item.id, this)"></span>
                                     <div class="btn-group" data-value="@item.id">

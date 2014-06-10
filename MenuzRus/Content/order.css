@@ -1,0 +1,56 @@
+﻿/* Set position*/
+body {
+    background-color: #eee;
+}
+
+.floorArea {
+    margin-top: 50px;
+}
+
+#Floor_id {
+    margin: 10px;
+}
+
+.container-order {
+    margin-top: 10px;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#btnAdd {
+}
+
+.menu {
+    height: 500px;
+}
+
+.order, .check {
+    margin-left: 45px;
+    height: 500px;
+}
+
+.close {
+    display: inline;
+    margin-left: 10px;
+}
+
+    .close:hover {
+        display: inline;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.tab-content {
+    height: 500px;
+}
+
+.category, .item {
+    list-style: none;
+}
+
+ul {
+    padding-left: 0px;
+}

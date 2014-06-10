@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -150,6 +151,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ItemProductModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\FloorModel.cs" />
@@ -189,11 +191,13 @@
     <Content Include="Content\base\jquery-ui-custom.min.css" />
     <Content Include="Content\base\jquery-ui.css" />
     <Content Include="Content\base\jquery-ui.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\order.css" />
     <Content Include="Content\product.css" />
     <Content Include="Content\users.css" />
     <Content Include="Content\floor.css" />
@@ -291,6 +295,7 @@
     <Content Include="Images\Web\red_asterisk.png" />
     <Content Include="Images\Web\tv.jpg" />
     <Content Include="Images\Web\valid.png" />
+    <Content Include="Scripts\bootstrap\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Content\oasis-menu_style-1080.css" />
@@ -312,6 +317,8 @@
     <Content Include="Scripts\chosen\index.proto.html" />
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\table.js" />
+    <Content Include="Scripts\order.js" />
     <Content Include="Scripts\users.js" />
     <Content Include="Scripts\itemProduct.js" />
     <Content Include="Scripts\floor.js" />
@@ -441,6 +448,9 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
+    <Content Include="Views\Order\Tables.cshtml" />
+    <Content Include="Views\Order\Table.cshtml" />
+    <Content Include="Views\Shared\_CheckPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

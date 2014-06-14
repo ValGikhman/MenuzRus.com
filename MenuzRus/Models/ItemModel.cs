@@ -45,14 +45,17 @@ namespace MenuzRus.Models {
         [DisplayName("Price")]
         public Decimal Price {
             get {
-                if (_Price == 0)
+                if (_Price == 0 && ItemPrices != null) {
                     _Price = (Decimal)ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-
+                }
                 return _Price;
             }
             set {
                 _Price = value;
             }
         }
+
+        [DisplayName("Price to add")]
+        public Decimal Price2Add { get; set; }
     }
 }

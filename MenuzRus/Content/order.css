@@ -27,9 +27,14 @@ body {
     height: 500px;
 }
 
-.order, .check {
+.order, .check, .reciept {
     margin-left: 45px;
     height: 500px;
+}
+
+.checks {
+    overflow: auto;
+    max-height: 100px;
 }
 
 .close {
@@ -43,8 +48,9 @@ body {
         cursor: pointer;
     }
 
-.tab-content {
-    height: 500px;
+.menuItems {
+    height: 450px;
+    width: 270px;
 }
 
 .category, .item {
@@ -52,5 +58,13 @@ body {
 }
 
 ul {
+    padding-left: 0px;
+}
+
+h4 {
+    margin: 0px;
+}
+
+.menu-tabs > li > a {
     padding-left: 0px;
 }

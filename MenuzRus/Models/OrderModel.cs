@@ -10,8 +10,45 @@ using Services;
 
 namespace MenuzRus.Models {
 
+    public class OrderItem {
+
+        [DisplayName("Description")]
+        public String Description { get; set; }
+
+        public Int32 id { get; set; }
+
+        [DisplayName("Name")]
+        public String Name { get; set; }
+
+        public List<OrderItemProduct> OrderItemProducts { get; set; }
+    }
+
+    public class OrderItemProduct {
+
+        public Int32 id { get; set; }
+
+        public List<OrderItemProductAssociation> OrderItemProductAssociations { get; set; }
+
+        public Common.ProductType Type { get; set; }
+    }
+
+    public class OrderItemProductAssociation {
+
+        [DisplayName("Description")]
+        public String Description { get; set; }
+
+        public Int32 id { get; set; }
+
+        [DisplayName("Name")]
+        public String Name { get; set; }
+    }
+
     public class OrderModel : BaseModel {
 
-        public MenuDesignerModel Order { get; set; }
+        public List<Category> Categories { set; get; }
+
+        public OrderItem OrderItem { set; get; }
+
+        public List<Order> Orders { set; get; }
     }
 }

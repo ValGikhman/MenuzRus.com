@@ -15,24 +15,6 @@ namespace MenuzRus.Controllers {
         #region item
 
         [HttpPost]
-        public ActionResult AddItemPrice(Int32 id, Decimal price) {
-            ItemService service = new ItemService();
-            try {
-                if (!service.AddItemPrice(id, price))
-                    return RedirectToAction("Index", "Error");
-
-                return Json("OK");
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-            }
-            finally {
-                service = null;
-            }
-            return null;
-        }
-
-        [HttpPost]
         public ActionResult DeleteItem(Int32? id) {
             ItemService service = new ItemService();
             try {
@@ -108,6 +90,7 @@ namespace MenuzRus.Controllers {
                 else if (model.Image != null)
                     model.Image.SaveAs(path);
 
+                AddItemPrice(model.id, model.Price2Add);
                 return RedirectToAction("Index", base.Referer, new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
@@ -122,6 +105,19 @@ namespace MenuzRus.Controllers {
         #endregion item
 
         #region private
+
+        private void AddItemPrice(Int32 id, Decimal price) {
+            ItemService service = new ItemService();
+            try {
+                service.AddItemPrice(id, price);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                service = null;
+            }
+        }
 
         private ItemModel GetModel(Int32? id) {
             ItemModel model = new ItemModel();

@@ -451,6 +451,7 @@
     <Content Include="Views\Order\Tables.cshtml" />
     <Content Include="Views\Order\Table.cshtml" />
     <Content Include="Views\Shared\_CheckPartial.cshtml" />
+    <Content Include="Views\Shared\_CheckItemPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

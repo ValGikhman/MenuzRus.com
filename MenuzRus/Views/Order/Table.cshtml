@@ -1,10 +1,8 @@
 ﻿@model MenuzRus.Models.OrderModel
 <link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/bootstrap/css/bootstrap-multiselect.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/table.js")"></script>
-<script src="@Url.Content("~/Scripts/bootstrap/bootstrap-multiselect.js")"></script>
 
 <div class="well container container-order shadow col-lg-12 col-md-12 center">
     <div class="row">
@@ -16,20 +14,20 @@
     </div>
     <div class="row">
         <div class="col-lg-3 col-md-3 shadow menu">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs menu-tabs">
                 <li><a href="#" data-toggle='tab'>
                     <h4>Menu</h4>
                 </a></li>
             </ul>
-            <div class="tab-content">
-                @foreach (Services.Category category in Model.Order.Categories) {
+            <div class="tab-content menuItems">
+                @foreach (Services.Category category in Model.Categories) {
                     <ul id="@category.id">
                         <li class="category" data-value="@category.id">
                             @category.Name
                         </li>
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            <li id="item.@item.id" class="item" data-value="@item.id">@item.Name</li>
+                            <li id="item.@item.id" class="item" data-value="@item.id"><a href="javascript:getAsosiation(@item.id)">@item.Name</a></li>
                         }
                     </ul>
                 }
@@ -39,11 +37,10 @@
         <div class="col-lg-5 col-md-5 shadow order">
             <ul class="nav nav-tabs checks">
             </ul>
-            <div class="tab-content">
+            <div class="tab-content check">
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 shadow check">
+        <div class="col-lg-3 col-md-3 shadow reciept">
         </div>
     </div>
 </div>
-<script>    //initSelect()</script>

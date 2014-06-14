@@ -1,0 +1,17 @@
+﻿@model MenuzRus.Models.OrderModel
+@using Services
+<div class="container container-item">
+    @{
+        <div style="margin: 12px 0 12px;">@MenuzRus.SessionData.item.Name</div>
+        foreach (MenuzRus.Models.OrderItemProduct itemProduct in Model.OrderItem.OrderItemProducts) {
+        <div>
+            @{
+            }
+            @foreach (MenuzRus.Models.OrderItemProductAssociation itemProductAssociations in itemProduct.OrderItemProductAssociations) {
+                <div style="margin: 12px 0 12px;"></div>
+            }
+            <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        }
+    }
+</div>

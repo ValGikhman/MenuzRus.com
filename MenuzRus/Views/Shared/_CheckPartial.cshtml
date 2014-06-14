@@ -1,1 +1,15 @@
-﻿<p>Dermo</p>
+﻿@using Services
+<div class="container container-item">
+    @{
+        foreach (Services.ItemProduct itemProduct in MenuzRus.SessionData.item.ItemProducts) {
+        <div>
+            @{
+            var description = EnumHelper<Common.ProductType>.GetDisplayValue((Common.ProductType)itemProduct.Type);
+            }
+            @foreach (ItemProductAssociation itemProductAssociations in itemProduct.ItemProductAssociations) {
+            }
+            <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        }
+    }
+</div>

@@ -28,7 +28,64 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult ShowOrder(Int32 id) {
-            return PartialView("_CheckPartial");
+            ItemService itemService = new ItemService();
+            OrderModel model = new OrderModel();
+            try {
+                SessionData.item = itemService.GetItem(id);
+                return PartialView("_CheckPartial");
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                itemService = null;
+            }
+            return null;
+        }
+
+        [HttpGet]
+        public String ShowOrderItem(Int32 id) {
+            ItemService itemService = new ItemService();
+            OrderModel model = new OrderModel();
+            try {
+                Services.Item Item = itemService.GetItem(id);
+                if (Item != null) {
+                    model.OrderItem = new MenuzRus.Models.OrderItem();
+                    model.OrderItem.id = Item.id;
+                    model.OrderItem.Description = Item.Description;
+                    model.OrderItem.Name = Item.Name;
+                    IEnumerable<Services.ItemProduct> ItemProducts = Item.ItemProducts;
+                    if (ItemProducts != null) {
+                        model.OrderItem.OrderItemProducts = new List<OrderItemProduct>();
+                        foreach (Services.ItemProduct itemProduct in ItemProducts) {
+                            OrderItemProduct orderItemProduct = new OrderItemProduct();
+                            Item item = itemService.GetItem(itemProduct.id);
+                            orderItemProduct.id = itemProduct.id;
+                            orderItemProduct.Type = EnumHelper<Common.ProductType>.Parse(itemProduct.Type.ToString());
+                            orderItemProduct.OrderItemProductAssociations = new List<OrderItemProductAssociation>();
+                            foreach (Services.ItemProductAssociation itemProductAssosiation in itemProduct.ItemProductAssociations) {
+                                OrderItemProductAssociation orderItemProductAssosiation = new OrderItemProductAssociation();
+                                item = itemService.GetItem(itemProductAssosiation.ItemId);
+                                orderItemProductAssosiation.id = itemProductAssosiation.id;
+                                orderItemProductAssosiation.Name = item.Name;
+                                orderItemProductAssosiation.Description = item.Description;
+                                orderItemProduct.OrderItemProductAssociations.Add(orderItemProductAssosiation);
+                            }
+                            model.OrderItem.OrderItemProducts.Add(orderItemProduct);
+                        }
+                    }
+                }
+
+                var partial = RenderViewToString(this.ControllerContext, "_CheckItemPartial", model);
+                return partial;
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                itemService = null;
+            }
+            return null;
         }
 
         [HttpGet]
@@ -50,9 +107,8 @@ namespace MenuzRus.Controllers {
             CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             OrderModel model = new OrderModel();
-            model.Order = new MenuDesignerModel();
             try {
-                model.Order.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
+                model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
                 return model;
             }
             catch (Exception ex) {

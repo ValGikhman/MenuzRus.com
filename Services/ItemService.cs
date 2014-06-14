@@ -55,7 +55,7 @@ namespace MenuzRus {
         public List<ItemPrice> GetItemPrices(Int32 id) {
             List<ItemPrice> items;
             menuzRusDataContext db = new menuzRusDataContext();
-            items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateModified).ToList();
+            items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).ToList();
             return items;
         }
 

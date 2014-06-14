@@ -92,19 +92,6 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private ItemProductModel GetModel(Int32? id) {
-            ItemProductModel model = new ItemProductModel();
-            try {
-                return model;
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-            }
-            finally {
-            }
-            return null;
-        }
-
         private ItemProductModel SetModel(String model) {
             JavaScriptSerializer objJavascript = new JavaScriptSerializer();
             Char[] commaDelimiter = new char[] { ',' };

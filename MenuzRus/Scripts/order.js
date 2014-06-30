@@ -39,7 +39,7 @@ function initGridster() {
 }
 
 function viewTable(id) {
-    window.location = "/Order/Table/" + id;
+    window.location = $.validator.format("{0}/Order/Table/{1}", root, id);
 }
 
 function refreshTotal() {

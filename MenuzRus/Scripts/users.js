@@ -24,7 +24,7 @@ function showUserMenu(id, object) {
 
 function editUser(id) {
     $(".btn-group").hide();
-    var jqxhr = $.get("/User/EditUser/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}User/EditUser/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -48,10 +48,10 @@ function deleteUser(id) {
         buttons: [{
             addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
                 $noty.close();
-                var jqxhr = $.post("/User/DeleteUser/", { id: id })
+                var jqxhr = $.post($.validator.format("{0}User/DeleteUser/", root), { id: id })
                                  .done(function (result) {
                                      message("Category successfully deletes.", "success", "center");
-                                     window.location = "/Users/Index/";
+                                     window.location = $.validator.format("{0}Users/Index/", root);
                                  })
                    .fail(function () {
                        message("Delete category failed.", "error", "center");

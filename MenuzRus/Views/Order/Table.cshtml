@@ -3,23 +3,27 @@
 <link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/table.js")"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 
-<div class="well container container-order shadow col-lg-12 col-md-12 center">
+<div class="well container container-order shadow center">
     <div class="row">
         <div class="modal-header main-header">
             <h2>Take Order
-                <button id="btnAdd" class="add-check btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
+                <button id="btnAdd" class="add-check btn btn-success shadow" style="margin-left: 95px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
+                <button id="btnBack" type="button" class="btn btn-default shadow pull-right" style="margin-left: 15px;">Back to floor</button>
+                <button id="btnSave" type="button" class="btn btn-primary shadow pull-right">Save changes</button>
             </h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-3 shadow menu">
+    <div class="row layout" style="text-justify: auto;">
+        <div class="col-sm-4 shadow menu">
             <ul class="nav nav-tabs menu-tabs">
                 <li><a href="#" data-toggle='tab'>
-                    <h4>Menu</h4>
+                    <h4>Menu
+                    </h4>
                 </a></li>
             </ul>
-            <div class="tab-content menuItems">
+            <div class="tab-content menuItems" style="float: left;">
                 @foreach (Services.Category category in Model.Categories) {
                     <ul id="@category.id">
                         <li class="category" data-value="@category.id">
@@ -27,20 +31,19 @@
                         </li>
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            <li id="item.@item.id" class="item" data-value="@item.id"><a href="javascript:getAsosiation(@item.id)">@item.Name</a></li>
+                            <li id="item.@item.id" class="item" data-value="@item.id"><a href="javascript:getProducts(@item.id)">@item.Name</a></li>
                         }
                     </ul>
                 }
             </div>
         </div>
 
-        <div class="col-lg-5 col-md-5 shadow order">
+        <div class="col-sm-7 shadow order">
             <ul class="nav nav-tabs checks">
             </ul>
             <div class="tab-content check">
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 shadow reciept">
-        </div>
     </div>
 </div>
+@Html.HiddenFor(m => m.TableId)

@@ -1,6 +1,4 @@
-﻿var root = location.protocol + '//' + location.host;
-
-// Sequential number per session
+﻿// Sequential number per session
 var uid = (function () { var id = 1; return function () { if (arguments[0] === 1) id = 1; return id++; } })();
 
 $(function () {

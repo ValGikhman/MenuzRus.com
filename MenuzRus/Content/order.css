@@ -20,6 +20,10 @@ body {
     margin-right: 0px;
 }
 
+.nav-tabs > li > a {
+    margin-right: -5px;
+}
+
 #btnAdd {
 }
 
@@ -27,14 +31,29 @@ body {
     height: 500px;
 }
 
-.order, .check, .reciept {
-    margin-left: 45px;
+.check {
+    height: 450px;
+}
+
+.order, .reciept {
+    margin-left: 20px;
     height: 500px;
 }
 
 .checks {
-    overflow: auto;
-    max-height: 100px;
+    overflow-y: auto;
+    height: 43px;
+    max-height: 200px;
+}
+
+.order {
+    padding: 0px;
+    width: 64.333%;
+}
+
+.panel-heading.item {
+    margin-left: 0px;
+    color: #2b6da6;
 }
 
 .close {
@@ -50,12 +69,24 @@ body {
 
 .menuItems {
     height: 450px;
-    width: 270px;
+    width: 365px;
 }
 
 .category, .item {
     list-style: none;
 }
+
+.container-order-item {
+    padding: 0px;
+}
+
+    .container-order-item .panel {
+        margin-bottom: 0px;
+    }
+
+        .container-order-item .panel .panel-body {
+            padding: 6px;
+        }
 
 ul {
     padding-left: 0px;
@@ -67,4 +98,21 @@ h4 {
 
 .menu-tabs > li > a {
     padding-left: 0px;
+}
+
+.btnDelete {
+    padding: 4px 6px;
+}
+
+.knopa {
+    white-space: normal;
+    text-align: start;
+    width: 70px;
+    height: 70px;
+    padding: 3px 0 0 0;
+}
+
+.itemNameSmall {
+    line-height: 0.8;
+    font-size: 11px;
 }

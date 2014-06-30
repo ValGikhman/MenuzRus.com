@@ -2,9 +2,9 @@ body {
     background-image: url(../images/Web/body.jpg);
 }
 /* Common */
-.form-control, .btn {
+/*.form-control, .btn {
     border: 1px solid #b0adad;
-}
+}*/
 
 .shadow {
     box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.15), 0 7px 7px rgba(0, 0, 0, 0.15);

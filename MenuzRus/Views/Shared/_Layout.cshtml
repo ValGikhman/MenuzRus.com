@@ -20,6 +20,9 @@
     <script src="@Url.Content("~/Scripts/bootstrap/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/Common.js")" type="text/javascript"></script>
 </head>
+<script>
+    var root = '@Url.Content("~/")';
+</script>
 <body>
     <div id="bowlG" style="display: none;">
         <div id="bowl_ringG">
@@ -56,13 +59,13 @@
                     <li class="dropdown user-dropdown menuAlways">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/Floor">Floor</a>
+                            <li><a href="@Url.Content("~/Floor")">Floor</a>
                             </li>
-                            <li><a href="/MenuDesigner">Menu designer</a>
+                            <li><a href="@Url.Content("~/MenuDesigner")">Menu designer</a>
                             </li>
-                            <li><a href="/Product">Product designer</a>
+                            <li><a href="@Url.Content("~/Product")">Product designer</a>
                             </li>
-                            <li><a href="/Order/Tables">Order</a>
+                            <li><a href="@Url.Content("~/Order/Tables")">Order</a>
                             </li>
                         </ul>
                     </li>
@@ -91,10 +94,10 @@
                             if (MenuzRus.SessionData.user != null) {
                                 customerId = MenuzRus.SessionData.user.CustomerId;
                                 userId = MenuzRus.SessionData.user.id;
-                                picture = String.Format("/Images/Menus/{0}/Users/{1}?{2}", customerId, MenuzRus.SessionData.user.ImageUrl, Guid.NewGuid().ToString("N"));
+                                picture = String.Format("~/Images/Menus/{0}/Users/{1}?{2}", customerId, MenuzRus.SessionData.user.ImageUrl, Guid.NewGuid().ToString("N"));
                             }
                             if (!String.IsNullOrEmpty(picture)) {
-                            <a href="/User/Index/@customerId" style="padding:0px">
+                            <a href="@Url.Content("~/User/Index/")@customerId" style="padding:0px">
                                 <img src="@Url.Content(picture)" class="img-thumbnail" id="userImage" /></a>
 
                             }
@@ -116,12 +119,12 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/User/Index/@contactId"">My Profile</a></li>
-                            <li><a href="/Customer/Index/@customerId">My Company</a></li>
+                            <li><a href="@Url.Content("~/User/Index/")@contactId">My Profile</a></li>
+                            <li><a href="@Url.Content("~/Customer/Index/")@customerId">My Company</a></li>
                             <li class="divider"></li>
-                            <li><a href="/Users/Index/@customerId">My Users</a></li>
+                            <li><a href="@Url.Content("~/Users/Index/")@customerId">My Users</a></li>
                             <li class="divider"></li>
-                            <li><a href="/Logout/">Log Out</a></li>
+                            <li><a href="@Url.Content("~/Logout/")">Log Out</a></li>
                         </ul>
                     </li>
                 </ul>

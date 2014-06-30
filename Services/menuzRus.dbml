@@ -66,7 +66,7 @@
       <Column Name="Y" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Table_Order" Member="Orders" ThisKey="id" OtherKey="TableId" Type="Order" />
+      <Association Name="Table_TableOrder" Member="TableOrders" ThisKey="id" OtherKey="TableId" Type="TableOrder" />
       <Association Name="Floor_Table" Member="Floor" Storage="_Floors" ThisKey="FloorId" OtherKey="id" Type="Floor" IsForeignKey="true" />
     </Type>
   </Table>
@@ -121,7 +121,6 @@
       <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
-      <Association Name="OrderItem_Item" Member="OrderItem" ThisKey="id" OtherKey="ItemId" Type="OrderItem" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ItemProductAssociation" Member="ItemProductAssociations">
@@ -168,28 +167,47 @@
       <Association Name="User_Log" Member="User" ThisKey="UserId" OtherKey="id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Orders" Member="Orders">
-    <Type Name="Order">
+  <Table Name="dbo.TableOrder" Member="TableOrders">
+    <Type Name="TableOrder">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="TableId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Order_OrderItem" Member="OrderItems" ThisKey="id" OtherKey="OrderId" Type="OrderItem" />
-      <Association Name="Table_Order" Member="Table" ThisKey="TableId" OtherKey="id" Type="Table" IsForeignKey="true" />
+      <Association Name="TableOrder_OrderCheck" Member="OrderChecks" ThisKey="id" OtherKey="OrderId" Type="OrderCheck" />
+      <Association Name="Table_TableOrder" Member="Table" ThisKey="TableId" OtherKey="id" Type="Table" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.OrderItems" Member="OrderItems">
-    <Type Name="OrderItem">
+  <Table Name="dbo.OrderChecksMenu" Member="OrderChecksMenus">
+    <Type Name="OrderChecksMenu">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CheckId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="OrderChecksMenu_OrderChecksMenuItem" Member="OrderChecksMenuItems" ThisKey="id" OtherKey="MenuId" Type="OrderChecksMenuItem" />
+      <Association Name="OrderCheck_OrderChecksMenu" Member="OrderCheck" ThisKey="CheckId" OtherKey="id" Type="OrderCheck" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderChecksMenuItems" Member="OrderChecksMenuItems">
+    <Type Name="OrderChecksMenuItem">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="OrderChecksMenu_OrderChecksMenuItem" Member="OrderChecksMenu" ThisKey="MenuId" OtherKey="id" Type="OrderChecksMenu" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderChecks" Member="OrderChecks">
+    <Type Name="OrderCheck">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="OrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="Tax" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="Adjustment" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="OrderItem_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
-      <Association Name="Order_OrderItem" Member="Order" ThisKey="OrderId" OtherKey="id" Type="Order" IsForeignKey="true" />
+      <Association Name="OrderCheck_OrderChecksMenu" Member="OrderChecksMenus" ThisKey="id" OtherKey="CheckId" Type="OrderChecksMenu" />
+      <Association Name="TableOrder_OrderCheck" Member="TableOrder" ThisKey="OrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

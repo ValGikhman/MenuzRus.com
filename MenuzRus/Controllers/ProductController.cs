@@ -36,7 +36,7 @@ namespace MenuzRus.Controllers {
                     SessionData.menu.Name = model.Menus[0].Name;
                 }
                 else if (model.Menu.id != 0)
-                    model.Menu.Name = model.Menus.Where(m => m.id == model.Menu.id).FirstOrDefault().Name;
+                    model.Menu.Name = model.Menus.FirstOrDefault(m => m.id == model.Menu.id).Name;
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;

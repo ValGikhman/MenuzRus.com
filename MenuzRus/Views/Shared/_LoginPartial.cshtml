@@ -23,7 +23,7 @@
 <script type="text/javascript">
     $(function () {
         $("#register").click(function () {
-            window.location = "/Registration/";
+            window.location = $.validator.format("{0}Registration/", root);
         });
     });
 </script>

@@ -37,7 +37,7 @@ $(function () {
     addLayout();
 
     $("#Floor_id").change(function () {
-        window.location = "/Floor/Index/" + $(this).val();
+        window.location = $.validator.format("{0}Floor/Index/", root) + $(this).val();
     })
 
     $("#btnNewFloor").click(function () {
@@ -159,7 +159,7 @@ function saveTables() {
     var container = $(".container-floor");
     container.block();
     var postData = JSON.stringify(gridster.serialize());
-    var jqxhr = $.post("/Floor/SaveTables", { "tables": postData }, "json")
+    var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": postData }, "json")
                   .done(function (result) {
                       message("Save successfully.", "success", "center");
                   })
@@ -178,10 +178,10 @@ function refreshTotal() {
 function editFloor(id, name) {
     if (id == null) id = 0;
     var postData = { id: id, name: name };
-    var jqxhr = $.post("/Floor/SaveFloor/", postData)
+    var jqxhr = $.post($.validator.format("{0}Floor/SaveFloor/", root), postData)
                   .done(function (result) {
                       message("Save successfully.", "success", "center");
-                      window.location = "/Floor/Index/" + result;
+                      window.location = $.validator.format("{0}Floor/Index/", root) + result;
                   })
     .fail(function () {
         message("Save floor failed.", "error", "center");
@@ -193,10 +193,10 @@ function editFloor(id, name) {
 function deleteFloor(id) {
     if (id == null) id = 0;
     var postData = { id: id };
-    var jqxhr = $.post("/Floor/DeleteFloor/", postData)
+    var jqxhr = $.post($.validator.format("{0}Floor/DeleteFloor/", root), postData)
                   .done(function (result) {
                       message("Menu deleted successfully.", "success", "center");
-                      window.location = "/Floor";
+                      window.location = $.validator.format("{0}Floor", root);
                   })
     .fail(function () {
         message("Delete floor failed.", "error", "center");

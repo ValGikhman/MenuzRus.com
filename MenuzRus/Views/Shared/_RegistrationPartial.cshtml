@@ -73,7 +73,7 @@
         });
 
         $("#btnCancel").click(function () {
-            window.location = "/login/";
+            window.location = $.validator.format("{0}login/", root);
         })
 
         $("#form").submit(function (e) {

@@ -5,6 +5,6 @@
     $(function () {
         $("#Referer").val("Form");
         $("#btnCancel").click(function () {
-            window.location = "/Login/";
+            window.location = $.validator.format("{0}Login/", root);
         })
     });</script>

@@ -21,6 +21,9 @@ namespace MenuzRus.Models {
         public String Name { get; set; }
 
         public List<OrderItemProduct> OrderItemProducts { get; set; }
+
+        [DisplayName("Price")]
+        public Decimal Price { get; set; }
     }
 
     public class OrderItemProduct {
@@ -41,6 +44,12 @@ namespace MenuzRus.Models {
 
         [DisplayName("Name")]
         public String Name { get; set; }
+
+        [DisplayName("Price")]
+        public Decimal Price { get; set; }
+
+        [DisplayName("Short Name")]
+        public String ShortName { get; set; }
     }
 
     public class OrderModel : BaseModel {
@@ -49,6 +58,10 @@ namespace MenuzRus.Models {
 
         public OrderItem OrderItem { set; get; }
 
-        public List<Order> Orders { set; get; }
+        public List<OrderItem> Orders { set; get; }
+
+        public Int32 TableId { set; get; }
+
+        public Int32 uid { set; get; }
     }
 }

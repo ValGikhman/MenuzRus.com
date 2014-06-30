@@ -105,7 +105,7 @@
                     <a href="/Customer/Index/@Model.MyCompany.id">
                         @if (!String.IsNullOrEmpty(@Model.MyCompany.ImageUrl)) {
                             <div>
-                                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
+                                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
                             </div>
                         }
                         <div class="category">@Model.MyCompany.Name</div>
@@ -164,7 +164,7 @@
                     }
                     @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
                         <div>
-                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
                         </div>
                     }
                     @if (!String.IsNullOrEmpty(@category.Description)) {
@@ -185,7 +185,7 @@
                                 </div>
                                 <a href="javascript:showItemMenu(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                        <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
                                     @if (!String.IsNullOrEmpty(item.Name)) {
                                         String itemDataValue = String.Format("{0}{1}", "item_", item.id);

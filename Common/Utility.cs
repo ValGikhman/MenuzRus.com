@@ -84,6 +84,11 @@ public static class Common {
         Activity = 36,
     }
 
+    public enum OrderType {
+        Active = 1,
+        Paid = 2
+    }
+
     public enum ProductType {
 
         [Display(Name = "Alternatives")]
@@ -161,6 +166,12 @@ public static class Common {
 
         [Display(Name = "Do not show this item")]
         NotActive = 0
+    }
+
+    public enum TableOrderStatus {
+        Open = 1,
+        Working = 2,
+        Closed = 3
     }
 
     public enum UserType {

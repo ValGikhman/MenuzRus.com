@@ -20,7 +20,7 @@ function saveItems() {
     var container = $("#modalEditForm");
     container.block();
     model = JSON.stringify(model);
-    var jqxhr = $.post("/ItemProduct/SaveAssociatedItems", { "model": model }, "json")
+    var jqxhr = $.post($.validator.format("{0}ItemProduct/SaveAssociatedItems", root), { "model": model }, "json")
                   .done(function (result) {
                       message("Save successfully.", "success", "center");
                       $(".itemProductClose").click();
@@ -48,7 +48,7 @@ function deleteItself(object) {
     var id = object.find("select").attr("data-value");
     var container = $("#modalEditForm");
     container.block();
-    var jqxhr = $.post("/ItemProduct/DeleteItemProduct", { "id": id }, "json")
+    var jqxhr = $.post($.validator.format("{0}ItemProduct/DeleteItemProduct", root), { "id": id }, "json")
               .done(function (result) {
                   message("Delete successfully.", "success", "center");
               })

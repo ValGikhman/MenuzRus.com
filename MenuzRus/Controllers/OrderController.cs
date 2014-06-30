@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using MenuzRus.Models;
 using Newtonsoft.Json;
 using Services;
+using StringExtensions;
 
 namespace MenuzRus.Controllers {
 
@@ -22,7 +23,9 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SaveOrder(Services.Floor model) {
+        public ActionResult SaveOrders(String model) {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            var model2Save = jss.Deserialize<dynamic>(model);
             return null;
         }
 
@@ -44,17 +47,21 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String ShowOrderItem(Int32 id) {
+        public String ShowOrderItem(Int32 id, Int32 uid, Int32 orderId, Int32 tableId) {
             ItemService itemService = new ItemService();
             OrderModel model = new OrderModel();
             try {
                 Services.Item Item = itemService.GetItem(id);
                 if (Item != null) {
+                    model.uid = uid;
+                    model.TableId = tableId;
                     model.OrderItem = new MenuzRus.Models.OrderItem();
                     model.OrderItem.id = Item.id;
                     model.OrderItem.Description = Item.Description;
                     model.OrderItem.Name = Item.Name;
-                    IEnumerable<Services.ItemProduct> ItemProducts = Item.ItemProducts;
+                    if (Item.ItemPrices.Any())
+                        model.OrderItem.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    IEnumerable<Services.ItemProduct> ItemProducts = Item.ItemProducts.OrderByDescending(m => (Int32)m.Type);
                     if (ItemProducts != null) {
                         model.OrderItem.OrderItemProducts = new List<OrderItemProduct>();
                         foreach (Services.ItemProduct itemProduct in ItemProducts) {
@@ -68,7 +75,10 @@ namespace MenuzRus.Controllers {
                                 item = itemService.GetItem(itemProductAssosiation.ItemId);
                                 orderItemProductAssosiation.id = itemProductAssosiation.id;
                                 orderItemProductAssosiation.Name = item.Name;
+                                orderItemProductAssosiation.ShortName = item.Name.Ellipsis(35);
                                 orderItemProductAssosiation.Description = item.Description;
+                                if (item.ItemPrices.Any())
+                                    orderItemProductAssosiation.Price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                                 orderItemProduct.OrderItemProductAssociations.Add(orderItemProductAssosiation);
                             }
                             model.OrderItem.OrderItemProducts.Add(orderItemProduct);
@@ -89,7 +99,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Table(Int32? id) {
+        public ActionResult Table(Int32 id) {
             OrderModel model = GetTableModel(id);
             return View(model);
         }
@@ -103,12 +113,13 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private OrderModel GetTableModel(Int32? id) {
+        private OrderModel GetTableModel(Int32 id) {
             CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             OrderModel model = new OrderModel();
             try {
                 model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
+                model.TableId = id;
                 return model;
             }
             catch (Exception ex) {

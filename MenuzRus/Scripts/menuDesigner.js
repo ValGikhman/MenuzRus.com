@@ -8,7 +8,7 @@
             Value: $(this).attr("src")
         };
 
-        var jqxhr = $.post("/MenuDesigner/SaveSettings/", wallbackground)
+        var jqxhr = $.post($.validator.format("{0}/MenuDesigner/SaveSettings/", root), wallbackground)
                   .done(function (result) {
                       message("Wall background saved successfully.", "success", "center");
                   })
@@ -27,7 +27,7 @@
             Value: $(this).attr("src")
         };
 
-        var jqxhr = $.post("/MenuDesigner/SaveSettings/", pagebackground)
+        var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveSettings/", root), pagebackground)
                   .done(function (result) {
                       message("Page background saved successfully.", "success", "center");
                   })
@@ -47,7 +47,7 @@
             });
 
             var postData = { ids: cats.join(), type: "Category" };
-            var jqxhr = $.post("/MenuDesigner/SaveOrder/", postData)
+            var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
                               message("Sort order saved successfully.", "success", "center");
                           })
@@ -68,7 +68,7 @@
             });
 
             var postData = { ids: items.join(), type: "Items" };
-            var jqxhr = $.post("/MenuDesigner/SaveOrder/", postData)
+            var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
                               message("Sort order saved successfully.", "success", "center");
                           })
@@ -81,7 +81,7 @@
     }).disableSelection();
 
     $("#Menu_id").change(function () {
-        window.location = "/MenuDesigner/Index/" + $(this).val();
+        window.location = $.validator.format("{0}MenuDesigner/Index/", root) + $(this).val();
     })
 
     $("#btnNewMenu, #newMenu").click(function () {
@@ -128,7 +128,7 @@
     })
 
     $("#btnMenuIt").click(function () {
-        window.open("/Menu/Index/" + $("#Menu_id").val(), "");
+        window.open($.validator.format("{0}Menu/Index/", root) + $("#Menu_id").val(), "");
     })
 
     $("#btnSettings, #btnCloseSetting").click(function () {
@@ -214,11 +214,11 @@
 
 /// ****** SETTINGS ***************///
 function applySettings() {
-    var bg = $.validator.format("url(/Images/Backgrounds/Pages/preview/{0}) no-repeat", $("input[name='Settings[PageBackground]']").val());
+    var bg = $.validator.format("url(Images/Backgrounds/Pages/preview/{0}) no-repeat", $("input[name='Settings[PageBackground]']").val());
     if (bg != "")
         $(".page").css("background", bg);
 
-    bg = $.validator.format("url(/Images/Backgrounds/Wall/{0}) repeat", $("input[name='Settings[WallBackground]']").val());
+    bg = $.validator.format("url(Images/Backgrounds/Wall/{0}) repeat", $("input[name='Settings[WallBackground]']").val());
     if (bg != "")
         $(".wall").css("background", bg);
 
@@ -278,10 +278,10 @@ function applySettings() {
 function editMenu(id, name) {
     if (id == null) id = 0;
     var postData = { id: id, name: name };
-    var jqxhr = $.post("/MenuDesigner/SaveMenu/", postData)
+    var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveMenu/", root), postData)
                   .done(function (result) {
                       message("Save successfully.", "success", "center");
-                      window.location = "/MenuDesigner/Index/" + result;
+                      window.location = $.validator.format("{0}MenuDesigner/Index/", root) + result;
                   })
     .fail(function () {
         message("Save menu failed.", "error", "center");
@@ -293,10 +293,10 @@ function editMenu(id, name) {
 function deleteMenu(id) {
     if (id == null) id = 0;
     var postData = { id: id };
-    var jqxhr = $.post("/MenuDesigner/DeleteMenu/", postData)
+    var jqxhr = $.post($.validator.format("{0}MenuDesigner/DeleteMenu/", root), postData)
                   .done(function (result) {
                       message("Menu deleted successfully.", "success", "center");
-                      window.location = "/MenuDesigner";
+                      window.location = $.validator.format("{0}MenuDesigner", root);
                   })
     .fail(function () {
         message("Delete menu failed.", "error", "center");
@@ -315,7 +315,7 @@ function showCategoryMenu(id) {
 function editCategory(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/Category/EditCategory/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -339,10 +339,10 @@ function deleteCategory(id) {
         buttons: [{
             addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
                 $noty.close();
-                var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
+                var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
                                  .done(function (result) {
                                      message("Category successfully deletes.", "success", "center");
-                                     window.location = "/MenuDesigner/Index/" + $("#Menu_id").val();
+                                     window.location = $.validator.format("{0}MenuDesigner/Index/{1}", root, $("#Menu_id").val());
                                  })
                    .fail(function () {
                        message("Delete category failed.", "error", "center");
@@ -361,7 +361,7 @@ function deleteCategory(id) {
 }
 
 function saveSettings(obj) {
-    var jqxhr = $.post("/MenuDesigner/SaveSettings/", obj)
+    var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveSettings/", root), obj)
       .done(function (result) {
           var text = result; // Will contain error if exception
           if (result == "OK")
@@ -385,7 +385,7 @@ function showItemMenu(id) {
 function editItem(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/Item/EditItem/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -399,7 +399,7 @@ function editItem(id) {
 function associateItem(id) {
     $(".btn-group.category").css("display", "none");
     $(".btn-group.item").css("display", "none");
-    var jqxhr = $.get("/ItemProduct/ItemProductAssociate/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -423,7 +423,7 @@ function deleteItem(id) {
         buttons: [{
             addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {
                 $noty.close();
-                var jqxhr = $.post("/Item/DeleteItem/", { id: id })
+                var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
                               .done(function (result) {
                                   message("Deleted successfully.", "success", "center");
                                   window.location = "/MenuDesigner/Index/" + $("#Menu_id").val();

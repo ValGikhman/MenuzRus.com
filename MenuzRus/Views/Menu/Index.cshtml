@@ -12,7 +12,7 @@
                 <div class="rm-front">
                     <div class="rm-content">
                         <div>
-                            <img src="@Url.Content(String.Format("/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
+                            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
                         </div>
                         <div class="category">@Model.MyCompany.Name</div>
                         <div class="item">Welcomes you</div>
@@ -64,7 +64,7 @@
             }
             if (!String.IsNullOrEmpty(@category.ImageUrl)) {
             <div>
-                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
             </div>
             }
             if (!String.IsNullOrEmpty(@category.Description)) {
@@ -74,7 +74,7 @@
             <div class="items-group">
                 @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
                     if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                    <img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                     }
                     <div class="item" data-value="@item.id">@item.Name</div>
                     if (!String.IsNullOrEmpty(item.Description)) {
@@ -93,10 +93,10 @@
 <script type="text/javascript">
     $(function () {
         Menu.init();
-        var bg = "url(/Images/Backgrounds/Pages/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
+        var bg = "url(~/Images/Backgrounds/Pages/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
         $(".rm-wrapper > div > div").css("background", bg);
 
-        bg = bg = "url(/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        bg = bg = "url(~/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
         $("body").css("background", bg)
 
         // Color

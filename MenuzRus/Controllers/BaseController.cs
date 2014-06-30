@@ -72,7 +72,7 @@ namespace MenuzRus.Controllers {
                 if (!this.IsLoggedIn) {
                     filterContext.Controller.ViewData["Layout"] = "_Login";
 
-                    // These 3 controllers do not need to check if logged in or not
+                    // These 2 controllers do not need to check if logged in or not
                     if (route.ToUpper() != "login".ToUpper()
                             && route.ToUpper() != "registration".ToUpper()) {
                         if (!this.IsLoggedIn)

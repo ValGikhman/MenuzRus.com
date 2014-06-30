@@ -1,6 +1,6 @@
 ﻿$(function () {
     $("#Menu_id").change(function () {
-        window.location = "/Product/Index/" + $(this).val();
+        window.location = $.validator.format("{0}Product/Index/{1}", root, $(this).val());
     })
 
     $("span#popover").popover({
@@ -28,7 +28,7 @@ function showCategoryMenu(id, object) {
 
 function editCategory(id) {
     $(".btn-group").hide();
-    var jqxhr = $.get("/Category/EditCategory/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -52,10 +52,10 @@ function deleteCategory(id) {
         buttons: [{
             addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
                 $noty.close();
-                var jqxhr = $.post("/Category/DeleteCategory/", { id: id })
+                var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
                                  .done(function (result) {
                                      message("Category successfully deletes.", "success", "center");
-                                     window.location = "/Product/Index/" + $("#Menu_id").val();
+                                     window.location = $.validator.format("{0}Product/Index/{1}", root, $("#Menu_id").val());
                                  })
                    .fail(function () {
                        message("Delete category failed.", "error", "center");
@@ -83,7 +83,7 @@ function showItemMenu(id, object) {
 
 function editItem(id) {
     $(".btn-group").hide();
-    var jqxhr = $.get("/Item/EditItem/", { id: id })
+    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -107,10 +107,10 @@ function deleteItem(id) {
         buttons: [{
             addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {
                 $noty.close();
-                var jqxhr = $.post("/Item/DeleteItem/", { id: id })
+                var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
                               .done(function (result) {
                                   message("Deleted successfully.", "success", "center");
-                                  window.location = "/Product/Index/" + $("#Menu_id").val();
+                                  window.location = $.validator.format("{0}Product/Index/", root) + $("#Menu_id").val();
                               })
                 .fail(function () {
                     message("Delete item failed.", "error", "center");

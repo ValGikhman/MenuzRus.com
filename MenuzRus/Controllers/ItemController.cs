@@ -59,7 +59,10 @@ namespace MenuzRus.Controllers {
         [HttpPost]
         public ActionResult SaveItem(ItemModel model) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = Request.UrlReferrer.Segments[2].Replace(@"/", String.Empty);
+            base.Referer = "Product";
+            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+                base.Referer = "Menu";
+
             ItemService service = new ItemService();
             Item item = new Item();
             try {
@@ -122,7 +125,10 @@ namespace MenuzRus.Controllers {
         private ItemModel GetModel(Int32? id) {
             ItemModel model = new ItemModel();
             // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = Request.UrlReferrer.Segments[2].Replace(@"/", String.Empty).Replace("Designer", String.Empty);
+            base.Referer = "Product";
+            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+                base.Referer = "Menu";
+
             Item item;
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();

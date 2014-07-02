@@ -23,7 +23,7 @@ $(function () {
     });
 
     $("#btnBack").click(function () {
-        window.location = $.validator.format("{0}/Order/Tables", root);
+        window.location = $.validator.format("{0}Order/Tables", root);
     })
 
     $("#btnSave").click(function () {
@@ -91,17 +91,44 @@ function getProducts(id) {
 });
 };
 
+function SaveMenu() {
+    var container = $(".container-order");
+    container.block();
+    var jqxhr = $.post($.validator.format("{0}Order/SaveMenu", root), { "TableId": tableId, "model": $.toJSON(model) }, "json")
+                  .done(function (result) {
+                  })
+    .fail(function () {
+        message("Failed.", "error", "center");
+    })
+    .always(function () {
+        container.unblock();
+    });
+}
+
 function SaveOrders() {
     var tableId = $("#TableId").val();
     var checks = new Array();
     $(".tab-content.check .tab-pane").each(function (index, element) {
         MenuItems = new Array();
-        var selector = $.validator.format("#{0} .container-order-item", element.id)
-        $(selector).each(function (i, item) {
-            var menuModel = { "id": $(this).attr("id"), "Name": "Gamno" }
+        var menus = $.validator.format("#{0} .container-order-item", element.id)
+        $(menus).each(function (i, item) {
+            productItems = new Array();
+            var associations = $(item).find(".panel").find(".association").find(".associationItem");
+            $(associations).each(function (i, association) {
+                var assosiationId = $(association).attr("data-value");
+                var Items = $(association).find(".knopa.active").find("input");
+                addOnsItems = new Array();
+                $(Items).each(function (i, productItem) {
+                    var type = $(productItem).attr("type");
+                    addOnsItems.push({ "id": $(productItem).attr("value"), "type": ((type == "checkbox") ? 1 : 2) });
+                });
+                productItems.push({ "id": $(association).attr("data-value"), "Items": addOnsItems });
+            });
+
+            var menuModel = { "id": $(item).attr("id"), "Products": productItems };
             MenuItems.push(menuModel);
         })
-        checks.push({ "id": $(element).attr("data-value"), "MenuItems": MenuItems });
+        checks.push({ "id": $(element).attr("data-value"), "Menus": MenuItems });
     });
 
     var model = {

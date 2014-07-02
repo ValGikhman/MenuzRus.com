@@ -12,7 +12,7 @@
             <span class="badge">$@Model.OrderItem.Price</span>
             <button type="button" class="btn btn-danger pull-right btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
-        <div id="@id" class="collapsible">
+        <div id="@id" class="association collapsible">
             @foreach (MenuzRus.Models.OrderItemProduct itemProduct in Model.OrderItem.OrderItemProducts) {
                 @ShowProduct(itemProduct)
             }
@@ -27,7 +27,7 @@
         objectType = "radio";
         buttonsClass = "btn-info";
     }
-    <div class="panel-body shadow" data-toggle="buttons">
+    <div class="panel-body shadow associationItem" data-toggle="buttons" data-value="@itemProduct.id">
         @foreach (MenuzRus.Models.OrderItemProductAssociation itemProductAssociations in itemProduct.OrderItemProductAssociations) {
             <label class="btn @buttonsClass knopa">
                 <span class="badge">$@itemProductAssociations.Price</span>

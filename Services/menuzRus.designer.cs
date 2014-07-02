@@ -72,12 +72,15 @@ namespace Services
     partial void InsertOrderChecksMenu(OrderChecksMenu instance);
     partial void UpdateOrderChecksMenu(OrderChecksMenu instance);
     partial void DeleteOrderChecksMenu(OrderChecksMenu instance);
-    partial void InsertOrderChecksMenuItem(OrderChecksMenuItem instance);
-    partial void UpdateOrderChecksMenuItem(OrderChecksMenuItem instance);
-    partial void DeleteOrderChecksMenuItem(OrderChecksMenuItem instance);
     partial void InsertOrderCheck(OrderCheck instance);
     partial void UpdateOrderCheck(OrderCheck instance);
     partial void DeleteOrderCheck(OrderCheck instance);
+    partial void InsertOrderChecksMenuProduct(OrderChecksMenuProduct instance);
+    partial void UpdateOrderChecksMenuProduct(OrderChecksMenuProduct instance);
+    partial void DeleteOrderChecksMenuProduct(OrderChecksMenuProduct instance);
+    partial void InsertOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
+    partial void UpdateOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
+    partial void DeleteOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -222,19 +225,27 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderChecksMenuItem> OrderChecksMenuItems
-		{
-			get
-			{
-				return this.GetTable<OrderChecksMenuItem>();
-			}
-		}
-		
 		public System.Data.Linq.Table<OrderCheck> OrderChecks
 		{
 			get
 			{
 				return this.GetTable<OrderCheck>();
+			}
+		}
+		
+		public System.Data.Linq.Table<OrderChecksMenuProduct> OrderChecksMenuProducts
+		{
+			get
+			{
+				return this.GetTable<OrderChecksMenuProduct>();
+			}
+		}
+		
+		public System.Data.Linq.Table<OrderChecksMenuProductItem> OrderChecksMenuProductItems
+		{
+			get
+			{
+				return this.GetTable<OrderChecksMenuProductItem>();
 			}
 		}
 	}
@@ -3893,7 +3904,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -3913,7 +3924,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -4027,7 +4038,7 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<OrderChecksMenuItem> _OrderChecksMenuItems;
+		private EntitySet<OrderChecksMenuProduct> _OrderChecksMenuProducts;
 		
 		private EntityRef<OrderCheck> _OrderCheck;
 		
@@ -4047,7 +4058,7 @@ namespace Services
 		
 		public OrderChecksMenu()
 		{
-			this._OrderChecksMenuItems = new EntitySet<OrderChecksMenuItem>(new Action<OrderChecksMenuItem>(this.attach_OrderChecksMenuItems), new Action<OrderChecksMenuItem>(this.detach_OrderChecksMenuItems));
+			this._OrderChecksMenuProducts = new EntitySet<OrderChecksMenuProduct>(new Action<OrderChecksMenuProduct>(this.attach_OrderChecksMenuProducts), new Action<OrderChecksMenuProduct>(this.detach_OrderChecksMenuProducts));
 			this._OrderCheck = default(EntityRef<OrderCheck>);
 			OnCreated();
 		}
@@ -4116,7 +4127,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -4136,16 +4147,16 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuItem", Storage="_OrderChecksMenuItems", ThisKey="id", OtherKey="MenuId")]
-		public EntitySet<OrderChecksMenuItem> OrderChecksMenuItems
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuProduct", Storage="_OrderChecksMenuProducts", ThisKey="id", OtherKey="CheckMenuId")]
+		public EntitySet<OrderChecksMenuProduct> OrderChecksMenuProducts
 		{
 			get
 			{
-				return this._OrderChecksMenuItems;
+				return this._OrderChecksMenuProducts;
 			}
 			set
 			{
-				this._OrderChecksMenuItems.Assign(value);
+				this._OrderChecksMenuProducts.Assign(value);
 			}
 		}
 		
@@ -4203,191 +4214,16 @@ namespace Services
 			}
 		}
 		
-		private void attach_OrderChecksMenuItems(OrderChecksMenuItem entity)
+		private void attach_OrderChecksMenuProducts(OrderChecksMenuProduct entity)
 		{
 			this.SendPropertyChanging();
 			entity.OrderChecksMenu = this;
 		}
 		
-		private void detach_OrderChecksMenuItems(OrderChecksMenuItem entity)
+		private void detach_OrderChecksMenuProducts(OrderChecksMenuProduct entity)
 		{
 			this.SendPropertyChanging();
 			entity.OrderChecksMenu = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuItems")]
-	public partial class OrderChecksMenuItem : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _MenuId;
-		
-		private int _ItemId;
-		
-		private System.DateTime _DateCreated;
-		
-		private EntityRef<OrderChecksMenu> _OrderChecksMenu;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnMenuIdChanging(int value);
-    partial void OnMenuIdChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public OrderChecksMenuItem()
-		{
-			this._OrderChecksMenu = default(EntityRef<OrderChecksMenu>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuId", DbType="Int NOT NULL")]
-		public int MenuId
-		{
-			get
-			{
-				return this._MenuId;
-			}
-			set
-			{
-				if ((this._MenuId != value))
-				{
-					if (this._OrderChecksMenu.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMenuIdChanging(value);
-					this.SendPropertyChanging();
-					this._MenuId = value;
-					this.SendPropertyChanged("MenuId");
-					this.OnMenuIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
-		{
-			get
-			{
-				return this._ItemId;
-			}
-			set
-			{
-				if ((this._ItemId != value))
-				{
-					this.OnItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuItem", Storage="_OrderChecksMenu", ThisKey="MenuId", OtherKey="id", IsForeignKey=true)]
-		public OrderChecksMenu OrderChecksMenu
-		{
-			get
-			{
-				return this._OrderChecksMenu.Entity;
-			}
-			set
-			{
-				OrderChecksMenu previousValue = this._OrderChecksMenu.Entity;
-				if (((previousValue != value) 
-							|| (this._OrderChecksMenu.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._OrderChecksMenu.Entity = null;
-						previousValue.OrderChecksMenuItems.Remove(this);
-					}
-					this._OrderChecksMenu.Entity = value;
-					if ((value != null))
-					{
-						value.OrderChecksMenuItems.Add(this);
-						this._MenuId = value.id;
-					}
-					else
-					{
-						this._MenuId = default(int);
-					}
-					this.SendPropertyChanged("OrderChecksMenu");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -4566,7 +4402,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -4663,6 +4499,408 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.OrderCheck = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProducts")]
+	public partial class OrderChecksMenuProduct : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CheckMenuId;
+		
+		private int _ItemId;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntitySet<OrderChecksMenuProductItem> _OrderChecksMenuProductItems;
+		
+		private EntityRef<OrderChecksMenu> _OrderChecksMenu;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCheckMenuIdChanging(int value);
+    partial void OnCheckMenuIdChanged();
+    partial void OnItemIdChanging(int value);
+    partial void OnItemIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public OrderChecksMenuProduct()
+		{
+			this._OrderChecksMenuProductItems = new EntitySet<OrderChecksMenuProductItem>(new Action<OrderChecksMenuProductItem>(this.attach_OrderChecksMenuProductItems), new Action<OrderChecksMenuProductItem>(this.detach_OrderChecksMenuProductItems));
+			this._OrderChecksMenu = default(EntityRef<OrderChecksMenu>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckMenuId", DbType="Int NOT NULL")]
+		public int CheckMenuId
+		{
+			get
+			{
+				return this._CheckMenuId;
+			}
+			set
+			{
+				if ((this._CheckMenuId != value))
+				{
+					if (this._OrderChecksMenu.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCheckMenuIdChanging(value);
+					this.SendPropertyChanging();
+					this._CheckMenuId = value;
+					this.SendPropertyChanged("CheckMenuId");
+					this.OnCheckMenuIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
+		public int ItemId
+		{
+			get
+			{
+				return this._ItemId;
+			}
+			set
+			{
+				if ((this._ItemId != value))
+				{
+					this.OnItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemId = value;
+					this.SendPropertyChanged("ItemId");
+					this.OnItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenuProduct_OrderChecksMenuProductItem", Storage="_OrderChecksMenuProductItems", ThisKey="id", OtherKey="ProductId")]
+		public EntitySet<OrderChecksMenuProductItem> OrderChecksMenuProductItems
+		{
+			get
+			{
+				return this._OrderChecksMenuProductItems;
+			}
+			set
+			{
+				this._OrderChecksMenuProductItems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuProduct", Storage="_OrderChecksMenu", ThisKey="CheckMenuId", OtherKey="id", IsForeignKey=true)]
+		public OrderChecksMenu OrderChecksMenu
+		{
+			get
+			{
+				return this._OrderChecksMenu.Entity;
+			}
+			set
+			{
+				OrderChecksMenu previousValue = this._OrderChecksMenu.Entity;
+				if (((previousValue != value) 
+							|| (this._OrderChecksMenu.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._OrderChecksMenu.Entity = null;
+						previousValue.OrderChecksMenuProducts.Remove(this);
+					}
+					this._OrderChecksMenu.Entity = value;
+					if ((value != null))
+					{
+						value.OrderChecksMenuProducts.Add(this);
+						this._CheckMenuId = value.id;
+					}
+					else
+					{
+						this._CheckMenuId = default(int);
+					}
+					this.SendPropertyChanged("OrderChecksMenu");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_OrderChecksMenuProductItems(OrderChecksMenuProductItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderChecksMenuProduct = this;
+		}
+		
+		private void detach_OrderChecksMenuProductItems(OrderChecksMenuProductItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderChecksMenuProduct = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProductItems")]
+	public partial class OrderChecksMenuProductItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _ProductId;
+		
+		private int _ItemId;
+		
+		private int _Type;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntityRef<OrderChecksMenuProduct> _OrderChecksMenuProduct;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnProductIdChanging(int value);
+    partial void OnProductIdChanged();
+    partial void OnItemIdChanging(int value);
+    partial void OnItemIdChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public OrderChecksMenuProductItem()
+		{
+			this._OrderChecksMenuProduct = default(EntityRef<OrderChecksMenuProduct>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductId", DbType="Int NOT NULL")]
+		public int ProductId
+		{
+			get
+			{
+				return this._ProductId;
+			}
+			set
+			{
+				if ((this._ProductId != value))
+				{
+					if (this._OrderChecksMenuProduct.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProductId = value;
+					this.SendPropertyChanged("ProductId");
+					this.OnProductIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
+		public int ItemId
+		{
+			get
+			{
+				return this._ItemId;
+			}
+			set
+			{
+				if ((this._ItemId != value))
+				{
+					this.OnItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemId = value;
+					this.SendPropertyChanged("ItemId");
+					this.OnItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenuProduct_OrderChecksMenuProductItem", Storage="_OrderChecksMenuProduct", ThisKey="ProductId", OtherKey="id", IsForeignKey=true)]
+		public OrderChecksMenuProduct OrderChecksMenuProduct
+		{
+			get
+			{
+				return this._OrderChecksMenuProduct.Entity;
+			}
+			set
+			{
+				OrderChecksMenuProduct previousValue = this._OrderChecksMenuProduct.Entity;
+				if (((previousValue != value) 
+							|| (this._OrderChecksMenuProduct.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._OrderChecksMenuProduct.Entity = null;
+						previousValue.OrderChecksMenuProductItems.Remove(this);
+					}
+					this._OrderChecksMenuProduct.Entity = value;
+					if ((value != null))
+					{
+						value.OrderChecksMenuProductItems.Add(this);
+						this._ProductId = value.id;
+					}
+					else
+					{
+						this._ProductId = default(int);
+					}
+					this.SendPropertyChanged("OrderChecksMenuProduct");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

@@ -48,7 +48,6 @@ namespace MenuzRus {
         public ActionResult SaveUser(UserModel model) {
             UserService userService = new UserService();
             CommonService commonService = new CommonService();
-            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty);
             try {
                 User user = new User();
                 user.id = model.id;
@@ -89,7 +88,7 @@ namespace MenuzRus {
                 if (model.Referer == "Form")
                     return RedirectToAction("Index", "Login");
                 else
-                    return RedirectToAction("Index", base.Referer, new { id = user.id });
+                    return RedirectToAction("Index", "User", new { id = user.id });
             }
             catch (Exception ex) {
                 base.Log(ex);

@@ -22,10 +22,20 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        public ActionResult SaveMenu(String model) {
+            OrderService orderService = new OrderService();
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            dynamic model2Save = jss.Deserialize<dynamic>(model);
+            orderService.SaveMenu(model2Save);
+            return null;
+        }
+
         [HttpPost]
         public ActionResult SaveOrders(String model) {
+            OrderService orderService = new OrderService();
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            var model2Save = jss.Deserialize<dynamic>(model);
+            dynamic model2Save = jss.Deserialize<dynamic>(model);
+            orderService.SaveOrder(model2Save);
             return null;
         }
 

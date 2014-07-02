@@ -10,7 +10,7 @@ namespace MenuzRus {
 
     public class OrderService {
 
-        public Boolean DeleteOrder(Int32 id) {
+        public Boolean DeleteCheck(Int32 id) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     IEnumerable<ItemProductAssociation> query = db.ItemProductAssociations.Where(m => m.ItemProductId == id);
@@ -27,7 +27,7 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean DeleteOrderItem(Int32? id) {
+        public Boolean DeleteMenu(Int32? id) {
             ItemProduct itemProduct = new ItemProduct();
             IEnumerable<ItemProductAssociation> itemProductAssocoation; ;
             id = id.HasValue ? id : 0;
@@ -53,18 +53,34 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean SaveOrder(TableOrder order) {
+        public Boolean SaveMenu(dynamic order) {
+            TableOrder orderQuery = new TableOrder();
+            return true;
+        }
+
+        public Boolean SaveOrder(dynamic order) {
             TableOrder orderQuery = new TableOrder();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    if (order.id != 0)
-                        orderQuery = db.TableOrders.FirstOrDefault(m => m.id == order.id);
-
-                    if (orderQuery != default(TableOrder)) {
-                        orderQuery.id = order.id;
-                        orderQuery.Status = order.Status;
-                        orderQuery.TableId = order.TableId;
+                    Int32 tableId = Int32.Parse(order["tableId"]);
+                    Object[] Checks = order["Checks"];
+                    foreach (IDictionary<String, object> Check in Checks) {
+                        Int32 checkId = Int32.Parse(Check["id"].ToString());
+                        dynamic Menus = Check["Menus"];
+                        foreach (IDictionary<String, object> Menu in Menus) {
+                            Int32 menuId = Int32.Parse(Menu["id"].ToString());
+                            dynamic Products = Menu["Products"];
+                            foreach (IDictionary<String, object> Product in Products) {
+                                Int32 productId = Int32.Parse(Product["id"].ToString());
+                                dynamic Items = Product["Items"];
+                                foreach (IDictionary<String, object> Item in Items) {
+                                    Int32 itemId = Int32.Parse(Product["id"].ToString());
+                                    Common.ProductType type = (Common.ProductType)Item["type"];
+                                }
+                            }
+                        }
                     }
+
                     if (order.id == 0) {
                         db.TableOrders.InsertOnSubmit(orderQuery);
                     }
@@ -75,6 +91,11 @@ namespace MenuzRus {
                 SessionData.exeption = ex;
                 return false;
             }
+            return true;
+        }
+
+        public Boolean SaveProduct(dynamic order) {
+            TableOrder orderQuery = new TableOrder();
             return true;
         }
     }

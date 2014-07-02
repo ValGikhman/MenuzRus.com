@@ -68,7 +68,10 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty);
+            base.Referer = "Product";
+            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+                base.Referer = "Menu";
+
             CategoryService service = new CategoryService();
             Category category = new Category();
             try {
@@ -113,7 +116,10 @@ namespace MenuzRus {
 
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = Request.UrlReferrer.Segments[1].Replace(@"/", String.Empty).Replace("Designer", String.Empty);
+            base.Referer = "Product";
+            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+                base.Referer = "Menu";
+
             try {
                 //set for new or existing category
                 model.id = id.HasValue ? id.Value : 0;

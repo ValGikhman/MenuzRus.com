@@ -1,39 +1,32 @@
-﻿@model MenuzRus.Models.OrderModel
-@using Services
-
-@{String id = String.Format("item_{0}_{1}", Model.OrderItem.id, Model.uid);}
-<div id="@Model.OrderItem.id" class="container container-order-item col-lg-12 col-md-12">
+﻿@{String id = String.Format("item_{0}_{1}", Model.CheckItem.id, Model.uid);}
+<div id="@Model.CheckItem.id" class="container container-order-item col-md-12 col-sm-12">
     <div class="panel panel-default">
         <div class="panel-heading item">
-            @if (Model.OrderItem.OrderItemProducts.Any()) {
+            @if (Model.CheckItem.CheckMenuItemProducts.Any()) {
                 <span class="glyphicon pointer glyphicon-minus collapsibleSign" onclick="javascript:toggleItself(this, '#@id');"></span>
             }
-            @Model.OrderItem.Name
-            <span class="badge">$@Model.OrderItem.Price</span>
+            @Model.CheckItem.Name
+            <span class="badge">$@Model.CheckItem.Price</span>
             <button type="button" class="btn btn-danger pull-right btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         <div id="@id" class="association collapsible">
-            @foreach (MenuzRus.Models.OrderItemProduct itemProduct in Model.OrderItem.OrderItemProducts) {
-                @ShowProduct(itemProduct)
+            @foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model.CheckItem.CheckMenuItemProducts) {
+                var objectType = "checkbox";
+                var buttonsClass = "btn-success";
+                if (itemProduct.Type == Common.ProductType.Addons) {
+                    objectType = "radio";
+                    buttonsClass = "btn-info";
+                }
+                <div class="panel-body shadow associationItem" data-toggle="buttons" data-value="@itemProduct.id">
+                    @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
+                        <label class="btn @buttonsClass knopa">
+                            <span class="badge">$@itemProductAssociations.Price</span>
+                            <input type="@objectType" value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)">
+                            <span class="itemNameSmall">@itemProductAssociations.ShortName</span>
+                        </label>
+                    }
+                </div>
             }
         </div>
     </div>
 </div>
-
-@helper ShowProduct(MenuzRus.Models.OrderItemProduct itemProduct) {
-    var objectType = "checkbox";
-    var buttonsClass = "btn-success";
-    if (itemProduct.Type == Common.ProductType.Addons) {
-        objectType = "radio";
-        buttonsClass = "btn-info";
-    }
-    <div class="panel-body shadow associationItem" data-toggle="buttons" data-value="@itemProduct.id">
-        @foreach (MenuzRus.Models.OrderItemProductAssociation itemProductAssociations in itemProduct.OrderItemProductAssociations) {
-            <label class="btn @buttonsClass knopa">
-                <span class="badge">$@itemProductAssociations.Price</span>
-                <input type="@objectType" value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)">
-                <span class="itemNameSmall">@itemProductAssociations.ShortName</span>
-            </label>
-        }
-    </div>
-}

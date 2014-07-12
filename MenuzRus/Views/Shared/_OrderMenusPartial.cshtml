@@ -1,0 +1,6 @@
+﻿@model List<MenuzRus.Models.CheckMenuItem>
+@foreach (MenuzRus.Models.CheckMenuItem menu in Model) {
+    <div class="container container-order-item col-md-12 col-sm-12">
+        @Html.Partial("_OrderMenuItemPartial", menu)
+    </div>
+}

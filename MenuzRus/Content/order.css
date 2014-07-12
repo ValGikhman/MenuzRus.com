@@ -115,4 +115,5 @@ h4 {
 .itemNameSmall {
     line-height: 0.8;
     font-size: 11px;
+    white-space: pre-wrap;
 }

@@ -214,11 +214,11 @@
 
 /// ****** SETTINGS ***************///
 function applySettings() {
-    var bg = $.validator.format("url(Images/Backgrounds/Pages/preview/{0}) no-repeat", $("input[name='Settings[PageBackground]']").val());
+    var bg = $.validator.format("url({1}Images/Backgrounds/Pages/preview/{0}) no-repeat", $("input[name='Settings[PageBackground]']").val(), root);
     if (bg != "")
         $(".page").css("background", bg);
 
-    bg = $.validator.format("url(Images/Backgrounds/Wall/{0}) repeat", $("input[name='Settings[WallBackground]']").val());
+    bg = $.validator.format("url({1}Images/Backgrounds/Wall/{0}) repeat", $("input[name='Settings[WallBackground]']").val(), root);
     if (bg != "")
         $(".wall").css("background", bg);
 

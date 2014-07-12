@@ -10,45 +10,53 @@ using Services;
 
 namespace MenuzRus.Models {
 
-    public class OrderItem {
+    public class Check {
 
-        [DisplayName("Description")]
-        public String Description { get; set; }
+        public List<CheckMenuItem> CheckMenuItems { get; set; }
 
         public Int32 id { get; set; }
 
-        [DisplayName("Name")]
+        public Decimal Price { get; set; }
+
+        public Common.OrderType Type { get; set; }
+    }
+
+    public class CheckMenuItem {
+
+        public List<CheckMenuItemProduct> CheckMenuItemProducts { get; set; }
+
+        public Int32 id { get; set; }
+
+        public Int32 ItemId { get; set; }
+
         public String Name { get; set; }
 
-        public List<OrderItemProduct> OrderItemProducts { get; set; }
-
-        [DisplayName("Price")]
         public Decimal Price { get; set; }
     }
 
-    public class OrderItemProduct {
+    public class CheckMenuItemProduct {
+
+        public List<CheckMenuItemProductAssociation> CheckMenuItemProductAssociations { get; set; }
 
         public Int32 id { get; set; }
 
-        public List<OrderItemProductAssociation> OrderItemProductAssociations { get; set; }
+        public Int32 ItemId { get; set; }
 
         public Common.ProductType Type { get; set; }
     }
 
-    public class OrderItemProductAssociation {
-
-        [DisplayName("Description")]
-        public String Description { get; set; }
+    public class CheckMenuItemProductAssociation {
 
         public Int32 id { get; set; }
 
-        [DisplayName("Name")]
+        public Int32 ItemId { get; set; }
+
         public String Name { get; set; }
 
-        [DisplayName("Price")]
         public Decimal Price { get; set; }
 
-        [DisplayName("Short Name")]
+        public Boolean Selected { get; set; }
+
         public String ShortName { get; set; }
     }
 
@@ -56,9 +64,7 @@ namespace MenuzRus.Models {
 
         public List<Category> Categories { set; get; }
 
-        public OrderItem OrderItem { set; get; }
-
-        public List<OrderItem> Orders { set; get; }
+        public List<Check> Checks { set; get; }
 
         public Int32 TableId { set; get; }
 

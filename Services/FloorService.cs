@@ -15,7 +15,7 @@ namespace MenuzRus {
             id = id.HasValue ? id : 0;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.Floors.Where(m => m.id == id).FirstOrDefault();
+                    query = db.Floors.FirstOrDefault(m => m.id == id);
                     if (query != default(Floor)) {
                         IEnumerable<Table> tables = db.Tables.Where(m => m.FloorId == id);
                         if (tables != null) {
@@ -37,7 +37,7 @@ namespace MenuzRus {
             Table query = new Table();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.Tables.Where(m => m.id == id).FirstOrDefault();
+                    query = db.Tables.FirstOrDefault(m => m.id == id);
                     if (query != default(Table)) {
                         db.Tables.DeleteOnSubmit(query);
                         db.SubmitChanges();
@@ -53,7 +53,7 @@ namespace MenuzRus {
 
         public Floor GetFloor(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Floors.Where(m => m.id == id).FirstOrDefault();
+            return db.Floors.FirstOrDefault(m => m.id == id);
         }
 
         public List<Floor> GetFloors(Int32 id) {
@@ -71,7 +71,7 @@ namespace MenuzRus {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     if (floor.id != 0)
-                        query = db.Floors.Where(m => m.id == floor.id).FirstOrDefault();
+                        query = db.Floors.FirstOrDefault(m => m.id == floor.id);
                     if (query != default(Floor)) {
                         query.CustomerId = floor.CustomerId;
                         query.Name = floor.Name;

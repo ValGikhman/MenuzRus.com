@@ -1,0 +1,22 @@
+﻿@model List<MenuzRus.Models.CheckMenuItemProduct>
+@foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model) {
+    var objectType = "checkbox";
+    var buttonsClass = "btn-success";
+    if (itemProduct.Type == Common.ProductType.Addons) {
+        objectType = "radio";
+        buttonsClass = "btn-info";
+    }
+    <div class="panel-body shadow associationItem" data-toggle="buttons" data-value="@itemProduct.id">
+        @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
+            String active = String.Empty;
+            if (itemProductAssociations.Selected) {
+                active = "active";
+            }
+            <label class="btn @buttonsClass knopa @active">
+                <span class="badge">$@itemProductAssociations.Price</span>
+                <input type="@objectType" value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)">
+                <span class="itemNameSmall">@itemProductAssociations.ShortName</span>
+            </label>
+        }
+    </div>
+}

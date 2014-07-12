@@ -1,0 +1,19 @@
+﻿@model MenuzRus.Models.OrderModel
+@using Services
+
+<ul class="nav nav-tabs checks">
+    @foreach (MenuzRus.Models.Check check in Model.Checks) {
+        <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-toggle="tab">
+            @String.Format("Check#{0}", check.id)
+            <button class="close btn btn-primary" title="Remove this check" type="button">
+                <i class="glyphicon glyphicon-remove-circle" />
+            </button>
+        </a></li>
+    }
+</ul>
+<div class="tab-content check">
+    @foreach (MenuzRus.Models.Check check in Model.Checks) {
+        <div class="tab-pane fade in" id="@String.Format("Check{0}", check.id)" data-value="@check.id">
+        </div>
+    }
+</div>

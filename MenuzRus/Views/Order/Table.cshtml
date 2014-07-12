@@ -11,12 +11,11 @@
             <h2>Take Order
                 <button id="btnAdd" class="add-check btn btn-success shadow" style="margin-left: 95px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
                 <button id="btnBack" type="button" class="btn btn-default shadow pull-right" style="margin-left: 15px;">Back to floor</button>
-                <button id="btnSave" type="button" class="btn btn-primary shadow pull-right">Save changes</button>
             </h2>
         </div>
     </div>
     <div class="row layout" style="text-justify: auto;">
-        <div class="col-sm-4 shadow menu">
+        <div class="col-md-4 col-sm-4 shadow menu">
             <ul class="nav nav-tabs menu-tabs">
                 <li><a href="#" data-toggle='tab'>
                     <h4>Menu
@@ -31,18 +30,14 @@
                         </li>
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            <li id="item.@item.id" class="item" data-value="@item.id"><a href="javascript:getProducts(@item.id)">@item.Name</a></li>
+                            <li id="item.@item.id" class="btn btn-default knopa itemNameSmall" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">@item.Name</li>
                         }
                     </ul>
                 }
             </div>
         </div>
 
-        <div class="col-sm-7 shadow order">
-            <ul class="nav nav-tabs checks">
-            </ul>
-            <div class="tab-content check">
-            </div>
+        <div class="col-md-7 -sm-7 shadow order">
         </div>
     </div>
 </div>

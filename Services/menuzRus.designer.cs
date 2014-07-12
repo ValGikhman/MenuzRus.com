@@ -1415,8 +1415,6 @@ namespace Services
 		
 		private System.DateTime _DateModified;
 		
-		private EntitySet<TableOrder> _TableOrders;
-		
 		private EntityRef<Floor> _Floors;
 		
     #region Extensibility Method Definitions
@@ -1447,7 +1445,6 @@ namespace Services
 		
 		public Table()
 		{
-			this._TableOrders = new EntitySet<TableOrder>(new Action<TableOrder>(this.attach_TableOrders), new Action<TableOrder>(this.detach_TableOrders));
 			this._Floors = default(EntityRef<Floor>);
 			OnCreated();
 		}
@@ -1656,19 +1653,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Table_TableOrder", Storage="_TableOrders", ThisKey="id", OtherKey="TableId")]
-		public EntitySet<TableOrder> TableOrders
-		{
-			get
-			{
-				return this._TableOrders;
-			}
-			set
-			{
-				this._TableOrders.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floor_Table", Storage="_Floors", ThisKey="FloorId", OtherKey="id", IsForeignKey=true)]
 		public Floor Floor
 		{
@@ -1721,18 +1705,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_TableOrders(TableOrder entity)
-		{
-			this.SendPropertyChanging();
-			entity.Table = this;
-		}
-		
-		private void detach_TableOrders(TableOrder entity)
-		{
-			this.SendPropertyChanging();
-			entity.Table = null;
 		}
 	}
 	
@@ -2736,7 +2708,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdditionalInfo", DbType="VarChar(250)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdditionalInfo", DbType="NVarChar(250)")]
 		public string AdditionalInfo
 		{
 			get
@@ -3815,8 +3787,6 @@ namespace Services
 		
 		private EntitySet<OrderCheck> _OrderChecks;
 		
-		private EntityRef<Table> _Table;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3836,11 +3806,10 @@ namespace Services
 		public TableOrder()
 		{
 			this._OrderChecks = new EntitySet<OrderCheck>(new Action<OrderCheck>(this.attach_OrderChecks), new Action<OrderCheck>(this.detach_OrderChecks));
-			this._Table = default(EntityRef<Table>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -3871,10 +3840,6 @@ namespace Services
 			{
 				if ((this._TableId != value))
 				{
-					if (this._Table.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnTableIdChanging(value);
 					this.SendPropertyChanging();
 					this._TableId = value;
@@ -3944,7 +3909,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_OrderChecks", ThisKey="id", OtherKey="OrderId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_OrderChecks", ThisKey="id", OtherKey="TableOrderId")]
 		public EntitySet<OrderCheck> OrderChecks
 		{
 			get
@@ -3954,40 +3919,6 @@ namespace Services
 			set
 			{
 				this._OrderChecks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Table_TableOrder", Storage="_Table", ThisKey="TableId", OtherKey="id", IsForeignKey=true)]
-		public Table Table
-		{
-			get
-			{
-				return this._Table.Entity;
-			}
-			set
-			{
-				Table previousValue = this._Table.Entity;
-				if (((previousValue != value) 
-							|| (this._Table.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Table.Entity = null;
-						previousValue.TableOrders.Remove(this);
-					}
-					this._Table.Entity = value;
-					if ((value != null))
-					{
-						value.TableOrders.Add(this);
-						this._TableId = value.id;
-					}
-					else
-					{
-						this._TableId = default(int);
-					}
-					this.SendPropertyChanged("Table");
-				}
 			}
 		}
 		
@@ -4038,10 +3969,6 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<OrderChecksMenuProduct> _OrderChecksMenuProducts;
-		
-		private EntityRef<OrderCheck> _OrderCheck;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4058,12 +3985,10 @@ namespace Services
 		
 		public OrderChecksMenu()
 		{
-			this._OrderChecksMenuProducts = new EntitySet<OrderChecksMenuProduct>(new Action<OrderChecksMenuProduct>(this.attach_OrderChecksMenuProducts), new Action<OrderChecksMenuProduct>(this.detach_OrderChecksMenuProducts));
-			this._OrderCheck = default(EntityRef<OrderCheck>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -4094,10 +4019,6 @@ namespace Services
 			{
 				if ((this._CheckId != value))
 				{
-					if (this._OrderCheck.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnCheckIdChanging(value);
 					this.SendPropertyChanging();
 					this._CheckId = value;
@@ -4147,53 +4068,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuProduct", Storage="_OrderChecksMenuProducts", ThisKey="id", OtherKey="CheckMenuId")]
-		public EntitySet<OrderChecksMenuProduct> OrderChecksMenuProducts
-		{
-			get
-			{
-				return this._OrderChecksMenuProducts;
-			}
-			set
-			{
-				this._OrderChecksMenuProducts.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_OrderChecksMenu", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
-		public OrderCheck OrderCheck
-		{
-			get
-			{
-				return this._OrderCheck.Entity;
-			}
-			set
-			{
-				OrderCheck previousValue = this._OrderCheck.Entity;
-				if (((previousValue != value) 
-							|| (this._OrderCheck.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._OrderCheck.Entity = null;
-						previousValue.OrderChecksMenus.Remove(this);
-					}
-					this._OrderCheck.Entity = value;
-					if ((value != null))
-					{
-						value.OrderChecksMenus.Add(this);
-						this._CheckId = value.id;
-					}
-					else
-					{
-						this._CheckId = default(int);
-					}
-					this.SendPropertyChanged("OrderCheck");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4212,18 +4086,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_OrderChecksMenuProducts(OrderChecksMenuProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderChecksMenu = this;
-		}
-		
-		private void detach_OrderChecksMenuProducts(OrderChecksMenuProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderChecksMenu = null;
 		}
 	}
 	
@@ -4247,8 +4109,6 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<OrderChecksMenu> _OrderChecksMenus;
-		
 		private EntityRef<TableOrder> _TableOrder;
 		
     #region Extensibility Method Definitions
@@ -4257,8 +4117,8 @@ namespace Services
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnOrderIdChanging(int value);
-    partial void OnOrderIdChanged();
+    partial void OnTableOrderIdChanging(int value);
+    partial void OnTableOrderIdChanged();
     partial void OnTypeChanging(int value);
     partial void OnTypeChanged();
     partial void OnPriceChanging(System.Nullable<decimal> value);
@@ -4273,12 +4133,11 @@ namespace Services
 		
 		public OrderCheck()
 		{
-			this._OrderChecksMenus = new EntitySet<OrderChecksMenu>(new Action<OrderChecksMenu>(this.attach_OrderChecksMenus), new Action<OrderChecksMenu>(this.detach_OrderChecksMenus));
 			this._TableOrder = default(EntityRef<TableOrder>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -4299,7 +4158,7 @@ namespace Services
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderId", DbType="Int NOT NULL")]
-		public int OrderId
+		public int TableOrderId
 		{
 			get
 			{
@@ -4313,11 +4172,11 @@ namespace Services
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrderIdChanging(value);
+					this.OnTableOrderIdChanging(value);
 					this.SendPropertyChanging();
 					this._OrderId = value;
-					this.SendPropertyChanged("OrderId");
-					this.OnOrderIdChanged();
+					this.SendPropertyChanged("TableOrderId");
+					this.OnTableOrderIdChanged();
 				}
 			}
 		}
@@ -4422,20 +4281,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_OrderChecksMenu", Storage="_OrderChecksMenus", ThisKey="id", OtherKey="CheckId")]
-		public EntitySet<OrderChecksMenu> OrderChecksMenus
-		{
-			get
-			{
-				return this._OrderChecksMenus;
-			}
-			set
-			{
-				this._OrderChecksMenus.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="OrderId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
 		public TableOrder TableOrder
 		{
 			get
@@ -4488,18 +4334,6 @@ namespace Services
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_OrderChecksMenus(OrderChecksMenu entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderCheck = this;
-		}
-		
-		private void detach_OrderChecksMenus(OrderChecksMenu entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderCheck = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProducts")]
@@ -4518,8 +4352,6 @@ namespace Services
 		
 		private EntitySet<OrderChecksMenuProductItem> _OrderChecksMenuProductItems;
 		
-		private EntityRef<OrderChecksMenu> _OrderChecksMenu;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4537,11 +4369,10 @@ namespace Services
 		public OrderChecksMenuProduct()
 		{
 			this._OrderChecksMenuProductItems = new EntitySet<OrderChecksMenuProductItem>(new Action<OrderChecksMenuProductItem>(this.attach_OrderChecksMenuProductItems), new Action<OrderChecksMenuProductItem>(this.detach_OrderChecksMenuProductItems));
-			this._OrderChecksMenu = default(EntityRef<OrderChecksMenu>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -4572,10 +4403,6 @@ namespace Services
 			{
 				if ((this._CheckMenuId != value))
 				{
-					if (this._OrderChecksMenu.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnCheckMenuIdChanging(value);
 					this.SendPropertyChanging();
 					this._CheckMenuId = value;
@@ -4638,40 +4465,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenu_OrderChecksMenuProduct", Storage="_OrderChecksMenu", ThisKey="CheckMenuId", OtherKey="id", IsForeignKey=true)]
-		public OrderChecksMenu OrderChecksMenu
-		{
-			get
-			{
-				return this._OrderChecksMenu.Entity;
-			}
-			set
-			{
-				OrderChecksMenu previousValue = this._OrderChecksMenu.Entity;
-				if (((previousValue != value) 
-							|| (this._OrderChecksMenu.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._OrderChecksMenu.Entity = null;
-						previousValue.OrderChecksMenuProducts.Remove(this);
-					}
-					this._OrderChecksMenu.Entity = value;
-					if ((value != null))
-					{
-						value.OrderChecksMenuProducts.Add(this);
-						this._CheckMenuId = value.id;
-					}
-					else
-					{
-						this._CheckMenuId = default(int);
-					}
-					this.SendPropertyChanged("OrderChecksMenu");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4717,8 +4510,6 @@ namespace Services
 		
 		private int _ItemId;
 		
-		private int _Type;
-		
 		private System.DateTime _DateCreated;
 		
 		private EntityRef<OrderChecksMenuProduct> _OrderChecksMenuProduct;
@@ -4733,8 +4524,6 @@ namespace Services
     partial void OnProductIdChanged();
     partial void OnItemIdChanging(int value);
     partial void OnItemIdChanged();
-    partial void OnTypeChanging(int value);
-    partial void OnTypeChanged();
     partial void OnDateCreatedChanging(System.DateTime value);
     partial void OnDateCreatedChanged();
     #endregion
@@ -4745,7 +4534,7 @@ namespace Services
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -4805,26 +4594,6 @@ namespace Services
 					this._ItemId = value;
 					this.SendPropertyChanged("ItemId");
 					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
-		public int Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
 				}
 			}
 		}

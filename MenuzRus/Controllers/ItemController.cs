@@ -61,7 +61,7 @@ namespace MenuzRus.Controllers {
             // Converts /MenuDesigner to Menu, /Product to Product etc
             base.Referer = "Product";
             if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
-                base.Referer = "Menu";
+                base.Referer = "MenuDesigner";
 
             ItemService service = new ItemService();
             Item item = new Item();

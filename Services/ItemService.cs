@@ -32,7 +32,7 @@ namespace MenuzRus {
             id = id.HasValue ? id : 0;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.Items.Where(m => m.id == id).FirstOrDefault();
+                    query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
                         db.Items.DeleteOnSubmit(query);
                     }
@@ -48,7 +48,7 @@ namespace MenuzRus {
 
         public Item GetItem(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            Item item = db.Items.Where(m => m.id == id).FirstOrDefault();
+            Item item = db.Items.FirstOrDefault(m => m.id == id);
             return item;
         }
 
@@ -57,6 +57,22 @@ namespace MenuzRus {
             menuzRusDataContext db = new menuzRusDataContext();
             items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).ToList();
             return items;
+        }
+
+        public ItemProduct GetItemProduct(Int32 id) {
+            ItemProduct item;
+            menuzRusDataContext db = new menuzRusDataContext();
+            item = db.ItemProducts.FirstOrDefault(m => m.id == id);
+            return item;
+        }
+
+        public List<Item> GetItemProductAssosiations(Int32 productId) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            List<Item> item = (from var in db.ItemProductAssociations
+                               join it in db.Items on var.ItemId equals it.id
+                               where var.id == productId
+                               select it).ToList();
+            return item;
         }
 
         public List<Item> GetItems(Int32 id) {

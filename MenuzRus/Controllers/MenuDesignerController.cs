@@ -165,6 +165,9 @@ namespace MenuzRus.Controllers {
                     model.Settings.Add(Common.Settings.ItemDescriptionFontSize.ToString(), "");
                 if (!model.Settings.ContainsKey(Common.Settings.PriceFontSize.ToString()))
                     model.Settings.Add(Common.Settings.PriceFontSize.ToString(), "");
+                // Others
+                if (!model.Settings.ContainsKey(Common.Settings.ShowHiddenItems.ToString()))
+                    model.Settings.Add(Common.Settings.ShowHiddenItems.ToString(), "");
 
                 if (System.IO.Directory.Exists(wallDir)) {
                     model.Wallpapers = Directory.EnumerateFiles(wallDir, "*.jpg");

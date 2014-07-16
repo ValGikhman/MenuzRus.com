@@ -58,6 +58,8 @@
         </li>
         <li><a href="#settingsTab" data-toggle="tab">Settings</a>
         </li>
+        <li><a href="#othersTab" data-toggle="tab">Other settings</a>
+        </li>
     </ul>
     <button id="btnCloseSetting" class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
 
@@ -94,6 +96,9 @@
                     <span id="@String.Format("{0}{1}", item, "FontSizeBadge")" class="badge font">@fontsize</span>
                 </div>
             }
+        </div>
+        <div class="tab-pane fade in" id="othersTab">
+            <button id="btnShowHiddenItems" type="button" class="btn btn-success" data-toggle="button">Show hidden menu items</button>
         </div>
     </div>
 </div>
@@ -144,6 +149,7 @@
 @Html.HiddenFor(m => m.Settings[Common.Settings.PriceColor.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ShowHiddenItems.ToString()])
 
 @helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
     <ul class="category-group">
@@ -175,6 +181,10 @@
                 @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
                     <ul class="items-group">
                         @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
+                            String activeClass = "activeItem";
+                            if (!item.Active) {
+                                activeClass = "inActiveItem";
+                            }
                             <li  data-value="@item.id">
                                 <div class="btn-group item" data-value="@item.id">
                                     <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
@@ -183,7 +193,7 @@
                                     <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
                                     <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(@item.id)"><span class="glyphicon glyphicon-transfer"></span></button>
                                 </div>
-                                <a href="javascript:showItemMenu(@item.id)">
+                                <a  class="@activeClass" href="javascript:showItemMenu(@item.id)">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                                         <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }

@@ -134,7 +134,10 @@ public static class Common {
         ItemDescriptionFontSize = 11,
 
         [Display(Name = "Price FontSize")]
-        PriceFontSize = 12
+        PriceFontSize = 12,
+
+        [Display(Name = "Show hidden menu items")]
+        ShowHiddenItems = 13
     }
 
     public enum SettingsItems {

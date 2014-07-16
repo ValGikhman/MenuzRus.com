@@ -29,8 +29,9 @@
                             @category.Name
                         </li>
                         @foreach (Services.Item item in category.Items) {
-                            String select = String.Empty;
-                            <li id="item.@item.id" class="btn btn-default knopa itemNameSmall" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">@item.Name</li>
+                            <li id="item.@item.id" class="btn btn-default knopa itemNameSmall" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+                                @item.Name
+                            </li>
                         }
                     </ul>
                 }

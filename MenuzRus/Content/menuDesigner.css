@@ -66,6 +66,8 @@ a:hover, a:focus {
     padding: 0px;
     margin-top: 15px;
     list-style-type: none;
+    overflow: hidden;
+    height: 470px;
 }
 
 .categoryImage {
@@ -201,6 +203,7 @@ a:hover, a:focus {
     margin-top: -4px;
     margin-left: -50px;
     position: fixed;
+    z-index: 999999;
 }
 
 .color-box {
@@ -267,4 +270,8 @@ a:hover, a:focus {
 
 #menuEditForm {
     padding: 20px;
+}
+
+.inActiveItem {
+    opacity: 0.4;
 }

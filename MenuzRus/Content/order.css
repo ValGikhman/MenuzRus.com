@@ -44,6 +44,7 @@ body {
     overflow-y: auto;
     height: 43px;
     max-height: 200px;
+    z-index: 0;
 }
 
 .order {
@@ -54,11 +55,13 @@ body {
 .panel-heading.item {
     margin-left: 0px;
     color: #2b6da6;
+    padding: 20px 10px;
 }
 
 .close {
     display: inline;
     margin-left: 10px;
+    z-index: 99990000;
 }
 
     .close:hover {
@@ -105,11 +108,11 @@ h4 {
 }
 
 .knopa {
-    white-space: normal;
-    text-align: start;
+    white-space: pre-line;
+    text-align: center;
     width: 70px;
     height: 70px;
-    padding: 3px 0 0 0;
+    padding: 5px;
 }
 
 .itemNameSmall {

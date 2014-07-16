@@ -111,8 +111,35 @@ namespace MenuzRus {
             return null;
         }
 
-        public Int32 SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId) {
-            Int32 retVal = 0;
+        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
+            OrderChecksMenuProductItem query;
+            if (productId != 0 && knopaId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    if (type == Common.ProductType.Alternatives) {
+                        query = db.OrderChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId);
+                        if (query != default(OrderChecksMenuProductItem)) {
+                            query.ItemId = knopaId;
+                        }
+                    }
+                    else if (type == Common.ProductType.Addons) {
+                        query = db.OrderChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId && m.ItemId == knopaId);
+                        if (query == default(OrderChecksMenuProductItem)) {
+                            query = new OrderChecksMenuProductItem();
+                            query.ItemId = knopaId;
+                            query.ProductId = productId;
+                            db.OrderChecksMenuProductItems.InsertOnSubmit(query);
+                        }
+                        else {
+                            db.OrderChecksMenuProductItems.DeleteOnSubmit(query);
+                        }
+                    }
+                    db.SubmitChanges();
+                }
+            }
+        }
+
+        public OrderChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId) {
+            OrderChecksMenu orderCheckMenu;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     // New order
@@ -134,12 +161,11 @@ namespace MenuzRus {
                         db.SubmitChanges();
                     }
 
-                    OrderChecksMenu orderCheckMenu = new OrderChecksMenu();
+                    orderCheckMenu = new OrderChecksMenu();
                     orderCheckMenu.CheckId = orderCheck.id;
                     orderCheckMenu.MenuId = menuItem.id;
                     db.OrderChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
-                    retVal = orderCheckMenu.id;
 
                     foreach (ItemProduct itemProduct in menuItem.ItemProducts) {
                         OrderChecksMenuProduct product = new OrderChecksMenuProduct();
@@ -159,9 +185,9 @@ namespace MenuzRus {
             }
             catch (Exception ex) {
                 SessionData.exeption = ex;
-                return 0;
+                return null;
             }
-            return retVal;
+            return orderCheckMenu;
         }
     }
 }

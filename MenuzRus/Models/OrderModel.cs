@@ -23,6 +23,8 @@ namespace MenuzRus.Models {
 
     public class CheckMenuItem {
 
+        public Int32 CheckId { get; set; }
+
         public List<CheckMenuItemProduct> CheckMenuItemProducts { get; set; }
 
         public Int32 id { get; set; }

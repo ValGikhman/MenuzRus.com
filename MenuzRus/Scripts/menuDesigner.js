@@ -135,6 +135,18 @@
         $(".panel-setting-body").toggle();
     })
 
+    $("#btnShowHiddenItems").on("click", function () {
+        var showItemsData = {
+            Type: "ShowHiddenItems",
+            Value: !$(this).hasClass("active")
+        };
+        saveSettings(showItemsData);
+        if (showItemsData.Value)
+            $(".inActiveItem").show();
+        else
+            $(".inActiveItem").hide();
+    });
+
     $(".slider.font").slider({
         range: "max",
         min: 6,
@@ -272,6 +284,16 @@ function applySettings() {
     if (fontsize != "") {
         $(".price").css("font-size", $.validator.format("{0}px", fontsize));
         $("#PriceFontSize").slider("value", fontsize);
+    }
+
+    // Others
+    var showHiddenItems = $("input[name='Settings[ShowHiddenItems]']").val();
+    if (showHiddenItems == "true") {
+        $("#btnShowHiddenItems").addClass("active");
+        $(".inActiveItem").show();
+    }
+    else {
+        $(".inActiveItem").hide();
     }
 }
 /// ****** MENU ********///

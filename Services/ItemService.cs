@@ -34,7 +34,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
-                        db.Items.DeleteOnSubmit(query);
+                        query.Active = false;
                     }
                     db.SubmitChanges();
                 }

@@ -48,27 +48,42 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public String OrderMenuItem(Int32 id, Int32 orderId, Int32 tableId) {
-            Int32 menuId = 0;
+            OrderChecksMenu menu = new OrderChecksMenu(); ;
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             Services.Item MenuItem = itemService.GetItem(id);
             if (MenuItem != null) {
-                menuId = orderService.SaveMenuItem(MenuItem, tableId, orderId);
+                menu = orderService.SaveMenuItem(MenuItem, tableId, orderId);
             }
-            return ShowMenuItem(id, menuId);
+            return ShowMenuItem(id, menu);
+        }
+
+        [HttpPost]
+        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
+            OrderService orderService = new OrderService();
+            try {
+                orderService.SaveItem(productId, knopaId, type);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
         }
 
         // Show one menu strip
         [HttpGet]
-        public String ShowMenuItem(Int32 id, Int32 menuId) {
+        public String ShowMenuItem(Int32 id, OrderChecksMenu menuItem) {
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             CheckMenuItem menu = new CheckMenuItem();
             try {
                 Services.Item Item = itemService.GetItem(id);
-                menu.id = menuId;
+                menu.id = menuItem.id;
                 menu.ItemId = Item.id;
                 menu.Name = Item.Name;
+                menu.CheckId = menuItem.CheckId;
                 menu.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
             }
             catch (Exception ex) {
@@ -103,6 +118,7 @@ namespace MenuzRus.Controllers {
                         association.Selected = productItem.OrderChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
                         association.Name = Item.Name;
                         association.ShortName = Item.Name.Ellipsis(35);
+                        association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                         product.CheckMenuItemProductAssociations.Add(association);
                     }
                     model.Add(product);
@@ -110,7 +126,7 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
                 base.Log(ex);
-                return String.Empty;
+                return "Error";
             }
             return RenderViewToString(this.ControllerContext, "_OrderMenuProductPartial", model);
         }
@@ -153,9 +169,6 @@ namespace MenuzRus.Controllers {
             OrderModel model = new OrderModel();
             try {
                 List<Services.OrderCheck> Checks = orderService.GetChecks(tableId);
-                if (!Checks.Any())
-                    return String.Empty;
-
                 model.Checks = new List<Check>();
                 foreach (Services.OrderCheck checkItem in Checks) {
                     Check check = new Check();
@@ -186,45 +199,6 @@ namespace MenuzRus.Controllers {
         public ActionResult Tables(Int32? id) {
             return View(GetTablesModel(id));
         }
-
-        //private String _ShowMenuItem(Int32 id, Int32 menuId) {
-        //    ItemService itemService = new ItemService();
-        //    OrderService orderService = new OrderService();
-        //    CheckMenuItem menu = new CheckMenuItem();
-        //    try {
-        //        Services.Item Item = itemService.GetItem(id);
-        //        Services.OrderChecksMenu MenuItem = orderService.GetMenuItem(menuId);
-        //        menu.id = menuId;
-        //        menu.ItemId = MenuItem.MenuId;
-        //        menu.Name = Item.Name;
-        //        menu.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-        //        menu.CheckMenuItemProducts = new List<CheckMenuItemProduct>();
-        //        foreach (Services.OrderChecksMenuProduct productItem in MenuItem.OrderChecksMenuProducts) {
-        //            CheckMenuItemProduct product = new CheckMenuItemProduct();
-        //            Services.ItemProduct itemProduct = itemService.GetItemProduct(productItem.ItemId);
-        //            product.id = productItem.id;
-        //            product.ItemId = productItem.ItemId;
-        //            product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
-        //            product.Type = (Common.ProductType)itemProduct.Type;
-        //            foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
-        //                CheckMenuItemProductAssociation association = new CheckMenuItemProductAssociation();
-        //                Item = itemService.GetItem(associatedItem.ItemId);
-        //                association.id = associatedItem.id;
-        //                association.ItemId = associatedItem.ItemId;
-        //                association.Selected = false;
-        //                association.Name = Item.Name;
-        //                association.ShortName = Item.Name.Ellipsis(35);
-        //                product.CheckMenuItemProductAssociations.Add(association);
-        //            }
-        //            menu.CheckMenuItemProducts.Add(product);
-        //        }
-        //    }
-        //    catch (Exception ex) {
-        //        base.Log(ex);
-        //        return String.Empty;
-        //    }
-        //    return RenderViewToString(this.ControllerContext, "_CheckItemPartial", menu);
-        //}
 
         #endregion order
 

@@ -3,6 +3,14 @@ body {
     background-color: #eee;
 }
 
+.btn-default:active, .btn-default.active {
+    background-color: #d6c6a5;
+}
+
+.btn .label {
+    top: -3px;
+}
+
 .floorArea {
     margin-top: 50px;
 }
@@ -108,6 +116,17 @@ h4 {
     padding: 4px 6px;
 }
 
+.category {
+    margin-top: 10px;
+}
+
+.item {
+}
+
+.close {
+    font-size: 20px;
+}
+
 .knopa {
     min-width: 70px;
     max-width: 140px;
@@ -115,16 +134,23 @@ h4 {
     padding: 3px;
 }
 
+.knopaMenu {
+    min-width: 70px;
+    max-width: 140px;
+    height: 70px;
+    padding: 3px;
+    margin-top: 3px;
+}
+
 .itemNameSmall {
     line-height: 1;
     font-size: 12px;
-    text-align: start;
+    text-align: justify;
     white-space: pre-wrap;
+    margin-top: 7px;
 }
 
 .itemPrice {
-    color: blue;
-    background-color: yellow;
     width: 100%;
     border-color: #ccc;
     text-shadow: 0 1px 0 #fff;

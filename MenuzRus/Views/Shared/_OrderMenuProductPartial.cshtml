@@ -2,23 +2,23 @@
 @foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model.OrderBy(m => m.Type)) {
     String objectType = "checkbox";
     String buttonsClass = "btn-success";
+    String pannelClass = "alert-success";
     if (itemProduct.Type == Common.ProductType.Alternatives) {
         objectType = "radio";
         buttonsClass = "btn-info";
+        pannelClass = "alert-info";
     }
-    <div class="panel panel-default">
-        <div class="panel-body associationItem" data-toggle="buttons" data-value="@itemProduct.id">
-            @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
-                String active = String.Empty;
-                if (itemProductAssociations.Selected) {
-                    active = "active";
-                }
-                <div class="btn @buttonsClass knopa @active" onclick="saveItem(this)">
-                    <div class="label pull-left itemPrice">$@itemProductAssociations.Price</div>
-                    <div class="itemNameSmall">@itemProductAssociations.ShortName</div>
-                    <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
-                </div>
+    <div class="panel associationItem @pannelClass" data-toggle="buttons" data-value="@itemProduct.id">
+        @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
+            String active = String.Empty;
+            if (itemProductAssociations.Selected) {
+                active = "active";
             }
-        </div>
+            <div class="btn btn-default knopa @active" onclick="saveItem(this)">
+                <div class="label @pannelClass itemPrice shadow">$@itemProductAssociations.Price</div>
+                <div class="itemNameSmall">@itemProductAssociations.ShortName</div>
+                <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
+            </div>
+        }
     </div>
 }

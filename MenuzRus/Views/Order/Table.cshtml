@@ -1,6 +1,6 @@
 ﻿@model MenuzRus.Models.OrderModel
-<link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/table.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
@@ -29,8 +29,8 @@
                     </div>
                     foreach (Services.Item item in category.Items) {
                         Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    <div id="item.@item.id" class="btn btn-default knopa" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
-                        <div class="label pull-left itemPrice" data-value="@price">@String.Format("${0}", price)</div>
+                    <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+                        <div class="label label-default itemPrice shadow" data-value="@price">@String.Format("${0}", price)</div>
                         <div class="itemNameSmall">@item.Name</div>
                     </div>
                     }

@@ -22,11 +22,11 @@ function saveItems() {
     model = JSON.stringify(model);
     var jqxhr = $.post($.validator.format("{0}ItemProduct/SaveAssociatedItems", root), { "model": model }, "json")
                   .done(function (result) {
-                      message("Save successfully.", "success", "center");
+                      message("Save successfully.", "success", "top");
                       $(".itemProductClose").click();
                   })
     .fail(function () {
-        message("Save item association failed.", "error", "center");
+        message("Save item association failed.", "error", "top");
     })
     .always(function () {
         container.unblock();
@@ -50,10 +50,10 @@ function deleteItself(object) {
     container.block();
     var jqxhr = $.post($.validator.format("{0}ItemProduct/DeleteItemProduct", root), { "id": id }, "json")
               .done(function (result) {
-                  message("Delete successfully.", "success", "center");
+                  message("Delete successfully.", "success", "top");
               })
             .fail(function () {
-                message("Delete item association failed.", "error", "center");
+                message("Delete item association failed.", "error", "top");
             })
             .always(function () {
                 container.unblock();

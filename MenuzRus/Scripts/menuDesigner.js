@@ -10,10 +10,10 @@
 
         var jqxhr = $.post($.validator.format("{0}/MenuDesigner/SaveSettings/", root), wallbackground)
                   .done(function (result) {
-                      message("Wall background saved successfully.", "success", "center");
+                      message("Wall background saved successfully.", "success", "top");
                   })
                   .fail(function (e) {
-                      message("Wall background was not saved.", "error", "center");
+                      message("Wall background was not saved.", "error", "top");
                   })
                   .always(function () {
                   });
@@ -29,10 +29,10 @@
 
         var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveSettings/", root), pagebackground)
                   .done(function (result) {
-                      message("Page background saved successfully.", "success", "center");
+                      message("Page background saved successfully.", "success", "top");
                   })
                   .fail(function () {
-                      message("Page background was not saved.", "error", "center");
+                      message("Page background was not saved.", "error", "top");
                   })
                   .always(function () {
                   });
@@ -49,10 +49,10 @@
             var postData = { ids: cats.join(), type: "Category" };
             var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
-                              message("Sort order saved successfully.", "success", "center");
+                              message("Sort order saved successfully.", "success", "top");
                           })
             .fail(function () {
-                message("Sort order was not saved.", "error", "center");
+                message("Sort order was not saved.", "error", "top");
             })
             .always(function () {
             });
@@ -70,10 +70,10 @@
             var postData = { ids: items.join(), type: "Items" };
             var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
-                              message("Sort order saved successfully.", "success", "center");
+                              message("Sort order saved successfully.", "success", "top");
                           })
             .fail(function () {
-                message("Sort order was not saved.", "error", "center");
+                message("Sort order was not saved.", "error", "top");
             })
             .always(function () {
             });
@@ -312,11 +312,11 @@ function editMenu(id, name) {
     var postData = { id: id, name: name };
     var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveMenu/", root), postData)
                   .done(function (result) {
-                      message("Save successfully.", "success", "center");
+                      message("Save successfully.", "success", "top");
                       window.location = $.validator.format("{0}MenuDesigner/Index/", root) + result;
                   })
     .fail(function () {
-        message("Save menu failed.", "error", "center");
+        message("Save menu failed.", "error", "top");
     })
     .always(function () {
     });
@@ -327,11 +327,11 @@ function deleteMenu(id) {
     var postData = { id: id };
     var jqxhr = $.post($.validator.format("{0}MenuDesigner/DeleteMenu/", root), postData)
                   .done(function (result) {
-                      message("Menu deleted successfully.", "success", "center");
+                      message("Menu deleted successfully.", "success", "top");
                       window.location = $.validator.format("{0}MenuDesigner", root);
                   })
     .fail(function () {
-        message("Delete menu failed.", "error", "center");
+        message("Delete menu failed.", "error", "top");
     })
     .always(function () {
     });
@@ -373,11 +373,11 @@ function deleteCategory(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
                                  .done(function (result) {
-                                     message("Category successfully deletes.", "success", "center");
+                                     message("Category successfully deletes.", "success", "top");
                                      window.location = $.validator.format("{0}MenuDesigner/Index/{1}", root, $("#Menu_id").val());
                                  })
                    .fail(function () {
-                       message("Delete category failed.", "error", "center");
+                       message("Delete category failed.", "error", "top");
                    })
                    .always(function () {
                    });
@@ -398,10 +398,10 @@ function saveSettings(obj) {
           var text = result; // Will contain error if exception
           if (result == "OK")
               text = "Settings successfully saved.";
-          message(text, "success", "center");
+          message(text, "success", "top");
       })
       .fail(function () {
-          message("Settings was not saved.", "error", "center");
+          message("Settings was not saved.", "error", "top");
       })
       .always(function () {
       });
@@ -457,11 +457,11 @@ function deleteItem(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
                               .done(function (result) {
-                                  message("Deleted successfully.", "success", "center");
+                                  message("Deleted successfully.", "success", "top");
                                   window.location = "/MenuDesigner/Index/" + $("#Menu_id").val();
                               })
                 .fail(function () {
-                    message("Delete item failed.", "error", "center");
+                    message("Delete item failed.", "error", "top");
                 })
                 .always(function () {
                 });

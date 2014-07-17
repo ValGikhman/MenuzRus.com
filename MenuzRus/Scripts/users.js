@@ -50,11 +50,11 @@ function deleteUser(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}User/DeleteUser/", root), { id: id })
                                  .done(function (result) {
-                                     message("Category successfully deletes.", "success", "center");
+                                     message("Category successfully deletes.", "success", "top");
                                      window.location = $.validator.format("{0}Users/Index/", root);
                                  })
                    .fail(function () {
-                       message("Delete category failed.", "error", "center");
+                       message("Delete category failed.", "error", "top");
                    })
                    .always(function () {
                        $('.glyphicon-cog').show();

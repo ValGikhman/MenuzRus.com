@@ -22,6 +22,7 @@ body {
 
 .nav-tabs > li > a {
     margin-right: -5px;
+    display: inline-flex;
 }
 
 #btnAdd {
@@ -108,15 +109,23 @@ h4 {
 }
 
 .knopa {
-    white-space: pre-line;
-    text-align: center;
-    width: 70px;
+    min-width: 70px;
+    max-width: 140px;
     height: 70px;
-    padding: 5px;
+    padding: 3px;
 }
 
 .itemNameSmall {
-    line-height: 0.8;
-    font-size: 11px;
+    line-height: 1;
+    font-size: 12px;
+    text-align: start;
     white-space: pre-wrap;
+}
+
+.itemPrice {
+    color: blue;
+    background-color: yellow;
+    width: 100%;
+    border-color: #ccc;
+    text-shadow: 0 1px 0 #fff;
 }

@@ -24,16 +24,16 @@
             </ul>
             <div class="tab-content menuItems" style="float: left;">
                 @foreach (Services.Category category in Model.Categories) {
-                    <ul id="@category.id">
-                        <li class="category" data-value="@category.id">
-                            @category.Name
-                        </li>
-                        @foreach (Services.Item item in category.Items) {
-                            <li id="item.@item.id" class="btn btn-default knopa itemNameSmall" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
-                                @item.Name
-                            </li>
-                        }
-                    </ul>
+                    <div class="category" data-value="@category.id">
+                        @category.Name
+                    </div>
+                    foreach (Services.Item item in category.Items) {
+                        Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    <div id="item.@item.id" class="btn btn-default knopa" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+                        <div class="label pull-left itemPrice" data-value="@price">@String.Format("${0}", price)</div>
+                        <div class="itemNameSmall">@item.Name</div>
+                    </div>
+                    }
                 }
             </div>
         </div>

@@ -162,6 +162,7 @@
                     <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id)"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
                 <a href="javascript:showCategoryMenu(@category.id)">
+                    @*                <a class="categoryMenu" data-toggle="popover">*@
                     @if (!String.IsNullOrEmpty(category.Name)) {
                         String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
                         <div id="@categoryDataValue" class="category" data-value="@category.id">

@@ -43,7 +43,7 @@
                                 </td>
                                 <td style="width: 2%">
                                     @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
-                                        <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
+                                        <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
                                     }
                                 </td>
                                 <td style="width: 30%">
@@ -77,7 +77,7 @@
                                 <td></td>
                                 <td>
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                        <span id="popover" class="glyphicon glyphicon-picture pointer" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
+                                        <span id="popover" class="glyphicon glyphicon-picture pointer" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
                                     }
                                 </td>
                                 <td>

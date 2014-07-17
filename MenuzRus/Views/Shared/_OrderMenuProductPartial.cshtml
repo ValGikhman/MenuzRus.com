@@ -6,17 +6,19 @@
         objectType = "radio";
         buttonsClass = "btn-info";
     }
-    <div class="panel-body shadow associationItem" data-toggle="buttons" data-value="@itemProduct.id">
-        @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
-            String active = String.Empty;
-            if (itemProductAssociations.Selected) {
-                active = "active";
+    <div class="panel panel-default">
+        <div class="panel-body associationItem" data-toggle="buttons" data-value="@itemProduct.id">
+            @foreach (MenuzRus.Models.CheckMenuItemProductAssociation itemProductAssociations in itemProduct.CheckMenuItemProductAssociations) {
+                String active = String.Empty;
+                if (itemProductAssociations.Selected) {
+                    active = "active";
+                }
+                <div class="btn @buttonsClass knopa @active" onclick="saveItem(this)">
+                    <div class="label pull-left itemPrice">$@itemProductAssociations.Price</div>
+                    <div class="itemNameSmall">@itemProductAssociations.ShortName</div>
+                    <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
+                </div>
             }
-            <label class="btn @buttonsClass knopa @active" onclick="saveItem(this)">
-                <span class="badge price">$@itemProductAssociations.Price</span>
-                <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
-                <span class="itemNameSmall">@itemProductAssociations.ShortName</span>
-            </label>
-        }
+        </div>
     </div>
 }

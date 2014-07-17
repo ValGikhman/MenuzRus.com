@@ -221,6 +221,16 @@
             saveSettings(colorData);
         }
     });
+
+    //$(".categoryMenu").popover({
+    //    placement: "top",
+    //    html: true,
+    //    trigger: "click",
+    //    content: function () {
+    //        return $(".btn-group.category").html();
+    //    },
+    //});
+
     applySettings();
 })
 

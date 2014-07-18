@@ -9,7 +9,7 @@ $(function () {
     addLayout();
 
     $("#Floor_id").change(function () {
-        window.location = "/Order/Tables/" + $(this).val();
+        window.location = $.validator.format("{0}Order/Tables/{1}", root, $(this).val());
     })
 });
 

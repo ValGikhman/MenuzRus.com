@@ -10,10 +10,10 @@
 
         var jqxhr = $.post($.validator.format("{0}/MenuDesigner/SaveSettings/", root), wallbackground)
                   .done(function (result) {
-                      message("Wall background saved successfully.", "success", "top");
+                      message("Wall background saved successfully.", "success", "topCenter");
                   })
                   .fail(function (e) {
-                      message("Wall background was not saved.", "error", "top");
+                      message("Wall background was not saved.", "error", "topCenter");
                   })
                   .always(function () {
                   });
@@ -29,10 +29,10 @@
 
         var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveSettings/", root), pagebackground)
                   .done(function (result) {
-                      message("Page background saved successfully.", "success", "top");
+                      message("Page background saved successfully.", "success", "topCenter");
                   })
                   .fail(function () {
-                      message("Page background was not saved.", "error", "top");
+                      message("Page background was not saved.", "error", "topCenter");
                   })
                   .always(function () {
                   });
@@ -49,10 +49,10 @@
             var postData = { ids: cats.join(), type: "Category" };
             var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
-                              message("Sort order saved successfully.", "success", "top");
+                              message("Sort order saved successfully.", "success", "topCenter");
                           })
             .fail(function () {
-                message("Sort order was not saved.", "error", "top");
+                message("Sort order was not saved.", "error", "topCenter");
             })
             .always(function () {
             });
@@ -70,10 +70,10 @@
             var postData = { ids: items.join(), type: "Items" };
             var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveOrder/", root), postData)
                           .done(function (result) {
-                              message("Sort order saved successfully.", "success", "top");
+                              message("Sort order saved successfully.", "success", "topCenter");
                           })
             .fail(function () {
-                message("Sort order was not saved.", "error", "top");
+                message("Sort order was not saved.", "error", "topCenter");
             })
             .always(function () {
             });
@@ -222,14 +222,19 @@
         }
     });
 
-    //$(".categoryMenu").popover({
-    //    placement: "top",
-    //    html: true,
-    //    trigger: "click",
-    //    content: function () {
-    //        return $(".btn-group.category").html();
-    //    },
-    //});
+    $(".categoryMenu").popover({
+        placement: "top",
+        html: true,
+        trigger: "click",
+        content: $(".btn-group.category").html(),
+    });
+
+    $(".itemMenu").popover({
+        placement: "top",
+        html: true,
+        trigger: "click",
+        content: $(".btn-group.item").html(),
+    });
 
     applySettings();
 })
@@ -312,11 +317,11 @@ function editMenu(id, name) {
     var postData = { id: id, name: name };
     var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveMenu/", root), postData)
                   .done(function (result) {
-                      message("Save successfully.", "success", "top");
+                      message("Save successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}MenuDesigner/Index/", root) + result;
                   })
     .fail(function () {
-        message("Save menu failed.", "error", "top");
+        message("Save menu failed.", "error", "topCenter");
     })
     .always(function () {
     });
@@ -327,40 +332,40 @@ function deleteMenu(id) {
     var postData = { id: id };
     var jqxhr = $.post($.validator.format("{0}MenuDesigner/DeleteMenu/", root), postData)
                   .done(function (result) {
-                      message("Menu deleted successfully.", "success", "top");
+                      message("Menu deleted successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}MenuDesigner", root);
                   })
     .fail(function () {
-        message("Delete menu failed.", "error", "top");
+        message("Delete menu failed.", "error", "topCenter");
     })
     .always(function () {
     });
 }
 
 /// ****** CATEGORY ***************///
-function showCategoryMenu(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    $(".btn-group.category[data-value=" + id + "]").css("display", "inline");
+function addCategory() {
+    editCategory(0);
 }
 
-function editCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+function editCategory(object) {
+    var id = $(object).parent().parent().parent().attr("data-value");
+    $(".categoryMenu").popover('hide');
+    $(".itemMenu").popover('hide');
     var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      $(".modalEditForm").modal("show");
-                  })
-    .fail(function () {
-    })
-    .always(function () {
-    });
+              .done(function (result) {
+                  $("#modalEditForm").html(result);
+                  $(".modalEditForm").modal("show");
+              })
+.fail(function () {
+})
+.always(function () {
+});
 }
 
-function deleteCategory(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+function deleteCategory(object) {
+    var id = $(object).parent().parent().parent().attr("data-value");
+    $(".categoryMenu").popover('hide');
+    $(".itemMenu").popover('hide');
     var name = $(".category[id=category_" + id + "]").html();
     noty({
         layout: "center",
@@ -373,11 +378,11 @@ function deleteCategory(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
                                  .done(function (result) {
-                                     message("Category successfully deletes.", "success", "top");
+                                     message("Category successfully deletes.", "success", "topCenter");
                                      window.location = $.validator.format("{0}MenuDesigner/Index/{1}", root, $("#Menu_id").val());
                                  })
                    .fail(function () {
-                       message("Delete category failed.", "error", "top");
+                       message("Delete category failed.", "error", "topCenter");
                    })
                    .always(function () {
                    });
@@ -398,25 +403,24 @@ function saveSettings(obj) {
           var text = result; // Will contain error if exception
           if (result == "OK")
               text = "Settings successfully saved.";
-          message(text, "success", "top");
+          message(text, "success", "topCenter");
       })
       .fail(function () {
-          message("Settings was not saved.", "error", "top");
+          message("Settings was not saved.", "error", "topCenter");
       })
       .always(function () {
       });
 }
 
 /// ****** ITEMS ***************///
-function showItemMenu(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
-    $(".btn-group.item[data-value=" + id + "]").css("display", "inline");
+function addItem() {
+    editItem(0);
 }
 
-function editItem(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+function editItem(object) {
+    var id = $(object).parent().parent().parent().attr("data-value");
+    $(".categoryMenu").popover('hide');
+    $(".itemMenu").popover('hide');
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -428,9 +432,10 @@ function editItem(id) {
     });
 }
 
-function associateItem(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+function associateItem(object) {
+    var id = $(object).parent().parent().parent().attr("data-value");
+    $(".categoryMenu").popover('hide');
+    $(".itemMenu").popover('hide');
     var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -442,9 +447,10 @@ function associateItem(id) {
     });
 }
 
-function deleteItem(id) {
-    $(".btn-group.category").css("display", "none");
-    $(".btn-group.item").css("display", "none");
+function deleteItem(object) {
+    var id = $(object).parent().parent().parent().attr("data-value");
+    $(".categoryMenu").popover('hide');
+    $(".itemMenu").popover('hide');
     var name = $(".item[id=item_" + id + "]").html();
     noty({
         layout: "center",
@@ -457,11 +463,13 @@ function deleteItem(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
                               .done(function (result) {
-                                  message("Deleted successfully.", "success", "top");
-                                  window.location = "/MenuDesigner/Index/" + $("#Menu_id").val();
+                                  if (result == "OK") {
+                                      message("Deleted successfully.", "success", "topCenter");
+                                      window.location = $.validator.format("{0}MenuDesigner/Index/", root) + $("#Menu_id").val();
+                                  }
                               })
                 .fail(function () {
-                    message("Delete item failed.", "error", "top");
+                    message("Delete item failed.", "error", "topCenter");
                 })
                 .always(function () {
                 });

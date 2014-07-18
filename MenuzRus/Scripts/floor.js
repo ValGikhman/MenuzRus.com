@@ -161,10 +161,10 @@ function saveTables() {
     var postData = JSON.stringify(gridster.serialize());
     var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": postData }, "json")
                   .done(function (result) {
-                      message("Save successfully.", "success", "top");
+                      message("Save successfully.", "success", "topCenter");
                   })
     .fail(function () {
-        message("Save tables failed.", "error", "top");
+        message("Save tables failed.", "error", "topCenter");
     })
     .always(function () {
         container.unblock();
@@ -180,11 +180,11 @@ function editFloor(id, name) {
     var postData = { id: id, name: name };
     var jqxhr = $.post($.validator.format("{0}Floor/SaveFloor/", root), postData)
                   .done(function (result) {
-                      message("Save successfully.", "success", "top");
+                      message("Save successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}Floor/Index/", root) + result;
                   })
     .fail(function () {
-        message("Save floor failed.", "error", "top");
+        message("Save floor failed.", "error", "topCenter");
     })
     .always(function () {
     });
@@ -195,11 +195,11 @@ function deleteFloor(id) {
     var postData = { id: id };
     var jqxhr = $.post($.validator.format("{0}Floor/DeleteFloor/", root), postData)
                   .done(function (result) {
-                      message("Menu deleted successfully.", "success", "top");
+                      message("Menu deleted successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}Floor", root);
                   })
     .fail(function () {
-        message("Delete floor failed.", "error", "top");
+        message("Delete floor failed.", "error", "topCenter");
     })
     .always(function () {
     });

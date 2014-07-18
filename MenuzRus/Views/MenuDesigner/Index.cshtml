@@ -155,29 +155,22 @@
     <ul class="category-group">
         @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
             <li  data-value="@category.id">
-                <div class="btn-group category" data-value="@category.id">
-                    <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
-                    <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-                    <button id="addCategory" type="button" class="btn btn-primary" onclick="javascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(@category.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
-                <a href="javascript:showCategoryMenu(@category.id)">
-                    @*                <a class="categoryMenu" data-toggle="popover">*@
+                <a class="categoryMenu" data-toggle="popover">
                     @if (!String.IsNullOrEmpty(category.Name)) {
                         String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
                         <div id="@categoryDataValue" class="category" data-value="@category.id">
                             @category.Name
                         </div>
                     }
-                    @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
-                        <div>
-                            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
-                        </div>
-                    }
-                    @if (!String.IsNullOrEmpty(@category.Description)) {
-                        <div class="categoryDescription">@category.Description</div>
-                    }
                 </a>
+                @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+                    <div>
+                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                    </div>
+                }
+                @if (!String.IsNullOrEmpty(@category.Description)) {
+                    <div class="categoryDescription">@category.Description</div>
+                }
 
                 @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
                     <ul class="items-group">
@@ -187,14 +180,7 @@
                                 activeClass = "inActiveItem";
                             }
                             <li  data-value="@item.id">
-                                <div class="btn-group item" data-value="@item.id">
-                                    <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.btn-group').css('display', 'none')"><span class="glyphicon glyphicon-remove"></span></button>
-                                    <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(@item.id)"><span class="glyphicon glyphicon-transfer"></span></button>
-                                </div>
-                                <a  class="@activeClass" href="javascript:showItemMenu(@item.id)">
+                                <a class="itemMenu @activeClass" data-toggle="popover">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                                         <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
@@ -204,11 +190,11 @@
                                             @item.Name
                                         </div>
                                     }
-                                    @if (!String.IsNullOrEmpty(item.Description)) {
-                                        <div class="itemDescription">@item.Description </div>
-                                    }
-                                    <div class="price">@item.AdditionalInfo</div>
                                 </a>
+                                @if (!String.IsNullOrEmpty(item.Description)) {
+                                    <div class="itemDescription">@item.Description </div>
+                                }
+                                <div class="price">@item.AdditionalInfo</div>
                             </li>
                         }
                     </ul>
@@ -217,3 +203,18 @@
         }
     </ul>
 }
+
+<div class="btn-group category">
+    <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript: $('.categoryMenu').popover('hide')"><span class="glyphicon glyphicon-remove"></span></button>
+    <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(this)"><span class="glyphicon glyphicon-pencil"></span></button>
+    <button id="addCategory" type="button" class="btn btn-primary" onclick="javascript:addCategory()"><span class="glyphicon glyphicon-plus"></span></button>
+    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(this)"><span class="glyphicon glyphicon-trash"></span></button>
+</div>
+
+<div class="btn-group item">
+    <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.itemMenu').popover('hide')"><span class="glyphicon glyphicon-remove"></span></button>
+    <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(this)"><span class="glyphicon glyphicon-pencil"></span></button>
+    <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:addItem()"><span class="glyphicon glyphicon-plus"></span></button>
+    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(this)"><span class="glyphicon glyphicon-trash"></span></button>
+    <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(this)"><span class="glyphicon glyphicon-transfer"></span></button>
+</div>

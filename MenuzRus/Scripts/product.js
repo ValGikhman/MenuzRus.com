@@ -54,11 +54,11 @@ function deleteCategory(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
                                  .done(function (result) {
-                                     message("Category successfully deletes.", "success", "top");
+                                     message("Category successfully deletes.", "success", "topCenter");
                                      window.location = $.validator.format("{0}Product/Index/{1}", root, $("#Menu_id").val());
                                  })
                    .fail(function () {
-                       message("Delete category failed.", "error", "top");
+                       message("Delete category failed.", "error", "topCenter");
                    })
                    .always(function () {
                        $('.glyphicon-cog').show();
@@ -109,11 +109,11 @@ function deleteItem(id) {
                 $noty.close();
                 var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
                               .done(function (result) {
-                                  message("Deleted successfully.", "success", "top");
+                                  message("Deleted successfully.", "success", "topCenter");
                                   window.location = $.validator.format("{0}Product/Index/", root) + $("#Menu_id").val();
                               })
                 .fail(function () {
-                    message("Delete item failed.", "error", "top");
+                    message("Delete item failed.", "error", "topCenter");
                 })
                 .always(function () {
                     $('.glyphicon-cog').show();

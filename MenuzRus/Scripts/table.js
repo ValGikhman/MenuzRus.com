@@ -75,7 +75,7 @@ function orderMenuItem(id) {
             BindEvents();
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -95,7 +95,7 @@ function showOrder(tableId) {
             }
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -116,7 +116,7 @@ function saveItem(element) {
             $(".order").html();
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -130,7 +130,7 @@ function showMenus(checkId) {
             $(".check").find(".active").html(result);
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
         });
@@ -146,7 +146,7 @@ function deleteMenu(object) {
             })
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -179,7 +179,7 @@ function deleteCheck(object) {
             });
         })
         .fail(function () {
-            message("Failed.", "error", "top");
+            message("Failed.", "error", "topCenter");
         })
         .always(function () {
             $(".checks li:last a").tab("show");
@@ -197,7 +197,7 @@ function showMenuProducts(object, addTo) {
                 BindEvents();
             })
     .fail(function () {
-        message("Failed.", "error", "top");
+        message("Failed.", "error", "topCenter");
     })
     .always(function () {
         parent.unblock();

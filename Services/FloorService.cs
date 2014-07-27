@@ -61,6 +61,15 @@ namespace MenuzRus {
             return db.Floors.Where(m => m.CustomerId == id).ToList();
         }
 
+        public Int32 GetTableOrderStatus(Int32 id) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id);
+            if (retVal != default(TableOrder)) {
+                return retVal.Status;
+            }
+            return (Int32)Common.TableOrderStatus.Open;
+        }
+
         public List<Table> GetTables(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
             return db.Tables.Where(m => m.FloorId == id).ToList();
@@ -93,10 +102,11 @@ namespace MenuzRus {
         public Boolean SaveTables(List<Table> tables) {
             Table table;
             Int32 floorId;
+            IEnumerable<Table> tablesToDelete;
             try {
                 floorId = SessionData.floor.id;
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    IEnumerable<Table> tablesToDelete = db.Tables.Where(m => m.FloorId == floorId && !tables.Contains(m));
+                    tablesToDelete = db.Tables.Where(m => m.FloorId == floorId && !tables.Contains(m));
                     if (tablesToDelete.Any())
                         db.Tables.DeleteAllOnSubmit(tablesToDelete);
                     if (tables.Any()) {
@@ -109,7 +119,9 @@ namespace MenuzRus {
                             table.Type = t.Type;
                             table.X = t.X;
                             table.Y = t.Y;
-                            db.Tables.InsertOnSubmit(table);
+                            if (t.id == 0) {
+                                db.Tables.InsertOnSubmit(table);
+                            }
                         }
                     }
                     db.SubmitChanges();

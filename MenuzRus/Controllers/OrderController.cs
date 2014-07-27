@@ -17,7 +17,7 @@ namespace MenuzRus.Controllers {
 
         #region order
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult DeleteCheck(Int32 checkId) {
             OrderService orderService = new OrderService();
             try {
@@ -28,11 +28,12 @@ namespace MenuzRus.Controllers {
             }
             finally {
                 orderService = null;
-            } return null;
+            }
+            return null;
         }
 
-        [HttpPost]
-        public ActionResult DeleteMenu(Int32 id) {
+        [HttpGet]
+        public JsonResult DeleteMenu(Int32 id, Int32 checkId) {
             OrderService orderService = new OrderService();
             try {
                 orderService.DeleteMenu(id);
@@ -43,23 +44,29 @@ namespace MenuzRus.Controllers {
             finally {
                 orderService = null;
             }
-            return null;
+            var retVal = new {
+            };
+            return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        [HttpPost]
-        public String OrderMenuItem(Int32 id, Int32 orderId, Int32 tableId) {
+        [HttpGet]
+        public JsonResult OrderMenuItem(Int32 id, Int32 checkId, Int32 tableId) {
             OrderChecksMenu menu = new OrderChecksMenu(); ;
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             Services.Item MenuItem = itemService.GetItem(id);
             if (MenuItem != null) {
-                menu = orderService.SaveMenuItem(MenuItem, tableId, orderId);
+                menu = orderService.SaveMenuItem(MenuItem, tableId, checkId);
             }
-            return ShowMenuItem(id, menu);
+            var retVal = new {
+                html = ShowMenuItem(id, menu),
+                checkId = menu.CheckId
+            };
+            return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpPost]
-        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
+        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
             OrderService orderService = new OrderService();
             try {
                 orderService.SaveItem(productId, knopaId, type);
@@ -70,6 +77,60 @@ namespace MenuzRus.Controllers {
             finally {
                 orderService = null;
             }
+
+            var retVal = new {
+            };
+            return Json(retVal);
+        }
+
+        // Show totals for a check
+        [HttpGet]
+        public String ShowCheckPrint(Int32 checkId) {
+            ItemService itemService;
+            Services.Item item, itemMenu;
+            OrderService orderService;
+            CheckPrint model;
+            Double tax = 0.075;
+            Double price = 0;
+            Double summary = 0, menuPrice = 0;
+            List<LineItem> subItems;
+            try {
+                itemService = new ItemService();
+                orderService = new OrderService();
+                model = new CheckPrint();
+                model.Items = new List<LineItem>();
+                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
+                List<OrderChecksMenuProduct> products;
+                foreach (Services.OrderChecksMenu menuItem in menus) {
+                    itemMenu = itemService.GetItem(menuItem.MenuId);
+                    menuPrice = (Double)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    summary += menuPrice;
+                    products = orderService.GetProducts(menuItem.id);
+                    subItems = new List<LineItem>();
+                    foreach (Services.OrderChecksMenuProduct productItem in products) {
+                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            price = (Double)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                            summary += price;
+                            subItems.Add(new LineItem() { Description = item.Name, Price = price });
+                        }
+                    }
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
+                }
+
+                model.Summary = summary;
+                model.Tax = tax;
+                model.Total = Math.Round(summary + (summary * tax), 2);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return String.Empty;
+            }
+            finally {
+                itemService = null;
+                orderService = null;
+            }
+            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", model);
         }
 
         // Show one menu strip
@@ -90,6 +151,7 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
                 return String.Empty;
             }
+
             return RenderViewToString(this.ControllerContext, "_OrderMenuItemPartial", menu);
         }
 
@@ -133,7 +195,7 @@ namespace MenuzRus.Controllers {
 
         // Show Menus strips for a check
         [HttpGet]
-        public String ShowMenus(Int32 checkId) {
+        public JsonResult ShowMenus(Int32 checkId) {
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             List<CheckMenuItem> Menus = new List<CheckMenuItem>();
@@ -152,41 +214,32 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
                 base.Log(ex);
-                return String.Empty;
+                return null;
             }
             finally {
                 itemService = null;
                 orderService = null;
             }
-            return RenderViewToString(this.ControllerContext, "_OrderMenusPartial", Menus);
+            var retVal = new {
+                html = RenderViewToString(this.ControllerContext, "_OrderMenusPartial", Menus),
+                checkId = checkId
+            };
+            return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         // Show Checks tabs
         [HttpGet]
         public String ShowOrder(Int32 tableId) {
-            ItemService itemService = new ItemService();
-            OrderService orderService = new OrderService();
-            OrderModel model = new OrderModel();
+            OrderModel model = null;
             try {
-                List<Services.OrderCheck> Checks = orderService.GetChecks(tableId);
-                model.Checks = new List<Check>();
-                foreach (Services.OrderCheck checkItem in Checks) {
-                    Check check = new Check();
-                    check.id = checkItem.id;
-                    check.Price = 0;
-                    check.Type = (Common.OrderType)checkItem.Type;
-                    check.CheckMenuItems = new List<CheckMenuItem>();
-                    model.Checks.Add(check);
-                }
-                return RenderViewToString(this.ControllerContext, "_OrderPartial", model);
+                model = GetTableModel(tableId);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                itemService = null;
             }
-            return null;
+            return RenderViewToString(this.ControllerContext, "_OrderPartial", model);
         }
 
         [HttpGet]
@@ -204,13 +257,26 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private OrderModel GetTableModel(Int32 id) {
+        private OrderModel GetTableModel(Int32 tableId) {
             CategoryService categoryService = new CategoryService();
-            MenuService menuService = new MenuService();
+            OrderService orderService = new OrderService();
             OrderModel model = new OrderModel();
+            List<Services.OrderCheck> Checks;
             try {
                 model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
-                model.TableId = id;
+                model.TableId = tableId;
+
+                Checks = orderService.GetChecks(tableId);
+                model.Checks = new List<Check>();
+                foreach (Services.OrderCheck checkItem in Checks) {
+                    Check check = new Check();
+                    check.id = checkItem.id;
+                    check.Price = 0;
+                    check.Status = (Common.CheckStatus)checkItem.Status;
+                    check.Type = (Common.CheckType)checkItem.Type;
+                    check.CheckMenuItems = new List<CheckMenuItem>();
+                    model.Checks.Add(check);
+                }
                 return model;
             }
             catch (Exception ex) {
@@ -218,27 +284,38 @@ namespace MenuzRus.Controllers {
             }
             finally {
                 categoryService = null;
-                menuService = null;
             }
             return null;
         }
 
         private String GetTables(Int32 id) {
             FloorService service = new FloorService();
-            List<Services.Table> tables = service.GetTables(id);
-            var result = (from var in tables
-                          where var.FloorId == id
-                          select new {
-                              var.Col,
-                              var.FloorId,
-                              var.id,
-                              var.Name,
-                              var.Row,
-                              var.Type,
-                              var.X,
-                              var.Y
-                          }).ToList();
-            return result.ToJson();
+            OrderService serviceOrder = new OrderService();
+            try {
+                List<Services.Table> tables = service.GetTables(id);
+                var result = (from var in tables
+                              where var.FloorId == id
+                              select new {
+                                  var.Col,
+                                  var.FloorId,
+                                  var.id,
+                                  var.Name,
+                                  var.Row,
+                                  var.Type,
+                                  var.X,
+                                  var.Y,
+                                  Status = service.GetTableOrderStatus(var.id),
+                                  Checks = serviceOrder.GetChecksIds(var.id)
+                              }).ToList();
+                return result.ToJson();
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                service = null;
+            }
+            return null;
         }
 
         private FloorModel GetTablesModel(Int32? id) {

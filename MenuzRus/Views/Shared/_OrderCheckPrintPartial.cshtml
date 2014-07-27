@@ -1,0 +1,85 @@
+﻿@model MenuzRus.Models.CheckPrint
+<div class="print-view-container">
+    <table id="tableAddress" class="center">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="mainItem centered">@MenuzRus.SessionData.customer.Name</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="centered">@MenuzRus.SessionData.customer.Address</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="centered">@MenuzRus.SessionData.customer.Address2</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="centered">@MenuzRus.SessionData.customer.City, @MenuzRus.SessionData.customer.State @MenuzRus.SessionData.customer.Zip</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="centered">@MenuzRus.SessionData.customer.Phone</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="tableItems" class="center">
+        <tbody>
+            @foreach (MenuzRus.Models.LineItem item in Model.Items) {
+                <tr>
+                    <td>
+                        <div class="mainItem">@item.Description</div>
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td>
+                        <div class="pull-right mainItem">@item.Price.ToString("C2")</div>
+                    </td>
+                </tr>
+                foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
+                <tr>
+                    <td>
+                        <div class="subItem">@subItem.Description</div>
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td>
+                        <div class="subItem pull-right">@subItem.Price.ToString("C2")</div>
+                    </td>
+                </tr>
+                }
+            }
+            <tr>
+                <td>
+                    <div class="mainItem">Summary:</div>
+                </td>
+                <td class="col-md-2 col-sm-2"></td>
+                <td>
+                    <div class="mainItem pull-right">@Model.Summary.ToString("C2")</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="tax">Tax:</div>
+                </td>
+                <td class="col-md-2 col-sm-2"></td>
+                <td>
+                    <div class="tax pull-right">@Model.Tax.ToString("P")</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="total">Total:</div>
+                </td>
+                <td class="col-md-2 col-sm-2"></td>
+                <td>
+                    <div class="total pull-right">@Model.Total.ToString("C2")</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

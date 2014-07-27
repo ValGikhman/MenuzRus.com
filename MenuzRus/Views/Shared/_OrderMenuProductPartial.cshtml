@@ -1,11 +1,9 @@
 ﻿@model List<MenuzRus.Models.CheckMenuItemProduct>
 @foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model.OrderBy(m => m.Type)) {
     String objectType = "checkbox";
-    String buttonsClass = "btn-success";
     String pannelClass = "alert-success";
     if (itemProduct.Type == Common.ProductType.Alternatives) {
         objectType = "radio";
-        buttonsClass = "btn-info";
         pannelClass = "alert-info";
     }
     <div class="panel associationItem @pannelClass" data-toggle="buttons" data-value="@itemProduct.id">
@@ -15,7 +13,7 @@
                 active = "active";
             }
             <div class="btn btn-default knopa @active" onclick="saveItem(this)">
-                <div class="label @pannelClass itemPrice shadow">$@itemProductAssociations.Price</div>
+                <div class="label @pannelClass itemPrice @active shadow" data-value="@itemProductAssociations.Price">$@itemProductAssociations.Price</div>
                 <div class="itemNameSmall">@itemProductAssociations.ShortName</div>
                 <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
             </div>

@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\OrderCheckPrintModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ItemProductModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
@@ -454,6 +455,9 @@
     <Content Include="Views\Shared\_OrderMenusPartial.cshtml" />
     <Content Include="Views\Shared\_OrderMenuProductPartial.cshtml" />
     <Content Include="Views\Shared\_OrderMenuItemPartial.cshtml" />
+    <Content Include="Views\Shared\_OrderCheckPrintPartial.cshtml" />
+    <Content Include="Views\Shared\_OrderMenuPartial.cshtml" />
+    <Content Include="Views\Shared\_OrderActionsMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

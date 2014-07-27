@@ -18,7 +18,9 @@ namespace MenuzRus.Models {
 
         public Decimal Price { get; set; }
 
-        public Common.OrderType Type { get; set; }
+        public Common.CheckStatus Status { get; set; }
+
+        public Common.CheckType Type { get; set; }
     }
 
     public class CheckMenuItem {

@@ -14,6 +14,23 @@ $(function () {
         window.location = $.validator.format("{0}Order/Tables", root);
     })
 
+    $("#menuTab").click(function () {
+        $(this).tab("show");
+        $(".check").find(".tab-pane").html("");
+
+        showMenus();
+    });
+
+    $("#printTab").click(function () {
+        $(this).tab("show");
+        $(".check").find(".tab-pane").html("");
+
+        showCheckPrint();
+    });
+
+    $("#menuTab").tab("show");
+    $("#propertiesTab").tab("show");
+
     showOrder(tableId);
 })
 
@@ -52,32 +69,33 @@ function toggleItself(thisObject, toggleObject) {
 }
 
 function orderMenuItem(id) {
-    var container = $(".order");
+    var container = $(".menuItems");
     container.block();
-    toggleAll(false);
-    var active = $(".check").find(".active");
+    //toggleAll(false);
+    var active = $(".check").find(".tab-pane.active");
     if (active.length == 0) {
         $("#btnAdd").click();
-        active = $(".check").find(".active");
+        active = $(".check").find(".tab-pane.active");
     }
-    var orderId = $(active).attr("data-value");
-    if (typeof (orderId) == "undefined") orderId = 0;
+
+    var activeTab = $(".checks").find(".active a");
+    var checkId = $(active).attr("data-value");
+
+    if (typeof (checkId) == "undefined") checkId = 0;
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/OrderMenuItem", root), { "id": id, "orderId": orderId, "tableId": tableId }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/OrderMenuItem", root), { "id": id, "checkId": checkId, "tableId": tableId }, "json")
         .done(function (result) {
-            $(active).append(result);
-            var activeTab = $(".checks").find(".active a");
-            var checkId = $(active).find(".panel").attr("data-check");
-            $(active).attr("id", $.validator.format("Check{0}", checkId)).attr("data-value", checkId);
-            $(activeTab).attr("href", $.validator.format("#Check{0}", checkId));
-            $(activeTab).attr("data-value", checkId);
-            $(activeTab).html($.validator.format("Check#{0}{1}", checkId, addCloseButton()));
-            BindEvents();
+            $(active).append(result.html);
+            $(active).attr("id", $.validator.format("Check{0}", result.checkId)).attr("data-value", result.checkId);
+            $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
+            $(activeTab).attr("data-value", result.checkIdheckId);
+            $(activeTab).html($.validator.format("Check#{0}{1}", result.checkId, addCloseButton()));
         })
         .fail(function () {
             message("Failed.", "error", "topCenter");
         })
         .always(function () {
+            BindEvents();
             container.unblock();
         });
 };
@@ -105,15 +123,15 @@ function showOrder(tableId) {
 
 function saveItem(element) {
     object = $(element).find("input");
+    var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     var productId = $(element).parent().attr("data-value");
     var knopaId = $(object).attr("data-value");
     var type = $(object).attr("data-type");
 
     var container = $(".order");
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "productId": productId, "knopaId": knopaId, "type": type }, "json")
+    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "checkId": checkId, "productId": productId, "knopaId": knopaId, "type": type }, "json")
         .done(function (result) {
-            $(".order").html();
         })
         .fail(function () {
             message("Failed.", "error", "topCenter");
@@ -124,26 +142,15 @@ function saveItem(element) {
         });
 };
 
-function showMenus(checkId) {
-    var jqxhr = $.get($.validator.format("{0}Order/ShowMenus", root), { "checkId": checkId }, "json")
-        .done(function (result) {
-            $(".check").find(".active").html(result);
-        })
-        .fail(function () {
-            message("Failed.", "error", "topCenter");
-        })
-        .always(function () {
-        });
-}
-
 function deleteMenu(object) {
     var container = $(".container-order");
+    var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/DeleteMenu", root), { "id": $(object).attr("data-value") }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/DeleteMenu", root), { "id": $(object).attr("data-value"), "checkId": checkId }, "json")
         .done(function (result) {
             $(object).fadeOut("slow", function () {
                 object.remove();
-            })
+            });
         })
         .fail(function () {
             message("Failed.", "error", "topCenter");
@@ -171,18 +178,22 @@ function deleteCheck(object) {
     }
     var container = $(".container-order");
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/DeleteCheck", root), { "checkId": checkId }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/DeleteCheck", root), { "checkId": checkId }, "json")
         .done(function (result) {
             $(tabSelector).parent().fadeOut("slow", function () {
                 $(tabSelector).parent().parent().remove();
                 $(divSelector).remove();
+                active = $(".checks li:last a");
+                if ($(active).length > 0) {
+                    $(active).tab("show");
+                    showMenus($(active).attr("data-value"));
+                }
             });
         })
         .fail(function () {
             message("Failed.", "error", "topCenter");
         })
         .always(function () {
-            $(".checks li:last a").tab("show");
             container.unblock();
         });
 }
@@ -204,11 +215,57 @@ function showMenuProducts(object, addTo) {
     });
 }
 
+function showCheckPrint() {
+    var container = $(".order");
+    container.block();
+
+    var active = $(".check").find(".tab-pane.active");
+    var checkId = $(active).attr("data-value");
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId }, "json")
+        .done(function (result) {
+            $(active).html(result);
+        })
+        .fail(function () {
+            message("Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            $(container).unblock();
+        });
+}
+
+function showMenus(checkId) {
+    if (typeof (checkId) == "undefined" || checkId == null) {
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+    }
+
+    var container = $(".order");
+    container.block();
+
+    var jqxhr = $.get($.validator.format("{0}Order/ShowMenus", root), { "checkId": checkId }, "json")
+        .done(function (result) {
+            $(".check").find(".tab-pane.active").html(result.html);
+        })
+        .fail(function () {
+            message("Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            container.unblock();
+        });
+}
+
 function BindEvents() {
     $(".checks").on("click", "a", function (e) {
+        $(this).tab("show");
         var checkId = $(this).attr("data-value");
-        if (checkId != "0") {
-            showMenus(checkId);
+        $(".chosen-select").val(checkId).trigger("chosen:updated");
+        var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
+        if (html == "") {
+            if ($("#printTab").parent().hasClass("active")) {
+                showCheckPrint();
+            }
+            else {
+                showMenus(checkId);
+            }
         }
     })
 
@@ -219,7 +276,7 @@ function BindEvents() {
             type: "error",
             killer: true,
             model: true,
-            text: "<strong>" + $(object).parent().text().replace(/\t\r\n\s/g, '') + "</strong></em> will be deleted.<br />Would you like to continue ?",
+            text: "<strong>" + $(object).parent().text().replace(/\t\r\n\s/g, "") + "</strong></em> will be deleted.<br />Would you like to continue ?",
             buttons: [{
                 addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
                     $noty.close();

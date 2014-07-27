@@ -184,18 +184,6 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.OrderChecks" Member="OrderChecks">
-    <Type Name="OrderCheck">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="TableOrderId" Storage="_OrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
-      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
-      <Column Name="Adjustment" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="TableOrder_OrderCheck" Member="TableOrder" ThisKey="TableOrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.OrderChecksMenuProducts" Member="OrderChecksMenuProducts">
     <Type Name="OrderChecksMenuProduct">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -212,6 +200,19 @@
       <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="OrderChecksMenuProduct_OrderChecksMenuProductItem" Member="OrderChecksMenuProduct" ThisKey="ProductId" OtherKey="id" Type="OrderChecksMenuProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderChecks" Member="OrderChecks">
+    <Type Name="OrderCheck">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TableOrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Adjustment" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="TableOrder_OrderCheck" Member="TableOrder" ThisKey="TableOrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

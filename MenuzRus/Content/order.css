@@ -20,6 +20,10 @@ body {
 }
 
 .container-order {
+    background-color: #eeeeee;
+    border-radius: 15px;
+    margin-bottom: 0;
+    padding: 20px;
     margin-top: 10px;
 }
 
@@ -28,43 +32,50 @@ body {
     margin-right: 0px;
 }
 
-.nav-tabs > li > a {
-    margin-right: -5px;
-    display: inline-flex;
+.nav-tabs > li {
+    margin-bottom: 0;
 }
 
-#btnAdd {
+    .nav-tabs > li > a {
+        margin-right: -5px;
+        display: inline-flex;
+    }
+
+.menu-tab {
+    padding-left: 0px;
 }
 
 .menu {
     height: 500px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .check {
     height: 450px;
 }
 
-.order, .reciept {
-    margin-left: 20px;
-    height: 500px;
-}
-
 .checks {
     overflow-y: auto;
-    height: 43px;
+    max-height: 250px;
     max-height: 200px;
     z-index: 0;
 }
 
 .order {
-    padding: 0px;
-    width: 64.333%;
+    height: 500px;
+    padding: 0;
+    margin-left: 0px;
 }
 
 .panel-heading.item {
     margin-left: 0px;
     color: #2b6da6;
-    padding: 20px 10px;
+    padding: 15px 5px;
+}
+
+.associationItem {
+    padding: 5px;
 }
 
 .close {
@@ -80,9 +91,36 @@ body {
     }
 
 .menuItems {
-    height: 450px;
-    width: 365px;
+    padding-left: 15px;
+    height: 440px;
 }
+
+.menuActions {
+    padding: 15px;
+    height: 457px;
+}
+
+.menuActions-container {
+    height: 340px;
+    margin-top: 20px;
+}
+
+.print-view-container {
+    height: 350px;
+}
+
+li.search-choice {
+    line-height: 23px !important;
+}
+
+li.search-field {
+    height: auto;
+    white-space: nowrap;
+}
+
+    li.search-field > input[type="text"] {
+        height: 35px !important;
+    }
 
 .category, .item {
     list-style: none;
@@ -106,10 +144,6 @@ ul {
 
 h4 {
     margin: 0px;
-}
-
-.menu-tabs > li > a {
-    padding-left: 0px;
 }
 
 .btnDelete {
@@ -154,4 +188,55 @@ h4 {
     width: 100%;
     border-color: #ccc;
     text-shadow: 0 1px 0 #fff;
+}
+
+.mainItem {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.tax {
+    font-weight: bold;
+}
+
+.total {
+    font-weight: bold;
+}
+
+.subItem {
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-left: 10px;
+}
+
+#tableAddress.center, #tableItems.center {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: separate;
+}
+
+#tableAddress > tbody td {
+    padding: 0px;
+}
+
+#tableItems > tbody td {
+    padding: 0px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.menu-actions-tab {
+    margin-top: 35px;
+}
+
+#btnPrintCheck {
+    margin-top: 210px;
+}
+
+.checksBadges {
+    display: inline-block;
+    position: relative;
+    top: 5px;
 }

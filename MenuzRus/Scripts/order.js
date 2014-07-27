@@ -32,7 +32,9 @@ function initGridster() {
                 Col: wgd.col,
                 Row: wgd.row,
                 X: wgd.size_x,
-                Y: wgd.size_y
+                Y: wgd.size_y,
+                Status: $($w).attr("data-status"),
+                Checks: $($w).attr("data-checks")
             };
         }
     }).data("gridster").disable();
@@ -51,9 +53,55 @@ function addLayout() {
     var serialization = $.parseJSON($("#Floor_Layout").val());
 
     $.each(serialization, function () {
-        var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
-        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}</li>", this.id, this.Type, this.Name, elementName);
+        var dermo = getChecks(this.Checks);
+        var elementName = $.validator.format("<div class='tableName label label-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), getStatusName(this.Status));
+        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' class='shape {1}' onclick='javascript:viewTable({0})'>{5}{3}</li>", this.id, this.Type, this.Name, elementName, this.Status, dermo);
         gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
         refreshTotal();
     });
+}
+
+function getChecks(checks) {
+    var html = "";
+    var ids = checks.split('|');
+    $.each(ids, function (index, element) {
+        if (element != "") {
+            html += $.validator.format("<div class='checksBadges label label-success shadow'>#{0}</div>", element);
+        }
+    })
+    return html;
+}
+
+function getStatusName(status) {
+    switch (status) {
+        case 1:
+            return "Open";
+            break;
+        case 2:
+            return "Working";
+            break;
+        case 3:
+            return "Served";
+            break;
+        case 4:
+            return "Closed";
+            break;
+    }
+}
+
+function getStatusColor(status) {
+    switch (status) {
+        case 1:
+            return "default";
+            break;
+        case 2:
+            return "warning";
+            break;
+        case 3:
+            return "success";
+            break;
+        case 4:
+            return "default";
+            break;
+    }
 }

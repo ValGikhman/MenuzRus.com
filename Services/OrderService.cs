@@ -79,6 +79,14 @@ namespace MenuzRus {
             return null;
         }
 
+        public String GetChecksIds(Int32 tableId) {
+            List<OrderCheck> retVal = GetChecks(tableId);
+            if (retVal != null) {
+                return String.Join("|", retVal.Select(m => m.id).ToArray());
+            }
+            return String.Empty;
+        }
+
         public OrderChecksMenu GetMenuItem(Int32 id) {
             if (id != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
@@ -156,7 +164,8 @@ namespace MenuzRus {
                     if (orderCheck == default(OrderCheck)) {
                         orderCheck = new OrderCheck();
                         orderCheck.TableOrderId = tableOrder.id;
-                        orderCheck.Type = (Int32)Common.OrderType.Active;
+                        orderCheck.Type = (Int32)Common.CheckType.Normal;
+                        orderCheck.Status = (Int32)Common.CheckStatus.Active;
                         db.OrderChecks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
                     }

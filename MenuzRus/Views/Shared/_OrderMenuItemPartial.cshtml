@@ -5,7 +5,7 @@
         <div class="panel-heading pointer item"  onclick="javascript:toggleItself($(this).find('.collapsibleSign'), '#@id');">
             <span class="glyphicon glyphicon-plus collapsibleSign"></span>
             @Model.Name
-            <span class="badge price">$@Model.Price</span>
+            <span class="badge price" data-value="@Model.Price">$@Model.Price</span>
             <button type="button" class="btn btn-danger pull-right btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         <div id="@id" class="association collapsible" style="display:none">

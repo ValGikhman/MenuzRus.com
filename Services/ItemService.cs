@@ -70,8 +70,17 @@ namespace MenuzRus {
             menuzRusDataContext db = new menuzRusDataContext();
             List<Item> item = (from var in db.ItemProductAssociations
                                join it in db.Items on var.ItemId equals it.id
-                               where var.id == productId
+                               where var.ItemProductId == productId
                                select it).ToList();
+            return item;
+        }
+
+        public Item GetItemProductAssosiationsById(Int32 associationId) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            Item item = (from var in db.ItemProductAssociations
+                         join it in db.Items on var.ItemId equals it.id
+                         where var.id == associationId
+                         select it).FirstOrDefault();
             return item;
         }
 

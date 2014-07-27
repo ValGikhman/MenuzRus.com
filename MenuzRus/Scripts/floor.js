@@ -17,7 +17,7 @@ $(function () {
         serialize_params: function ($w, wgd) {
             floorId = $("#Floor_id").val();
             return {
-                TableId: $($w).attr("id"),
+                id: $($w).attr("id"),
                 Type: $($w).attr("data-type"),
                 Name: $($w).attr("data-name"),
                 FloorId: floorId,
@@ -80,7 +80,7 @@ $(function () {
 
     $("#btnSaveFloor").click(function () {
         $(".floorEditForm").modal("hide");
-        editFloor($("#Floor_id").val(), $("#Floor_Name").val());
+        saveFloor($("#Floor_id").val(), $("#Floor_Name").val());
     })
 
     $("#btnSaveTable").click(function () {
@@ -175,7 +175,7 @@ function refreshTotal() {
     $(".tables.badge").html(gridster.$widgets.length);
 }
 /// ****** FLOOR ********///
-function editFloor(id, name) {
+function saveFloor(id, name) {
     if (id == null) id = 0;
     var postData = { id: id, name: name };
     var jqxhr = $.post($.validator.format("{0}Floor/SaveFloor/", root), postData)

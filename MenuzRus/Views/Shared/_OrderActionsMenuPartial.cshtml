@@ -1,0 +1,46 @@
+﻿@model List<MenuzRus.Models.Check>
+<button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:addAll();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add all</button>
+<button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:deleteAll();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Delete all</button>
+<div class="menuActions-container">
+    <select data-placeholder="Click to add checks" class="chosen-select shadow" multiple>
+        @foreach (MenuzRus.Models.Check check in Model) {
+            <option value="@check.id">Check#@check.id</option>
+        }
+    </select>
+
+    <ul class="nav nav-tabs menu-actions-tab">
+        <li><a id="propertiesTab" href="#menu-actions-properties-tab" data-toggle="tab">
+            <h5>Properties
+            </h5>
+        </a></li>
+        <li><a id="printTab" href="#menu-actions-print-tab" data-toggle="tab">
+            <h5>Print
+            </h5>
+        </a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="menu-actions-properties-tab" class="tab-pane fade in actionsProperties">
+            <button id="btnPizdets" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Pizdets</button>
+        </div>
+        <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
+            <button id="btnPrintCheck" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+        $(".check").find(".tab-pane").html("");
+        $(".chosen-select").chosen({ width: "100%", display_disabled_options: false }).val(checkId).trigger("chosen:updated");
+    });
+
+    function addAll() {
+        $(".chosen-select option").attr("selected", true);
+        $(".chosen-select").trigger("chosen:updated");
+    };
+
+    function deleteAll() {
+        $(".chosen-select option").removeAttr("selected");
+        $(".chosen-select").trigger("chosen:updated");
+    };
+</script>

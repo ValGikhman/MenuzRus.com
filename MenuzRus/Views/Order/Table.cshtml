@@ -1,44 +1,44 @@
 ﻿@model MenuzRus.Models.OrderModel
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
 <script src="@Url.Content("~/Scripts/table.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 
-<div class="well container container-order shadow center">
+<div class="col-md-11 col-sm-12 container-order shadow center">
     <div class="row">
         <div class="modal-header main-header">
             <h2>Take Order
-                <button id="btnAdd" class="add-check btn btn-success shadow" style="margin-left: 95px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
-                <button id="btnBack" type="button" class="btn btn-default shadow pull-right" style="margin-left: 15px;">Back to floor</button>
+                <button id="btnAdd" class="add-check btn btn-primary shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
+                <button id="btnBack" class="btn btn-primary  shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
             </h2>
         </div>
     </div>
     <div class="row layout" style="text-justify: auto;">
         <div class="col-md-4 col-sm-4 shadow menu">
-            <ul class="nav nav-tabs menu-tabs">
-                <li><a href="#" data-toggle='tab'>
+            <ul class="nav nav-tabs menu-tab">
+                <li><a id="menuTab" href="#menu-tab" data-toggle="tab">
                     <h4>Menu
                     </h4>
                 </a></li>
+                <li><a id="actionsTab" href="#actions-tab" data-toggle="tab">
+                    <h4>Actions
+                    </h4>
+                </a></li>
             </ul>
-            <div class="tab-content menuItems" style="float: left;">
-                @foreach (Services.Category category in Model.Categories) {
-                    <div class="category" data-value="@category.id">
-                        @category.Name
-                    </div>
-                    foreach (Services.Item item in category.Items) {
-                        Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
-                        <div class="label label-default itemPrice shadow" data-value="@price">@String.Format("${0}", price)</div>
-                        <div class="itemNameSmall">@item.Name</div>
-                    </div>
-                    }
-                }
+            <div class="tab-content">
+                <div id="menu-tab" class="tab-pane fade in menuItems">
+                    @Html.Partial("_OrderMenuPartial", Model.Categories)
+                </div>
+                <div id="actions-tab" class="tab-pane fade in menuActions">
+                    @Html.Partial("_OrderActionsMenuPartial", Model.Checks)
+                </div>
             </div>
         </div>
 
-        <div class="col-md-7 -sm-7 shadow order">
+        <div class="col-sm-offset-1 col-md-7 col-sm-7 shadow order pull-right">
         </div>
     </div>
 </div>

@@ -24,6 +24,16 @@ public static class Common {
         Product = 4
     }
 
+    public enum CheckStatus {
+        Active = 1,
+        Paid = 2,
+    }
+
+    public enum CheckType {
+        Normal = 1,
+        ToGo = 2
+    }
+
     public enum LogType {
 
         [Display(Name = "Exception")]
@@ -82,11 +92,6 @@ public static class Common {
 
         [Display(Name = "Activity")]
         Activity = 36,
-    }
-
-    public enum OrderType {
-        Active = 1,
-        Paid = 2
     }
 
     public enum ProductType {
@@ -173,7 +178,7 @@ public static class Common {
 
     public enum TableOrderStatus {
         Open = 1,
-        Working = 2,
+        Served = 2,
         Closed = 3
     }
 

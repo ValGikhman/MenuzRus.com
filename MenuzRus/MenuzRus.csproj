@@ -318,6 +318,12 @@
     <Content Include="Scripts\chosen\index.proto.html" />
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\countdown\jquery.countdown.css" />
+    <Content Include="Scripts\countdown\jquery.countdown.js" />
+    <Content Include="Scripts\countdown\jquery.countdown.min.js" />
+    <Content Include="Scripts\countdown\jquery.plugin.js" />
+    <Content Include="Scripts\countdown\jquery.plugin.min.js" />
+    <Content Include="Scripts\JQuery\jquery.jqprint.0.3.js" />
     <Content Include="Scripts\table.js" />
     <Content Include="Scripts\order.js" />
     <Content Include="Scripts\users.js" />

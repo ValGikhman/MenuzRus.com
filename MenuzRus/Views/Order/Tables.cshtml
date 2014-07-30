@@ -1,11 +1,15 @@
 ﻿@model MenuzRus.Models.FloorModel
 @using Services
+<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/countdown/jquery.countdown.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
+
 <script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
-<script src="@Url.Content("~/Scripts/order.js")"></script>
+<script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
+<script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
+<script src="@Url.Content("~/Scripts/order.js")"></script>
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">

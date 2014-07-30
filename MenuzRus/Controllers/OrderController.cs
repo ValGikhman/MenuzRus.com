@@ -305,7 +305,8 @@ namespace MenuzRus.Controllers {
                                   var.X,
                                   var.Y,
                                   Status = service.GetTableOrderStatus(var.id),
-                                  Checks = serviceOrder.GetChecksIds(var.id)
+                                  Checks = serviceOrder.GetChecksIds(var.id),
+                                  DateModified = var.DateModified.ToString()
                               }).ToList();
                 return result.ToJson();
             }

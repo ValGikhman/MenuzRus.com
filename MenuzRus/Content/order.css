@@ -240,3 +240,21 @@ h4 {
     position: relative;
     top: 5px;
 }
+
+.timer {
+    position: absolute;
+    font-size: 62%;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+    bottom: 0px;
+}
+
+.tableNameStatus {
+    position: absolute;
+    font-size: 105%;
+    top: 0px;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+}

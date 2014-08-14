@@ -2,7 +2,7 @@
 @using Services
 
 <ul class="nav nav-tabs checks">
-    @if (Model.Checks.Any()) {
+    @if (Model.Checks != null) {
         foreach (MenuzRus.Models.Check check in Model.Checks) {
         <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-toggle="tab">
             @String.Format("Check#{0}", check.id)
@@ -14,7 +14,7 @@
     }
 </ul>
 <div class="tab-content check">
-    @if (Model.Checks.Any()) {
+    @if (Model.Checks != null) {
         foreach (MenuzRus.Models.Check check in Model.Checks) {
         <div class="tab-pane fade in" id="@String.Format("Check{0}", check.id)" data-value="@check.id">
         </div>

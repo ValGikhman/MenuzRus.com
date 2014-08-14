@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Utility.cs" />
     <Compile Include="Extensions\RegexPattern.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

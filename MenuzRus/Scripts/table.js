@@ -23,9 +23,29 @@ $(function () {
 
     $("#printTab").click(function () {
         $(this).tab("show");
-        $(".check").find(".tab-pane").html("");
+
+        var tabs = $(".check").find(".tab-pane");
+        $(tabs).html("");
+
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+
+        $(".chosen-select").val(checkId).trigger("chosen:updated");
 
         showCheckPrint();
+    });
+
+    $("#propertiesTab").click(function () {
+        $(this).tab("show");
+
+        var tabs = $(".check").find(".tab-pane");
+        $(tabs).html("");
+
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+
+        $(".check").find(".tab-pane").html("");
+        $(".chosen-select").val(checkId).trigger("chosen:updated");
+
+        showMenus(checkId);
     });
 
     $("#menuTab").tab("show");
@@ -92,7 +112,7 @@ function orderMenuItem(id) {
             $(activeTab).html($.validator.format("Check#{0}{1}", result.checkId, addCloseButton()));
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::orderMenuItem:: Failed.", "error", "topCenter");
         })
         .always(function () {
             BindEvents();
@@ -113,7 +133,7 @@ function showOrder(tableId) {
             }
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::showOrder:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -134,7 +154,7 @@ function saveItem(element) {
         .done(function (result) {
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::saveItem:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -153,7 +173,7 @@ function deleteMenu(object) {
             });
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::deleteMenu:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -191,7 +211,7 @@ function deleteCheck(object) {
             });
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::deleteCheck:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -208,7 +228,7 @@ function showMenuProducts(object, addTo) {
                 BindEvents();
             })
     .fail(function () {
-        message("Failed.", "error", "topCenter");
+        message("::showMenuProducts:: Failed.", "error", "topCenter");
     })
     .always(function () {
         parent.unblock();
@@ -218,24 +238,45 @@ function showMenuProducts(object, addTo) {
 function showCheckPrint() {
     var container = $(".order");
     container.block();
-
     var active = $(".check").find(".tab-pane.active");
+    var split = parseInt($("#slideSplit").slider("value"));
+    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
     var checkId = $(active).attr("data-value");
-    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId }, "json")
+
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(active).html(result);
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::showCheckPrint:: Failed.", "error", "topCenter");
         })
         .always(function () {
             $(container).unblock();
         });
 }
 
+function getCheckPrint(checkId) {
+    var tab = $("#html2Print");
+    var split = parseInt($("#slideSplit").slider("value"));
+    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "split": split, "adjustment": adjustment }, "json")
+        .done(function (result) {
+            $(tab).append($.validator.format("{0}", result));
+        })
+        .fail(function () {
+            message("::getCheckPrint:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}
+
 function showMenus(checkId) {
     if (typeof (checkId) == "undefined" || checkId == null) {
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+        checkId = $(".check").find(".tab-pane.active").attr("data-value");
+        if (typeof (checkId) == "undefined" || checkId == null) {
+            return;
+        }
     }
 
     var container = $(".order");
@@ -246,7 +287,7 @@ function showMenus(checkId) {
             $(".check").find(".tab-pane.active").html(result.html);
         })
         .fail(function () {
-            message("Failed.", "error", "topCenter");
+            message("::showMenus:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();

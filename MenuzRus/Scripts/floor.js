@@ -162,6 +162,7 @@ function saveTables() {
     var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": postData }, "json")
                   .done(function (result) {
                       message("Save successfully.", "success", "topCenter");
+                      window.location.reload();
                   })
     .fail(function () {
         message("Save tables failed.", "error", "topCenter");

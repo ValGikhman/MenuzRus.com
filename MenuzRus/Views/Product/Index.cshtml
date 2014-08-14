@@ -4,19 +4,18 @@
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <script src="@Url.Content("~/Scripts/product.js")"></script>
-<div class="well toolbar">
+<div class="well container">
     <div class="modal-header main-header">
         <h2>Product designer</h2>
     </div>
-    <div id="default">
+    <div id="default" class="clearfix">
         @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
         <div class="pull-right">
             <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
             <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
         </div>
     </div>
-</div>
-<div class="well container">
+
     <div id="panel" class="page shadow">
         @if (Model.Categories != null) {
             <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
@@ -120,4 +119,5 @@
             </div>
         }
     </div>
+</div>
 </div>

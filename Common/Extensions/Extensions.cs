@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace StringExtensions {
+namespace Extensions {
 
-    public static class StringExtensions {
+    public static class Extensions {
 
         public static String CleanPhone(this String phone) {
             Regex digitsOnly = new Regex(@"[^\d]");

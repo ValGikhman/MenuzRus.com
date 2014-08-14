@@ -86,14 +86,14 @@
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Meaty Marinara Pasta</Name>
-                    <Description>Rothi pasta w/grilled ground beef, marinara sauce covered with melted mozarella cheese</Description>
+                    <Description>Rotini pasta w/grilled ground beef, marinara sauce covered with melted mozarella cheese</Description>
                     <Price>$8</Price>
                 </Item>
                 <Item>
                     <Id>15</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Chicken Alfredo Pasta</Name>
-                    <Description>Rothi pasta w/grilled chicken breast, alfreado sauce covered with melted mozarella cheese</Description>
+                    <Description>Rotini pasta w/grilled chicken breast, alfreado sauce covered with melted mozarella cheese</Description>
                     <Price>$8</Price>
                 </Item>
             </Items>
@@ -111,21 +111,14 @@
                     <Id>19</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Lagman</Name>
-                    <Description>Lamp stock with vegitables and homemade noodles.</Description>
-                    <Price></Price>
-                </Item>
-                <Item>
-                    <Id>20</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Chicken Noodle Soup</Name>
-                    <Description>Chicken broth, shredded chicken, noodles, sweet peppers and carrots</Description>
+                    <Description>Lamb stock with vegitables and homemade noodles.</Description>
                     <Price></Price>
                 </Item>
                 <Item>
                     <Id>20</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Kharcho</Name>
-                    <Description>lamb stock with chopped lamb, rice and vegetables.</Description>
+                    <Description>Lamb stock with chopped lamb, rice and vegetables.</Description>
                     <Price></Price>
                 </Item>
                 <Item>

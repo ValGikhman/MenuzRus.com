@@ -9,11 +9,10 @@
     <div class="modal-header">
         <h2>Users Form</h2>
     </div>
-    <div id="panel" class="page shadow">
+    <div id="panel" class="shadow">
         <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
             <thead style="color: #fff">
                 <tr>
-                    <th style="width: 2%"><span class="glyphicon glyphicon-plus"></span></th>
                     <th style="width: 2%"><span class="glyphicon glyphicon-picture"></span></th>
                     <th style="width: 15%">First Name</th>
                     <th style="width: 15%">Last Name</th>
@@ -33,7 +32,7 @@
                         <tr class="userRow">
                             <td style="width: 2%">
                                 @if (!String.IsNullOrEmpty(user.ImageUrl)) {
-                                    <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("/Images/Menus/{0}/Users/{1}?{2}", Model.MyCompany.id, user.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
+                                    <span id="popover" class="glyphicon glyphicon-picture" data-toggle="popover" data-content='<img src="@Url.Content(String.Format("~/Images/Menus/{0}/Users/{1}?{2}", Model.MyCompany.id, user.ImageUrl, Guid.NewGuid().ToString("N")))" class="media-object image" />'></span>
                                 }
                             </td>
                             <td style="width: 15%">

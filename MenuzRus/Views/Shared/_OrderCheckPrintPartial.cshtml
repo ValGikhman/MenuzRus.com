@@ -64,11 +64,20 @@
             </tr>
             <tr>
                 <td>
-                    <div class="tax">Tax:</div>
+                    <div class="tax">Tax: @Model.TaxPercent.ToString("P")</div>
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
                 <td>
-                    <div class="tax pull-right">@Model.Tax.ToString("P")</div>
+                    <div class="tax pull-right">@Model.Tax.ToString("C2")</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="tax">Adjustment: @Model.AdjustmentPercent.ToString("P")</div>
+                </td>
+                <td class="col-md-2 col-sm-2"></td>
+                <td>
+                    <div class="tax pull-right">@Model.Adjustment.ToString("C2")</div>
                 </td>
             </tr>
             <tr>
@@ -77,9 +86,31 @@
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
                 <td>
-                    <div class="total pull-right">@Model.Total.ToString("C2")</div>
+                    <div id="total" class="total pull-right">@Model.Total.ToString("C2")</div>
                 </td>
             </tr>
+            @if (Model.Split > 1) {
+                <tr>
+                    <td style="vertical-align: top; padding-top: 25px;">
+                        <div class="total">Split:</div>
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td style="padding-top: 25px;">
+                        <div class="total pull-right">@Model.Total.ToString("C2")/@Model.Split</div>
+                    </td>
+                </tr>
+                foreach (Double split in Model.SplitValues) {
+                <tr>
+                    <td>
+                        <div class="total"></div>
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td>
+                        <div class="total pull-right">@split.ToString("C2")</div>
+                    </td>
+                </tr>
+                }
+            }
         </tbody>
     </table>
 </div>

@@ -2,7 +2,7 @@
 <button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:addAll();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add all</button>
 <button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:deleteAll();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Delete all</button>
 <div class="menuActions-container">
-    <select data-placeholder="Click to add checks" class="chosen-select shadow" multiple>
+    <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
         @foreach (MenuzRus.Models.Check check in Model) {
             <option value="@check.id">Check#@check.id</option>
         }
@@ -20,27 +20,68 @@
     </ul>
     <div class="tab-content">
         <div id="menu-actions-properties-tab" class="tab-pane fade in actionsProperties">
-            <button id="btnPizdets" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Pizdets</button>
-        </div>
-        <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
-            <button id="btnPrintCheck" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
+            <div class="col-md-10">
+                @Html.Label("Split:") <span id="splitText" class="badge">1</span>
+                <div id="slideSplit"></div>
+                @Html.Label("Adjustment:") <span id="adjustmentText" class="badge">0</span>
+                <div id="adjustmentSplit"></div>
+            </div>
+            <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
+                <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Print preview</button>
+            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(function () {
+        $("#slideSplit").slider({
+            range: "max",
+            min: 1,
+            max: 5,
+            animate: "fast",
+            slide: function (event, ui) {
+                $("#splitText").html(ui.value);
+            },
+            stop: function (event, ui) {
+            }
+        });
+
+        $("#adjustmentSplit").slider({
+            range: "max",
+            min: -100,
+            max: 100,
+            step: 10,
+            value: 0,
+            animate: "fast",
+            slide: function (event, ui) {
+                $("#adjustmentText").html($.validator.format("{0}%", ui.value));
+            },
+            stop: function (event, ui) {
+            }
+        });
+
+        $("#btnViewChecks").on("click", function () {
+            $(".modalPrint").modal("show");
+            $("#html2Print").html("");
+
+            var selected = $(".chosen-select")[0].selectedOptions;
+            $.each($(selected), function (index, item) {
+                getCheckPrint(item.value);
+            });
+        });
+
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
         $(".check").find(".tab-pane").html("");
         $(".chosen-select").chosen({ width: "100%", display_disabled_options: false }).val(checkId).trigger("chosen:updated");
     });
 
     function addAll() {
-        $(".chosen-select option").attr("selected", true);
+        $(".chosen-select option").prop("selected", true);
         $(".chosen-select").trigger("chosen:updated");
     };
 
     function deleteAll() {
-        $(".chosen-select option").removeAttr("selected");
+        $(".chosen-select option").prop("selected", false);
         $(".chosen-select").trigger("chosen:updated");
     };
 </script>

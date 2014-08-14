@@ -6,10 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
+using Extensions;
 using MenuzRus.Models;
 using Newtonsoft.Json;
 using Services;
-using StringExtensions;
 
 namespace MenuzRus.Controllers {
 
@@ -85,14 +85,13 @@ namespace MenuzRus.Controllers {
 
         // Show totals for a check
         [HttpGet]
-        public String ShowCheckPrint(Int32 checkId) {
+        public String ShowCheckPrint(Int32 checkId, Int32 split, Double adjustment) {
             ItemService itemService;
             Services.Item item, itemMenu;
             OrderService orderService;
             CheckPrint model;
-            Double tax = 0.075;
-            Double price = 0;
-            Double summary = 0, menuPrice = 0;
+            Double tax = 0.0675;
+            Double price = 0, menuPrice = 0;
             List<LineItem> subItems;
             try {
                 itemService = new ItemService();
@@ -101,26 +100,33 @@ namespace MenuzRus.Controllers {
                 model.Items = new List<LineItem>();
                 List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
                 List<OrderChecksMenuProduct> products;
+                model.Summary = 0;
+                model.Split = split;
                 foreach (Services.OrderChecksMenu menuItem in menus) {
                     itemMenu = itemService.GetItem(menuItem.MenuId);
                     menuPrice = (Double)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    summary += menuPrice;
+                    model.Summary += menuPrice;
                     products = orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
                     foreach (Services.OrderChecksMenuProduct productItem in products) {
                         foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             price = (Double)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                            summary += price;
+                            model.Summary += price;
                             subItems.Add(new LineItem() { Description = item.Name, Price = price });
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
                 }
 
-                model.Summary = summary;
-                model.Tax = tax;
-                model.Total = Math.Round(summary + (summary * tax), 2);
+                model.TaxPercent = tax;
+                model.Tax = Math.Round(model.Summary * tax, 2);
+
+                model.AdjustmentPercent = adjustment / 100;
+                model.Adjustment = Math.Round(model.Summary * model.AdjustmentPercent, 2);
+
+                model.Total = Math.Round(model.Summary + model.Tax + model.Adjustment, 2);
+                model.SplitValues = Utility.SplitAmount(model.Total, model.Split);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -267,15 +273,17 @@ namespace MenuzRus.Controllers {
                 model.TableId = tableId;
 
                 Checks = orderService.GetChecks(tableId);
-                model.Checks = new List<Check>();
-                foreach (Services.OrderCheck checkItem in Checks) {
-                    Check check = new Check();
-                    check.id = checkItem.id;
-                    check.Price = 0;
-                    check.Status = (Common.CheckStatus)checkItem.Status;
-                    check.Type = (Common.CheckType)checkItem.Type;
-                    check.CheckMenuItems = new List<CheckMenuItem>();
-                    model.Checks.Add(check);
+                if (Checks != null) {
+                    model.Checks = new List<Check>();
+                    foreach (Services.OrderCheck checkItem in Checks) {
+                        Check check = new Check();
+                        check.id = checkItem.id;
+                        check.Price = 0;
+                        check.Status = (Common.CheckStatus)checkItem.Status;
+                        check.Type = (Common.CheckType)checkItem.Type;
+                        check.CheckMenuItems = new List<CheckMenuItem>();
+                        model.Checks.Add(check);
+                    }
                 }
                 return model;
             }

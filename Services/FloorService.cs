@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Extensions;
 using Newtonsoft.Json;
 using Services;
-using StringExtensions;
 
 namespace MenuzRus {
 
@@ -107,11 +107,17 @@ namespace MenuzRus {
                 floorId = SessionData.floor.id;
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     tablesToDelete = db.Tables.Where(m => m.FloorId == floorId && !tables.Contains(m));
-                    if (tablesToDelete.Any())
+                    if (tablesToDelete.Any()) {
                         db.Tables.DeleteAllOnSubmit(tablesToDelete);
+                        db.SubmitChanges();
+                    }
                     if (tables.Any()) {
+                        table = new Table();
                         foreach (Table t in tables) {
-                            table = new Table();
+                            if (t.id != 0) {
+                                table = db.Tables.FirstOrDefault(m => m.id == t.id);
+                            }
+
                             table.Col = t.Col;
                             table.FloorId = t.FloorId;
                             table.Name = t.Name;
@@ -122,9 +128,9 @@ namespace MenuzRus {
                             if (t.id == 0) {
                                 db.Tables.InsertOnSubmit(table);
                             }
+                            db.SubmitChanges();
                         }
                     }
-                    db.SubmitChanges();
                 }
             }
             catch (Exception ex) {

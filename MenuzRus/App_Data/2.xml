@@ -68,7 +68,7 @@
                     <Id>24</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Eggplant</Name>
-                    <Description>Grilled eggplant, carrots, sweet peppers, tomatoes, cucambers, cabbage and dressing</Description>
+                    <Description>Grilled eggplant, carrots, sweet peppers, tomatoes, cucumbers, cabbage and dressing</Description>
                     <Price>$6</Price>
                 </Item>
             </Items>
@@ -101,13 +101,6 @@
                     <ImageUrl></ImageUrl>
                     <Name>Perogies</Name>
                     <Description>Potatoes or cheese or cabbage filled dumpling served with sour cream.</Description>
-                    <Price>$8</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Pot stickers</Name>
-                    <Description>Chicken and cabbage filled dumpling boiled and slightly fried.</Description>
                     <Price>$8</Price>
                 </Item>
             </Items>

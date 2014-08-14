@@ -8,6 +8,9 @@
     <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
         <div class="label label-default itemPrice shadow" data-value="@price">@String.Format("${0}", price)</div>
         <div class="itemNameSmall">@item.Name</div>
+        @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+        }
     </div>
     }
 }

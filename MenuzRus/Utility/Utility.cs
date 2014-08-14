@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Services;
 
-public static class Utility {
+namespace MenuzRus {
 
-    public static readonly IDictionary<String, String> States = new Dictionary<String, String> {
+    public static class Utility {
+
+        public static readonly IDictionary<String, String> States = new Dictionary<String, String> {
             { "AL", "Alabama" },
             { "AK", "Alaska" },
             { "AZ", "Arizona" },
@@ -62,20 +64,38 @@ public static class Utility {
             { "WY", "Wyoming" }
         };
 
-    public static string ToJson(this object obj, int recursionDepth = 100) {
-        JavaScriptSerializer serializer = new JavaScriptSerializer();
-        serializer.RecursionLimit = recursionDepth;
-        return serializer.Serialize(obj);
-    }
+        public static IEnumerable<Double> SplitAmount(Double value, int count) {
+            if (count <= 0) throw new ArgumentException("count must be greater than zero.", "count");
+            Double[] result = new Double[count];
 
-    public static List<T> ToListObject<T>(this string obj, int recursionDepth = 100) {
-        JavaScriptSerializer serializer = new JavaScriptSerializer();
-        serializer.RecursionLimit = recursionDepth;
-        List<T> returnList = serializer.Deserialize<List<T>>(obj);
-        return returnList;
-    }
+            Double runningTotal = 0;
+            for (int i = 0; i < count; i++) {
+                Double remainder = value - runningTotal;
+                Double share = remainder > 0 ? Math.Max(Math.Round(remainder / ((Double)(count - i)), 2), .01) : 0;
+                result[i] = share;
+                runningTotal += share;
+            }
 
-    public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {
-        return dic.Select(x => new SelectListItem() { Text = x.Value.ToString(), Value = x.Key.ToString() });
+            if (runningTotal < value) result[count - 1] += value - runningTotal;
+
+            return result.OrderBy(m => m);
+        }
+
+        public static string ToJson(this object obj, int recursionDepth = 100) {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.RecursionLimit = recursionDepth;
+            return serializer.Serialize(obj);
+        }
+
+        public static List<T> ToListObject<T>(this string obj, int recursionDepth = 100) {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.RecursionLimit = recursionDepth;
+            List<T> returnList = serializer.Deserialize<List<T>>(obj);
+            return returnList;
+        }
+
+        public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {
+            return dic.Select(x => new SelectListItem() { Text = x.Value.ToString(), Value = x.Key.ToString() });
+        }
     }
 }

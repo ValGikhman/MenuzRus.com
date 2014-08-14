@@ -12,11 +12,21 @@ namespace MenuzRus.Models {
 
     public class CheckPrint {
 
+        public Double Adjustment { get; set; }
+
+        public Double AdjustmentPercent { get; set; }
+
         public List<LineItem> Items { get; set; }
+
+        public Int32 Split { get; set; }
+
+        public IEnumerable<Double> SplitValues { get; set; }
 
         public Double Summary { get; set; }
 
         public Double Tax { get; set; }
+
+        public Double TaxPercent { get; set; }
 
         public Double Total { get; set; }
     }

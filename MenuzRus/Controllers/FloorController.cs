@@ -69,8 +69,10 @@ namespace MenuzRus.Controllers {
                 service.SaveTables(new JavaScriptSerializer().Deserialize<List<Services.Table>>(tables));
             }
             catch (Exception ex) {
+                base.Log(ex);
             }
             finally {
+                service = null;
             }
 
             return Json("OK");

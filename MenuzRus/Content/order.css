@@ -30,7 +30,7 @@ body {
     border-radius: 15px;
     margin-bottom: 0;
     padding: 20px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .row {
@@ -48,10 +48,6 @@ body {
 
 .menu-tab {
     padding-left: 0px;
-}
-
-.check {
-    height: 450px;
 }
 
 .checks {
@@ -83,9 +79,8 @@ body {
         cursor: pointer;
     }
 
-.menuItems {
-    padding-left: 15px;
-    height: 440px;
+.tab-content {
+    height: 100%;
 }
 
 .menuActions {
@@ -158,10 +153,11 @@ h4 {
 }
 
 .knopaMenu {
-    width: 140px;
     height: 140px;
+    margin-bottom: 15px;
+    margin-left: 15px;
     padding: 3px;
-    margin-top: 3px;
+    width: 140px;
 }
 
 .itemNameSmall {
@@ -176,6 +172,7 @@ h4 {
     width: 100%;
     border-color: #ccc;
     text-shadow: 0 1px 0 #fff;
+    position: absolute;
 }
 
 .mainItem {
@@ -258,4 +255,12 @@ h4 {
 
 .modal-footer {
     margin-top: 1px;
+}
+
+.menu {
+    height: 95%;
+}
+
+.order {
+    height: 100%;
 }

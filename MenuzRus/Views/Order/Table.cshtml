@@ -31,7 +31,12 @@
             <h2>Table @Model.Table.Name</h2>
             @Html.Label("Status:")
             <div class="btn-group tableStatus">
-                <button id="btnTableStatus" type="button" class="btn btn-default" data-toggle="dropdown">@Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString())</button>
+                @{ var currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Common.TableOrderStatus.Open.ToString());
+                   if (Model.TableOrder != null) {
+                       currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString());
+                   }
+                }
+                <button id="btnTableStatus" type="button" class="btn btn-default" data-toggle="dropdown">@currentStatus</button>
                 <button id="btnTableStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>

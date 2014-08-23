@@ -1,4 +1,5 @@
 ﻿@model List<MenuzRus.Models.CheckMenuItemProduct>
+@using Extensions
 @foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model.OrderBy(m => m.Type)) {
     String objectType = "checkbox";
     String pannelClass = "alert-success";
@@ -13,8 +14,12 @@
                 active = "active";
             }
             <div class="btn btn-default knopa @active" onclick="saveItem(this)">
-                <div class="label @pannelClass itemPrice @active shadow" data-value="@itemProductAssociations.Price">$@itemProductAssociations.Price</div>
-                <div class="itemNameSmall">@itemProductAssociations.ShortName</div>
+                <div class="tableNameStatus label @pannelClass @active shadow">@itemProductAssociations.Name.Ellipsis(15)</div>
+                @if (!String.IsNullOrEmpty(@itemProductAssociations.ImageUrl)) {
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, itemProductAssociations.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+                    <br />
+                }
+                <span class="label @pannelClass shadow priceBadge">$@itemProductAssociations.Price</span>
                 <input class="knopka" type="@objectType" data-value="@itemProductAssociations.id" id="@String.Format("{0}_{1}", objectType, itemProductAssociations.id)" data-type="@itemProduct.Type">
             </div>
         }

@@ -20,12 +20,7 @@ namespace Extensions {
             if (text.Length <= length)
                 return text;
 
-            pos = text.IndexOf(" ", length);
-
-            if (pos >= 0)
-                return text.Substring(0, pos) + " ...";
-
-            return text;
+            return text.Substring(0, length - 4) + " ...";
         }
     }
 }

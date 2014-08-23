@@ -1,11 +1,4 @@
-﻿@media print {
-    #html2Print {
-        height: auto;
-        overflow: hidden;
-    }
-}
-
-body {
+﻿body {
     background-color: #eee;
 }
 
@@ -14,7 +7,6 @@ body {
 }
 
 .btn .label {
-    top: -3px;
 }
 
 .floorArea {
@@ -36,13 +28,16 @@ body {
     margin-right: 0px;
 }
 
-.nav-tabs > li {
-    margin-bottom: 0;
+.nav-pills {
+    margin: 0px;
 }
 
-    .nav-tabs > li > a {
-        margin-right: -5px;
+    .nav-pills > li {
     }
+
+        .nav-pills > li > a {
+            display: inline-flex;
+        }
 
 .menu-tab {
     padding-left: 0px;
@@ -51,23 +46,27 @@ body {
 .checks {
     overflow-y: auto;
     max-height: 250px;
-    max-height: 200px;
     z-index: 0;
 }
 
 .panel-heading.item {
     margin-left: 0px;
     color: #2b6da6;
-    padding: 15px 5px;
+    padding: 15px 20px;
 }
 
 .associationItem {
     padding: 5px;
 }
 
+.paid {
+    font-size: 20px;
+}
+
 .close {
     display: inline;
     margin-left: 10px;
+    float: right;
     /*z-index: 99990000; ---- Gets through Print Modela dialog*/
 }
 
@@ -78,12 +77,16 @@ body {
     }
 
 .tab-content {
-    height: 100%;
+    height: 90%;
 }
 
 .menuActions {
     padding: 15px;
     height: 457px;
+}
+
+.menuItems {
+    margin-left: 15px;
 }
 
 .menuActions-container {
@@ -136,7 +139,9 @@ h4 {
     margin-top: 10px;
 }
 
-.item {
+.img-thumbnail {
+    height: 70%;
+    width: 70%;
 }
 
 .close {
@@ -144,18 +149,18 @@ h4 {
 }
 
 .knopa {
-    min-width: 70px;
-    max-width: 140px;
-    height: 70px;
-    padding: 3px;
+    position: relative;
+    width: 120px;
+    height: 120px;
+    padding: 0px;
 }
 
 .knopaMenu {
     height: 140px;
-    margin-bottom: 15px;
-    margin-left: 15px;
-    padding: 3px;
+    margin-bottom: 3px;
     width: 140px;
+    padding: 0;
+    position: relative;
 }
 
 .itemNameSmall {
@@ -173,36 +178,49 @@ h4 {
     position: absolute;
 }
 
-.mainItem {
-    margin-top: 10px;
+.companyNameItem {
+    font-size: 12px;
     font-weight: bold;
 }
 
-.tax {
-    font-weight: bold;
+.phoneItem {
+    font-size: 10px;
+    margin-bottom: 10px;
 }
 
-.total {
+.addressItem {
+    font-size: 10px;
+    line-height: 1;
+}
+
+.checkItem {
+    margin-top: 16px;
     font-weight: bold;
 }
 
 .subItem {
     font-size: 12px;
     letter-spacing: 2px;
-    margin-left: 10px;
+    line-height: 0.90;
+}
+
+.mainItem, .summaryItem, .ajustmentItem, .taxItem, .totalItem {
+    font-weight: bold;
+    line-height: 1.1;
 }
 
 #tableAddress.center, #tableItems.center {
     margin-left: auto;
     margin-right: auto;
     border-collapse: separate;
+    width: 50%;
 }
 
 #tableAddress > tbody td {
     padding: 0px;
 }
 
-#tableItems, #tableSplit > tbody td {
+#tableItems > tbody td {
     padding: 0px;
 }
 
@@ -239,6 +257,14 @@ h4 {
     white-space: normal;
 }
 
+.priceBadge {
+    position: absolute!important;
+    bottom: 0;
+    right: 25%;
+    left: 25%;
+    top: auto!important;
+}
+
 .actionsProperties {
     padding: 20px;
     height: 255px;
@@ -256,9 +282,32 @@ h4 {
 }
 
 .menu {
-    height: 95%;
+    height: 100%;
+    padding: 0px;
 }
 
 .order {
     height: 100%;
+}
+
+#btnViewChecks {
+    margin-top: 15px;
+}
+
+.properties {
+    height: 70px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.checkType, .checkStatus, .tableStatus {
+    display: inline-block;
+}
+
+#btnCheckType, #btnCheckStatus, #btnTableStatus {
+    width: 100px;
+}
+
+#btnCheckTypeToogle, #btnCheckStatusToogle, #btnTableStatusToogle {
+    height: 34px;
 }

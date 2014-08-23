@@ -1,4 +1,5 @@
 ﻿@model List<Services.Category>
+@using Extensions
 @foreach (Services.Category category in Model) {
     <div class="category" data-value="@category.id">
         @category.Name
@@ -6,11 +7,13 @@
     foreach (Services.Item item in category.Items) {
         Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
     <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+        <div class="tableNameStatus label alert-warning shadow">@item.Name.Ellipsis(20)</div>
+
         @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
             <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+            <br />
         }
-        <div class="itemNameSmall">@String.Format("{0}-${1}", item.Name, price)
-        </div>
+        <span class="label alert-warning shadow priceBadge">$@price</span>
     </div>
     }
 }

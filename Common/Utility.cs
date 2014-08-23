@@ -26,11 +26,12 @@ public static class Common {
 
     public enum CheckStatus {
         Active = 1,
-        Paid = 2,
+        Ordered = 2,
+        Paid = 3,
     }
 
     public enum CheckType {
-        Normal = 1,
+        Guest = 1,
         ToGo = 2
     }
 

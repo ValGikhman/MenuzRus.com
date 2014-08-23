@@ -1,7 +1,34 @@
 ﻿var tableId;
 
 $(function () {
-    tableId = $("#TableId").val();
+    tableId = $("#Table_id").val();
+
+    $("#checkType li a").click(function () {
+        var text = $(this).text();
+        $("#btnCheckType").text(text);
+        var selected = $(".chosen-select")[0].selectedOptions;
+        $.each($(selected), function (index, item) {
+            $($.validator.format(".check .tab-pane[data-value={0}]", $(item).val())).attr("data-type", text);
+            $($.validator.format(".checks li a[data-value={0}]", $(item).val())).attr("data-type", text);
+            updateCheckType($(item).val(), text);
+        });
+    });
+
+    $("#checkStatus li a").click(function () {
+        var text = $(this).text();
+        $("#btnCheckStatus").text(text);
+        var selected = $(".chosen-select")[0].selectedOptions;
+        $.each($(selected), function (index, item) {
+            $($.validator.format(".check .tab-pane[data-value={0}]", $(item).val())).attr("data-status", text);
+            $($.validator.format(".checks li a[data-value={0}]", $(item).val())).attr("data-status", text);
+            updateCheckStatus($(item).val(), text);
+        });
+    });
+
+    $("#tableStatus li a").click(function () {
+        $("#btnTableStatus").text($(this).text());
+        updateTableStatus($("#TableOrder_id").val(), $(this).attr("data-value"));
+    });
 
     $("#btnAdd").click(function (e) {
         $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-toggle='tab'>{0}{1}</a></li>", "New", addCloseButton()));
@@ -19,6 +46,12 @@ $(function () {
         $(".check").find(".tab-pane").html("");
 
         showMenus();
+    });
+
+    $("#actionsTab").click(function () {
+        $(this).tab("show");
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+        $(".chosen-select").val(checkId).trigger("chosen:updated");
     });
 
     $("#printTab").click(function () {
@@ -107,9 +140,10 @@ function orderMenuItem(id) {
         .done(function (result) {
             $(active).append(result.html);
             $(active).attr("id", $.validator.format("Check{0}", result.checkId)).attr("data-value", result.checkId);
+            $(active).attr("data-value", result.checkIdheckId);
             $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
             $(activeTab).attr("data-value", result.checkIdheckId);
-            $(activeTab).html($.validator.format("Check#{0}{1}", result.checkId, addCloseButton()));
+            $(activeTab).html($.validator.format("#{0}{1}", result.checkId, addCloseButton()));
         })
         .fail(function () {
             message("::orderMenuItem:: Failed.", "error", "topCenter");
@@ -242,8 +276,9 @@ function showCheckPrint() {
     var split = parseInt($("#slideSplit").slider("value"));
     var adjustment = parseInt($("#adjustmentSplit").slider("value"));
     var checkId = $(active).attr("data-value");
+    var checkType = $(active).attr("data-type");
 
-    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "split": split, "adjustment": adjustment }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": checkType, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(active).html(result);
         })
@@ -259,8 +294,10 @@ function getCheckPrint(checkId) {
     var tab = $("#html2Print");
     var split = parseInt($("#slideSplit").slider("value"));
     var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+    var type = $(".check").find(".tab-pane.active").attr("data-type");
+    var status = $(".check").find(".tab-pane.active").attr("data-status");
 
-    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "split": split, "adjustment": adjustment }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": type, "status": status, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(tab).append($.validator.format("{0}", result));
         })
@@ -294,10 +331,49 @@ function showMenus(checkId) {
         });
 }
 
+function updateTableStatus(id, status) {
+    var jqxhr = $.post($.validator.format("{0}Order/UpdateTableStatus", root), { "tableOrderId": id, "status": status }, "json")
+        .done(function (result) {
+            message("Status changed", "success", "topCenter");
+        })
+        .fail(function () {
+            message("::updateTableStatus:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}
+
+function updateCheckType(id, type) {
+    var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckType", root), { "checkId": id, "type": type }, "json")
+        .done(function (result) {
+            message("Type changed", "success", "topCenter");
+        })
+        .fail(function () {
+            message("::updateCheckType:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}
+
+function updateCheckStatus(id, status) {
+    var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status }, "json")
+        .done(function (result) {
+            message("Status changed", "success", "topCenter");
+        })
+        .fail(function () {
+            message("::updateCheckStatus:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}
+
 function BindEvents() {
     $(".checks").on("click", "a", function (e) {
         $(this).tab("show");
         var checkId = $(this).attr("data-value");
+        $("#btnCheckType").text($(this).attr("data-type"));
+        $("#btnCheckStatus").text($(this).attr("data-status"));
+
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
         if (html == "") {

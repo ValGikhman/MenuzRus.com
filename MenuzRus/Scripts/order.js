@@ -51,7 +51,10 @@ function refreshTotal() {
 
 function addTimers() {
     $(".shape").each(function () {
-        $(this).find(".timer").countdown({ since: new Date($(this).attr("data-date")), compact: true, format: "HMS" });
+        var statusName = $(this).attr("data-status");
+        if (statusName != "Closed") {
+            $(this).find(".timer").countdown({ since: new Date($(this).attr("data-date") + " UTC"), compact: true, format: "HMS" });
+        }
     });
 }
 
@@ -60,16 +63,17 @@ function addLayout() {
     var serialization = $.parseJSON($("#Floor_Layout").val());
 
     $.each(serialization, function () {
-        var color = "style='color:#999999;'background:transparent;";
-        var dm = new Date(this.DateModified);
+        var color = "style='color:#999999'";
+        var dm = new Date(this.DateModified + " UTC");
         var elapsed = dm.getHours() * 60 + dm.getMinutes();
         if (elapsed > 15) {
-            color = "style='color:red;'";
+            color = "style='color:red'";
         }
+        var statusName = getStatusName(this.Status);
         var checks = getChecks(this.Checks);
-        var elementName = $.validator.format("<div class='tableNameStatus label label-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), getStatusName(this.Status));
+        var elementName = $.validator.format("<div class='tableNameStatus label label-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
         var timer = $.validator.format("<div class='timer label label-{1} shadow' {1}></div>", getStatusColor(this.Status), color);
-        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, this.Status, checks, this.DateModified, timer);
+        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
         gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
         refreshTotal();
         addTimers();
@@ -94,12 +98,9 @@ function getStatusName(status) {
             return "Open";
             break;
         case 2:
-            return "Working";
-            break;
-        case 3:
             return "Served";
             break;
-        case 4:
+        case 3:
             return "Closed";
             break;
     }
@@ -115,9 +116,6 @@ function getStatusColor(status) {
             break;
         case 3:
             return "success";
-            break;
-        case 4:
-            return "default";
             break;
     }
 }

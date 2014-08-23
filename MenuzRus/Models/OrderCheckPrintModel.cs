@@ -16,11 +16,15 @@ namespace MenuzRus.Models {
 
         public Double AdjustmentPercent { get; set; }
 
+        public OrderCheck Check { get; set; }
+
         public List<LineItem> Items { get; set; }
 
         public Int32 Split { get; set; }
 
         public IEnumerable<Double> SplitValues { get; set; }
+
+        public Double Subtotal { get; set; }
 
         public Double Summary { get; set; }
 

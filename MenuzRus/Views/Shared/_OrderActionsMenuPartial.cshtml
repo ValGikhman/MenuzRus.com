@@ -8,27 +8,56 @@
         }
     </select>
 
-    <ul class="nav nav-tabs menu-actions-tab">
-        <li><a id="propertiesTab" href="#menu-actions-properties-tab" data-toggle="tab">
-            <h5>Properties
-            </h5>
+    <ul class="nav nav-pills btn-default menu-actions-tab">
+        <li><a id="propertiesTab" href="#menu-actions-properties-tab" data-toggle="pill">Properties
         </a></li>
-        <li><a id="printTab" href="#menu-actions-print-tab" data-toggle="tab">
-            <h5>Print
-            </h5>
+        <li><a id="printTab" href="#menu-actions-print-tab" data-toggle="pill">Print Mode
         </a></li>
     </ul>
     <div class="tab-content">
         <div id="menu-actions-properties-tab" class="tab-pane fade in actionsProperties">
-            <div class="col-md-10">
-                @Html.Label("Split:") <span id="splitText" class="badge">1</span>
-                <div id="slideSplit"></div>
-                @Html.Label("Adjustment:") <span id="adjustmentText" class="badge">0</span>
-                <div id="adjustmentSplit"></div>
+            <div class="col-md-12">
+                <div class="form-control properties">
+                    @Html.Label("Split:") <span id="splitText" class="badge">1</span>
+                    <div id="slideSplit"></div>
+                </div>
+                <div class="form-control properties">
+                    @Html.Label("Adjustment:") <span id="adjustmentText" class="badge">0%</span>
+                    <div id="adjustmentSplit"></div>
+                </div>
+                <div class="form-control properties">
+                    @Html.Label("Type:")
+                    <div class="btn-group dropup checkType">
+                        <button id="btnCheckType" type="button" class="btn btn-default" data-toggle="dropdown">@Common.CheckType.Guest</button>
+                        <button id="btnCheckTypeToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul id="checkType" class="dropdown-menu" role="menu">
+                            @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
+                                <li><a href="#">@type</a></li>
+                            }
+                        </ul>
+                    </div>
+
+                    <label for="Status" style="margin-left: 35px;">Status:</label>
+                    <div class="btn-group dropup checkStatus">
+                        <button id="btnCheckStatus" type="button" class="btn btn-default" data-toggle="dropdown">@Common.CheckStatus.Active</button>
+                        <button id="btnCheckStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul id="checkStatus" class="dropdown-menu" role="menu">
+                            @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
+                                <li><a href="#">@status</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
-                <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Print preview</button>
-            </div>
+        </div>
+        <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
+            <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Print preview</button>
         </div>
     </div>
 </div>
@@ -61,9 +90,9 @@
         });
 
         $("#btnViewChecks").on("click", function () {
-            $(".modalPrint").modal("show");
             $("#html2Print").html("");
-
+            $(".modalPrint").modal("show");
+            var active = $("#html2Print");
             var selected = $(".chosen-select")[0].selectedOptions;
             $.each($(selected), function (index, item) {
                 getCheckPrint(item.value);

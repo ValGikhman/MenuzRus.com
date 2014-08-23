@@ -85,7 +85,7 @@ namespace MenuzRus.Controllers {
 
         // Show totals for a check
         [HttpGet]
-        public String ShowCheckPrint(Int32 checkId, Int32 split, Double adjustment) {
+        public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Double adjustment) {
             ItemService itemService;
             Services.Item item, itemMenu;
             OrderService orderService;
@@ -98,6 +98,7 @@ namespace MenuzRus.Controllers {
                 orderService = new OrderService();
                 model = new CheckPrint();
                 model.Items = new List<LineItem>();
+                model.Check = orderService.GetCheck(checkId);
                 List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
                 List<OrderChecksMenuProduct> products;
                 model.Summary = 0;
@@ -119,12 +120,15 @@ namespace MenuzRus.Controllers {
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
                 }
 
-                model.TaxPercent = tax;
-                model.Tax = Math.Round(model.Summary * tax, 2);
+                model.TaxPercent = 0;
+                if (EnumHelper<Common.CheckType>.Parse(type) == Common.CheckType.Guest) {
+                    model.TaxPercent = tax;
+                }
+                model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
 
                 model.AdjustmentPercent = adjustment / 100;
                 model.Adjustment = Math.Round(model.Summary * model.AdjustmentPercent, 2);
-
+                model.Subtotal = model.Summary + model.Adjustment;
                 model.Total = Math.Round(model.Summary + model.Tax + model.Adjustment, 2);
                 model.SplitValues = Utility.SplitAmount(model.Total, model.Split);
             }
@@ -185,8 +189,8 @@ namespace MenuzRus.Controllers {
                         association.ItemId = associatedItem.ItemId;
                         association.Selected = productItem.OrderChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
                         association.Name = Item.Name;
-                        association.ShortName = Item.Name.Ellipsis(35);
                         association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                        association.ImageUrl = Item.ImageUrl;
                         product.CheckMenuItemProductAssociations.Add(association);
                     }
                     model.Add(product);
@@ -259,6 +263,60 @@ namespace MenuzRus.Controllers {
             return View(GetTablesModel(id));
         }
 
+        [HttpPost]
+        public JsonResult UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
+            OrderService orderService = new OrderService();
+            try {
+                orderService.UpdateCheckStatus(checkId, status);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
+
+            var retVal = new {
+            };
+            return Json(retVal);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCheckType(Int32 checkId, Common.CheckType type) {
+            OrderService orderService = new OrderService();
+            try {
+                orderService.UpdateCheckType(checkId, type);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
+
+            var retVal = new {
+            };
+            return Json(retVal);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
+            OrderService orderService = new OrderService();
+            try {
+                orderService.UpdateTableStatus(tableOrderId, status);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
+
+            var retVal = new {
+            };
+            return Json(retVal);
+        }
+
         #endregion order
 
         #region private
@@ -270,7 +328,9 @@ namespace MenuzRus.Controllers {
             List<Services.OrderCheck> Checks;
             try {
                 model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
-                model.TableId = tableId;
+                model.Table = orderService.GetTable(tableId);
+                model.TableOrder = orderService.GetTableOrder(tableId);
+                model.TableId = model.Table.id;
 
                 Checks = orderService.GetChecks(tableId);
                 if (Checks != null) {
@@ -313,7 +373,7 @@ namespace MenuzRus.Controllers {
                                   var.X,
                                   var.Y,
                                   Status = service.GetTableOrderStatus(var.id),
-                                  Checks = serviceOrder.GetChecksIds(var.id),
+                                  Checks = serviceOrder.GetChecksIds(var.id, false),
                                   DateModified = var.DateModified.ToString()
                               }).ToList();
                 return result.ToJson();
@@ -341,7 +401,6 @@ namespace MenuzRus.Controllers {
                 model.Floor = new Models.Floor();
                 if (floor != null) {
                     SessionData.floor = floor;
-                    model.Floor.id = floor.id;
                     model.Floor.id = floor.id;
                     model.Floor.Name = floor.Name;
                     model.Floor.Layout = GetTables(model.Floor.id);

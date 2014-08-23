@@ -4,27 +4,32 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="mainItem centered">@MenuzRus.SessionData.customer.Name</div>
+                    <div class="checkItem centered">CHECK# @Model.Check.id</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="centered">@MenuzRus.SessionData.customer.Address</div>
+                    <div class="companyNameItem centered">@MenuzRus.SessionData.customer.Name.ToUpper()</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="centered">@MenuzRus.SessionData.customer.Address2</div>
+                    <div class="addressItem centered">@MenuzRus.SessionData.customer.Address.ToUpper()</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="centered">@MenuzRus.SessionData.customer.City, @MenuzRus.SessionData.customer.State @MenuzRus.SessionData.customer.Zip</div>
+                    <div class="addressItem centered">@MenuzRus.SessionData.customer.Address2.ToUpper()</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="centered">@MenuzRus.SessionData.customer.Phone</div>
+                    <div class="addressItem centered">@MenuzRus.SessionData.customer.City.ToUpper(), @MenuzRus.SessionData.customer.State.ToUpper() @MenuzRus.SessionData.customer.Zip</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="phoneItem centered">@MenuzRus.SessionData.customer.Phone</div>
                 </td>
             </tr>
         </tbody>
@@ -33,80 +38,78 @@
         <tbody>
             @foreach (MenuzRus.Models.LineItem item in Model.Items) {
                 <tr>
-                    <td>
-                        <div class="mainItem">@item.Description</div>
+                    <td class="mainItem">@item.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td>
-                        <div class="pull-right mainItem">@item.Price.ToString("C2")</div>
+                    <td class="mainItem pull-right">@item.Price.ToString("C2")
                     </td>
                 </tr>
                 foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
                 <tr>
-                    <td>
-                        <div class="subItem">@subItem.Description</div>
+                    <td class="subItem">
+                        @subItem.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td>
-                        <div class="subItem pull-right">@subItem.Price.ToString("C2")</div>
+                    <td class="subItem pull-right">@subItem.Price.ToString("C2")
                     </td>
                 </tr>
                 }
             }
             <tr>
+                <td colspan="3">
+                &nbsp;
                 <td>
-                    <div class="mainItem">Summary:</div>
+            </tr>
+            <tr>
+                <td class="summaryItem">Summary:
+                </td>
+                <td class="summaryItem col-md-2 col-sm-2"></td>
+                <td class="summaryItem pull-right">@Model.Summary.ToString("C2")
+                </td>
+            </tr>
+            @if (Model.AdjustmentPercent != 0) {
+                <tr>
+                    <td class="ajustmentItem">Adjustment: @Model.AdjustmentPercent.ToString("P")
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td class="ajustmentItem pull-right">@Model.Adjustment.ToString("C2")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="summaryItem">Subtotal:
+                    </td>
+                    <td class="col-md-2 col-sm-2"></td>
+                    <td class="summaryItem pull-right">@Model.Subtotal.ToString("C2")
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="taxItem">Tax: @Model.TaxPercent.ToString("P")
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
-                <td>
-                    <div class="mainItem pull-right">@Model.Summary.ToString("C2")</div>
+                <td class="taxItem pull-right">@Model.Tax.ToString("C2")
                 </td>
             </tr>
             <tr>
-                <td>
-                    <div class="tax">Tax: @Model.TaxPercent.ToString("P")</div>
+                <td class="totalItem">Total:
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
-                <td>
-                    <div class="tax pull-right">@Model.Tax.ToString("C2")</div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="tax">Adjustment: @Model.AdjustmentPercent.ToString("P")</div>
-                </td>
-                <td class="col-md-2 col-sm-2"></td>
-                <td>
-                    <div class="tax pull-right">@Model.Adjustment.ToString("C2")</div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="total">Total:</div>
-                </td>
-                <td class="col-md-2 col-sm-2"></td>
-                <td>
-                    <div id="total" class="total pull-right">@Model.Total.ToString("C2")</div>
+                <td id="total" class="totalItem pull-right">@Model.Total.ToString("C2")
                 </td>
             </tr>
             @if (Model.Split > 1) {
                 <tr>
-                    <td style="vertical-align: top; padding-top: 25px;">
-                        <div class="total">Split:</div>
+                    <td class="total" style="vertical-align: top; padding-top: 25px;">Split:
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td style="padding-top: 25px;">
-                        <div class="total pull-right">@Model.Total.ToString("C2")/@Model.Split</div>
+                    <td class="total pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2")/@Model.Split
                     </td>
                 </tr>
                 foreach (Double split in Model.SplitValues) {
                 <tr>
-                    <td>
-                        <div class="total"></div>
-                    </td>
+                    <td class="total"></td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td>
-                        <div class="total pull-right">@split.ToString("C2")</div>
+                    <td class="total pull-right">@split.ToString("C2")
                     </td>
                 </tr>
                 }

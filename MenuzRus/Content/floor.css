@@ -30,9 +30,9 @@ h2, h5 {
 }
 
 .tableName {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
+    position: relative;
+    display: block;
+    line-height: 1.2;
     white-space: normal;
 }
 
@@ -47,27 +47,17 @@ h2, h5 {
     font-weight: bolder;
     position: absolute;
     left: 0px;
-    top: 0px;
-    width: 65px;
+    bottom: 0px;
+    width: 100px;
     padding: 2px;
     height: 20px;
     border-radius: 4px;
 }
 
-    .toolbar .copyTable {
-        float: left;
-        width: 20px;
-    }
-
-    .toolbar .editTable {
-        float: left;
-        width: 20px;
-    }
-
-    .toolbar .deleteTable {
-        float: left;
-        width: 20px;
-    }
+.copyTable, .editTable, .deleteTable {
+    float: left;
+    width: 33.3333% !important;
+}
 
 ul {
     list-style-type: none;

@@ -61,13 +61,22 @@ namespace MenuzRus {
             return db.Floors.Where(m => m.CustomerId == id).ToList();
         }
 
+        public TableOrder GetTableOrder(Int32 id) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id && m.Status != (Int32)Common.TableOrderStatus.Closed);
+            if (retVal != default(TableOrder)) {
+                return retVal;
+            }
+            return null;
+        }
+
         public Int32 GetTableOrderStatus(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id);
+            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id && m.Status != (Int32)Common.TableOrderStatus.Closed);
             if (retVal != default(TableOrder)) {
                 return retVal.Status;
             }
-            return (Int32)Common.TableOrderStatus.Open;
+            return (Int32)Common.TableOrderStatus.Closed;
         }
 
         public List<Table> GetTables(Int32 id) {
@@ -112,8 +121,8 @@ namespace MenuzRus {
                         db.SubmitChanges();
                     }
                     if (tables.Any()) {
-                        table = new Table();
                         foreach (Table t in tables) {
+                            table = new Table();
                             if (t.id != 0) {
                                 table = db.Tables.FirstOrDefault(m => m.id == t.id);
                             }

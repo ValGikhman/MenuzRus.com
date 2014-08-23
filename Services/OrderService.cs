@@ -68,19 +68,42 @@ namespace MenuzRus {
             return true;
         }
 
+        public OrderCheck GetCheck(Int32 checkId) {
+            if (checkId != 0) {
+                menuzRusDataContext db = new menuzRusDataContext();
+                OrderCheck query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
+                if (query != default(OrderCheck)) {
+                    return query;
+                }
+            }
+            return null;
+        }
+
         public List<OrderCheck> GetChecks(Int32 tableId) {
+            return GetChecks(tableId, true);
+        }
+
+        public List<OrderCheck> GetChecks(Int32 tableId, Boolean showPaidChecks) {
             if (tableId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                TableOrder query = db.TableOrders.FirstOrDefault(m => m.TableId == tableId);
+                TableOrder query;
+                query = db.TableOrders.FirstOrDefault(m => m.TableId == tableId);
                 if (query != default(TableOrder)) {
-                    return query.OrderChecks.ToList();
+                    if (showPaidChecks) {
+                        return query.OrderChecks.ToList();
+                    }
+                    return query.OrderChecks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
                 }
             }
             return null;
         }
 
         public String GetChecksIds(Int32 tableId) {
-            List<OrderCheck> retVal = GetChecks(tableId);
+            return GetChecksIds(tableId, true);
+        }
+
+        public String GetChecksIds(Int32 tableId, Boolean showPaidChecks) {
+            List<OrderCheck> retVal = GetChecks(tableId, showPaidChecks);
             if (retVal != null) {
                 return String.Join("|", retVal.Select(m => m.id).ToArray());
             }
@@ -111,10 +134,18 @@ namespace MenuzRus {
             return null;
         }
 
+        public Table GetTable(Int32 tableId) {
+            if (tableId != 0) {
+                menuzRusDataContext db = new menuzRusDataContext();
+                return db.Tables.FirstOrDefault(m => m.id == tableId);
+            }
+            return null;
+        }
+
         public TableOrder GetTableOrder(Int32 tableId) {
             if (tableId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed);
+                return db.TableOrders.FirstOrDefault(m => m.TableId == tableId);
             }
             return null;
         }
@@ -164,7 +195,7 @@ namespace MenuzRus {
                     if (orderCheck == default(OrderCheck)) {
                         orderCheck = new OrderCheck();
                         orderCheck.TableOrderId = tableOrder.id;
-                        orderCheck.Type = (Int32)Common.CheckType.Normal;
+                        orderCheck.Type = (Int32)Common.CheckType.Guest;
                         orderCheck.Status = (Int32)Common.CheckStatus.Active;
                         db.OrderChecks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
@@ -197,6 +228,51 @@ namespace MenuzRus {
                 return null;
             }
             return orderCheckMenu;
+        }
+
+        public Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
+            OrderCheck query = new OrderCheck();
+            if (checkId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(OrderCheck)) {
+                        query.Status = (Int32)status;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public Boolean UpdateCheckType(Int32 checkId, Common.CheckType type) {
+            OrderCheck query = new OrderCheck();
+            if (checkId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(OrderCheck)) {
+                        query.Type = (Int32)type;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public Boolean UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
+            TableOrder query = new TableOrder();
+            if (tableOrderId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.TableOrders.FirstOrDefault(m => m.id == tableOrderId);
+                    if (query != default(TableOrder)) {
+                        query.Status = (Int32)status;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

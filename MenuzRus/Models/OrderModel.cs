@@ -53,6 +53,8 @@ namespace MenuzRus.Models {
 
         public Int32 id { get; set; }
 
+        public String ImageUrl { get; set; }
+
         public Int32 ItemId { get; set; }
 
         public String Name { get; set; }
@@ -60,8 +62,6 @@ namespace MenuzRus.Models {
         public Decimal Price { get; set; }
 
         public Boolean Selected { get; set; }
-
-        public String ShortName { get; set; }
     }
 
     public class OrderModel : BaseModel {
@@ -70,7 +70,11 @@ namespace MenuzRus.Models {
 
         public List<Check> Checks { set; get; }
 
+        public Services.Table Table { set; get; }
+
         public Int32 TableId { set; get; }
+
+        public Services.TableOrder TableOrder { set; get; }
 
         public Int32 uid { set; get; }
     }

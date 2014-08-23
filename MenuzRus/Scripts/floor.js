@@ -116,8 +116,8 @@ function addNewTable(style) {
     var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
     var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
     var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
-    var elementName = $.validator.format("<div class='label label-default shadow'>{0}</div>", name);
-    var element = $.validator.format("<li id='{4}' data-name='{1}' data-type='{0}' data-sizex='1' data-sizey='1' class='shape {0}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{2}{3}</li>", style, name, toolbar, elementName, shortGuid());
+    var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", name);
+    var element = $.validator.format("<li id='new-{0}' data-name='{1}' data-type='{2}' data-sizex='1' data-sizey='1' class='shape {2}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", shortGuid(), name, style, toolbar, elementName);
     gridster.add_widget(element, 1, 1);
     refreshTotal();
 }
@@ -130,11 +130,13 @@ function deleteTable(element) {
 function copyTable(element) {
     var newElement = element.clone();
     gridster.add_widget(newElement);
+    newElement.attr("name", name = uid());
+    newElement.attr("id", $.validator.format("new-{0}", shortGuid()));
     newElement.attr("data-type", element.attr("data-type"));
     newElement.attr("data-name", element.attr("data-name"));
     newElement.attr("data-sizex", element.attr("data-sizex"));
     newElement.attr("data-sizey", element.attr("data-sizey"));
-    newElement.attr("id", shortGuid());
+    $(newElement).find(".tableName").html(element.attr("data-name"));
     refreshTotal();
 }
 
@@ -158,11 +160,18 @@ function showTools(element, show) {
 function saveTables() {
     var container = $(".container-floor");
     container.block();
-    var postData = JSON.stringify(gridster.serialize());
-    var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": postData }, "json")
+    var postData = gridster.serialize();
+
+    $.each(postData, function () {
+        if (this.id.indexOf("new-") == 0) {
+            this.id = 0;
+        }
+    });
+
+    var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": JSON.stringify(postData) }, "json")
                   .done(function (result) {
                       message("Save successfully.", "success", "topCenter");
-                      window.location.reload();
+                      window.location = $.validator.format("{0}Floor/Index/", root) + result;
                   })
     .fail(function () {
         message("Save tables failed.", "error", "topCenter");

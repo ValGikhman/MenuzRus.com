@@ -50,7 +50,7 @@ namespace MenuzRus.Controllers {
                 if (newId == 0)
                     return RedirectToAction("Index", "Error");
 
-                SessionData.menu.id = newId;
+                SessionData.floor.id = newId;
                 return Json(newId);
             }
             catch (Exception ex) {
@@ -74,8 +74,7 @@ namespace MenuzRus.Controllers {
             finally {
                 service = null;
             }
-
-            return Json("OK");
+            return Json(SessionData.floor.id);
         }
 
         #endregion floor

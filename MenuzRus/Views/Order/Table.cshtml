@@ -28,22 +28,31 @@
 <div class="col-md-11 col-sm-12 container-order shadow center">
     <div class="row">
         <div class="modal-header">
-            <h2>Take Order
-                <button id="btnAdd" class="add-check btn btn-primary shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
-                <button id="btnBack" class="btn btn-primary  shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
-            </h2>
+            <h2>Table @Model.Table.Name</h2>
+            @Html.Label("Status:")
+            <div class="btn-group tableStatus">
+                <button id="btnTableStatus" type="button" class="btn btn-default" data-toggle="dropdown">@Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString())</button>
+                <button id="btnTableStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul id="tableStatus" class="dropdown-menu" role="menu">
+                    @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
+                        Int32 value = (Int32)status;
+                        <li><a href="#" data-value="@value">@status</a></li>
+                    }
+                </ul>
+            </div>
+            <button id="btnAdd" class="add-check btn btn-primary shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
+            <button id="btnBack" class="btn btn-primary  shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
         </div>
     </div>
     <div class="layout" style="height: 70vh; margin-top: 15px; text-justify: auto;">
-        <div class="col-md-6 col-sm-6 menu">
-            <ul class="nav nav-tabs menu-tab">
-                <li><a id="menuTab" href="#menu-tab" data-toggle="tab">
-                    <h4>Menu
-                    </h4>
+        <div class="shadow col-md-6 col-sm-6 menu">
+            <ul class="nav nav-pills menu-tab btn-default">
+                <li><a id="menuTab" href="#menu-tab" data-toggle="pill">Menu
                 </a></li>
-                <li><a id="actionsTab" href="#actions-tab" data-toggle="tab">
-                    <h4>Actions
-                    </h4>
+                <li><a id="actionsTab" href="#actions-tab" data-toggle="pill">Actions
                 </a></li>
             </ul>
             <div class="tab-content">
@@ -64,4 +73,7 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(m => m.TableId)
+@Html.HiddenFor(m => m.Table.id)
+@Html.HiddenFor(m => m.Table.Name)
+@Html.HiddenFor(m => m.TableOrder.id)
+@Html.HiddenFor(m => m.TableOrder.Status)

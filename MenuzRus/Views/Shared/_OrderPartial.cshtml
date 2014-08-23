@@ -1,14 +1,19 @@
 ﻿@model MenuzRus.Models.OrderModel
 @using Services
 
-<ul class="nav nav-tabs checks">
+<ul class="nav nav-pills btn-default checks">
     @if (Model.Checks != null) {
         foreach (MenuzRus.Models.Check check in Model.Checks) {
-        <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-toggle="tab">
-            @String.Format("Check#{0}", check.id)
-            <button class="close btn btn-primary" title="Remove this check" type="button">
-                <i class="glyphicon glyphicon-remove-circle" />
-            </button>
+        <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-type="@check.Type" data-status="@check.Status" data-toggle="pill">
+            @String.Format("#{0}", check.id)
+            @if (check.Status == Common.CheckStatus.Active) {
+                <button class="close btn btn-primary" title="Remove this check" type="button">
+                    <i class="glyphicon glyphicon-remove-circle" />
+                </button>
+            }
+            else {
+                <i class="glyphicon glyphicon-usd paid" />
+            }
         </a></li>
         }
     }
@@ -16,7 +21,7 @@
 <div class="tab-content check">
     @if (Model.Checks != null) {
         foreach (MenuzRus.Models.Check check in Model.Checks) {
-        <div class="tab-pane fade in" id="@String.Format("Check{0}", check.id)" data-value="@check.id">
+        <div class="tab-pane fade in" id="@String.Format("Check{0}", check.id)" data-value="@check.id" data-type="@check.Type" data-status="@check.Status">
         </div>
         }
     }

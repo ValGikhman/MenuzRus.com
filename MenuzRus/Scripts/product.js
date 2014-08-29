@@ -1,7 +1,8 @@
 ﻿$(function () {
-    $("#Menu_id").change(function () {
-        window.location = $.validator.format("{0}Product/Index/{1}", root, $(this).val());
-    })
+    $(".menu li a").click(function () {
+        $("#btnMenu").text($(this).text());
+        window.location = $.validator.format("{0}Product/Index/{1}", root, $(this).attr("data-value"));
+    });
 
     $("span#popover").popover({
         placement: "right",
@@ -22,12 +23,12 @@ function collapseCategory(thisObject, toggleObject) {
 
 function showCategoryMenu(id, object) {
     $(object).hide();
-    $(".btn-group").hide();
-    $(".btn-group[data-value=" + id + "]").show();
+    $(".btn-group.popup-category").hide();
+    $(".btn-group.popup-category[data-value=" + id + "]").show();
 }
 
 function editCategory(id) {
-    $(".btn-group").hide();
+    $(".btn-group.popup-category").hide();
     var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -41,7 +42,7 @@ function editCategory(id) {
 }
 
 function deleteCategory(id) {
-    $(".btn-group").hide();
+    $(".btn-group.popup-category").hide();
     var name = $(".category[id=category_" + id + "]").html();
     noty({
         layout: "center",
@@ -77,12 +78,12 @@ function deleteCategory(id) {
 /// ****** ITEMS ***************///
 function showItemMenu(id, object) {
     $(object).hide();
-    $(".btn-group").hide();
-    $(".btn-group[data-value=" + id + "]").show();
+    $(".btn-group.popup-item").hide();
+    $(".btn-group.popup-item[data-value=" + id + "]").show();
 }
 
 function editItem(id) {
-    $(".btn-group").hide();
+    $(".btn-group.popup-item").hide();
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
@@ -96,7 +97,7 @@ function editItem(id) {
 }
 
 function deleteItem(id) {
-    $(".btn-group").hide();
+    $(".btn-group.popup-item").hide();
     var name = $(".item[id=item_" + id + "]").html();
     noty({
         layout: "center",

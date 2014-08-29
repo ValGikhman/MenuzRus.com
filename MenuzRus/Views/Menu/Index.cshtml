@@ -93,10 +93,12 @@
 <script type="text/javascript">
     $(function () {
         Menu.init();
-        var bg = "url(~/Images/Backgrounds/Pages/@Model.Settings[Common.Settings.PageBackground.ToString()]) no-repeat";
+        var url = "@Url.Content(String.Format("~/Images/Backgrounds/Pages/{0}", Model.Settings[Common.Settings.PageBackground.ToString()]))";
+        var bg = "url(" + url + ") no-repeat";
         $(".rm-wrapper > div > div").css("background", bg);
 
-        bg = bg = "url(~/Images/Backgrounds/Wall/@Model.Settings[Common.Settings.WallBackground.ToString()]) repeat";
+        url = "@Url.Content(String.Format("~/Images/Backgrounds/Wall/{0}", Model.Settings[Common.Settings.WallBackground.ToString()]))";
+        bg = "url(" + url + ") repeat";
         $("body").css("background", bg)
 
         // Color

@@ -36,9 +36,10 @@ $(function () {
 
     addLayout();
 
-    $("#Floor_id").change(function () {
-        window.location = $.validator.format("{0}Floor/Index/", root) + $(this).val();
-    })
+    $("#floor li a").click(function () {
+        $("#btnFloor").text($(this).text());
+        window.location = $.validator.format("{0}Floor/Index/{1}", root, $(this).attr("data-value"));
+    });
 
     $("#btnNewFloor").click(function () {
         $("#Floor_id").val(0);

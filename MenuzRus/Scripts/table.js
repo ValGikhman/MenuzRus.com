@@ -2,6 +2,9 @@
 
 $(function () {
     tableId = $("#Table_id").val();
+    if ($("#btnTableStatus").text() == "Closed") {
+        $(".layout").block();
+    }
 
     $("#checkType li a").click(function () {
         var text = $(this).text();
@@ -26,8 +29,14 @@ $(function () {
     });
 
     $("#tableStatus li a").click(function () {
-        $("#btnTableStatus").text($(this).text());
-        updateTableStatus($("#TableOrder_id").val(), $(this).attr("data-value"));
+        var text = $(this).text();
+        $("#btnTableStatus").text(text);
+        if (text == "Open") {
+            AddNewTableOrder(tableId);
+        }
+        else {
+            updateTableStatus($("#TableOrder_id").val(), $(this).attr("data-value"));
+        }
     });
 
     $("#btnAdd").click(function (e) {
@@ -38,7 +47,8 @@ $(function () {
     });
 
     $("#btnBack").click(function () {
-        window.location = $.validator.format("{0}Order/Tables", root);
+        var referer = $("#Referer").val();
+        window.location = $.validator.format("{0}Order/{1}", root, referer);
     })
 
     $("#menuTab").click(function () {
@@ -50,8 +60,13 @@ $(function () {
 
     $("#actionsTab").click(function () {
         $(this).tab("show");
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+        var active = $(".check").find(".tab-pane.active");
+        var checkId = $(active).attr("data-value");
+        var type = $(active).attr("data-type");
+        var status = $(active).attr("data-status");
         $(".chosen-select").val(checkId).trigger("chosen:updated");
+        $("#btnCheckStatus").text(status);
+        $("#btnCheckType").text(type);
     });
 
     $("#printTab").click(function () {
@@ -331,8 +346,8 @@ function showMenus(checkId) {
         });
 }
 
-function updateTableStatus(id, status) {
-    var jqxhr = $.post($.validator.format("{0}Order/UpdateTableStatus", root), { "tableOrderId": id, "status": status }, "json")
+function updateTableStatus(tableOrderId, status) {
+    var jqxhr = $.post($.validator.format("{0}Order/UpdateTableStatus", root), { "tableOrderId": tableOrderId, "status": status }, "json")
         .done(function (result) {
             message("Status changed", "success", "topCenter");
         })
@@ -340,6 +355,8 @@ function updateTableStatus(id, status) {
             message("::updateTableStatus:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            $(".container-order").block();
+            window.location.reload();
         });
 }
 
@@ -367,6 +384,19 @@ function updateCheckStatus(id, status) {
         });
 }
 
+function AddNewTableOrder(tableId) {
+    var jqxhr = $.post($.validator.format("{0}Order/AddNewTableOrder", root), { "tableId": tableId }, "json")
+        .done(function (result) {
+            message("New order started", "success", "topCenter");
+        })
+        .fail(function () {
+            message("::AddNewTableOrder:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            $(".container-order").block();
+            window.location.reload();
+        });
+}
 function BindEvents() {
     $(".checks").on("click", "a", function (e) {
         $(this).tab("show");

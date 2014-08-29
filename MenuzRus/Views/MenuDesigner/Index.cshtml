@@ -36,10 +36,22 @@
         <h2>Menu designer</h2>
     </div>
     <div id="default">
-        <button id="btnSettings" type="button" class="btn btn-default btn">
-            <span class="glyphicon glyphicon-cog"></span>
-        </button>
-        @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+        <div class="btn-group menu">
+            <button id="btnSettings" type="button" class="btn btn-default btn">
+                <span class="glyphicon glyphicon-cog"></span>
+            </button>
+            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name</button>
+            <button id="btnMenuToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                @foreach (Menu menu in Model.Menus) {
+                    <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
+                }
+            </ul>
+        </div>
+
         <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
         <button id="btnEditMenu" type="button" class="btn btn-primary  btn-sm shadow">Edit menu</button>
         <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
@@ -137,6 +149,8 @@
         </div>
     </div>
 </div>
+@Html.HiddenFor(m => m.Menu.id)
+@Html.HiddenFor(m => m.Menu.Name)
 @Html.HiddenFor(m => m.Settings[Common.Settings.CategoryColor.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionColor.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()])

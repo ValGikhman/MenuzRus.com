@@ -4,12 +4,25 @@
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <script src="@Url.Content("~/Scripts/product.js")"></script>
-<div class="well container">
+<div class="well container container-product shadow">
     <div class="modal-header main-header">
         <h2>Product designer</h2>
     </div>
+
     <div id="default" class="clearfix">
-        @Html.DropDownListFor(m => m.Menu.id, new SelectList(Model.Menus, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+        <div class="btn-group menu">
+            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name</button>
+            <button id="btnMenuToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul id="floor" class="dropdown-menu" role="menu">
+                @foreach (Menu menu in Model.Menus) {
+                    <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
+                }
+            </ul>
+        </div>
+
         <div class="pull-right">
             <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
             <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
@@ -61,7 +74,7 @@
                                 <td style="width: 10%"></td>
                                 <td>
                                     <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showCategoryMenu(@category.id, this)"></span>
-                                    <div class="btn-group" data-value="@category.id">
+                                    <div class="btn-group popup-category" data-value="@category.id">
                                         <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript:  $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
                                         <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(@category.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                                         <button id="addCategory" type="button" class="btn btn-primary" onclick="ajavascript:editCategory(0)"><span class="glyphicon glyphicon-plus"></span></button>
@@ -103,7 +116,7 @@
                                 <td></td>
                                 <td>
                                     <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showItemMenu(@item.id, this)"></span>
-                                    <div class="btn-group" data-value="@item.id">
+                                    <div class="btn-group popup-item" data-value="@item.id">
                                         <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript: $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
                                         <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                                         <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:editItem(0)"><span class="glyphicon glyphicon-plus"></span></button>
@@ -119,5 +132,4 @@
             </div>
         }
     </div>
-</div>
 </div>

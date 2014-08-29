@@ -8,9 +8,10 @@ var block_params = {
 $(function () {
     addLayout();
 
-    $("#Floor_id").change(function () {
-        window.location = $.validator.format("{0}Order/Tables/{1}", root, $(this).val());
-    })
+    $("#floor li a").click(function () {
+        $("#btnFloor").text($(this).text());
+        window.location = $.validator.format("{0}Order/Tables/{1}", root, $(this).attr("data-value"));
+    });
 });
 
 function initGridster() {
@@ -49,11 +50,17 @@ function refreshTotal() {
     $(".tables.badge").html(gridster.$widgets.length);
 }
 
+function watchCountdown(periods) {
+    if ($.countdown.periodsToSeconds(periods) > 900) {
+        $(this).addClass("alert-danger");
+    }
+}
+
 function addTimers() {
     $(".shape").each(function () {
         var statusName = $(this).attr("data-status");
         if (statusName != "Closed") {
-            $(this).find(".timer").countdown({ since: new Date($(this).attr("data-date") + " UTC"), compact: true, format: "HMS" });
+            $(this).find(".timer").countdown({ since: new Date($(this).attr("data-date") + " UTC"), compact: true, format: "HMS", onTick: watchCountdown });
         }
     });
 }
@@ -63,16 +70,10 @@ function addLayout() {
     var serialization = $.parseJSON($("#Floor_Layout").val());
 
     $.each(serialization, function () {
-        var color = "style='color:#999999'";
-        var dm = new Date(this.DateModified + " UTC");
-        var elapsed = dm.getHours() * 60 + dm.getMinutes();
-        if (elapsed > 15) {
-            color = "style='color:red'";
-        }
         var statusName = getStatusName(this.Status);
         var checks = getChecks(this.Checks);
-        var elementName = $.validator.format("<div class='tableNameStatus label label-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
-        var timer = $.validator.format("<div class='timer label label-{1} shadow' {1}></div>", getStatusColor(this.Status), color);
+        var elementName = $.validator.format("<div class='tableNameStatus label alert-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
+        var timer = $.validator.format("<div class='timer label alert-{0} shadow'></div>", getStatusColor(this.Status));
         var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
         gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
         refreshTotal();
@@ -90,32 +91,4 @@ function getChecks(checks) {
     })
     html += "</div>";
     return html;
-}
-
-function getStatusName(status) {
-    switch (status) {
-        case 1:
-            return "Open";
-            break;
-        case 2:
-            return "Served";
-            break;
-        case 3:
-            return "Closed";
-            break;
-    }
-}
-
-function getStatusColor(status) {
-    switch (status) {
-        case 1:
-            return "default";
-            break;
-        case 2:
-            return "warning";
-            break;
-        case 3:
-            return "success";
-            break;
-    }
 }

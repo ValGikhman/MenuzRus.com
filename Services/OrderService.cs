@@ -10,6 +10,29 @@ namespace MenuzRus {
 
     public class OrderService {
 
+        public Int32 AddNewTableOrder(Int32 tableId) {
+            Int32 retVal = 0;
+            TableOrder tableOrder = new TableOrder();
+            if (tableId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed); // Нет открытых столов
+                    if (tableOrder == default(TableOrder)) {
+                        tableOrder = new TableOrder();
+                        tableOrder.TableId = tableId;
+                        tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                        db.TableOrders.InsertOnSubmit(tableOrder);
+                    }
+                    else {
+                        tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                        tableOrder.DateModified = DateTime.UtcNow;
+                    }
+                    db.SubmitChanges();
+                    retVal = tableOrder.id;
+                }
+            }
+            return retVal;
+        }
+
         public Boolean DeleteCheck(Int32 id) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
@@ -79,35 +102,31 @@ namespace MenuzRus {
             return null;
         }
 
-        public List<OrderCheck> GetChecks(Int32 tableId) {
-            return GetChecks(tableId, true);
-        }
-
-        public List<OrderCheck> GetChecks(Int32 tableId, Boolean showPaidChecks) {
-            if (tableId != 0) {
-                menuzRusDataContext db = new menuzRusDataContext();
-                TableOrder query;
-                query = db.TableOrders.FirstOrDefault(m => m.TableId == tableId);
-                if (query != default(TableOrder)) {
-                    if (showPaidChecks) {
-                        return query.OrderChecks.ToList();
-                    }
-                    return query.OrderChecks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
-                }
-            }
-            return null;
-        }
-
         public String GetChecksIds(Int32 tableId) {
             return GetChecksIds(tableId, true);
         }
 
         public String GetChecksIds(Int32 tableId, Boolean showPaidChecks) {
-            List<OrderCheck> retVal = GetChecks(tableId, showPaidChecks);
-            if (retVal != null) {
-                return String.Join("|", retVal.Select(m => m.id).ToArray());
+            TableOrder tableOrder = GetTableOrder(tableId);
+            if (tableOrder != default(TableOrder)) {
+                List<OrderCheck> checks;
+                if (!showPaidChecks) {
+                    checks = tableOrder.OrderChecks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
+                }
+                else {
+                    checks = tableOrder.OrderChecks.ToList();
+                }
+                if (checks != null) {
+                    return String.Join("|", checks.Select(m => m.id).ToArray());
+                }
             }
             return String.Empty;
+        }
+
+        public List<TableOrder> GetKitchenOrders() {
+            List<TableOrder> retVal = new List<TableOrder>();
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.TableOrders.Where(m => m.Status != (Int32)Common.TableOrderStatus.Closed && m.OrderChecks.Where(c => c.Status == (Int32)Common.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
         }
 
         public OrderChecksMenu GetMenuItem(Int32 id) {
@@ -143,11 +162,43 @@ namespace MenuzRus {
         }
 
         public TableOrder GetTableOrder(Int32 tableId) {
+            TableOrder tableOrder = new TableOrder();
             if (tableId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.TableOrders.FirstOrDefault(m => m.TableId == tableId);
+                tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed);
+                if (tableOrder == default(TableOrder)) {
+                    tableOrder = db.TableOrders.Where(m => m.TableId == tableId && m.Status == (Int32)Common.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).FirstOrDefault();
+                }
+                return tableOrder;
             }
             return null;
+        }
+
+        public List<TableOrder> GetTableOrders(Int32 tableId) {
+            List<TableOrder> retVal = new List<TableOrder>();
+            if (tableId != 0) {
+                menuzRusDataContext db = new menuzRusDataContext();
+                return db.TableOrders.Where(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).ToList();
+            }
+            return null;
+        }
+
+        public List<TableOrder> GetTableOrdersByFloorId(Int32 floorId) {
+            List<TableOrder> retVal = new List<TableOrder>();
+            menuzRusDataContext db = new menuzRusDataContext();
+            if (floorId == 0) {
+                retVal = (from table in db.Tables
+                          join order in db.TableOrders on table.id equals order.TableId
+                          where table.Status == (Int32)Common.Status.Active && order.Status != (Int32)Common.TableOrderStatus.Closed
+                          select order).OrderByDescending(m => m.DateModified).ToList();
+            }
+            else {
+                retVal = (from table in db.Tables
+                          join order in db.TableOrders on table.id equals order.TableId
+                          where table.FloorId == floorId && table.Status == (Int32)Common.Status.Active && order.Status != (Int32)Common.TableOrderStatus.Closed
+                          select order).OrderByDescending(m => m.DateModified).ToList();
+            }
+            return retVal;
         }
 
         public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
@@ -267,6 +318,7 @@ namespace MenuzRus {
                     query = db.TableOrders.FirstOrDefault(m => m.id == tableOrderId);
                     if (query != default(TableOrder)) {
                         query.Status = (Int32)status;
+                        query.DateModified = DateTime.UtcNow;
                         db.SubmitChanges();
                         return true;
                     }

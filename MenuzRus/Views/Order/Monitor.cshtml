@@ -1,19 +1,16 @@
-﻿@model MenuzRus.Models.FloorModel
+﻿@model MenuzRus.Models.MonitorFloorModel
 @using Services
-<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/countdown/jquery.countdown.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/monitor.css")" rel="stylesheet" />
 
-<script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
-<script src="@Url.Content("~/Scripts/tables.js")"></script>
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
-        <h2>Order System </h2>
+        <h2>Floor monitor</h2>
     </div>
 
     <div class="btn-group floor">
@@ -23,21 +20,41 @@
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul id="floor" class="dropdown-menu" role="menu">
+            <li><a href="#" data-value="0">All</a></li>
             @foreach (Floor floor in Model.Floors) {
                 <li><a href="#" data-value="@floor.id">@floor.Name</a></li>
             }
         </ul>
     </div>
 
-    <div class="gridster floorArea shadow">
-        <ul>
-        </ul>
+    <div class="floorArea shadow">
+        @Html.Partial("_MonitorPartial", Model)
     </div>
     <a href="#">Tables <span class="tables badge"></span></a>
 </div>
 @Html.HiddenFor(m => m.Floor.id)
 @Html.HiddenFor(m => m.Floor.Name)
-@Html.HiddenFor(m => m.Floor.Layout)
+
 <script>
-    initGridster();
+    $(function () {
+        window.setInterval(function () {
+            var id = $("#Floor.id").val();
+            var jqxhr = $.get($.validator.format("{0}Order/MonitorRefresh/", root), { id: id })
+                .done(function (result) {
+                    $(".timer").countdown("destroy");
+                    $(".floorArea").empty().html(result);
+                })
+            .fail(function () {
+                message("::setInterval:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                message("Refreshed", "success", "topCenter");
+            });
+        }, 60 * 1000);
+
+        $("#floor li a").click(function () {
+            $("#btnFloor").text($(this).text());
+            window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
+        });
+    })
 </script>

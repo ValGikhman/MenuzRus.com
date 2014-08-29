@@ -80,9 +80,10 @@
         }
     }).disableSelection();
 
-    $("#Menu_id").change(function () {
-        window.location = $.validator.format("{0}MenuDesigner/Index/", root) + $(this).val();
-    })
+    $(".menu li a").click(function () {
+        $("#btnMenu").text($(this).text());
+        window.location = $.validator.format("{0}MenuDesigner/Index/{1}", root, $(this).attr("data-value"));
+    });
 
     $("#btnNewMenu, #newMenu").click(function () {
         $("#Menu_id").val(0);

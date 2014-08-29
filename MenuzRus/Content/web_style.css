@@ -241,3 +241,10 @@ body {
     height: 50px;
     padding: 1px;
 }
+
+.modal.fade .modal-dialog {
+    -webkit-transition-duration: 0.1s !important;
+    -moz-transition-duration: 0.1s !important;
+    -o-transition-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+}

@@ -244,7 +244,7 @@ h4 {
 
 .timer {
     position: absolute;
-    font-size: 62%;
+    font-size: 50%;
     left: 0%;
     right: 0%;
     white-space: normal;
@@ -309,6 +309,19 @@ h4 {
     width: 100px;
 }
 
-#btnCheckTypeToogle, #btnCheckStatusToogle, #btnTableStatusToogle {
+#btnCheckTypeToogle, #btnCheckStatusToogle, #btnTableStatusToogle, #btnFloorToogle {
     height: 34px;
+}
+
+.floor {
+    top: 20px;
+    display: inline-block;
+}
+
+#btnFloor {
+    width: 200px;
+}
+
+.dropdown-menu {
+    z-index: 1001;
 }

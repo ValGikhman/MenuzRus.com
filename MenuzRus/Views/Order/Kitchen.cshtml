@@ -1,0 +1,44 @@
+﻿@model MenuzRus.Models.KitchenModel
+@using Services
+<link href="@Url.Content("~/Scripts/countdown/jquery.countdown.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/monitor.css")" rel="stylesheet" />
+
+<script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
+<script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
+
+<div class="well container container-floor shadow">
+    <div class="modal-header main-header">
+        <h2>Kitchen monitor</h2>
+    </div>
+
+    <div class="floorArea shadow">
+        @Html.Partial("_KitchenPartial", Model)
+    </div>
+    <a href="#">Tables <span class="tables badge"></span></a>
+</div>
+
+<script>
+    $(function () {
+        window.setInterval(function () {
+            var id = $("#Floor.id").val();
+            var jqxhr = $.get($.validator.format("{0}Order/KitchenRefresh/", root))
+                .done(function (result) {
+                    $(".timer").countdown("destroy");
+                    $(".floorArea").empty().html(result);
+                })
+            .fail(function () {
+                message("::setInterval:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                message("Refreshed", "success", "topCenter");
+            });
+        }, 60 * 1000);
+
+        $("#floor li a").click(function () {
+            $("#btnFloor").text($(this).text());
+            window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
+        });
+    })
+</script>

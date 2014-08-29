@@ -12,3 +12,11 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        var status = getStatusName(parseInt($("#TableOrder_Status").val()));
+        if (status != "Open") {
+            $(".btn.btn-danger.pull-right.btnDelete").hide();
+        }
+    });
+</script>

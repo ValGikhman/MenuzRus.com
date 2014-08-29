@@ -198,6 +198,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\monitor.css" />
     <Content Include="Content\order.css" />
     <Content Include="Content\product.css" />
     <Content Include="Content\users.css" />
@@ -318,6 +319,7 @@
     <Content Include="Scripts\chosen\index.proto.html" />
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\monitors.js" />
     <Content Include="Scripts\countdown\jquery.countdown.css" />
     <Content Include="Scripts\countdown\jquery.countdown.js" />
     <Content Include="Scripts\countdown\jquery.countdown.min.js" />
@@ -325,7 +327,7 @@
     <Content Include="Scripts\countdown\jquery.plugin.min.js" />
     <Content Include="Scripts\JQuery\jquery.jqprint.0.3.js" />
     <Content Include="Scripts\table.js" />
-    <Content Include="Scripts\order.js" />
+    <Content Include="Scripts\tables.js" />
     <Content Include="Scripts\users.js" />
     <Content Include="Scripts\itemProduct.js" />
     <Content Include="Scripts\floor.js" />
@@ -464,6 +466,10 @@
     <Content Include="Views\Shared\_OrderCheckPrintPartial.cshtml" />
     <Content Include="Views\Shared\_OrderMenuPartial.cshtml" />
     <Content Include="Views\Shared\_OrderActionsMenuPartial.cshtml" />
+    <Content Include="Views\Order\Monitor.cshtml" />
+    <Content Include="Views\Shared\_MonitorPartial.cshtml" />
+    <Content Include="Views\Order\Kitchen.cshtml" />
+    <Content Include="Views\Shared\_KitchenPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

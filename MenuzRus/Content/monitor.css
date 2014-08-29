@@ -1,0 +1,78 @@
+﻿.floorArea {
+    margin-top: 50px;
+    padding: 15px;
+}
+
+.container-floor {
+    background-color: #eeeeee;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.checks {
+    overflow-y: auto;
+    z-index: 0;
+    display: inline-block;
+}
+
+.timer {
+    position: absolute !important;
+    font-size: 50%;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+    bottom: 0px;
+    top: auto !important;
+    line-height: 1.4;
+}
+
+.table {
+    height: 160px;
+    margin-bottom: 3px;
+    width: 160px;
+    padding: 0;
+    position: relative;
+    white-space: normal;
+}
+
+.tableNameStatus {
+    position: absolute !important;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+    bottom: auto;
+    top: 0 !important;
+    line-height: 1.7;
+}
+
+.priceBadge {
+    position: absolute!important;
+    bottom: 0;
+    right: 25%;
+    left: 25%;
+    top: auto!important;
+}
+
+#checks-container {
+    position: relative;
+    bottom: auto;
+    top: 25%;
+}
+
+.floor {
+    top: 20px;
+    display: inline-block;
+}
+
+#btnFloor {
+    width: 200px;
+}
+
+#btnFloorToogle {
+    height: 34px;
+}
+
+.dropdown-menu {
+    width: 200px;
+    z-index: 1001;
+}

@@ -170,11 +170,6 @@ a:hover, a:focus {
     margin: 150px auto;
 }
 
-#Menu_id {
-    width: 250px;
-    margin-right: 10px;
-}
-
 #Menu_Name {
     width: 250px;
 }
@@ -243,11 +238,6 @@ a:hover, a:focus {
     margin-bottom: 5px;
 }
 
-#btnSettings {
-    float: left;
-    margin-right: 10px;
-}
-
 .panel-setting-body {
     display: none;
 }
@@ -274,4 +264,21 @@ a:hover, a:focus {
 
 .inActiveItem {
     opacity: 0.4;
+}
+
+.menu {
+    display: inline-block;
+}
+
+#btnMenu {
+    width: 200px;
+}
+
+#btnMenuToogle, #btnSettings {
+    height: 34px;
+}
+
+.dropdown-menu {
+    width: 200px;
+    z-index: 1001;
 }

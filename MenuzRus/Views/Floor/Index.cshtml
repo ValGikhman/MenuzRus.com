@@ -72,9 +72,14 @@
     </div>
     <div id="default">
         <div class="btn-group pull-left addMenu">
-            <button type="button" class="btn btn-default dropdown-toggle shadow" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-plus">&nbsp;</span><span class="caret"></span>
+            <button id="btnAddNew" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-plus">&nbsp;</span>
             </button>
+            <button id="btnAddNewToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+
             <ul class="dropdown-menu" role="menu">
                 <li><a href="javascript:addNewTable('square')">Square</a></li>
                 <li><a href="javascript:addNewTable('circle')">Circle</a></li>
@@ -84,7 +89,19 @@
             </ul>
         </div>
 
-        @Html.DropDownListFor(m => m.Floor.id, new SelectList(Model.Floors, "id", "Name"), new { @class = "form-control input-sm shadow col-md-3" })
+        <div class="btn-group floor">
+            <button id="btnFloor" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Floor.Name</button>
+            <button id="btnFloorToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul id="floor" class="dropdown-menu" role="menu">
+                @foreach (Floor floor in Model.Floors) {
+                    <li><a href="#" data-value="@floor.id">@floor.Name</a></li>
+                }
+            </ul>
+        </div>
+
         <button id="btnNewFloor" type="button" class="btn btn-primary  btn-sm shadow">New floor</button>
         <button id="btnEditFloor" type="button" class="btn btn-primary  btn-sm shadow">Edit floor</button>
         <button id="btnDeleteFloor" type="button" class="btn btn-primary  btn-sm shadow">Delete floor</button>

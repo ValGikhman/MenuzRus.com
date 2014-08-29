@@ -17,6 +17,24 @@ namespace MenuzRus.Controllers {
 
         #region order
 
+        [HttpPost]
+        public JsonResult AddNewTableOrder(Int32 tableId) {
+            OrderService orderService = new OrderService();
+            Int32 newId = 0;
+            try {
+                newId = orderService.AddNewTableOrder(tableId);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
+
+            var retVal = new { Data = newId };
+            return Json(retVal);
+        }
+
         [HttpGet]
         public ActionResult DeleteCheck(Int32 checkId) {
             OrderService orderService = new OrderService();
@@ -47,6 +65,40 @@ namespace MenuzRus.Controllers {
             var retVal = new {
             };
             return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpGet]
+        public ActionResult Kitchen() {
+            return View(GetKitchenModel());
+        }
+
+        [HttpGet]
+        public ActionResult KitchenRefresh() {
+            try {
+                return PartialView("_KitchenPartial", GetKitchenModel());
+            }
+            catch (Exception ex) {
+            }
+            finally {
+            }
+            return null;
+        }
+
+        [HttpGet]
+        public ActionResult Monitor(Int32? id) {
+            return View(GetMonitorModel(id));
+        }
+
+        [HttpGet]
+        public ActionResult MonitorRefresh(Int32? id) {
+            try {
+                return PartialView("_MonitorPartial", GetMonitorModel(id));
+            }
+            catch (Exception ex) {
+            }
+            finally {
+            }
+            return null;
         }
 
         [HttpGet]
@@ -321,21 +373,127 @@ namespace MenuzRus.Controllers {
 
         #region private
 
+        private KitchenModel GetKitchenModel() {
+            OrderService service = new OrderService();
+            KitchenModel model = new KitchenModel();
+            List<Models.TableOrder> tables = new List<Models.TableOrder>();
+            Models.TableOrder order;
+            List<Services.TableOrder> alltables = new List<Services.TableOrder>();
+            Services.Table table;
+            try {
+                alltables = service.GetKitchenOrders();
+                foreach (Services.TableOrder tab in alltables) {
+                    order = new Models.TableOrder();
+                    table = service.GetTable(tab.TableId);
+                    order.TableName = table.Name;
+                    order.Order = tab;
+                    tables.Add(order);
+                }
+                model.Tables = tables;
+                return model;
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                service = null;
+            }
+
+            return null;
+        }
+
+        private MonitorFloorModel GetMonitorModel(Int32? id) {
+            FloorService service = new FloorService();
+            OrderService orderService = new OrderService();
+            MonitorFloorModel model = new MonitorFloorModel();
+            List<Models.TableOrder> tables = new List<Models.TableOrder>();
+            Models.TableOrder order;
+            List<Services.TableOrder> alltables = new List<Services.TableOrder>();
+            Services.Floor floor;
+            Services.Table table;
+            try {
+                if (Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
+                    model.Referer = "Monitor";
+                }
+                else if (Request.UrlReferrer.LocalPath.IndexOf("Order/Tables") > -1) {
+                    model.Referer = "Tables";
+                }
+
+                id = id.HasValue ? id.Value : 0;
+                model.Floors = service.GetFloors(SessionData.customer.id);
+                if (id == 0) {
+                    floor = new Services.Floor();
+                    floor.id = 0;
+                    floor.Name = "All";
+                }
+                else {
+                    floor = service.GetFloor(id.Value);
+                    if (floor == null && model.Floors.Count > 0) {
+                        floor = model.Floors[0];
+                    }
+                }
+                model.Floor = new Models.MonitorFloor();
+                if (floor != null) {
+                    SessionData.floor = floor;
+                    model.Floor.id = floor.id;
+                    model.Floor.Name = floor.Name;
+                    alltables = orderService.GetTableOrdersByFloorId(model.Floor.id);
+                    if (alltables != null) {
+                        foreach (Services.TableOrder tab in alltables) {
+                            order = new Models.TableOrder();
+                            table = orderService.GetTable(tab.TableId);
+                            order.TableName = table.Name;
+                            order.Order = tab;
+                            tables.Add(order);
+                        }
+                    }
+                    model.Floor.Tables = tables;
+                }
+                return model;
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                service = null;
+            }
+
+            return null;
+        }
+
+        private List<Services.TableOrder> GetMonitorTables(Int32 floorId) {
+            OrderService service = new OrderService();
+            try {
+                return service.GetTableOrders(floorId);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                service = null;
+            }
+            return null;
+        }
+
         private OrderModel GetTableModel(Int32 tableId) {
             CategoryService categoryService = new CategoryService();
             OrderService orderService = new OrderService();
             OrderModel model = new OrderModel();
-            List<Services.OrderCheck> Checks;
             try {
+                if (Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
+                    model.Referer = "Monitor";
+                }
+                else if (Request.UrlReferrer.LocalPath.IndexOf("Order/Tables") > -1) {
+                    model.Referer = "Tables";
+                }
                 model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
                 model.Table = orderService.GetTable(tableId);
                 model.TableOrder = orderService.GetTableOrder(tableId);
                 model.TableId = model.Table.id;
 
-                Checks = orderService.GetChecks(tableId);
-                if (Checks != null) {
+                if (model.TableOrder != null && model.TableOrder.OrderChecks != null) {
                     model.Checks = new List<Check>();
-                    foreach (Services.OrderCheck checkItem in Checks) {
+                    foreach (Services.OrderCheck checkItem in model.TableOrder.OrderChecks) {
                         Check check = new Check();
                         check.id = checkItem.id;
                         check.Price = 0;
@@ -373,16 +531,17 @@ namespace MenuzRus.Controllers {
                                   var.X,
                                   var.Y,
                                   Status = service.GetTableOrderStatus(var.id),
-                                  Checks = serviceOrder.GetChecksIds(var.id, false),
-                                  DateModified = var.DateModified.ToString()
+                                  Checks = serviceOrder.GetChecksIds(var.id, true),
+                                  DateModified = service.GetTableOrderDate(var.id)
                               }).ToList();
-                return result.ToJson();
+                return result.OrderByDescending(m => m.DateModified).ToJson();
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
                 service = null;
+                serviceOrder = null;
             }
             return null;
         }

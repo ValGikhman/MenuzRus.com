@@ -162,3 +162,20 @@ ul {
     bottom: -12px;
     right: -12px;
 }
+
+.floor {
+    display: inline-block;
+}
+
+#btnFloor {
+    width: 200px;
+}
+
+#btnFloorToogle, #btnAddNewToogle, #btnAddNew {
+    height: 34px;
+}
+
+.dropdown-menu {
+    width: 200px;
+    z-index: 1001;
+}

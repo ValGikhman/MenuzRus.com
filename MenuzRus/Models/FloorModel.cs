@@ -27,4 +27,36 @@ namespace MenuzRus.Models {
 
         public List<Services.Floor> Floors { set; get; }
     }
+
+    public class KitchenModel : BaseModel {
+
+        public List<TableOrder> Tables { set; get; }
+    }
+
+    public class MonitorFloor {
+
+        public String Description { set; get; }
+
+        public Int32 id { set; get; }
+
+        public String Name { set; get; }
+
+        public List<TableOrder> Tables { set; get; }
+    }
+
+    public class MonitorFloorModel : BaseModel {
+
+        public MonitorFloor Floor { set; get; }
+
+        public List<Services.Floor> Floors { set; get; }
+
+        public String Referer { set; get; }
+    }
+
+    public class TableOrder {
+
+        public Services.TableOrder Order { set; get; }
+
+        public String TableName { set; get; }
+    }
 }

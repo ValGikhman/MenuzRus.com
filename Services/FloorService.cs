@@ -39,7 +39,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Tables.FirstOrDefault(m => m.id == id);
                     if (query != default(Table)) {
-                        db.Tables.DeleteOnSubmit(query);
+                        query.Status = (Int32)Common.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -61,27 +61,36 @@ namespace MenuzRus {
             return db.Floors.Where(m => m.CustomerId == id).ToList();
         }
 
-        public TableOrder GetTableOrder(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
-            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id && m.Status != (Int32)Common.TableOrderStatus.Closed);
-            if (retVal != default(TableOrder)) {
-                return retVal;
+        public TableOrder GetTableOrder(Int32 tableId) {
+            OrderService service = new OrderService();
+            TableOrder tableOrder = service.GetTableOrder(tableId);
+            if (tableOrder != default(TableOrder)) {
+                return tableOrder;
             }
             return null;
         }
 
-        public Int32 GetTableOrderStatus(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
-            TableOrder retVal = db.TableOrders.FirstOrDefault(m => m.TableId == id && m.Status != (Int32)Common.TableOrderStatus.Closed);
-            if (retVal != default(TableOrder)) {
-                return retVal.Status;
+        public String GetTableOrderDate(Int32 tableId) {
+            OrderService service = new OrderService();
+            TableOrder tableOrder = service.GetTableOrder(tableId);
+            if (tableOrder != default(TableOrder)) {
+                return String.Format("{0:M/d/yyyy HH:mm:ss}", tableOrder.DateModified);
+            }
+            return String.Format("{0:M/d/yyyy HH:mm:ss}", DateTime.Now);
+        }
+
+        public Int32 GetTableOrderStatus(Int32 tableId) {
+            OrderService service = new OrderService();
+            TableOrder tableOrder = service.GetTableOrder(tableId);
+            if (tableOrder != default(TableOrder)) {
+                return tableOrder.Status;
             }
             return (Int32)Common.TableOrderStatus.Closed;
         }
 
         public List<Table> GetTables(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Tables.Where(m => m.FloorId == id).ToList();
+            return db.Tables.Where(m => m.FloorId == id && m.Status == (Int32)Common.Status.Active).ToList();
         }
 
         public Int32 SaveFloor(Floor floor) {
@@ -131,6 +140,7 @@ namespace MenuzRus {
                             table.FloorId = t.FloorId;
                             table.Name = t.Name;
                             table.Row = t.Row;
+                            table.Status = (Int32)Common.Status.Active;
                             table.Type = t.Type;
                             table.X = t.X;
                             table.Y = t.Y;

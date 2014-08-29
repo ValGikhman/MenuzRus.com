@@ -70,6 +70,8 @@ namespace MenuzRus.Models {
 
         public List<Check> Checks { set; get; }
 
+        public String Referer { set; get; }
+
         public Services.Table Table { set; get; }
 
         public Int32 TableId { set; get; }

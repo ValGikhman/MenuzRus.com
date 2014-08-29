@@ -31,7 +31,7 @@
             <h2>Table @Model.Table.Name</h2>
             @Html.Label("Status:")
             <div class="btn-group tableStatus">
-                @{ var currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Common.TableOrderStatus.Open.ToString());
+                @{ var currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Common.TableOrderStatus.Closed.ToString());
                    if (Model.TableOrder != null) {
                        currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString());
                    }
@@ -82,3 +82,4 @@
 @Html.HiddenFor(m => m.Table.Name)
 @Html.HiddenFor(m => m.TableOrder.id)
 @Html.HiddenFor(m => m.TableOrder.Status)
+@Html.HiddenFor(m => m.Referer)

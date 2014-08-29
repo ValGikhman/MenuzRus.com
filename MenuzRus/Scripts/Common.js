@@ -3,7 +3,7 @@ var uid = (function () { var id = 1; return function () { if (arguments[0] === 1
 
 $(function () {
     $.blockUI.defaults.message = $("#bowlG");
-    $.blockUI.defaults.css = " border: '0px none transparent; ";
+    $.blockUI.defaults.css = " border: '0px none transparent;";
     //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
     $(".page").sortable();
@@ -85,4 +85,32 @@ function message(text, type, position) {
         closeOnSelfClick: true,
         closeWith: ["click", "button"]
     });
+}
+
+function getStatusName(status) {
+    switch (status) {
+        case 1:
+            return "Open";
+            break;
+        case 2:
+            return "Served";
+            break;
+        case 3:
+            return "Closed";
+            break;
+    }
+}
+
+function getStatusColor(status) {
+    switch (status) {
+        case 1:
+            return "info";
+            break;
+        case 2:
+            return "warning";
+            break;
+        case 3:
+            return "success";
+            break;
+    }
 }

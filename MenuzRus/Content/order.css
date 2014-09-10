@@ -201,13 +201,13 @@ h4 {
 
 .subItem {
     font-size: 12px;
-    letter-spacing: 2px;
     line-height: 0.90;
+    padding-left: 10px !important;
 }
 
 .mainItem, .summaryItem, .ajustmentItem, .taxItem, .totalItem {
     font-weight: bold;
-    line-height: 1.1;
+    font-size: 12px;
 }
 
 #tableAddress.center, #tableItems.center {
@@ -269,13 +269,6 @@ h4 {
 .actionsProperties {
     padding: 20px;
     height: 255px;
-}
-
-#modalPrint {
-    padding: 0px;
-    position: initial;
-    height: 400px;
-    overflow: auto;
 }
 
 .modal-footer {

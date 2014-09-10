@@ -69,7 +69,7 @@ namespace MenuzRus {
         public ActionResult Save(CategoryModel model) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
             base.Referer = "Product";
-            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
                 base.Referer = "Menu";
 
             CategoryService service = new CategoryService();
@@ -117,7 +117,7 @@ namespace MenuzRus {
         private CategoryModel GetModel(CategoryModel model, Int32? id) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
             base.Referer = "Product";
-            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
                 base.Referer = "Menu";
 
             try {

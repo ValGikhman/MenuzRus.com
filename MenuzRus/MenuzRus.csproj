@@ -164,6 +164,7 @@
     <Compile Include="Models\OasisModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\CheckUserSessionAttribute.cs" />
     <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\kitchen.css" />
     <Content Include="Content\monitor.css" />
     <Content Include="Content\order.css" />
     <Content Include="Content\product.css" />
@@ -326,8 +328,16 @@
     <Content Include="Scripts\countdown\jquery.plugin.js" />
     <Content Include="Scripts\countdown\jquery.plugin.min.js" />
     <Content Include="Scripts\JQuery\jquery.jqprint.0.3.js" />
+    <Content Include="Scripts\QZPrint\deployJava.js" />
+    <Content Include="Scripts\QZPrint\html2canvas.js" />
+    <Content Include="Scripts\QZPrint\jquery.plugin.html2canvas.js" />
+    <Content Include="Scripts\QZPrint\PluginDetect.js" />
     <Content Include="Scripts\table.js" />
     <Content Include="Scripts\tables.js" />
+    <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.css" />
+    <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.js" />
+    <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.min.css" />
+    <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.min.js" />
     <Content Include="Scripts\users.js" />
     <Content Include="Scripts\itemProduct.js" />
     <Content Include="Scripts\floor.js" />
@@ -405,7 +415,6 @@
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\product.js" />
-    <Content Include="Trirand.Web.Mvc.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -470,6 +479,9 @@
     <Content Include="Views\Shared\_MonitorPartial.cshtml" />
     <Content Include="Views\Order\Kitchen.cshtml" />
     <Content Include="Views\Shared\_KitchenPartial.cshtml" />
+    <Content Include="Views\Shared\_KitchenDetailsPartial.cshtml" />
+    <Content Include="Views\Shared\_KitchenCheckOrderPartial.cshtml" />
+    <Content Include="Views\Shared\_PrintAppletPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

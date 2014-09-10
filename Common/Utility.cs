@@ -27,7 +27,8 @@ public static class Common {
     public enum CheckStatus {
         Active = 1,
         Ordered = 2,
-        Paid = 3,
+        Ready = 3,
+        Paid = 4,
     }
 
     public enum CheckType {

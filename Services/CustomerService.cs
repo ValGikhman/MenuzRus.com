@@ -31,6 +31,7 @@ namespace MenuzRus {
                         query.State = customer.State;
                         query.Phone = customer.Phone.CleanPhone();
                         query.Zip = customer.Zip;
+                        query.Tax = customer.Tax;
                         query.ImageUrl = customer.ImageUrl;
                     }
 

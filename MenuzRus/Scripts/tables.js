@@ -47,7 +47,7 @@ function viewTable(id) {
 }
 
 function refreshTotal() {
-    $(".tables.badge").html(gridster.$widgets.length);
+    $(".tables").html(gridster.$widgets.length);
 }
 
 function watchCountdown(periods) {

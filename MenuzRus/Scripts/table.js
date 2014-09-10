@@ -32,7 +32,7 @@ $(function () {
         var text = $(this).text();
         $("#btnTableStatus").text(text);
         if (text == "Open") {
-            AddNewTableOrder(tableId);
+            addNewTableOrder(tableId);
         }
         else {
             updateTableStatus($("#TableOrder_id").val(), $(this).attr("data-value"));
@@ -373,6 +373,8 @@ function updateCheckType(id, type) {
 }
 
 function updateCheckStatus(id, status) {
+    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+    var type = $(".check").find(".tab-pane.active").attr("data-type");
     var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status }, "json")
         .done(function (result) {
             message("Status changed", "success", "topCenter");
@@ -384,7 +386,7 @@ function updateCheckStatus(id, status) {
         });
 }
 
-function AddNewTableOrder(tableId) {
+function addNewTableOrder(tableId) {
     var jqxhr = $.post($.validator.format("{0}Order/AddNewTableOrder", root), { "tableId": tableId }, "json")
         .done(function (result) {
             message("New order started", "success", "topCenter");

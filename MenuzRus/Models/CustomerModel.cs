@@ -42,6 +42,10 @@ namespace MenuzRus.Models {
 
         public IEnumerable<SelectListItem> States { get; set; }
 
+        [DisplayName("Tax")]
+        [Required]
+        public Decimal Tax { get; set; }
+
         [DisplayName("Zip")]
         [Required]
         public String Zip { get; set; }

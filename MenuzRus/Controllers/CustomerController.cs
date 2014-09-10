@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using Extensions;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
 using Services;
@@ -36,6 +37,7 @@ namespace MenuzRus {
                 customer.City = model.City;
                 customer.State = model.State;
                 customer.Zip = model.Zip;
+                customer.Tax = model.Tax;
                 customer.Phone = model.Phone;
                 customer.ImageUrl = model.ImageUrl;
                 if (model.Image != null) {
@@ -57,7 +59,7 @@ namespace MenuzRus {
                         System.IO.File.Delete(path);
                     }
                 }
-                else {
+                else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
                 return RedirectToAction("Index", "Login");
@@ -86,7 +88,7 @@ namespace MenuzRus {
                     model.City = customer.City;
                     model.State = customer.State;
                     model.Zip = customer.Zip;
-                    model.Phone = customer.Phone;
+                    model.Phone = customer.Phone.FormatPhone();
                     model.ImageUrl = customer.ImageUrl;
                 }
                 return model;

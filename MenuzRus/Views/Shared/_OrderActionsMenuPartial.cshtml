@@ -49,7 +49,9 @@
                         </button>
                         <ul id="checkStatus" class="dropdown-menu" role="menu">
                             @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
+                                if (status != Common.CheckStatus.Ready) {
                                 <li><a href="#">@status</a></li>
+                                }
                             }
                         </ul>
                     </div>
@@ -90,19 +92,41 @@
         });
 
         $("#btnViewChecks").on("click", function () {
-            $("#html2Print").html("");
-            $(".modalPrint").modal("show");
-            var active = $("#html2Print");
             var selected = $(".chosen-select")[0].selectedOptions;
+            var ids = new Array();
             $.each($(selected), function (index, item) {
-                getCheckPrint(item.value);
+                ids.push(parseInt(item.value));
             });
+            checksPrint(ids);
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
         $(".check").find(".tab-pane").html("");
         $(".chosen-select").chosen({ width: "100%", display_disabled_options: false }).val(checkId).trigger("chosen:updated");
     });
+
+    function checksPrint(checksIds) {
+        var split = parseInt($("#slideSplit").slider("value"));
+        var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+        var type = $(".check").find(".tab-pane.active").attr("data-type");
+        var status = $(".check").find(".tab-pane.active").attr("data-status");
+
+        var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
+            .done(function (result) {
+                printRaw(result);
+            })
+            .fail(function () {
+                message("::getCheckPrint:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+            });
+    }
+
+    function html2Print() {
+        printRaw($("#html2Print").html());
+        //$("#html2Print").jqprint();
+
+    }
 
     function addAll() {
         $(".chosen-select option").prop("selected", true);

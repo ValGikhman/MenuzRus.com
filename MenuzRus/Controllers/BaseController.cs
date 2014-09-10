@@ -12,10 +12,6 @@ namespace MenuzRus.Controllers {
 
     public abstract class BaseController : Controller {
 
-        #region Declarations
-
-        #endregion Declarations
-
         #region Properties
 
         public LogService _LogService { set; get; }
@@ -32,14 +28,6 @@ namespace MenuzRus.Controllers {
         }
 
         #endregion Construtors
-
-        #region Public Functions
-
-        #endregion Public Functions
-
-        #region Private/Protected Functions
-
-        #endregion Private/Protected Functions
 
         #region Overrides
 
@@ -73,14 +61,13 @@ namespace MenuzRus.Controllers {
                     filterContext.Controller.ViewData["Layout"] = "_Login";
 
                     // These 2 controllers do not need to check if logged in or not
-                    if (route.ToUpper() != "login".ToUpper()
-                            && route.ToUpper() != "registration".ToUpper()) {
-                        if (!this.IsLoggedIn)
-                            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new {
-                                controller = "Login",
-                                action = "Index",
-                            }));
-                    }
+                    //if (route.ToUpper() != "login".ToUpper()
+                    //        && route.ToUpper() != "registration".ToUpper()) {
+                    //    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new {
+                    //        controller = "Login",
+                    //        action = "Index",
+                    //    }));
+                    //}
                 }
 
                 if (SessionData.user != null)

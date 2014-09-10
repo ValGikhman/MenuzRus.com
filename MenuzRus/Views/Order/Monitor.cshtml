@@ -7,6 +7,7 @@
 <script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
+<script src="@Url.Content("~/Scripts/monitors.js")"></script>
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
@@ -38,11 +39,18 @@
 <script>
     $(function () {
         window.setInterval(function () {
+            $(".timer").countdown("destroy");
+            $("#floorContainer").fadeOut("slow", function () {
+                $("#floorContainer").remove();
+            });
+
             var id = $("#Floor.id").val();
             var jqxhr = $.get($.validator.format("{0}Order/MonitorRefresh/", root), { id: id })
                 .done(function (result) {
-                    $(".timer").countdown("destroy");
-                    $(".floorArea").empty().html(result);
+                    $(".floorArea").append(result);
+                    addTimers();
+                    setTableStatus();
+                    setCheckStatus();
                 })
             .fail(function () {
                 message("::setInterval:: Failed.", "error", "topCenter");
@@ -56,5 +64,14 @@
             $("#btnFloor").text($(this).text());
             window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
         });
+        refreshTotal();
     })
+
+    function refreshTotal() {
+        $(".tables.badge").html($(".table").length);
+    }
+
+    function viewTable(id) {
+        window.location = $.validator.format("{0}Order/Table/{1}", root, id);
+    }
 </script>

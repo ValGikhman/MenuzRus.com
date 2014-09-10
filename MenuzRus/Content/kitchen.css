@@ -1,0 +1,95 @@
+﻿body {
+    padding-top: 85px;
+    background-color: #eee;
+}
+
+.floorArea {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 540px;
+}
+
+.container-floor {
+    background-color: #eeeeee;
+    border-radius: 15px;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.checks {
+    overflow-y: auto;
+    z-index: 0;
+    display: inline-block;
+}
+
+.timer {
+    position: absolute !important;
+    font-size: 50%;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+    bottom: 0px;
+    top: auto !important;
+    line-height: 1.4;
+}
+
+.table {
+    height: 160px;
+    margin-bottom: 3px;
+    width: 160px;
+    padding: 0;
+    position: relative;
+    white-space: normal;
+}
+
+.tableNameStatus {
+    position: absolute !important;
+    left: 0%;
+    right: 0%;
+    white-space: normal;
+    bottom: auto;
+    top: 0 !important;
+    line-height: 1.7;
+}
+
+#labels-container {
+    position: relative;
+    padding: 30px 15px 15px 15px;
+    white-space: normal;
+    height: 100%;
+}
+
+.floor {
+    top: 20px;
+    display: inline-block;
+}
+
+.knopa {
+    position: relative;
+    width: 310px;
+    height: 200px;
+    padding: 0px;
+    overflow: auto;
+    margin-bottom: 5px;
+}
+
+    .knopa.active {
+        background-color: #8D8484;
+    }
+
+.modal-dialog {
+    width: 70vw;
+    margin-top: 115px;
+}
+
+h2, h5 {
+    color: #787878;
+    text-shadow: 2px 2px 3px #8D8484;
+}
+
+.addons {
+    padding: 5px;
+}

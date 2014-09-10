@@ -64,6 +64,15 @@ namespace MenuzRus.Models {
         public Boolean Selected { get; set; }
     }
 
+    public class KitchenOrderModel : BaseModel {
+
+        public List<CheckPrint> Checks { set; get; }
+
+        public Services.Table Table { set; get; }
+
+        public Services.TableOrder TableOrder { set; get; }
+    }
+
     public class OrderModel : BaseModel {
 
         public List<Category> Categories { set; get; }

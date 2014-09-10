@@ -22,5 +22,9 @@ namespace Extensions {
 
             return text.Substring(0, length - 4) + " ...";
         }
+
+        public static String FormatPhone(this String phone) {
+            return Regex.Replace(phone, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3");
+        }
     }
 }

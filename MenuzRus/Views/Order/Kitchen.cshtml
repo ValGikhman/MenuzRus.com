@@ -1,12 +1,15 @@
 ﻿@model MenuzRus.Models.KitchenModel
 @using Services
 <link href="@Url.Content("~/Scripts/countdown/jquery.countdown.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/monitor.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kitchen.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
+<script src="@Url.Content("~/Scripts/monitors.js")"></script>
+
+<div id="modalDetails">
+</div>
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
@@ -20,25 +23,76 @@
 </div>
 
 <script>
+    var timerId;
     $(function () {
-        window.setInterval(function () {
-            var id = $("#Floor.id").val();
-            var jqxhr = $.get($.validator.format("{0}Order/KitchenRefresh/", root))
-                .done(function (result) {
-                    $(".timer").countdown("destroy");
-                    $(".floorArea").empty().html(result);
-                })
+        refreshTotal();
+        timerId = window.setInterval(refresh, 60 * 1000);
+    });
+
+    function refreshTotal() {
+        $(".tables.badge").html($(".table").length);
+    }
+
+    function updateCheckStatus() {
+        var activeTab = $(".orderedChecks li.active");
+        var active = $(".check").find(".tab-pane.active");
+        var checkId = $(active).attr("data-value");
+        var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": checkId, "status": "Ready" }, "json")
+            .done(function (result) {
+                $(activeTab).fadeOut("slow", function () {
+                    activeTab.remove();
+                });
+                $(active).fadeOut("slow", function () {
+                    active.remove();
+                });
+
+                $(".orderedChecks li:first a").tab("show");
+                message("Status changed", "success", "topCenter");
+            })
             .fail(function () {
-                message("::setInterval:: Failed.", "error", "topCenter");
+                message("::updateCheckStatus:: Failed.", "error", "topCenter");
             })
             .always(function () {
-                message("Refreshed", "success", "topCenter");
             });
-        }, 60 * 1000);
+    }
 
-        $("#floor li a").click(function () {
-            $("#btnFloor").text($(this).text());
-            window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
+    function viewTable(tableId) {
+        var container = $(".floorArea");
+        container.block();
+        $(".kithenDetailsForm").remove();
+        var jqxhr = $.get($.validator.format("{0}Order/KitchenDetails", root), { "tableId": tableId }, "json")
+            .done(function (result) {
+                $("#modalDetails").append(result);
+                $(".orderedChecks li:first a").tab("show");
+                $(".kithenDetailsForm").modal("show");
+
+            })
+            .fail(function () {
+                message("::viewTable:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                container.unblock();
+            });
+    }
+
+    function refresh() {
+        $(".timer").countdown("destroy");
+        $("#floorContainer").fadeOut("slow", function () {
+            $("#floorContainer").remove();
         });
-    })
+
+        var jqxhr = $.get($.validator.format("{0}Order/KitchenRefresh", root))
+            .done(function (result) {
+                $(".floorArea").append(result);
+                addTimers();
+                setTableStatus();
+                setCheckStatus();
+            })
+        .fail(function () {
+            message("::setInterval:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            message("Refreshed", "success", "topCenter");
+        });
+    }
 </script>

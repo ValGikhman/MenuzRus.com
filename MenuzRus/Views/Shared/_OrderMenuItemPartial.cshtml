@@ -14,8 +14,8 @@
 </div>
 <script>
     $(function () {
-        var status = getStatusName(parseInt($("#TableOrder_Status").val()));
-        if (status != "Open") {
+        var status = $(".container-order-item").parent().attr("data-status");
+        if (status != "Active") {
             $(".btn.btn-danger.pull-right.btnDelete").hide();
         }
     });

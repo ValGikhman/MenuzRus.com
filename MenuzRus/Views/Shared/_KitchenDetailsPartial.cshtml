@@ -1,0 +1,36 @@
+﻿@model MenuzRus.Models.KitchenOrderModel
+@using Services
+<div class="modal fade kithenDetailsForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-new">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title floorTitle">Table @Model.Table.Name</h4>
+            </div>
+            <div id="kithenDetailsForm" class="modal-body" style="padding: 2px;">
+                <ul class="nav nav-pills btn-default  nav-justified orderedChecks">
+                    @if (Model.Checks != null) {
+                        foreach (MenuzRus.Models.CheckPrint check in Model.Checks) {
+                        <li><a href="@String.Format("#Check{0}", check.Check.id)" data-value="@check.Check.id" data-type="@check.Check.Type" data-status="@check.Check.Status" data-toggle="pill">
+                            @String.Format("#{0}", check.Check.id)
+                        </a></li>
+                        }
+                    }
+                </ul>
+                <div class="tab-content check">
+                    @if (Model.Checks != null) {
+                        foreach (MenuzRus.Models.CheckPrint check in Model.Checks) {
+                        <div class="tab-pane fade in" id="@String.Format("Check{0}", check.Check.id)" data-value="@check.Check.id" data-type="@check.Check.Type" data-status="@check.Check.Status">
+                            @Html.Partial("_KitchenCheckOrderPartial", check)
+                        </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelKitchenDetails" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnStatusReady" type="button" class="btn btn-primary" onclick="javascript:updateCheckStatus();">Status: Ready</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,13 +19,10 @@ namespace MenuzRus {
                     if (tableOrder == default(TableOrder)) {
                         tableOrder = new TableOrder();
                         tableOrder.TableId = tableId;
-                        tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
                         db.TableOrders.InsertOnSubmit(tableOrder);
                     }
-                    else {
-                        tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
-                        tableOrder.DateModified = DateTime.UtcNow;
-                    }
+                    tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                    tableOrder.DateModified = DateTime.UtcNow;
                     db.SubmitChanges();
                     retVal = tableOrder.id;
                 }
@@ -238,6 +235,7 @@ namespace MenuzRus {
                         tableOrder = new TableOrder();
                         tableOrder.TableId = tableId;
                         tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                        tableOrder.DateModified = DateTime.UtcNow; ;
                         db.TableOrders.InsertOnSubmit(tableOrder);
                         db.SubmitChanges();
                     }

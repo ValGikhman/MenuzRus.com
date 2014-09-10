@@ -60,7 +60,7 @@ namespace MenuzRus.Controllers {
         public ActionResult SaveItem(ItemModel model) {
             // Converts /MenuDesigner to Menu, /Product to Product etc
             base.Referer = "Product";
-            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
                 base.Referer = "MenuDesigner";
 
             ItemService service = new ItemService();
@@ -126,7 +126,7 @@ namespace MenuzRus.Controllers {
             ItemModel model = new ItemModel();
             // Converts /MenuDesigner to Menu, /Product to Product etc
             base.Referer = "Product";
-            if (Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
+            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
                 base.Referer = "Menu";
 
             Item item;

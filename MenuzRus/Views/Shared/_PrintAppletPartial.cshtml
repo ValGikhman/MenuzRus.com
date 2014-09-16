@@ -1,7 +1,15 @@
 ﻿<script src="@Url.Content("~/Scripts/QZPrint/deployJava.js")"></script>
 
-<script type="text/javascript">    deployQZ();
-    useDefaultPrinter();
+<script type="text/javascript">    if (deployJava.versionCheck("1.6.0+") || deployJava.versionCheck("1.4") || deployJava.versionCheck("1.5.0*")) {
+        QZPrint = true;
+        deployQZ();
+        useDefaultPrinter();
+        message("Printing available for this device.", "warning", "topCenter");
+    }
+    else {
+        QZPrint = false;
+        message("No printing available for this device.", "warning", "topCenter");
+    }
 
     function deployQZ() {
         var attributes = {

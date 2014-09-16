@@ -7,7 +7,6 @@
 <script src="@Url.Content("~/Scripts/table.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.jqprint.0.3.js")"></script>
-@Html.Partial("_PrintAppletPartial")
 
 <div class="col-md-11 col-sm-12 container-order shadow center">
     <div class="row">
@@ -67,3 +66,4 @@
 @Html.HiddenFor(m => m.TableOrder.id)
 @Html.HiddenFor(m => m.TableOrder.Status)
 @Html.HiddenFor(m => m.Referer)
+@Html.Partial("_PrintAppletPartial")

@@ -59,12 +59,17 @@
             </div>
         </div>
         <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
-            <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Print preview</button>
+            <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(function () {
+        if (!QZPrint) {
+            $("#printTab").parent().hide();
+            $("#menu-actions-print-tab").hide();
+        }
+
         $("#slideSplit").slider({
             range: "max",
             min: 1,
@@ -124,8 +129,6 @@
 
     function html2Print() {
         printRaw($("#html2Print").html());
-        //$("#html2Print").jqprint();
-
     }
 
     function addAll() {

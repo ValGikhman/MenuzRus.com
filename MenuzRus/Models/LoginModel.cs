@@ -18,5 +18,7 @@ namespace MenuzRus.Models {
         [DataType(DataType.Password)]
         [Required]
         public String Password { get; set; }
+
+        public Boolean Success { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace MenuzRus.Controllers {
 
     public class ProductController : BaseController {
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
         }
@@ -30,13 +31,16 @@ namespace MenuzRus.Controllers {
                     model.Menu = new MenuzRus.Models.Menu();
                 }
                 model.Menu.id = id.HasValue ? id.Value : 0;
+                model.Menu.Name = String.Empty;
+
                 if (model.Menu.id == 0 && model.Menus.Count() > 0) {
                     model.Menu.id = model.Menus[0].id;
                     model.Menu.Name = model.Menus[0].Name;
                     SessionData.menu.Name = model.Menus[0].Name;
                 }
-                else if (model.Menu.id != 0)
+                else if (model.Menu.id != 0) {
                     model.Menu.Name = model.Menus.FirstOrDefault(m => m.id == model.Menu.id).Name;
+                }
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;

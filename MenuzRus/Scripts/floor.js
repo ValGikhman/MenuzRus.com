@@ -93,22 +93,33 @@ $(function () {
         element.children(".tableName").html(element.attr("data-name"));
         $(".tableEditForm").modal("hide");
     })
+
+    if ($("#Floor_id").val() == 0) {
+        $(".addMenu").hide();
+    }
+    else {
+        $(".addMenu").show();
+    }
 });
 
 function addLayout() {
     gridster.remove_all_widgets();
-    var serialization = $.parseJSON($("#Floor_Layout").val());
+    var tables = $("#Floor_Layout").val();
 
-    $.each(serialization, function () {
-        var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil'></span>";
-        var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
-        var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
-        var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
-        var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
-        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
-        gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
-        refreshTotal();
-    });
+    if (tables != "") {
+        var serialization = $.parseJSON(tables);
+
+        $.each(serialization, function () {
+            var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil'></span>";
+            var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
+            var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
+            var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
+            var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
+            var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
+            gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
+            refreshTotal();
+        });
+    }
 }
 
 function addNewTable(style) {

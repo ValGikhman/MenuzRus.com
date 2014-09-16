@@ -64,14 +64,14 @@ namespace MenuzRus {
             { "WY", "Wyoming" }
         };
 
-        public static IEnumerable<Double> SplitAmount(Double value, int count) {
+        public static IEnumerable<Decimal> SplitAmount(Decimal value, int count) {
             if (count <= 0) throw new ArgumentException("count must be greater than zero.", "count");
-            Double[] result = new Double[count];
+            Decimal[] result = new Decimal[count];
 
-            Double runningTotal = 0;
+            Decimal runningTotal = 0;
             for (int i = 0; i < count; i++) {
-                Double remainder = value - runningTotal;
-                Double share = remainder > 0 ? Math.Max(Math.Round(remainder / ((Double)(count - i)), 2), .01) : 0;
+                Decimal remainder = value - runningTotal;
+                Decimal share = remainder > 0 ? Math.Max(Math.Round(remainder / (count - i), 2), 1 ^ -2) : 0;
                 result[i] = share;
                 runningTotal += share;
             }

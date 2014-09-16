@@ -12,6 +12,7 @@ namespace MenuzRus.Controllers {
 
     public class UsersController : BaseController {
 
+        [CheckUserSession]
         public ActionResult Index(Int32 id) {
             UserService service = new UserService();
             UsersModel model = new UsersModel();

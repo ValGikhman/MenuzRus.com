@@ -1,4 +1,19 @@
 ﻿$(function () {
+    if ($("#menuList").has("li")) {
+        $("#btnEditMenu").show();
+        $("#btnDeleteMenu").show();
+        $("#btnMenuIt").show();
+        $("#btnNewCategory").show();
+        $("#btnNewItem").show();
+    }
+    else {
+        $("#btnEditMenu").hide();
+        $("#btnDeleteMenu").hide();
+        $("#btnMenuIt").hide();
+        $("#btnNewCategory").hide();
+        $("#btnNewItem").hide();
+    }
+
     /// ********** APPLY IMAGES ************///
     $(".img-wall").click(function () {
         var bg = "url(" + $(this).attr("src").replace("thumbnails/", "") + ") repeat";

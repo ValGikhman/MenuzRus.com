@@ -59,6 +59,7 @@ namespace MenuzRus {
                         query.Email = user.Email;
                         query.Password = user.Password;
                         query.ImageUrl = user.ImageUrl;
+                        query.Type = user.Type;
                     }
                     if (user.id == 0) {
                         db.Users.InsertOnSubmit(query);

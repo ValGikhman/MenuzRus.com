@@ -12,7 +12,8 @@ namespace MenuzRus {
         public ActionResult Index() {
             try {
                 LoginModel model = new LoginModel();
-                return View();
+                model.Success = true;
+                return View(model);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -28,9 +29,12 @@ namespace MenuzRus {
             try {
                 User user = service.Login(model.Email, model.Password);
                 if (user == null) {
-                    return View();
+                    model.Success = false;
+                    return View(model);
                 }
+
                 SessionData.sessionId = Session.SessionID;
+                model.Success = true;
                 base.Log(Common.LogType.LogIn, "Logged in", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
                 return RedirectToAction("Tables", "Order");
             }

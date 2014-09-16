@@ -31,6 +31,7 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
         }
@@ -120,12 +121,14 @@ namespace MenuzRus.Controllers {
             CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             MenuDesignerModel model = new MenuDesignerModel();
+            SessionData.menu = new Services.Menu();
             try {
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 if (model.Menu == null) {
-                    model.Menu = new MenuzRus.Models.Menu();
+                    model.Menu = new Models.Menu();
                 }
                 model.Menu.id = id.HasValue ? id.Value : 0;
+                model.Menu.Name = String.Empty;
                 if (model.Menu.id == 0 && model.Menus.Count() > 0) {
                     model.Menu.id = model.Menus[0].id;
                     model.Menu.Name = model.Menus[0].Name;

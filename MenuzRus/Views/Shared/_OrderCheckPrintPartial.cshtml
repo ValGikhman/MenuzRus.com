@@ -105,13 +105,15 @@
                     <td class="total pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2")/@Model.Split
                     </td>
                 </tr>
+                Int32 i = 1;
                 foreach (Double split in Model.SplitValues) {
                 <tr>
                     <td class="total"></td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="total pull-right">@split.ToString("C2")
+                    <td class="total pull-right" style="width: 75px;">@String.Format("{0}: {1}", i, split.ToString("C2"))
                     </td>
                 </tr>
+                    i++;
                 }
             }
         </tbody>

@@ -114,7 +114,7 @@ namespace MenuzRus {
                     checks = tableOrder.OrderChecks.ToList();
                 }
                 if (checks != null) {
-                    return String.Join("|", checks.Select(m => m.id).ToArray());
+                    return String.Join("|", checks.Select(m => String.Format("{0}:{1}", m.id, m.Status)).ToArray());
                 }
             }
             return String.Empty;
@@ -286,6 +286,24 @@ namespace MenuzRus {
                     query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
                     if (query != default(OrderCheck)) {
                         query.Status = (Int32)status;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public Boolean UpdateCheckStatusPaid(Int32 checkId, Decimal price, Decimal tax, Decimal adjustment) {
+            OrderCheck query = new OrderCheck();
+            if (checkId != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(OrderCheck)) {
+                        query.Status = (Int32)Common.CheckStatus.Paid;
+                        query.Adjustment = adjustment;
+                        query.Price = price;
+                        query.Tax = tax;
                         db.SubmitChanges();
                         return true;
                     }

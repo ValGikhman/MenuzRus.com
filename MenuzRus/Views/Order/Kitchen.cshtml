@@ -37,18 +37,18 @@
         var activeTab = $(".orderedChecks li.active");
         var active = $(".check").find(".tab-pane.active");
         var checkId = $(active).attr("data-value");
-        var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": checkId, "status": "Ready" }, "json")
-            .done(function (result) {
-                $(activeTab).fadeOut("slow", function () {
-                    activeTab.remove();
-                });
-                $(active).fadeOut("slow", function () {
-                    active.remove();
-                });
+        var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": checkId, "status": "Ready", "adjustment": 0, "split": 0, "type": "Guest" }, "json")
+                .done(function (result) {
+                    $(activeTab).fadeOut("slow", function () {
+                        activeTab.remove();
+                    });
+                    $(active).fadeOut("slow", function () {
+                        active.remove();
+                    });
 
-                $(".orderedChecks li:first a").tab("show");
-                message("Status changed", "success", "topCenter");
-            })
+                    $(".orderedChecks li:first a").tab("show");
+                    message("Status changed", "success", "topCenter");
+                })
             .fail(function () {
                 message("::updateCheckStatus:: Failed.", "error", "topCenter");
             })

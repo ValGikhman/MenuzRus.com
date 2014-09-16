@@ -17,14 +17,9 @@ namespace MenuzRus {
             try {
                 model.Customer = new CustomerModel();
                 model.User = new UserModel();
-                ViewData.Model = model;
-
-                using (StringWriter sw = new StringWriter()) {
-                    ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_RegistrationPartial");
-                    ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                    viewResult.View.Render(viewContext, sw);
-                    return sw.GetStringBuilder().ToString();
-                }
+                model.Customer.States = Utility.States.ToSelectListItems();
+                model.Customer.State = "OH";
+                return RenderViewToString(this.ControllerContext, "_RegistrationPartial", model);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -37,8 +32,10 @@ namespace MenuzRus {
         public ActionResult Index(Int32? id) {
             RegistrationModel model = new RegistrationModel();
             model.Customer = new CustomerModel();
+            model.Customer.States = Utility.States.ToSelectListItems();
+            model.Customer.State = "OH";
             model.User = new UserModel();
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -48,6 +45,7 @@ namespace MenuzRus {
             UserService userService = new UserService();
             CommonService commonService = new CommonService();
             Customer customer = new Customer();
+            User user = new User();
             try {
                 customer.id = 0;
                 customer.Name = model.Customer.Name;
@@ -57,32 +55,13 @@ namespace MenuzRus {
                 customer.State = model.Customer.State;
                 customer.Zip = model.Customer.Zip;
                 customer.Phone = model.Customer.Phone;
+                customer.Tax = model.Customer.Tax;
                 customer.ImageUrl = model.Customer.ImageUrl;
-                if (model.Customer.Image != null) {
-                    if (customer.id == 0)
-                        customer.ImageUrl = Path.GetExtension(model.Customer.Image.FileName);
-                    else
-                        customer.ImageUrl = String.Format("{0}{1}", model.Customer.id, Path.GetExtension(model.Customer.Image.FileName));
-                }
 
                 Int32 result = customerService.SaveCustomer(customer);
-                if (result == 0)
-                    return RedirectToAction("Index", "Error");
                 SessionData.customer = customer;
 
-                String fileName = (model.Customer.Image == null ? model.Customer.ImageUrl : model.Customer.Image.FileName);
-                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Customer", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
-                if (model.Customer.Image == null && model.Customer.ImageUrl == null) {
-                    if (System.IO.File.Exists(path)) {
-                        System.IO.File.Delete(path);
-                    }
-                }
-                else {
-                    model.Customer.Image.SaveAs(path);
-                }
-
                 // Save user personal info
-                User user = new User();
                 user.id = 0;
                 user.CustomerId = SessionData.customer.id;
                 user.FirstName = model.User.FirstName;
@@ -93,8 +72,7 @@ namespace MenuzRus {
                 user.Email = model.User.Email;
 
                 result = userService.SaveUser(user);
-                if (result == 0)
-                    return RedirectToAction("Index", "Error");
+                SessionData.user = user;
 
                 commonService.SendEmailConfirmation(user);
                 return RedirectToAction("Index", "Login");

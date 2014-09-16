@@ -52,6 +52,7 @@ namespace MenuzRus {
             return null;
         }
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             try {
                 CategoryModel model = new CategoryModel();

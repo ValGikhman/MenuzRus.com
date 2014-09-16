@@ -1,4 +1,5 @@
 ﻿// Sequential number per session
+var QZPrint = false;
 var uid = (function () { var id = 1; return function () { if (arguments[0] === 1) id = 1; return id++; } })();
 
 $(function () {
@@ -78,7 +79,7 @@ function message(text, type, position) {
         layout: position,
         type: type,
         template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
-        timeout: "5000",
+        timeout: "10000",
         maxVisible: 1,
         killer: true,
         closable: true,
@@ -98,6 +99,9 @@ function getStatusName(status) {
         case 3:
             return "Closed";
             break;
+        case 4:
+            return "Paid";
+            break;
     }
 }
 
@@ -111,6 +115,9 @@ function getStatusColor(status) {
             break;
         case 3:
             return "success";
+            break;
+        case 4:
+            return "danger";
             break;
     }
 }

@@ -40,12 +40,12 @@
             <button id="btnSettings" type="button" class="btn btn-default btn">
                 <span class="glyphicon glyphicon-cog"></span>
             </button>
-            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name</button>
+            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name&nbsp;</button>
             <button id="btnMenuToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
-            <ul class="dropdown-menu" role="menu">
+            <ul id="menuList" class="dropdown-menu" role="menu">
                 @foreach (Menu menu in Model.Menus) {
                     <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
                 }
@@ -53,12 +53,12 @@
         </div>
 
         <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
-        <button id="btnEditMenu" type="button" class="btn btn-primary  btn-sm shadow">Edit menu</button>
-        <button id="btnDeleteMenu" type="button" class="btn btn-primary  btn-sm shadow">Delete menu</button>
-        <button id="btnMenuIt" type="button" class="btn btn-primary  btn-sm shadow">Menu-it</button>
+        <button id="btnEditMenu" type="button" class="noshow btn btn-primary  btn-sm shadow">Edit menu</button>
+        <button id="btnDeleteMenu" type="button" class="noshow btn btn-primary  btn-sm shadow">Delete menu</button>
+        <button id="btnMenuIt" type="button" class="noshow btn btn-primary  btn-sm shadow">Menu-it</button>
         <div class=" pull-right">
-            <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
-            <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+            <button id="btnNewCategory" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
+            <button id="btnNewItem" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
         </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ namespace MenuzRus {
 
     public class CustomerController : BaseController {
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             CustomerModel model = new CustomerModel();
             try {
@@ -88,6 +89,7 @@ namespace MenuzRus {
                     model.City = customer.City;
                     model.State = customer.State;
                     model.Zip = customer.Zip;
+                    model.Tax = customer.Tax.HasValue ? customer.Tax.Value : 0;
                     model.Phone = customer.Phone.FormatPhone();
                     model.ImageUrl = customer.ImageUrl;
                 }

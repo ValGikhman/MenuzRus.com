@@ -67,18 +67,21 @@ function addTimers() {
 
 function addLayout() {
     gridster.remove_all_widgets();
-    var serialization = $.parseJSON($("#Floor_Layout").val());
+    var tables = $("#Floor_Layout").val();
+    if (tables != "") {
+        var serialization = $.parseJSON(tables);
 
-    $.each(serialization, function () {
-        var statusName = getStatusName(this.Status);
-        var checks = getChecks(this.Checks);
-        var elementName = $.validator.format("<div class='tableNameStatus label alert-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
-        var timer = $.validator.format("<div class='timer label alert-{0} shadow'></div>", getStatusColor(this.Status));
-        var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
-        gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
-        refreshTotal();
-        addTimers();
-    });
+        $.each(serialization, function () {
+            var statusName = getStatusName(this.Status);
+            var checks = getChecks(this.Checks);
+            var elementName = $.validator.format("<div class='tableNameStatus label alert-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
+            var timer = $.validator.format("<div class='timer label alert-{0} shadow'></div>", getStatusColor(this.Status));
+            var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
+            gridster.add_widget(element, this.X, this.Y, this.Col, this.Row);
+            refreshTotal();
+            addTimers();
+        });
+    }
 }
 
 function getChecks(checks) {
@@ -86,7 +89,10 @@ function getChecks(checks) {
     var ids = checks.split('|');
     $.each(ids, function (index, element) {
         if (element != "") {
-            html += $.validator.format("<div class='checksBadges label label-success shadow'>#{0}</div>", element);
+            value = element.split(':');
+            id = value[0];
+            status = value[1];
+            html += $.validator.format("<div class='checksBadges label alert-{2} shadow' data-status='{1}'>#{0}</div>", id, status, getStatusColor(parseInt(status)));
         }
     })
     html += "</div>";

@@ -37,7 +37,7 @@ namespace MenuzRus.Controllers {
 
         [CheckUserSession]
         [HttpGet]
-        public String ChecksPrint(String checksIds, Int32 split, Double adjustment) {
+        public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
             List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
             OrderService service = new OrderService();
             String retVal = String.Empty;
@@ -164,64 +164,9 @@ namespace MenuzRus.Controllers {
         }
 
         // Show totals for a check
-        [CheckUserSession]
         [HttpGet]
-        public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Double adjustment) {
-            ItemService itemService;
-            Services.Item item, itemMenu;
-            OrderService orderService;
-            CheckPrint model;
-            Double tax = SessionData.customer.Tax.HasValue ? (Double)SessionData.customer.Tax / 100 : 0;
-            Double price = 0, menuPrice = 0;
-            List<LineItem> subItems;
-            try {
-                itemService = new ItemService();
-                orderService = new OrderService();
-                model = new CheckPrint();
-                model.Items = new List<LineItem>();
-                model.Check = orderService.GetCheck(checkId);
-                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
-                List<OrderChecksMenuProduct> products;
-                model.Summary = 0;
-                model.Split = split;
-                foreach (Services.OrderChecksMenu menuItem in menus) {
-                    itemMenu = itemService.GetItem(menuItem.MenuId);
-                    menuPrice = (Double)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    model.Summary += menuPrice;
-                    products = orderService.GetProducts(menuItem.id);
-                    subItems = new List<LineItem>();
-                    foreach (Services.OrderChecksMenuProduct productItem in products) {
-                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
-                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                            price = (Double)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                            model.Summary += price;
-                            subItems.Add(new LineItem() { Description = item.Name, Price = price });
-                        }
-                    }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
-                }
-
-                model.TaxPercent = 0;
-                if (EnumHelper<Common.CheckType>.Parse(type) == Common.CheckType.Guest) {
-                    model.TaxPercent = tax;
-                }
-                model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
-
-                model.AdjustmentPercent = adjustment / 100;
-                model.Adjustment = Math.Round(model.Summary * model.AdjustmentPercent, 2);
-                model.Subtotal = model.Summary + model.Adjustment;
-                model.Total = Math.Round(model.Summary + model.Tax + model.Adjustment, 2);
-                model.SplitValues = Utility.SplitAmount(model.Total, model.Split);
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-                return String.Empty;
-            }
-            finally {
-                itemService = null;
-                orderService = null;
-            }
-            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", model);
+        public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
+            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
         }
 
         // Show one menu strip
@@ -347,10 +292,18 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
+        public JsonResult UpdateCheckStatus(Int32 checkId, Common.CheckType type, Common.CheckStatus status, Decimal adjustment, Int32 split) {
             OrderService orderService = new OrderService();
+            CheckPrint model;
             try {
-                orderService.UpdateCheckStatus(checkId, status);
+                if (status == Common.CheckStatus.Paid) {
+                    model = GetCheckPrintModel(checkId, type.ToString(), status.ToString(), split, adjustment);
+                    if (model != null)
+                        orderService.UpdateCheckStatusPaid(checkId, model.Summary, model.Tax, model.Adjustment);
+                }
+                else {
+                    orderService.UpdateCheckStatus(checkId, status);
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -403,6 +356,64 @@ namespace MenuzRus.Controllers {
         #endregion order
 
         #region private
+
+        private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
+            ItemService itemService;
+            Services.Item item, itemMenu;
+            OrderService orderService;
+            CheckPrint model;
+            Decimal tax = SessionData.customer.Tax.HasValue ? (Decimal)SessionData.customer.Tax / 100 : 0;
+            Decimal price = 0, menuPrice = 0;
+            List<LineItem> subItems;
+            try {
+                itemService = new ItemService();
+                orderService = new OrderService();
+                model = new CheckPrint();
+                model.Items = new List<LineItem>();
+                model.Check = orderService.GetCheck(checkId);
+                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
+                List<OrderChecksMenuProduct> products;
+                model.Summary = 0;
+                model.Split = split;
+                foreach (Services.OrderChecksMenu menuItem in menus) {
+                    itemMenu = itemService.GetItem(menuItem.MenuId);
+                    menuPrice = (Decimal)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    model.Summary += menuPrice;
+                    products = orderService.GetProducts(menuItem.id);
+                    subItems = new List<LineItem>();
+                    foreach (Services.OrderChecksMenuProduct productItem in products) {
+                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                            model.Summary += price;
+                            subItems.Add(new LineItem() { Description = item.Name, Price = price });
+                        }
+                    }
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
+                }
+
+                model.TaxPercent = 0;
+                if (EnumHelper<Common.CheckType>.Parse(type) == Common.CheckType.Guest) {
+                    model.TaxPercent = tax;
+                }
+                model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
+
+                model.AdjustmentPercent = adjustment / 100;
+                model.Adjustment = Math.Round(model.Summary * model.AdjustmentPercent, 2);
+                model.Subtotal = model.Summary + model.Adjustment;
+                model.Total = Math.Round(model.Summary + model.Tax + model.Adjustment, 2);
+                model.SplitValues = Utility.SplitAmount(model.Total, model.Split);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return null;
+            }
+            finally {
+                itemService = null;
+                orderService = null;
+            }
+            return model;
+        }
 
         private KitchenModel GetKitchenModel() {
             OrderService service = new OrderService();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using Extensions;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
 using Services;
@@ -40,6 +41,7 @@ namespace MenuzRus {
             return null;
         }
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
         }
@@ -54,8 +56,8 @@ namespace MenuzRus {
                 user.CustomerId = model.CustomerId;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.WorkPhone = model.WorkPhone;
-                user.MobilePhone = model.MobilePhone;
+                user.WorkPhone = model.WorkPhone.FormatPhone();
+                user.MobilePhone = model.MobilePhone.FormatPhone();
                 user.Password = model.Password;
                 user.Hash = String.Empty;
                 user.Active = (model.Active == Common.Status.Active);

@@ -18,8 +18,6 @@ function setTableStatus() {
 
 function setCheckStatus() {
     $(".checks").each(function () {
-        var text = $(this).text();
-        var statusName = getStatusName(parseInt($(this).attr("data-status")));
         var statusColor = getStatusColor(parseInt($(this).attr("data-status")));
         $(this).addClass($.validator.format("alert-{0}", statusColor));
     });
@@ -27,7 +25,7 @@ function setCheckStatus() {
 
 function addTimers() {
     $(".table").each(function () {
-        var statusName = $(this).attr("data-status");
+        var statusName = getStatusName(parseInt($(this).attr("data-status")));
         if (statusName != "Closed") {
             $(this).find(".timer").countdown({ since: new Date($(this).attr("data-date") + " UTC"), compact: true, format: "HMS", onTick: watchCountdown });
         }

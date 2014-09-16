@@ -9,6 +9,20 @@
         html: true,
         trigger: "hover",
     });
+
+    if ($("#floor").has("li")) {
+        $("#btnNewCategory").hide();
+    }
+    else {
+        $("#btnNewCategory").show();
+    }
+
+    if ($(".table tbody").has(".categoryRow")) {
+        $("#btnNewItem").hide();
+    }
+    else {
+        $("#btnNewItem").show();
+    }
 })
 
 /// ****** CATEGORY ***************///

@@ -240,6 +240,7 @@ h4 {
 .checksBadges {
     display: inline-block;
     position: relative;
+    margin-right: 3px;
 }
 
 .timer {

@@ -88,6 +88,20 @@
     </div>
 }
 
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ItemFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PageBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PriceColor.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[Common.Settings.ShowHiddenItems.ToString()])
+
 <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/menu.js")" type="text/javascript"></script>
 <script type="text/javascript">
@@ -102,46 +116,57 @@
         $("body").css("background", bg)
 
         // Color
-        var kolor = "@Model.Settings[Common.Settings.CategoryColor.ToString()]";
-        if (kolor != "")
+        var kolor = $("input[name='Settings[CategoryColor]']").val();
+        if (kolor != "") {
             $(".category").css("color", kolor);
+        }
 
-        kolor = "@Model.Settings[Common.Settings.CategoryDescriptionColor.ToString()]";
+        kolor = $("input[name='Settings[CategoryDescriptionColor]']").val();
         if (kolor != "")
             $(".categoryDescription").css("color", kolor);
 
-        kolor = "@Model.Settings[Common.Settings.ItemColor.ToString()]";
+        kolor = $("input[name='Settings[ItemColor]']").val();
         if (kolor != "")
             $(".item").css("color", kolor);
 
-        kolor = "@Model.Settings[Common.Settings.ItemDescriptionColor.ToString()]";
+        kolor = $("input[name='Settings[ItemDescriptionColor]']").val();
         if (kolor != "")
             $(".itemDescription").css("color", kolor);
 
-        kolor = "@Model.Settings[Common.Settings.PriceColor.ToString()]";
+        kolor = $("input[name='Settings[PriceColor]']").val();
         if (kolor != "")
             $(".price").css("color", kolor);
 
         // Font Size
-        var fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.CategoryFontSize.ToString()]), "px")";
-        if (fontsize != "")
-            $(".category").css("font-size", fontsize);
+        var fontsize = $("input[name='Settings[CategoryFontSize]']").val();
+        if (fontsize != "") {
+            $(".category").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#CategoryFontSize").slider("value", fontsize);
+        }
 
-        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()]), "px")";
-        if (fontsize != "")
-            $(".categoryDescription").css("font-size", fontsize);
+        fontsize = $("input[name='Settings[CategoryDescriptionFontSize]']").val();
+        if (fontsize != "") {
+            $(".categoryDescription").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#CategoryDescriptionFontSize").slider("value", fontsize);
+        }
 
-        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.ItemFontSize.ToString()]), "px")";
-        if (fontsize != "")
-            $(".item").css("font-size", fontsize);
+        fontsize = $("input[name='Settings[ItemFontSize]']").val();
+        if (fontsize != "") {
+            $(".item").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#ItemFontSize").slider("value", fontsize);
+        }
 
-        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.ItemDescriptionFontSize.ToString()]), "px")";
-        if (fontsize != "")
-            $(".itemDescription").css("font-size", fontsize);
+        fontsize = $("input[name='Settings[ItemDescriptionFontSize]']").val();
+        if (fontsize != "") {
+            $(".itemDescription").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#ItemDescriptionFontSize").slider("value", fontsize);
+        }
 
-        fontsize = "@String.Format("{0}{1}", 2 * Convert.ToInt16(Model.Settings[Common.Settings.PriceFontSize.ToString()]), "px")";
-        if (fontsize != "")
-            $(".price").css("font-size", fontsize);
+        fontsize = $("input[name='Settings[PriceFontSize]']").val();
+        if (fontsize != "") {
+            $(".price").css("font-size", $.validator.format("{0}px", fontsize));
+            $("#PriceFontSize").slider("value", fontsize);
+        }
 
     });
 </script>

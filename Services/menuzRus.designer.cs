@@ -4337,13 +4337,13 @@ namespace Services
 		
 		private System.DateTime _DateModified;
 		
-		private EntitySet<User> _Users;
-		
 		private EntitySet<Setting> _Settings;
 		
 		private EntitySet<Menu> _Menus;
 		
 		private EntitySet<Floor> _Floors;
+		
+		private EntitySet<User> _Users;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4377,10 +4377,10 @@ namespace Services
 		
 		public Customer()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			this._Settings = new EntitySet<Setting>(new Action<Setting>(this.attach_Settings), new Action<Setting>(this.detach_Settings));
 			this._Menus = new EntitySet<Menu>(new Action<Menu>(this.attach_Menus), new Action<Menu>(this.detach_Menus));
 			this._Floors = new EntitySet<Floor>(new Action<Floor>(this.attach_Floors), new Action<Floor>(this.detach_Floors));
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			OnCreated();
 		}
 		
@@ -4584,7 +4584,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -4604,7 +4604,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -4621,19 +4621,6 @@ namespace Services
 					this.SendPropertyChanged("DateModified");
 					this.OnDateModifiedChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_User", Storage="_Users", ThisKey="id", OtherKey="CustomerId")]
-		public EntitySet<User> Users
-		{
-			get
-			{
-				return this._Users;
-			}
-			set
-			{
-				this._Users.Assign(value);
 			}
 		}
 		
@@ -4676,6 +4663,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_User", Storage="_Users", ThisKey="id", OtherKey="CustomerId")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4694,18 +4694,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = this;
-		}
-		
-		private void detach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = null;
 		}
 		
 		private void attach_Settings(Setting entity)
@@ -4739,6 +4727,18 @@ namespace Services
 		}
 		
 		private void detach_Floors(Floor entity)
+		{
+			this.SendPropertyChanging();
+			entity.Customer = null;
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Customer = this;
+		}
+		
+		private void detach_Users(User entity)
 		{
 			this.SendPropertyChanging();
 			entity.Customer = null;

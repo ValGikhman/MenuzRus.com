@@ -11,7 +11,7 @@
 
     <div id="default" class="clearfix">
         <div class="btn-group menu">
-            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name</button>
+            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name&nbsp;</button>
             <button id="btnMenuToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -24,8 +24,8 @@
         </div>
 
         <div class="pull-right">
-            <button id="btnNewCategory" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
-            <button id="btnNewItem" type="button" class="btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+            <button id="btnNewCategory" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
+            <button id="btnNewItem" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
         </div>
     </div>
 

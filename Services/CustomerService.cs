@@ -49,7 +49,7 @@ namespace MenuzRus {
                     String path = String.Format("{0}//Images/Menus/{1}", AppDomain.CurrentDomain.BaseDirectory, customer.id);
                     if (!Directory.Exists(path)) {
                         DirectoryInfo di = Directory.CreateDirectory(path);
-                        String subpath = String.Format("{0}/Customer", path);
+                        String subpath = String.Format("{0}/Customers", path);
                         if (!Directory.Exists(subpath)) {
                             di = Directory.CreateDirectory(subpath);
                         }

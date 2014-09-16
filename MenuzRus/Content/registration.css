@@ -1,42 +1,18 @@
 ﻿/* Set position*/
 body {
-    padding-top: 150px;
+    padding-top: 80px;
     background-color: #eee;
 }
 
 .container-registration {
-    width: 970px;
+    width: 72vw;
     margin-left: auto;
     margin-right: auto;
-}
-
-#page-content-wrapper {
-    margin-left: 0px;
 }
 
 .input-sm {
     margin-top: 0;
     margin-bottom: 10px;
-}
-
-#State {
-    width: 150px;
-}
-
-.preview {
-    width: 260px;
-    height: 260px;
-    text-align: center;
-    cursor: pointer;
-}
-
-#Image {
-    width: 0;
-    height: 0;
-}
-
-.imagerow {
-    padding-right: 0px;
 }
 
 .modal-footer {

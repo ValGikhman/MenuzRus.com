@@ -12,9 +12,9 @@ namespace MenuzRus.Models {
 
     public class CheckPrint {
 
-        public Double Adjustment { get; set; }
+        public Decimal Adjustment { get; set; }
 
-        public Double AdjustmentPercent { get; set; }
+        public Decimal AdjustmentPercent { get; set; }
 
         public OrderCheck Check { get; set; }
 
@@ -22,24 +22,24 @@ namespace MenuzRus.Models {
 
         public Int32 Split { get; set; }
 
-        public IEnumerable<Double> SplitValues { get; set; }
+        public IEnumerable<Decimal> SplitValues { get; set; }
 
-        public Double Subtotal { get; set; }
+        public Decimal Subtotal { get; set; }
 
-        public Double Summary { get; set; }
+        public Decimal Summary { get; set; }
 
-        public Double Tax { get; set; }
+        public Decimal Tax { get; set; }
 
-        public Double TaxPercent { get; set; }
+        public Decimal TaxPercent { get; set; }
 
-        public Double Total { get; set; }
+        public Decimal Total { get; set; }
     }
 
     public class LineItem {
 
         public String Description { get; set; }
 
-        public Double Price { get; set; }
+        public Decimal Price { get; set; }
 
         public List<LineItem> SubItems { get; set; }
     }

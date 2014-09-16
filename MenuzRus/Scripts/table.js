@@ -18,14 +18,18 @@ $(function () {
     });
 
     $("#checkStatus li a").click(function () {
+        var split = parseInt($("#slideSplit").slider("value"));
+        var adjustment = parseInt($("#adjustmentSplit").slider("value"));
         var text = $(this).text();
         $("#btnCheckStatus").text(text);
         var selected = $(".chosen-select")[0].selectedOptions;
         $.each($(selected), function (index, item) {
             $($.validator.format(".check .tab-pane[data-value={0}]", $(item).val())).attr("data-status", text);
             $($.validator.format(".checks li a[data-value={0}]", $(item).val())).attr("data-status", text);
-            updateCheckStatus($(item).val(), text);
+            updateCheckStatus($(item).val(), text, adjustment, split);
         });
+
+        toggleObjects(text);
     });
 
     $("#tableStatus li a").click(function () {
@@ -40,9 +44,11 @@ $(function () {
     });
 
     $("#btnAdd").click(function (e) {
-        $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-toggle='tab'>{0}{1}</a></li>", "New", addCloseButton()));
+        $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-type='{2}' data-status='{3}' data-toggle='tab'>{0}{1}</a></li>", "New", addCloseButton(), 'Guest', 'Active'));
         $(".check").append($.validator.format("<div class='tab-pane fade in active' id='New' data-value='0'></div>"));
         $(".checks li:last a").tab("show");
+        $("#btnCheckType").text("Guest");
+        $("#btnCheckStatus").text("Active");
         BindEvents();
     });
 
@@ -106,6 +112,14 @@ function addCloseButton() {
     return "<button class='close btn btn-primary' title='Remove this check' type='button'><i class='glyphicon glyphicon-remove-circle' /></button>";
 }
 
+function addStatusSign(text) {
+    var retVal = "";
+    if (text == "Ordered") {
+        retVal = "<i class='glyphicon glyphicon-usd paid'></i>"
+    }
+    return retVal;
+}
+
 function deleteItself(object) {
     deleteMenu(object);
 }
@@ -154,10 +168,16 @@ function orderMenuItem(id) {
     var jqxhr = $.get($.validator.format("{0}Order/OrderMenuItem", root), { "id": id, "checkId": checkId, "tableId": tableId }, "json")
         .done(function (result) {
             $(active).append(result.html);
+            var status = $("#btnCheckStatus").text();
+            var type = $("#btnCheckType").text();
             $(active).attr("id", $.validator.format("Check{0}", result.checkId)).attr("data-value", result.checkId);
             $(active).attr("data-value", result.checkIdheckId);
+            $(active).attr("data-type", type);
+            $(active).attr("data-status", status);
             $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
             $(activeTab).attr("data-value", result.checkIdheckId);
+            $(activeTab).attr("data-type", type);
+            $(activeTab).attr("data-status", status);
             $(activeTab).html($.validator.format("#{0}{1}", result.checkId, addCloseButton()));
         })
         .fail(function () {
@@ -178,6 +198,11 @@ function showOrder(tableId) {
             var active = $(".checks li:last a");
             if ($(active).length > 0) {
                 $(active).tab("show");
+                $("#btnCheckType").text($(active).attr("data-type"));
+                $("#btnCheckStatus").text($(active).attr("data-status"));
+                toggleObjects($(active).attr("data-status"));
+
+                $(".chosen-select").val($(active).attr("data-value")).trigger("chosen:updated");
                 showMenus($(active).attr("data-value"));
             }
         })
@@ -230,34 +255,38 @@ function deleteMenu(object) {
 }
 
 function deleteCheck(object) {
-    var tabSelector = $(object);
-    var divSelector = $.validator.format("div{0}", $(object).parent().attr("href"));
-    var checkId = $(divSelector).attr("data-value");
+    var activeTab = $(".check").find(".tab-pane.active");
+    var active = $(".checks").find(".active a");
+
+    var checkId = $(activeTab).attr("data-value");
     if (checkId == "0") {
-        $(tabSelector).parent().fadeOut("slow", function () {
-            $(tabSelector).parent().parent().remove();
-            $(divSelector).remove();
-            var active = $(".checks li:last a");
-            if ($(active).length > 0) {
-                $(active).tab("show");
-                showMenus($(active).attr("data-value"));
-            }
+        $(active).fadeOut("slow", function () {
+            $(active).remove();
+            $(activeTab).remove();
         });
+        var setActive = $(".checks li:first a");
+        if ($(setActive).length > 0) {
+            $(setActive).tab("show");
+            toggleObjects($(setActive).attr("data-status"));
+            showMenus($(setActive).attr("data-value"));
+        }
         return;
     }
+
     var container = $(".container-order");
     container.block();
     var jqxhr = $.get($.validator.format("{0}Order/DeleteCheck", root), { "checkId": checkId }, "json")
         .done(function (result) {
-            $(tabSelector).parent().fadeOut("slow", function () {
-                $(tabSelector).parent().parent().remove();
-                $(divSelector).remove();
-                active = $(".checks li:last a");
-                if ($(active).length > 0) {
-                    $(active).tab("show");
-                    showMenus($(active).attr("data-value"));
-                }
+            $(active).parent().fadeOut("slow", function () {
+                $(active).remove();
+                $(activeTab).remove();
             });
+            var setActive = $(".checks li:first a");
+            if ($(setActive).length > 0) {
+                $(setActive).tab("show");
+                toggleObjects($(setActive).attr("data-status"));
+                showMenus($(setActive).attr("data-value"));
+            }
         })
         .fail(function () {
             message("::deleteCheck:: Failed.", "error", "topCenter");
@@ -372,10 +401,9 @@ function updateCheckType(id, type) {
         });
 }
 
-function updateCheckStatus(id, status) {
-    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+function updateCheckStatus(id, status, adjustment, split) {
     var type = $(".check").find(".tab-pane.active").attr("data-type");
-    var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status }, "json")
+    var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status, "adjustment": adjustment, "split": split, "type": type }, "json")
         .done(function (result) {
             message("Status changed", "success", "topCenter");
         })
@@ -399,12 +427,40 @@ function addNewTableOrder(tableId) {
             window.location.reload();
         });
 }
+
+function toggleObjects(text) {
+    var active = $(".checks").find(".active a");
+    var activeTab = $(".check").find(".tab-pane.active");
+
+    $(active).find(".paid").remove();
+    $(active).find("button.close").remove();
+    $(activeTab).find(".btnDelete").hide();
+    $("#menuTab").show();
+
+    if (text == "Active") {
+        $(active).append(addCloseButton());
+        $(activeTab).find(".btnDelete").show();
+    }
+    else if (text == "Ordered") {
+        $(active).append(addStatusSign(text));
+    }
+    else if (text == "Paid") {
+        $("#menuTab").hide();
+        $("#actionsTab").tab("show");
+    }
+    else if (text == "Ready") {
+        $("#menuTab").hide();
+        $("#actionsTab").tab("show");
+    }
+}
+
 function BindEvents() {
     $(".checks").on("click", "a", function (e) {
         $(this).tab("show");
         var checkId = $(this).attr("data-value");
         $("#btnCheckType").text($(this).attr("data-type"));
         $("#btnCheckStatus").text($(this).attr("data-status"));
+        toggleObjects($(this).attr("data-status"));
 
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");

@@ -44,6 +44,7 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        [CheckUserSession]
         public ActionResult Index(Int32? id) {
             try {
                 return View(GetModel(id));

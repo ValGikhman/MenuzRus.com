@@ -37,10 +37,10 @@ namespace MenuzRus.Controllers {
         public ActionResult ItemProductAssociate(Int32 id) {
             CategoryService categoryService = new CategoryService();
             ItemService itemService = new ItemService();
-            MenuDesignerModel model = new MenuDesignerModel();
+            DesignerModel model = new DesignerModel();
             try {
                 SessionData.item = itemService.GetItem(id);
-                model.Categories = categoryService.GetCategories(SessionData.menu.id, Common.CategoryType.Product);
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Product);
                 return PartialView("_ItemProductAssociatePartial", model);
             }
             catch (Exception ex) {

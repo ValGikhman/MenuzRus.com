@@ -3,15 +3,11 @@
         $("#btnEditMenu").show();
         $("#btnDeleteMenu").show();
         $("#btnMenuIt").show();
-        $("#btnNewCategory").show();
-        $("#btnNewItem").show();
     }
     else {
         $("#btnEditMenu").hide();
         $("#btnDeleteMenu").hide();
         $("#btnMenuIt").hide();
-        $("#btnNewCategory").hide();
-        $("#btnNewItem").hide();
     }
 
     /// ********** APPLY IMAGES ************///
@@ -238,20 +234,6 @@
         }
     });
 
-    $(".categoryMenu").popover({
-        placement: "top",
-        html: true,
-        trigger: "click",
-        content: $(".btn-group.category").html(),
-    });
-
-    $(".itemMenu").popover({
-        placement: "top",
-        html: true,
-        trigger: "click",
-        content: $(".btn-group.item").html(),
-    });
-
     applySettings();
 })
 
@@ -359,60 +341,6 @@ function deleteMenu(id) {
 }
 
 /// ****** CATEGORY ***************///
-function addCategory() {
-    editCategory(0);
-}
-
-function editCategory(object) {
-    var id = $(object).parent().parent().parent().attr("data-value");
-    $(".categoryMenu").popover('hide');
-    $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
-              .done(function (result) {
-                  $("#modalEditForm").html(result);
-                  $(".modalEditForm").modal("show");
-              })
-.fail(function () {
-})
-.always(function () {
-});
-}
-
-function deleteCategory(object) {
-    var id = $(object).parent().parent().parent().attr("data-value");
-    $(".categoryMenu").popover('hide');
-    $(".itemMenu").popover('hide');
-    var name = $(".category[id=category_" + id + "]").html();
-    noty({
-        layout: "center",
-        type: "error",
-        killer: true,
-        model: true,
-        text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
-        buttons: [{
-            addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
-                $noty.close();
-                var jqxhr = $.post($.validator.format("{0}Category/DeleteCategory/", root), { id: id })
-                                 .done(function (result) {
-                                     message("Category successfully deletes.", "success", "topCenter");
-                                     window.location = $.validator.format("{0}MenuDesigner/Index/{1}", root, $("#Menu_id").val());
-                                 })
-                   .fail(function () {
-                       message("Delete category failed.", "error", "topCenter");
-                   })
-                   .always(function () {
-                   });
-            }
-        },
-          {
-              addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                  $noty.close();
-              }
-          }
-        ]
-    });
-}
-
 function saveSettings(obj) {
     var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveSettings/", root), obj)
       .done(function (result) {
@@ -426,76 +354,4 @@ function saveSettings(obj) {
       })
       .always(function () {
       });
-}
-
-/// ****** ITEMS ***************///
-function addItem() {
-    editItem(0);
-}
-
-function editItem(object) {
-    var id = $(object).parent().parent().parent().attr("data-value");
-    $(".categoryMenu").popover('hide');
-    $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      $(".modalEditForm").modal("show");
-                  })
-    .fail(function () {
-    })
-    .always(function () {
-    });
-}
-
-function associateItem(object) {
-    var id = $(object).parent().parent().parent().attr("data-value");
-    $(".categoryMenu").popover('hide');
-    $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id, type: $("#CategoryType").val() })
-.done(function (result) {
-    $("#modalEditForm").html(result);
-    $(".modalEditForm").modal("show");
-})
-.fail(function () {
-})
-.always(function () {
-});
-}
-
-function deleteItem(object) {
-    var id = $(object).parent().parent().parent().attr("data-value");
-    $(".categoryMenu").popover('hide');
-    $(".itemMenu").popover('hide');
-    var name = $(".item[id=item_" + id + "]").html();
-    noty({
-        layout: "center",
-        type: "error",
-        killer: true,
-        model: true,
-        text: "Item <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
-        buttons: [{
-            addClass: 'btn btn-danger', text: "Delete", onClick: function ($noty) {
-                $noty.close();
-                var jqxhr = $.post($.validator.format("{0}Item/DeleteItem/", root), { id: id })
-                              .done(function (result) {
-                                  if (result == "OK") {
-                                      message("Deleted successfully.", "success", "topCenter");
-                                      window.location = $.validator.format("{0}MenuDesigner/Index/", root) + $("#Menu_id").val();
-                                  }
-                              })
-                .fail(function () {
-                    message("Delete item failed.", "error", "topCenter");
-                })
-                .always(function () {
-                });
-            }
-        },
-          {
-              addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                  $noty.close();
-              }
-          }
-        ]
-    });
 }

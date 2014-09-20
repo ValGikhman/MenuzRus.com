@@ -20,7 +20,7 @@ namespace MenuzRus.Models {
 
     public class MenuDesignerModel : BaseModel {
 
-        public List<Category> Categories { set; get; }
+        public List<MenuCategory> Categories { set; get; }
 
         public Common.CategoryType CategoryType { set; get; }
 

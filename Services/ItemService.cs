@@ -34,7 +34,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
-                        query.Active = false;
+                        query.Status = (Int32)Common.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -99,7 +99,7 @@ namespace MenuzRus {
                         query = db.Items.Where(m => m.id == item.id).FirstOrDefault();
                     if (query != default(Item)) {
                         query.CategoryId = item.CategoryId;
-                        query.Active = item.Active;
+                        query.Status = item.Status;
                         query.Name = item.Name;
                         query.Description = item.Description;
                         query.ImageUrl = item.ImageUrl;

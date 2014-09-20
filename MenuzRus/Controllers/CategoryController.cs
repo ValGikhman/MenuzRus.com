@@ -30,10 +30,10 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32? id, Common.CategoryType type) {
+        public String EditCategory(Int32? id) {
             CategoryModel model;
             try {
-                model = GetModel(id, type);
+                model = GetModel(id);
 
                 ViewData.Model = model;
 
@@ -58,11 +58,9 @@ namespace MenuzRus {
             Category category = new Category();
             try {
                 category.id = model.id;
-                category.MenuId = model.MenuId;
                 category.Name = model.Name;
                 category.Description = model.Description;
-                category.Side = model.Side.ToString();
-                category.Active = true;
+                category.Status = (Int32)Common.Status.Active;
                 category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
                 if (model.Image != null) {
@@ -103,27 +101,22 @@ namespace MenuzRus {
 
         #region private
 
-        private CategoryModel GetModel(Int32? id, Common.CategoryType type) {
+        private CategoryModel GetModel(Int32? id) {
             CategoryModel model = new CategoryModel();
             try {
                 //set for new or existing category
                 model.id = id.HasValue ? id.Value : 0;
                 Category category;
                 CategoryService categoryService = new CategoryService();
-                MenuService menuService = new MenuService();
-                model.Menus = menuService.GetMenus(SessionData.customer.id);
-                model.MenuId = SessionData.menu.id;
-                model.Active = Common.Status.Active;
-                model.Type = type;
                 if (id.HasValue) {
                     category = categoryService.GetCategory((Int32)id.Value);
                     if (category != null) {
                         model.id = category.id;
                         model.Name = category.Name;
                         model.Description = category.Description;
+                        model.Status = (Common.Status)category.Status;
+                        model.Type = (Common.CategoryType)category.Type;
                         model.ImageUrl = category.ImageUrl;
-                        model.MenuId = category.MenuId;
-                        model.Side = EnumHelper<Common.Side>.Parse(category.Side);
                     }
                 }
             }

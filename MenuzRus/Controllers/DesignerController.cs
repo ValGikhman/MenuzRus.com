@@ -15,43 +15,23 @@ namespace MenuzRus.Controllers {
     public class DesignerController : BaseController {
 
         [CheckUserSession]
-        public ActionResult Menu(Int32? id) {
-            return View("MenuProduct", GetModel(id, Common.CategoryType.Menu));
+        public ActionResult Menu() {
+            return View("MenuProduct", GetModel(Common.CategoryType.Menu));
         }
 
         [CheckUserSession]
-        public ActionResult Product(Int32? id) {
-            return View("MenuProduct", GetModel(id, Common.CategoryType.Product));
+        public ActionResult Product() {
+            return View("MenuProduct", GetModel(Common.CategoryType.Product));
         }
 
         #region private
 
-        private MenuDesignerModel GetModel(Int32? id, Common.CategoryType type) {
+        private DesignerModel GetModel(Common.CategoryType type) {
             CategoryService categoryService = new CategoryService();
-            MenuService menuService = new MenuService();
-            MenuDesignerModel model = new MenuDesignerModel();
+            DesignerModel model = new DesignerModel();
             try {
-                SessionData.menu = new Services.Menu();
                 model.CategoryType = type;
-                model.Menus = menuService.GetMenus(SessionData.customer.id);
-                if (model.Menu == null) {
-                    model.Menu = new MenuzRus.Models.Menu();
-                }
-                model.Menu.id = id.HasValue ? id.Value : 0;
-                model.Menu.Name = String.Empty;
-
-                if (model.Menu.id == 0 && model.Menus.Count() > 0) {
-                    model.Menu.id = model.Menus[0].id;
-                    model.Menu.Name = model.Menus[0].Name;
-                    SessionData.menu.Name = model.Menus[0].Name;
-                }
-                else if (model.Menu.id != 0) {
-                    model.Menu.Name = model.Menus.FirstOrDefault(m => m.id == model.Menu.id).Name;
-                }
-
-                SessionData.menu.id = model.Menu.id;
-                SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetCategories(model.Menu.id, type);
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, type);
                 return model;
             }
             catch (Exception ex) {
@@ -59,7 +39,6 @@ namespace MenuzRus.Controllers {
             }
             finally {
                 categoryService = null;
-                menuService = null;
             }
             return null;
         }

@@ -23,6 +23,13 @@ h2 {
     margin-top: 10px;
 }
 
+.bodycontainer {
+    max-height: 90%;
+    width: 100%;
+    margin: 0;
+    overflow-y: auto;
+}
+
 .container-designer {
     background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
     border-radius: 15px;
@@ -104,11 +111,6 @@ h2 {
     width: 35px;
 }
 
-.btn-group {
-    display: none;
-    border-bottom: none;
-}
-
 .toolbar {
     padding: 10px;
     margin-left: auto;
@@ -123,13 +125,6 @@ h2 {
     background-repeat: repeat-x;
     border-color: #DCDCDC;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.bodycontainer {
-    max-height: 462px;
-    width: 100%;
-    margin: 0;
-    overflow-y: auto;
 }
 
 .pointer {

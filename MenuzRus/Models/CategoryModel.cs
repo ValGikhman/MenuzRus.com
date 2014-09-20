@@ -10,9 +10,6 @@ namespace MenuzRus.Models {
 
     public class CategoryModel : BaseModel {
 
-        [DisplayName("Show")]
-        public Common.Status Active { get; set; }
-
         [DisplayName("Description")]
         public String Description { get; set; }
 
@@ -27,19 +24,11 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
-        [DisplayName("Menu name")]
-        public Int32 MenuId { get; set; }
-
-        [DisplayName("Menu")]
-        [Required]
-        public List<Services.Menu> Menus { set; get; }
-
         [DisplayName("Category Name")]
         public String Name { get; set; }
 
-        [DisplayName("Side")]
-        [Required]
-        public Common.Side Side { get; set; }
+        [DisplayName("Status")]
+        public Common.Status Status { get; set; }
 
         [DisplayName("Type")]
         public Common.CategoryType Type { get; set; }

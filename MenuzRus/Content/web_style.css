@@ -248,3 +248,7 @@ body {
     -o-transition-duration: 0.1s !important;
     transition-duration: 0.1s !important;
 }
+
+.noshow {
+    display: none;
+}

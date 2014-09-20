@@ -569,7 +569,7 @@ namespace MenuzRus.Controllers {
                 if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
                     model.Referer = "Monitor";
                 }
-                model.Categories = categoryService.GetAllCategories(Common.CategoryType.Menu);
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
                 model.Table = orderService.GetTable(tableId);
                 model.TableOrder = orderService.GetTableOrder(tableId);
                 model.TableId = model.Table.id;

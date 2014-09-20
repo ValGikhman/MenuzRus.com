@@ -17,13 +17,9 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Menus.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Menu)) {
-                        IEnumerable<Category> categories = db.Categories.Where(m => m.MenuId == id);
-                        if (categories != null) {
-                            foreach (Category category in categories) {
-                                IEnumerable<Item> items = db.Items.Where(m => m.CategoryId == category.id);
-                                db.Items.DeleteAllOnSubmit(items);
-                            }
-                            db.Categories.DeleteAllOnSubmit(categories);
+                        IEnumerable<MenuCategory> menuCategories = db.MenuCategories.Where(m => m.MenuId == id);
+                        if (menuCategories != null) {
+                            db.MenuCategories.DeleteAllOnSubmit(menuCategories);
                         }
                         db.Menus.DeleteOnSubmit(query);
                         db.SubmitChanges();

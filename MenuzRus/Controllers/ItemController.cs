@@ -54,7 +54,7 @@ namespace MenuzRus.Controllers {
                 item.Name = model.Name;
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
-                item.Active = (model.Active == Common.Status.Active);
+                item.Status = (Int32)Common.Status.Active;
                 item.AdditionalInfo = model.AdditionalInfo;
                 if (model.Image != null) {
                     if (item.id == 0)
@@ -120,15 +120,15 @@ namespace MenuzRus.Controllers {
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.menu.id, type);
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, type);
                 if (model.Categories.Any()) {
                     model.CategoryId = model.Categories[0].id;
                 }
-                model.Active = Common.Status.Active;
+                model.Status = Common.Status.Active;
                 if (id.HasValue) {
                     item = itemService.GetItem((Int32)id.Value);
                     if (item != null) {
-                        model.Active = item.Active ? Common.Status.Active : Common.Status.NotActive;
+                        model.Status = (Common.Status)item.Status;
                         model.id = item.id;
                         model.CategoryId = item.CategoryId;
                         model.Name = item.Name;

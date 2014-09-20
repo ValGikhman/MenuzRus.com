@@ -171,6 +171,9 @@ public static class Common {
 
     public enum Status {
 
+        [Display(Name = "Show in menu")]
+        ShowInMenu = 2,
+
         [Display(Name = "Show item")]
         Active = 1,
 

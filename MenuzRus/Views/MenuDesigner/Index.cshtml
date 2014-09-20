@@ -52,13 +52,12 @@
             </ul>
         </div>
 
-        <button id="btnNewMenu" type="button" class="btn btn-primary  btn-sm shadow">New menu</button>
-        <button id="btnEditMenu" type="button" class="noshow btn btn-primary  btn-sm shadow">Edit menu</button>
-        <button id="btnDeleteMenu" type="button" class="noshow btn btn-primary  btn-sm shadow">Delete menu</button>
-        <button id="btnMenuIt" type="button" class="noshow btn btn-primary  btn-sm shadow">Menu-it</button>
+        <button id="btnNewMenu" type="button" class="btn btn-primary btn-md shadow">New menu</button>
+        <button id="btnEditMenu" type="button" class="noshow btn btn-primary btn-md shadow">Edit menu</button>
+        <button id="btnDeleteMenu" type="button" class="noshow btn btn-primary btn-md shadow">Delete menu</button>
+        <button id="btnMenuIt" type="button" class="noshow btn btn-primary btn-md shadow">Menu-it</button>
         <div class=" pull-right">
-            <button id="btnNewCategory" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
-            <button id="btnNewItem" type="button" class="noshow btn btn-primary  btn-sm shadow" data-toggle="modal" onclick="javascript:editItem(0)">New item</button>
+            <button id="btnDesignMenu" type="button" class="btn btn-primary btn-md shadow" data-toggle="modal" onclick="javascript:designMenu()">Design menu</button>
         </div>
     </div>
 </div>
@@ -167,9 +166,10 @@
 
 @helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
     <ul class="category-group">
-        @foreach (Category category in Model.Categories.Where(m => m.Side == side.ToString()).ToList()) {
+        @foreach (MenuCategory menuCategory in Model.Categories.Where(m => m.Side == (Int32)side).ToList()) {
+            Category category = menuCategory.Categories.FirstOrDefault(m => m.id == menuCategory.CategoryId);
             <li  data-value="@category.id">
-                <a class="categoryMenu" data-toggle="popover">
+                <a class="categoryMenu">
                     @if (!String.IsNullOrEmpty(category.Name)) {
                         String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
                         <div id="@categoryDataValue" class="category" data-value="@category.id">
@@ -189,12 +189,8 @@
                 @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
                     <ul class="items-group">
                         @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
-                            String activeClass = "activeItem";
-                            if (!item.Active) {
-                                activeClass = "inActiveItem";
-                            }
-                            <li  data-value="@item.id">
-                                <a class="itemMenu @activeClass" data-toggle="popover">
+                            <li data-value="@item.id">
+                                <a class="itemMenu">
                                     @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                                         <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
                                     }
@@ -223,19 +219,3 @@
         }
     </ul>
 }
-
-<div class="btn-group category">
-    <button id="cancelCategoryMenu" type="button" class="btn btn-default" onclick="javascript: $('.categoryMenu').popover('hide')"><span class="glyphicon glyphicon-remove"></span></button>
-    <button id="editCategory" type="button" class="btn btn-info" onclick="javascript:editCategory(this)"><span class="glyphicon glyphicon-pencil"></span></button>
-    <button id="addCategory" type="button" class="btn btn-primary" onclick="javascript:addCategory()"><span class="glyphicon glyphicon-plus"></span></button>
-    <button id="deleteCategory" type="button" class="btn btn-danger" onclick="javascript:deleteCategory(this)"><span class="glyphicon glyphicon-trash"></span></button>
-</div>
-
-<div class="btn-group item">
-    <button id="cancelItemMenu" type="button" class="btn btn-default" onclick="javascript:  $('.itemMenu').popover('hide')"><span class="glyphicon glyphicon-remove"></span></button>
-    <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(this)"><span class="glyphicon glyphicon-pencil"></span></button>
-    <button id="addItem" type="button" class="btn btn-primary" onclick="ajavascript:addItem()"><span class="glyphicon glyphicon-plus"></span></button>
-    <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(this)"><span class="glyphicon glyphicon-trash"></span></button>
-    <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(this)"><span class="glyphicon glyphicon-transfer"></span></button>
-</div>
-@Html.HiddenFor(m => m.CategoryType)

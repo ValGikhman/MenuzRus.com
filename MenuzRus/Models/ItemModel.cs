@@ -13,10 +13,6 @@ namespace MenuzRus.Models {
     public class ItemModel : BaseModel {
         private Decimal _Price;
 
-        [DisplayName("Show")]
-        [Required]
-        public Common.Status Active { get; set; }
-
         [DisplayName("Additional Information")]
         public String AdditionalInfo { get; set; }
 
@@ -57,5 +53,9 @@ namespace MenuzRus.Models {
 
         [DisplayName("Price to add")]
         public Decimal Price2Add { get; set; }
+
+        [DisplayName("Status")]
+        [Required]
+        public Common.Status Status { get; set; }
     }
 }

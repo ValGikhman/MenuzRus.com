@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\DesignerModel.cs" />
     <Compile Include="Models\OrderCheckPrintModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ItemProductModel.cs" />

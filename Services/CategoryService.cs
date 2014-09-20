@@ -17,7 +17,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Categories.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Category)) {
-                        query.Active = false;
+                        query.Status = (Int32)Common.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -29,16 +29,9 @@ namespace MenuzRus {
             return true;
         }
 
-        public List<Category> GetAllCategories(Common.CategoryType type) {
+        public List<Category> GetCategories(Int32 customerId, Common.CategoryType type) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Menus.Join(db.Categories, menus => menus.id, categories => categories.MenuId, (menu, category) => new { menu = menu, category = category })
-                            .Where(m => m.menu.CustomerId == SessionData.customer.id && m.category.Active && m.category.Type == (Int32)type)
-                            .Select(m => m.category).ToList();
-        }
-
-        public List<Category> GetCategories(Int32 id, Common.CategoryType type) {
-            menuzRusDataContext db = new menuzRusDataContext();
-            return db.Categories.Where(m => m.MenuId == id && m.Active && m.Type == (Int32)type).OrderBy(m => m.SortOrder).ToList();
+            return db.Categories.Where(m => m.CustomerId == customerId && m.Status != (Int32)Common.Status.NotActive && m.Type == (Int32)type).ToList();
         }
 
         public Category GetCategory(Int32 id) {
@@ -46,19 +39,30 @@ namespace MenuzRus {
             return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
+        public List<MenuCategory> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
+            List<MenuCategory> retVal;
+            menuzRusDataContext db = new menuzRusDataContext();
+
+            retVal = (from m in db.Menus
+                      join mc in db.MenuCategories on m.id equals mc.MenuId
+                      join c in db.Categories on mc.CategoryId equals c.id
+                      where m.CustomerId == customerId && c.Status != (Int32)Common.Status.NotActive && c.Type == (Int32)type
+                      select mc).ToList();
+
+            return retVal;
+        }
+
         public Int32 SaveCategory(Category category) {
             Category query = new Category();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     if (category.id != 0)
-                        query = db.Categories.Where(m => m.id == category.id && m.Active).FirstOrDefault();
+                        query = db.Categories.Where(m => m.id == category.id && m.Status != (Int32)Common.Status.NotActive).FirstOrDefault();
                     if (query != default(Category)) {
-                        query.MenuId = category.MenuId;
-                        query.Active = category.Active;
+                        query.Status = category.Status;
                         query.Name = category.Name;
                         query.Description = category.Description;
                         query.ImageUrl = category.ImageUrl;
-                        query.Side = category.Side;
                         query.Type = category.Type;
                     }
                     if (category.id == 0) {

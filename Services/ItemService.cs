@@ -35,8 +35,8 @@ namespace MenuzRus {
                     query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
                         query.Active = false;
+                        db.SubmitChanges();
                     }
-                    db.SubmitChanges();
                 }
             }
             catch (Exception ex) {

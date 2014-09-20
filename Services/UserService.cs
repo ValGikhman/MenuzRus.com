@@ -36,6 +36,11 @@ namespace MenuzRus {
             return db.Users.Where(m => m.id == id && m.Active).FirstOrDefault();
         }
 
+        public User GetUserByHash(String hash) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.Users.Where(m => m.Hash == hash).FirstOrDefault();
+        }
+
         public List<User> GetUsers(Int32 id) {
             List<User> users;
             menuzRusDataContext db = new menuzRusDataContext();
@@ -49,6 +54,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     if (user.id != 0)
                         query = db.Users.Where(m => m.id == user.id).FirstOrDefault();
+
                     if (query != default(User)) {
                         query.CustomerId = user.CustomerId;
                         query.Active = user.Active;
@@ -60,6 +66,7 @@ namespace MenuzRus {
                         query.Password = user.Password;
                         query.ImageUrl = user.ImageUrl;
                         query.Type = user.Type;
+                        query.Hash = user.Hash;
                     }
                     if (user.id == 0) {
                         db.Users.InsertOnSubmit(query);

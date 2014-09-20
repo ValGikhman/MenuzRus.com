@@ -64,6 +64,11 @@ namespace MenuzRus {
             { "WY", "Wyoming" }
         };
 
+        public static String GetNewConfirmationNumber() {
+            byte[] buffer = Guid.NewGuid().ToByteArray();
+            return BitConverter.ToUInt32(buffer, 8).ToString();
+        }
+
         public static IEnumerable<Decimal> SplitAmount(Decimal value, int count) {
             if (count <= 0) throw new ArgumentException("count must be greater than zero.", "count");
             Decimal[] result = new Decimal[count];

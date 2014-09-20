@@ -1,12 +1,12 @@
 ﻿@model MenuzRus.Models.MenuDesignerModel
 @using Services
-<link href="@Url.Content("~/Content/product.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/designer.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
-<script src="@Url.Content("~/Scripts/product.js")"></script>
-<div class="well container container-product shadow">
+<script src="@Url.Content("~/Scripts/designer.js")"></script>
+<div class="well container container-designer shadow">
     <div class="modal-header main-header">
-        <h2>Product designer</h2>
+        <h2>@Model.CategoryType.ToString() designer</h2>
     </div>
 
     <div id="default" class="clearfix">
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div id="panel" class="page shadow">
+    <div id="panel" class="page-designer shadow">
         @if (Model.Categories != null) {
             <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
                 <thead style="color: #fff">
@@ -133,3 +133,4 @@
         }
     </div>
 </div>
+@Html.HiddenFor(m => m.CategoryType)

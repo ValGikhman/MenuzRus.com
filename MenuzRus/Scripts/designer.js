@@ -10,14 +10,14 @@
         trigger: "hover",
     });
 
-    if ($("#floor").has("li")) {
+    if ($("#floor").has("li").length == 0) {
         $("#btnNewCategory").hide();
     }
     else {
         $("#btnNewCategory").show();
     }
 
-    if ($(".table tbody").has(".categoryRow")) {
+    if ($(".table tbody").has(".categoryRow").length == 0) {
         $("#btnNewItem").hide();
     }
     else {
@@ -43,7 +43,7 @@ function showCategoryMenu(id, object) {
 
 function editCategory(id) {
     $(".btn-group.popup-category").hide();
-    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -98,7 +98,7 @@ function showItemMenu(id, object) {
 
 function editItem(id) {
     $(".btn-group.popup-item").hide();
-    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");

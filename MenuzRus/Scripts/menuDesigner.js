@@ -1,5 +1,5 @@
 ﻿$(function () {
-    if ($("#menuList").has("li")) {
+    if ($("#menuList").has("li").length > 0) {
         $("#btnEditMenu").show();
         $("#btnDeleteMenu").show();
         $("#btnMenuIt").show();
@@ -367,7 +367,7 @@ function editCategory(object) {
     var id = $(object).parent().parent().parent().attr("data-value");
     $(".categoryMenu").popover('hide');
     $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
               .done(function (result) {
                   $("#modalEditForm").html(result);
                   $(".modalEditForm").modal("show");
@@ -437,7 +437,7 @@ function editItem(object) {
     var id = $(object).parent().parent().parent().attr("data-value");
     $(".categoryMenu").popover('hide');
     $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");
@@ -452,15 +452,15 @@ function associateItem(object) {
     var id = $(object).parent().parent().parent().attr("data-value");
     $(".categoryMenu").popover('hide');
     $(".itemMenu").popover('hide');
-    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      $(".modalEditForm").modal("show");
-                  })
-    .fail(function () {
-    })
-    .always(function () {
-    });
+    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id, type: $("#CategoryType").val() })
+.done(function (result) {
+    $("#modalEditForm").html(result);
+    $(".modalEditForm").modal("show");
+})
+.fail(function () {
+})
+.always(function () {
+});
 }
 
 function deleteItem(object) {

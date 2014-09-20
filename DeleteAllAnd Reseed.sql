@@ -4,13 +4,13 @@ GO
 DELETE FROM [dbo].[Categories]
 GO
 
-DELETE FROM [dbo].[Customers]
-GO
-
 DELETE FROM [dbo].[Floors]
 GO
 
 DELETE FROM [dbo].[ItemPrices]
+GO
+
+DELETE FROM [dbo].[ItemProduct]
 GO
 
 DELETE FROM [dbo].[ItemProductAssociation]
@@ -48,6 +48,9 @@ GO
 
 DELETE FROM [dbo].[Users]
 GO
+DELETE FROM [dbo].[Customers]
+GO
+
 
 DBCC CHECKIDENT ([Categories], reseed, 0)
 GO

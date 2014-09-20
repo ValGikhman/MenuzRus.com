@@ -203,25 +203,6 @@ public static class Common {
         IPAddress[] addr = ipEntry.AddressList;
         return addr[addr.Length - 2].ToString();
     }
-
-    public static Boolean SendEmail(String emailTo, String emailSubject, String emailBody) {
-        Boolean success = true;
-
-        MailAddress from = new MailAddress("contactme@menuzrus.com");
-        MailAddress to = new MailAddress(emailTo);
-        MailMessage email = new MailMessage(from, to);
-        email.Subject = "MenuzRus message.";
-        email.IsBodyHtml = true;
-        SmtpClient client = new SmtpClient("relay-hosting.secureserver.net");
-        try {
-            email.Body = emailBody;
-            client.Send(email);
-        }
-        catch {
-            success = false;
-        }
-        return success;
-    }
 }
 
 public static class EnumHelper<T> {

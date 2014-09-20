@@ -130,9 +130,11 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ConfirmController.cs" />
+    <Compile Include="Controllers\ConfirmationsController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\DesignerController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\CheckUserSessionAttribute.cs" />
+    <Compile Include="Utility\EmailHelper.cs" />
     <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +177,6 @@
     <Content Include="App_Data\2.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\emailTemplates\EmailConfirmation.html" />
     <Content Include="Content\base\images\animated-overlay.gif" />
     <Content Include="Content\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -202,7 +204,7 @@
     <Content Include="Content\kitchen.css" />
     <Content Include="Content\monitor.css" />
     <Content Include="Content\order.css" />
-    <Content Include="Content\product.css" />
+    <Content Include="Content\designer.css" />
     <Content Include="Content\users.css" />
     <Content Include="Content\floor.css" />
     <Content Include="Content\customer.css" />
@@ -414,7 +416,7 @@
     <Content Include="Scripts\noty\packaged\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\default.js" />
-    <Content Include="Scripts\product.js" />
+    <Content Include="Scripts\designer.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -463,7 +465,7 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Designer\MenuProduct.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
     <Content Include="Views\Order\Tables.cshtml" />
@@ -482,6 +484,9 @@
     <Content Include="Views\Shared\_KitchenDetailsPartial.cshtml" />
     <Content Include="Views\Shared\_KitchenCheckOrderPartial.cshtml" />
     <Content Include="Views\Shared\_PrintAppletPartial.cshtml" />
+    <Content Include="Views\Shared\Emails\_EmailConfirmationPartial.cshtml" />
+    <Content Include="Views\Confirmations\EmailConfirmation.cshtml" />
+    <Content Include="Views\Confirmations\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

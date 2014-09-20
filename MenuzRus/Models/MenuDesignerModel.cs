@@ -22,6 +22,8 @@ namespace MenuzRus.Models {
 
         public List<Category> Categories { set; get; }
 
+        public Common.CategoryType CategoryType { set; get; }
+
         public Menu Menu { set; get; }
 
         public List<Services.Menu> Menus { set; get; }

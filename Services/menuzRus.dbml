@@ -48,7 +48,7 @@
       <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Hash" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(25)" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />

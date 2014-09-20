@@ -1003,7 +1003,7 @@ namespace Services
 		
 		private string _Hash;
 		
-		private string _Type;
+		private int _Type;
 		
 		private string _ImageUrl;
 		
@@ -1041,7 +1041,7 @@ namespace Services
     partial void OnActiveChanged();
     partial void OnHashChanging(string value);
     partial void OnHashChanged();
-    partial void OnTypeChanging(string value);
+    partial void OnTypeChanging(int value);
     partial void OnTypeChanged();
     partial void OnImageUrlChanging(string value);
     partial void OnImageUrlChanged();
@@ -1282,8 +1282,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="VarChar(25)")]
-		public string Type
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
 		{
 			get
 			{

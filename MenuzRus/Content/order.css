@@ -10,6 +10,10 @@
 }
 
 .floorArea {
+    height: 55vh;
+    margin-top: 50px;
+    border-radius: 15px;
+    width: 100%;
     margin-top: 50px;
 }
 
@@ -18,9 +22,12 @@
 }
 
 .container-order {
-    background-color: #eeeeee;
+    background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
     border-radius: 15px;
-    padding: 20px;
+    height: 85vh;
+    width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .row {
@@ -278,6 +285,7 @@ h4 {
 
 .menu {
     height: 100%;
+    width: 45vw;
     padding: 0px;
 }
 

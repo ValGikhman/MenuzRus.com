@@ -12,20 +12,27 @@ using Services;
 
 namespace MenuzRus.Controllers {
 
-    public class ProductController : BaseController {
+    public class DesignerController : BaseController {
 
         [CheckUserSession]
-        public ActionResult Index(Int32? id) {
-            return View(GetModel(id));
+        public ActionResult Menu(Int32? id) {
+            return View("MenuProduct", GetModel(id, Common.CategoryType.Menu));
+        }
+
+        [CheckUserSession]
+        public ActionResult Product(Int32? id) {
+            return View("MenuProduct", GetModel(id, Common.CategoryType.Product));
         }
 
         #region private
 
-        private MenuDesignerModel GetModel(Int32? id) {
+        private MenuDesignerModel GetModel(Int32? id, Common.CategoryType type) {
             CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             MenuDesignerModel model = new MenuDesignerModel();
             try {
+                SessionData.menu = new Services.Menu();
+                model.CategoryType = type;
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 if (model.Menu == null) {
                     model.Menu = new MenuzRus.Models.Menu();
@@ -44,7 +51,7 @@ namespace MenuzRus.Controllers {
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetCategories(model.Menu.id, Common.CategoryType.Product);
+                model.Categories = categoryService.GetCategories(model.Menu.id, type);
                 return model;
             }
             catch (Exception ex) {

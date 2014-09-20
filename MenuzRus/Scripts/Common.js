@@ -35,11 +35,6 @@ function setMenu() {
         $(".menuAlways").show();
     else
         $(".menuAlways").hide();
-
-    if (window.location.href.indexOf("/MenuDesigner") > -1)
-        $(".menuDesigner").removeClass("hide");
-    else
-        $(".menuDesigner").addClass("hide");
 };
 
 function deleteImage() {

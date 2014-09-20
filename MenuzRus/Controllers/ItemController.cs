@@ -33,24 +33,11 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public ActionResult EditItem(Int32? id) {
+        public ActionResult EditItem(Int32? id, Common.CategoryType type) {
             try {
-                return PartialView("_ItemPartial", GetModel(id));
+                return PartialView("_ItemPartial", GetModel(id, type));
             }
             catch (Exception ex) {
-            }
-            finally {
-            }
-            return null;
-        }
-
-        [CheckUserSession]
-        public ActionResult Index(Int32? id) {
-            try {
-                return View(GetModel(id));
-            }
-            catch (Exception ex) {
-                base.Log(ex);
             }
             finally {
             }
@@ -59,11 +46,6 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveItem(ItemModel model) {
-            // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = "Product";
-            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
-                base.Referer = "MenuDesigner";
-
             ItemService service = new ItemService();
             Item item = new Item();
             try {
@@ -94,8 +76,17 @@ namespace MenuzRus.Controllers {
                 else if (model.Image != null)
                     model.Image.SaveAs(path);
 
-                AddItemPrice(model.id, model.Price2Add);
-                return RedirectToAction("Index", base.Referer, new { id = SessionData.menu.id });
+                if (model.Price2Add > 0) {
+                    AddItemPrice(result, model.Price2Add);
+                }
+                if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Product") > -1) {
+                    return RedirectToAction("Product", "Designer", new { id = SessionData.menu.id });
+                }
+                else if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Menu") > -1) {
+                    return RedirectToAction("Menu", "Designer", new { id = SessionData.menu.id });
+                }
+                // Default menuDesigner
+                return RedirectToAction("Index", "MenuDesigner", new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -123,18 +114,16 @@ namespace MenuzRus.Controllers {
             }
         }
 
-        private ItemModel GetModel(Int32? id) {
+        private ItemModel GetModel(Int32? id, Common.CategoryType type) {
             ItemModel model = new ItemModel();
-            // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = "Product";
-            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
-                base.Referer = "Menu";
-
             Item item;
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.menu.id, EnumHelper<Common.CategoryType>.Parse(base.Referer));
+                model.Categories = categoryService.GetCategories(SessionData.menu.id, type);
+                if (model.Categories.Any()) {
+                    model.CategoryId = model.Categories[0].id;
+                }
                 model.Active = Common.Status.Active;
                 if (id.HasValue) {
                     item = itemService.GetItem((Int32)id.Value);

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MenuzRus.Models {
 
-    public class LoginModel {
+    public class LoginModel : BaseModel {
 
         [DisplayName("Email Address")]
         [DataType(DataType.EmailAddress)]

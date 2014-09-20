@@ -119,7 +119,7 @@
         <div class="panel-MenuDesigner-body">
             <div class="wall">
                 <div class="col-md-3 page">
-                    <a href="/Customer/Index/@Model.MyCompany.id">
+                    <a href="@Url.Content("~/Customer/Index/")@Model.MyCompany.id">
                         @if (!String.IsNullOrEmpty(@Model.MyCompany.ImageUrl)) {
                             <div>
                                 <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
@@ -208,7 +208,13 @@
                                 @if (!String.IsNullOrEmpty(item.Description)) {
                                     <div class="itemDescription">@item.Description </div>
                                 }
-                                <div class="price">@item.AdditionalInfo</div>
+                                @{
+                                String price = item.AdditionalInfo;
+                                if (String.IsNullOrEmpty(item.AdditionalInfo)) {
+                                    price = item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault().ToString("C");
+                                }
+                                    <div class="price">@price</div>
+                                }
                             </li>
                         }
                     </ul>
@@ -232,3 +238,4 @@
     <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(this)"><span class="glyphicon glyphicon-trash"></span></button>
     <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(this)"><span class="glyphicon glyphicon-transfer"></span></button>
 </div>
+@Html.HiddenFor(m => m.CategoryType)

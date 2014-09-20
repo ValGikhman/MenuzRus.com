@@ -49,7 +49,6 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult SaveUser(UserModel model) {
             UserService userService = new UserService();
-            CommonService commonService = new CommonService();
             try {
                 User user = new User();
                 user.id = model.id;
@@ -61,7 +60,7 @@ namespace MenuzRus {
                 user.Password = model.Password;
                 user.Hash = String.Empty;
                 user.Active = (model.Active == Common.Status.Active);
-                user.Type = model.Type.ToString();
+                user.Type = (Int32)model.Type;
                 user.Email = model.Email;
                 user.ImageUrl = model.ImageUrl;
                 if (model.Image != null) {
@@ -86,7 +85,8 @@ namespace MenuzRus {
                     model.Image.SaveAs(path);
                 }
 
-                //commonService.SendEmailConfirmation(user);
+                //EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
+
                 if (model.Referer == "Form")
                     return RedirectToAction("Index", "Login");
                 else
@@ -97,7 +97,6 @@ namespace MenuzRus {
             }
             finally {
                 userService = null;
-                commonService = null;
             }
             return null;
         }
@@ -124,7 +123,7 @@ namespace MenuzRus {
                         model.Email = user.Email;
                         model.Password = user.Password;
                         model.Active = Common.Status.Active;
-                        model.Type = EnumHelper<Common.UserType>.Parse(user.Type);
+                        model.Type = (Common.UserType)user.Type;
                         model.Hash = user.Hash;
                         model.ImageUrl = user.ImageUrl;
                     }

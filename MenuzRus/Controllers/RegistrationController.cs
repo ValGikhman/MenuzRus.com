@@ -43,7 +43,6 @@ namespace MenuzRus {
             // Save Customer info
             CustomerService customerService = new CustomerService();
             UserService userService = new UserService();
-            CommonService commonService = new CommonService();
             Customer customer = new Customer();
             User user = new User();
             try {
@@ -70,11 +69,15 @@ namespace MenuzRus {
                 user.MobilePhone = model.User.MobilePhone;
                 user.Password = model.User.Password;
                 user.Email = model.User.Email;
+                user.Active = false;
+                user.Hash = Utility.GetNewConfirmationNumber(); ;
+                user.Type = (Int32)Common.UserType.Administrator;
 
                 result = userService.SaveUser(user);
                 SessionData.user = user;
+                base.Log(Common.LogType.Activity, "Registering", "User", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
 
-                commonService.SendEmailConfirmation(user);
+                EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
@@ -83,7 +86,6 @@ namespace MenuzRus {
             finally {
                 customerService = null;
                 userService = null;
-                commonService = null;
             }
             return null;
         }

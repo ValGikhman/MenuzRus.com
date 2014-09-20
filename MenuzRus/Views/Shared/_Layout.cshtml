@@ -63,29 +63,15 @@
                             </li>
                             <li><a href="@Url.Content("~/MenuDesigner")">Menu designer</a>
                             </li>
-                            <li><a href="@Url.Content("~/Product")">Product designer</a>
+                            <li><a href="@Url.Content("~/Designer/Product")">Product</a>
+                            </li>
+                            <li><a href="@Url.Content("~/Designer/Menu")">Menu</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Tables")">Order</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Monitor")">Monitor</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown user-dropdown menuDesigner hide">
-                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Designer <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a id="newMenu" href="#">New menu</a>
-                            </li>
-                            <li><a id="editMenu" href="#">Edit menu</a>
-                            </li>
-                            <li><a id="deleteMenu" href="#">Delete menu</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a id="addCategory" href="javascript:editCategory(0)">Add category</a>
-                            </li>
-                            <li><a id="additem" href="javascript:editItem(0)">Add item</a>
                             </li>
                         </ul>
                     </li>
@@ -113,9 +99,13 @@
                             String contact = "Unknown";
                             Int32 contactId = 0;
                             if (Model != null) {
-                                contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
-                                customerId = Model.MyCompany.id;
-                                contactId = Model.Me.id;
+                                if (Model.Me != null) {
+                                    contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
+                                }
+                                if (Model.MyCompany != null) {
+                                    customerId = Model.MyCompany.id;
+                                    contactId = Model.Me.id;
+                                }
                             }
                         }
                         <a id="userMenu" href="#" class="dropdown-toggle gradient" data-toggle="dropdown">

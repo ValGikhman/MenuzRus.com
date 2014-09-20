@@ -19,7 +19,9 @@
             </tr>
             <tr>
                 <td>
-                    <div class="addressItem centered">@MenuzRus.SessionData.customer.Address2.ToUpper()</div>
+                    @if (!String.IsNullOrEmpty(MenuzRus.SessionData.customer.Address2)) {
+                        <div class="addressItem centered">@MenuzRus.SessionData.customer.Address2.ToUpper()</div>
+                    }
                 </td>
             </tr>
             <tr>

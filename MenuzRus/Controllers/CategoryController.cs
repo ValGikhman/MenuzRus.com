@@ -30,10 +30,10 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32? id) {
-            CategoryModel model = new CategoryModel();
+        public String EditCategory(Int32? id, Common.CategoryType type) {
+            CategoryModel model;
             try {
-                model = GetModel(model, id);
+                model = GetModel(id, type);
 
                 ViewData.Model = model;
 
@@ -52,27 +52,8 @@ namespace MenuzRus {
             return null;
         }
 
-        [CheckUserSession]
-        public ActionResult Index(Int32? id) {
-            try {
-                CategoryModel model = new CategoryModel();
-                model = GetModel(model, id);
-                return View(model);
-            }
-            catch (Exception ex) {
-            }
-            finally {
-            }
-            return null;
-        }
-
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
-            // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = "Product";
-            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
-                base.Referer = "Menu";
-
             CategoryService service = new CategoryService();
             Category category = new Category();
             try {
@@ -110,17 +91,20 @@ namespace MenuzRus {
             finally {
                 service = null;
             }
-            return RedirectToAction("Index", base.Referer, new { id = model.MenuId });
+            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Product") > -1) {
+                return RedirectToAction("Product", "Designer", new { id = SessionData.menu.id });
+            }
+            else if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Menu") > -1) {
+                return RedirectToAction("Menu", "Designer", new { id = SessionData.menu.id });
+            }
+            // Default menuDesigner
+            return RedirectToAction("Index", "MenuDesigner", new { id = SessionData.menu.id });
         }
 
         #region private
 
-        private CategoryModel GetModel(CategoryModel model, Int32? id) {
-            // Converts /MenuDesigner to Menu, /Product to Product etc
-            base.Referer = "Product";
-            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("MenuDesigner") > -1)
-                base.Referer = "Menu";
-
+        private CategoryModel GetModel(Int32? id, Common.CategoryType type) {
+            CategoryModel model = new CategoryModel();
             try {
                 //set for new or existing category
                 model.id = id.HasValue ? id.Value : 0;
@@ -130,7 +114,7 @@ namespace MenuzRus {
                 model.Menus = menuService.GetMenus(SessionData.customer.id);
                 model.MenuId = SessionData.menu.id;
                 model.Active = Common.Status.Active;
-                model.Type = EnumHelper<Common.CategoryType>.Parse(base.Referer);
+                model.Type = type;
                 if (id.HasValue) {
                     category = categoryService.GetCategory((Int32)id.Value);
                     if (category != null) {

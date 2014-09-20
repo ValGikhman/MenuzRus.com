@@ -61,8 +61,8 @@ namespace Services {
                     Log log = new Log();
                     log.IP = Common.GetIP();
                     log.LogType = (Int32)type;
-                    log.UserId = SessionData.user.id;
-                    log.SessionId = SessionData.sessionId;
+                    log.UserId = SessionData.user != null ? SessionData.user.id : 0;
+                    log.SessionId = SessionData.sessionId != null ? SessionData.sessionId : "N/A";
                     log.Message = String.Format("{0} {1}{2}", message, Environment.NewLine, BuildParameters(data));
                     log.Trace = trace;
                     log.Route = SessionData.route;

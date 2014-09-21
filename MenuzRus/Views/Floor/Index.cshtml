@@ -69,7 +69,6 @@
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
         <h2>Floor Setup</h2>
-        <button id="btnSave" type="button" class="btn btn-success btn-md pull-right">Save changes</button>
     </div>
     <div id="default" style="margin-top: 20px;">
         <div class="btn-group pull-left addMenu">
@@ -91,8 +90,8 @@
         </div>
 
         <div class="btn-group floor">
-            <button id="btnFloor" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Floor.Name&nbsp;</button>
-            <button id="btnFloorToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button id="btnFloor" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Model.Floor.Name&nbsp;</button>
+            <button id="btnFloorToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -103,9 +102,10 @@
             </ul>
         </div>
 
-        <button id="btnNewFloor" type="button" class="btn btn-primary btn-md shadow">New floor</button>
-        <button id="btnEditFloor" type="button" class="btn btn-primary btn-md shadow">Edit floor</button>
-        <button id="btnDeleteFloor" type="button" class="btn btn-primary btn-md shadow">Delete floor</button>
+        <button id="btnNewFloor" type="button" class="btn btn-primary btn-md btn-lg shadow">New floor</button>
+        <button id="btnEditFloor" type="button" class="btn btn-primary btn-md btn-lg  shadow">Edit floor</button>
+        <button id="btnDeleteFloor" type="button" class="btn btn-danger btn-md shadow btn-lg">Delete floor</button>
+        <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right">Save changes</button>
     </div>
     <div class="gridster floorArea shadow">
         <ul>

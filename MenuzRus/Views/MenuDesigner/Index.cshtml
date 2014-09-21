@@ -37,11 +37,11 @@
     </div>
     <div id="default">
         <div class="btn-group menu">
-            <button id="btnSettings" type="button" class="btn btn-default btn">
+            <button id="btnSettings" type="button" class="btn btn-default btn-lg">
                 <span class="glyphicon glyphicon-cog"></span>
             </button>
-            <button id="btnMenu" type="button" class="btn btn-default" data-toggle="dropdown">@Model.Menu.Name&nbsp;</button>
-            <button id="btnMenuToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button id="btnMenu" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Model.Menu.Name&nbsp;</button>
+            <button id="btnMenuToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -52,12 +52,12 @@
             </ul>
         </div>
 
-        <button id="btnNewMenu" type="button" class="btn btn-primary btn-md shadow">New menu</button>
-        <button id="btnEditMenu" type="button" class="noshow btn btn-primary btn-md shadow">Edit menu</button>
-        <button id="btnDeleteMenu" type="button" class="noshow btn btn-primary btn-md shadow">Delete menu</button>
-        <button id="btnMenuIt" type="button" class="noshow btn btn-primary btn-md shadow">Menu-it</button>
+        <button id="btnNewMenu" type="button" class="btn btn-primary btn-lg shadow">New menu</button>
+        <button id="btnEditMenu" type="button" class="noshow btn btn-primary btn-lg shadow">Edit menu</button>
+        <button id="btnDeleteMenu" type="button" class="noshow btn btn-danger btn-lg shadow">Delete menu</button>
+        <button id="btnMenuIt" type="button" class="noshow btn btn-primary btn-lg shadow">Menu-it</button>
         <div class=" pull-right">
-            <button id="btnDesignMenu" type="button" class="btn btn-primary btn-md shadow" data-toggle="modal" onclick="javascript:designMenu()">Design menu</button>
+            <button id="btnDesignMenu" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal" onclick="javascript:designMenu()">Design menu</button>
         </div>
     </div>
 </div>
@@ -113,38 +113,35 @@
         </div>
     </div>
 </div>
-<div class="well container">
-    <div id="panel" class="panel panel-default panel-MenuDesigner shadow">
-        <div class="panel-MenuDesigner-body">
-            <div class="wall">
-                <div class="col-md-3 page">
-                    <a href="@Url.Content("~/Customer/Index/")@Model.MyCompany.id">
-                        @if (!String.IsNullOrEmpty(@Model.MyCompany.ImageUrl)) {
-                            <div>
-                                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
-                            </div>
-                        }
-                        <div class="category">@Model.MyCompany.Name</div>
-                        <div class="item">Welcomes you</div>
-                        <div class="price">
-                            @Model.MyCompany.Address<br>
-                            @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
-                            @Model.MyCompany.Phone
-                        </div>
-                    </a>
+<div class="wall">
+    <div style="margin: 0 auto;">
+        <div class="col-md-3 page">
+            <a href="@Url.Content("~/Customer/Index/")@Model.MyCompany.id">
+                @if (!String.IsNullOrEmpty(@Model.MyCompany.ImageUrl)) {
+                    <div>
+                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", @Model.MyCompany.id, @Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" class="logo" />
+                    </div>
+                }
+                <div class="category">@Model.MyCompany.Name</div>
+                <div class="item">Welcomes you</div>
+                <div class="price">
+                    @Model.MyCompany.Address<br>
+                    @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
+                    @Model.MyCompany.Phone
                 </div>
-                <div class="col-md-3 page">
-                    @ShowPage(Model, Common.Side.Left)
-                </div>
+            </a>
+        </div>
 
-                <div class="col-md-3 page">
-                    @ShowPage(Model, Common.Side.Center)
-                </div>
+        <div class="col-md-3 page">
+            @ShowPage(Model, Common.Side.Left)
+        </div>
 
-                <div class="col-md-3 page">
-                    @ShowPage(Model, Common.Side.Right)
-                </div>
-            </div>
+        <div class="col-md-3 page">
+            @ShowPage(Model, Common.Side.Center)
+        </div>
+
+        <div class="col-md-3 page">
+            @ShowPage(Model, Common.Side.Right)
         </div>
     </div>
 </div>

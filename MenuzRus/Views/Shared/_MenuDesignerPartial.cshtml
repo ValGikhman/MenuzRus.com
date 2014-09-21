@@ -1,0 +1,39 @@
+﻿@model MenuzRus.Models.DesignerModel
+@using Services
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/item.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
+
+<div class="modal-header  modal-new">
+    <button type="button" class="close itemProductClose" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Edit Menu
+        <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:addAssosiation()"><span class="glyphicon glyphicon-plus"></span></button>
+    </h4>
+</div>
+<div class="container container-item">
+    @{
+        foreach (Services.ItemProduct itemProduct in MenuzRus.SessionData.item.ItemProducts) {
+
+        <div class="left">
+            <div style="margin: 12px 0 12px;">Left Menu Panel</div>
+            <select data-value="0" data-placeholder="Click to add menu item" class="chosen-select items shadow" multiple>
+                @foreach (Services.Category category in Model.Categories) {
+                    <option value=""></option>
+                    <optgroup label="@category.Name">
+                        @foreach (Services.Item item in category.Items) {
+                            <option value="@item.id">@item.Name</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+        </div>
+        }
+    }
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" onclick="javascript:saveItems()">Save changes</button>
+</div>
+<input type="hidden" id="id" />
+<script>initChosen()</script>

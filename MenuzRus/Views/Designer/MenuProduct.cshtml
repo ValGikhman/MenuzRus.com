@@ -103,7 +103,9 @@
                                     <div class="btn-group">
                                         <button id="editItrem" type="button" class="btn btn-info" onclick="javascript:editItem(@item.id)"><span class="glyphicon glyphicon-pencil"></span></button>
                                         <button id="deletItem" type="button" class="btn btn-danger" onclick="javascript:deleteItem(@item.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                        <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(@item.id)"><span class="glyphicon glyphicon-transfer"></span></button>
+                                        @if (Model.CategoryType == Common.CategoryType.Menu) {
+                                            <button id="assosiateItem" type="button" class="btn btn-success" onclick="javascript:associateItem(@item.id)"><span class="glyphicon glyphicon-transfer"></span></button>
+                                        }
                                     </div>
                                 </td>
                             </tr>

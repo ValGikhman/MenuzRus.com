@@ -30,6 +30,9 @@ a:hover, a:focus {
 
 .panel-MenuDesigner {
     padding: 0px;
+    width: 60vw;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .panel-MenuDesigner-body {
@@ -59,7 +62,7 @@ a:hover, a:focus {
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 0px;
-    width: 1185px;
+    width: 95vw;
 }
 
 .category-group {

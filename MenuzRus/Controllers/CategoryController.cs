@@ -30,19 +30,9 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32? id) {
-            CategoryModel model;
+        public String EditCategory(Int32 id, Common.CategoryType type) {
             try {
-                model = GetModel(id);
-
-                ViewData.Model = model;
-
-                using (StringWriter sw = new StringWriter()) {
-                    ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, "_CategoryPartial");
-                    ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                    viewResult.View.Render(viewContext, sw);
-                    return sw.GetStringBuilder().ToString();
-                }
+                return RenderViewToString(this.ControllerContext, "_CategoryPartial", GetModel(id, type));
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -63,6 +53,7 @@ namespace MenuzRus {
                 category.Status = (Int32)Common.Status.Active;
                 category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
+                category.CustomerId = SessionData.customer.id;
                 if (model.Image != null) {
                     if (category.id == 0)
                         category.ImageUrl = Path.GetExtension(model.Image.FileName);
@@ -101,23 +92,22 @@ namespace MenuzRus {
 
         #region private
 
-        private CategoryModel GetModel(Int32? id) {
+        private CategoryModel GetModel(Int32 id, Common.CategoryType type) {
             CategoryModel model = new CategoryModel();
             try {
                 //set for new or existing category
-                model.id = id.HasValue ? id.Value : 0;
+                model.id = id;
                 Category category;
                 CategoryService categoryService = new CategoryService();
-                if (id.HasValue) {
-                    category = categoryService.GetCategory((Int32)id.Value);
-                    if (category != null) {
-                        model.id = category.id;
-                        model.Name = category.Name;
-                        model.Description = category.Description;
-                        model.Status = (Common.Status)category.Status;
-                        model.Type = (Common.CategoryType)category.Type;
-                        model.ImageUrl = category.ImageUrl;
-                    }
+                category = categoryService.GetCategory(id);
+                model.Type = type;
+                if (category != null) {
+                    model.id = category.id;
+                    model.Name = category.Name;
+                    model.Description = category.Description;
+                    model.Status = (Common.Status)category.Status;
+                    model.Type = (Common.CategoryType)category.Type;
+                    model.ImageUrl = category.ImageUrl;
                 }
             }
             catch (Exception ex) {

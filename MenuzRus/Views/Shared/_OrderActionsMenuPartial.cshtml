@@ -1,6 +1,6 @@
 ﻿@model List<MenuzRus.Models.Check>
-<button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:addAll();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add all</button>
-<button id="btnAddAll" class="btn btn-primary shadow" onclick="javascript:deleteAll();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Delete all</button>
+<button id="btnAddAll" class="btn btn-primary btn-lg shadow" onclick="javascript:addAll();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add all</button>
+<button id="btnAddAll" class="btn btn-primary btn-lg shadow" onclick="javascript:deleteAll();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Delete all</button>
 <div class="menuActions-container">
     <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
         @foreach (MenuzRus.Models.Check check in Model) {
@@ -26,34 +26,37 @@
                     <div id="adjustmentSplit"></div>
                 </div>
                 <div class="form-control properties">
-                    @Html.Label("Type:")
-                    <div class="btn-group dropup checkType">
-                        <button id="btnCheckType" type="button" class="btn btn-default" data-toggle="dropdown">@Common.CheckType.Guest</button>
-                        <button id="btnCheckTypeToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul id="checkType" class="dropdown-menu" role="menu">
-                            @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
-                                <li><a href="#">@type</a></li>
-                            }
-                        </ul>
-                    </div>
-
-                    <label for="Status" style="margin-left: 35px;">Status:</label>
-                    <div class="btn-group dropup checkStatus">
-                        <button id="btnCheckStatus" type="button" class="btn btn-default" data-toggle="dropdown">@Common.CheckStatus.Active</button>
-                        <button id="btnCheckStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul id="checkStatus" class="dropdown-menu" role="menu">
-                            @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
-                                if (status != Common.CheckStatus.Ready) {
-                                <li><a href="#">@status</a></li>
+                    <div style="display: inline">
+                        @Html.Label("Type:")
+                        <div class="btn-group dropup checkType">
+                            <button id="btnCheckType" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
+                            <button id="btnCheckTypeToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul id="checkType" class="dropdown-menu" role="menu">
+                                @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
+                                    <li><a href="#">@type</a></li>
                                 }
-                            }
-                        </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <label for="Status">Status:</label>
+                        <div class="btn-group dropup checkStatus">
+                            <button id="btnCheckStatus" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
+                            <button id="btnCheckStatusToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul id="checkStatus" class="dropdown-menu" role="menu">
+                                @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
+                                    if (status != Common.CheckStatus.Ready) {
+                                    <li><a href="#">@status</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@
                        currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString());
                    }
                 }
-                <button id="btnTableStatus" type="button" class="btn btn-default" data-toggle="dropdown">@currentStatus</button>
+                <button id="btnTableStatus" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@currentStatus</button>
                 <button id="btnTableStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -31,11 +31,11 @@
                     }
                 </ul>
             </div>
-            <button id="btnAdd" class="add-check btn btn-primary shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
-            <button id="btnBack" class="btn btn-primary  shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
+            <button id="btnAdd" class="add-check btn btn-primary btn-lg shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
+            <button id="btnBack" class="btn btn-primary btn-lg shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
         </div>
     </div>
-    <div class="layout" style="height: 80%; margin-top: 15px; text-justify: auto;">
+    <div class="layout" style="margin-top: 15px;">
         <div class="shadow menu">
             <ul class="nav nav-pills menu-tab btn-default">
                 <li><a id="menuTab" href="#menu-tab" data-toggle="pill">Menu

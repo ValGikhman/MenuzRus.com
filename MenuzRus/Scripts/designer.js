@@ -24,7 +24,7 @@ function collapseCategory(thisObject, toggleObject) {
 }
 
 function editCategory(id) {
-    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
                       $(".modalEditForm").modal("show");

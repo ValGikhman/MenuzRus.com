@@ -12,25 +12,21 @@ body {
     border-radius: 15px;
 }
 
-.modal-header {
-    padding-top: 0px;
-}
-
 .modal-new {
     padding-top: 25px;
 }
 
 .floorArea {
-    height: 55vh;
+    height: 60vh;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 15px;
-    width: 100%;
 }
 
 h2, h5 {
     color: #787878;
     text-shadow: 2px 2px 3px #8D8484;
+    display: inline;
 }
 
 .tableName {

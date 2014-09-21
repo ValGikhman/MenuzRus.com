@@ -488,6 +488,7 @@
     <Content Include="Views\Shared\Emails\_EmailConfirmationPartial.cshtml" />
     <Content Include="Views\Confirmations\EmailConfirmation.cshtml" />
     <Content Include="Views\Confirmations\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_MenuDesignerPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

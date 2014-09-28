@@ -45,7 +45,7 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
             CategoryService service = new CategoryService();
-            Category category = new Category();
+            Services.Category category = new Services.Category();
             try {
                 category.id = model.id;
                 category.Name = model.Name;
@@ -97,7 +97,7 @@ namespace MenuzRus {
             try {
                 //set for new or existing category
                 model.id = id;
-                Category category;
+                Services.Category category;
                 CategoryService categoryService = new CategoryService();
                 category = categoryService.GetCategory(id);
                 model.Type = type;

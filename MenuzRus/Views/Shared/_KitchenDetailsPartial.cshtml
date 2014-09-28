@@ -13,6 +13,14 @@
                         foreach (MenuzRus.Models.CheckPrint check in Model.Checks) {
                         <li><a href="@String.Format("#Check{0}", check.Check.id)" data-value="@check.Check.id" data-type="@check.Check.Type" data-status="@check.Check.Status" data-toggle="pill">
                             @String.Format("#{0}", check.Check.id)
+                            @{
+                            String color = "alert-info";
+                            String type = EnumHelper<Common.CheckType>.Parse(check.Check.Type.ToString()).ToString();
+                            if ((Common.CheckType)check.Check.Type == Common.CheckType.ToGo) {
+                                color = "alert-danger";
+                            }
+                                <span class="label @color " style="padding: 5px;">@type</span>
+                            }
                         </a></li>
                         }
                     }
@@ -28,8 +36,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelKitchenDetails" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="btnStatusReady" type="button" class="btn btn-primary" onclick="javascript:updateCheckStatus();">Status: Ready</button>
+                <button id="btnCancelKitchenDetails" type="button" class="btn btn-lg btn-default" data-dismiss="modal">Close</button>
+                <button id="btnStatusReady" type="button" class="btn btn-lg btn-primary" onclick="javascript:updateCheckStatus();">Status: Ready</button>
             </div>
         </div>
     </div>

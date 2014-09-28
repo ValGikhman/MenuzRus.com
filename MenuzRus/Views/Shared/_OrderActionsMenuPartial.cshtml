@@ -1,6 +1,7 @@
 ﻿@model List<MenuzRus.Models.Check>
-<button id="btnAddAll" class="btn btn-primary btn-lg shadow" onclick="javascript:addAll();"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add all</button>
-<button id="btnAddAll" class="btn btn-primary btn-lg shadow" onclick="javascript:deleteAll();"><i class="glyphicon glyphicon-minus"></i>&nbsp;Delete all</button>
+<button class="btn btn-primary btn-lg shadow" onclick="javascript:selectAll();"><i class="glyphicon glyphicon-plus"></i></button>
+<button class="btn btn-primary btn-lg shadow" onclick="javascript:removeAll();"><i class="glyphicon glyphicon-minus"></i></button>
+<button class="btn btn-danger btn-lg pull-right shadow" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
 <div class="menuActions-container">
     <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
         @foreach (MenuzRus.Models.Check check in Model) {
@@ -26,30 +27,22 @@
                     <div id="adjustmentSplit"></div>
                 </div>
                 <div class="form-control properties">
-                    <div style="display: inline">
+                    <div class="dropdown" style="display: inline">
                         @Html.Label("Type:")
-                        <div class="btn-group dropup checkType">
-                            <button id="btnCheckType" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
-                            <button id="btnCheckTypeToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul id="checkType" class="dropdown-menu" role="menu">
+                        <div class="dropup checkType">
+                            <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
+                            <ul id="checkType" class="dropdown-menu alert-warning" role="menu">
                                 @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
                                     <li><a href="#">@type</a></li>
                                 }
                             </ul>
                         </div>
                     </div>
-                    <div class="pull-right">
+                    <div class="dropdown pull-right">
                         <label for="Status">Status:</label>
-                        <div class="btn-group dropup checkStatus">
-                            <button id="btnCheckStatus" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
-                            <button id="btnCheckStatusToogle" type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul id="checkStatus" class="dropdown-menu" role="menu">
+                        <div class="dropup checkStatus">
+                            <button id="btnCheckStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
+                            <ul id="checkStatus" class="dropdown-menu alert-warning" role="menu">
                                 @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
                                     if (status != Common.CheckStatus.Ready) {
                                     <li><a href="#">@status</a></li>
@@ -116,8 +109,6 @@
     function checksPrint(checksIds) {
         var split = parseInt($("#slideSplit").slider("value"));
         var adjustment = parseInt($("#adjustmentSplit").slider("value"));
-        var type = $(".check").find(".tab-pane.active").attr("data-type");
-        var status = $(".check").find(".tab-pane.active").attr("data-status");
 
         var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
             .done(function (result) {
@@ -134,13 +125,54 @@
         printRaw($("#html2Print").html());
     }
 
-    function addAll() {
+    function selectAll() {
         $(".chosen-select option").prop("selected", true);
         $(".chosen-select").trigger("chosen:updated");
     };
 
-    function deleteAll() {
+    function removeAll() {
         $(".chosen-select option").prop("selected", false);
         $(".chosen-select").trigger("chosen:updated");
     };
+
+    function deleteSelected() {
+        noty({
+            layout: "center",
+            type: "error",
+            killer: true,
+            model: true,
+            text: "<strong>" + $(".chosen-select").val() + "</strong></em> will be deleted.<br />Would you like to continue ?",
+            buttons: [{
+                addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
+                    $noty.close();
+                    var selected = $(".chosen-select").val();
+                    var ids = new Array();
+                    $.each($(selected), function (index, item) {
+                        ids.push(parseInt(item));
+                    });
+                    deleteSelectedChecks(ids);
+                }
+            },
+              {
+                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
+                      $noty.close();
+                  }
+              }
+            ]
+        });
+    }
+
+    function deleteSelectedChecks(checksIds) {
+        var container = $(".container-order");
+        container.block();
+        var jqxhr = $.get($.validator.format("{0}Order/DeleteChecks", root), { "checksIds": JSON.stringify(checksIds) }, "json")
+            .done(function (result) {
+            })
+            .fail(function () {
+                message("::deleteCheck:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                window.location.reload();
+            });
+    }
 </script>

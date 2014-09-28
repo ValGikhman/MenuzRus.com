@@ -13,18 +13,14 @@
         <div class="modal-header">
             <h2>Table @Model.Table.Name</h2>
             @Html.Label("Status:")
-            <div class="btn-group tableStatus">
+            <div class="dropdown tableStatus">
                 @{ var currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Common.TableOrderStatus.Closed.ToString());
                    if (Model.TableOrder != null) {
                        currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString());
                    }
                 }
-                <button id="btnTableStatus" type="button" class="btn btn-default btn-lg" data-toggle="dropdown">@currentStatus</button>
-                <button id="btnTableStatusToogle" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul id="tableStatus" class="dropdown-menu" role="menu">
+                <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@currentStatus</button>
+                <ul id="tableStatus" class="dropdown-menu alert-warning" role="menu">
                     @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
                         Int32 value = (Int32)status;
                         <li><a href="#" data-value="@value">@status</a></li>
@@ -43,7 +39,7 @@
                 <li><a id="actionsTab" href="#actions-tab" data-toggle="pill">Actions
                 </a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content order-tabs">
                 <div id="menu-tab" class="tab-pane fade in menuItems">
                     @if (Model.Categories != null) {
                         @Html.Partial("_OrderMenuPartial", Model.Categories)

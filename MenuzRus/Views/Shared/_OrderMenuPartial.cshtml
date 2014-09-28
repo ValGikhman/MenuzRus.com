@@ -1,19 +1,24 @@
 ﻿@model List<Services.Category>
 @using Extensions
 @foreach (Services.Category category in Model) {
-    <div class="category" data-value="@category.id">
-        @category.Name
+    <div class="panel panel-default">
+        <div class="panel panel-default panel-heading pointer item" data-value="@category.id" onclick="javascript:toggleCategory($(this).find('.collapsibleSign'), '#category-@category.id')">
+            <span class="glyphicon glyphicon-plus collapsibleSign"></span>
+            @category.Name
+        </div>
     </div>
-    foreach (Services.Item item in category.Items) {
-        Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-    <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
-        <div class="tableNameStatus label alert-warning shadow">@item.Name.Ellipsis(20)</div>
+    <div id="category-@category.id" style="display:none">
+        @foreach (Services.Item item in category.Items) {
+            Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+            <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+                <div class="tableNameStatus label alert-warning shadow">@item.Name.Ellipsis(20)</div>
 
-        @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
-            <br />
+                @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+                    <br />
+                }
+                <span class="label alert-warning shadow priceBadge">$@price</span>
+            </div>
         }
-        <span class="label alert-warning shadow priceBadge">$@price</span>
     </div>
-    }
 }

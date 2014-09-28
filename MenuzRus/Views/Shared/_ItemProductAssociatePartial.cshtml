@@ -52,7 +52,11 @@
                 <option value=""></option>
                 <optgroup label="@category.Name">
                     @foreach (Services.Item item in category.Items) {
-                        <option value="@item.id">@item.Name</option>
+                        String description = String.Empty;
+                        if (!String.IsNullOrEmpty(item.Description)) {
+                            description = String.Format("({0})", item.Description);
+                        }
+                        <option value="@item.id">@item.Name @description</option>
                     }
                 </optgroup>
             }

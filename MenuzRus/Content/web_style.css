@@ -1,11 +1,12 @@
+.dropdown-menu, .nav-pills > li > a, .navbar-nav > li {
+    font-size: large;
+}
+
 body {
     background-image: url(../images/Web/body.jpg);
+    font-size: large;
 }
 /* Common */
-/*.form-control, .btn {
-    border: 1px solid #b0adad;
-}*/
-
 .modal-open {
     overflow: auto;
 }

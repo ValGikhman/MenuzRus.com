@@ -7,9 +7,7 @@
         <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-type="@check.Type" data-status="@check.Status" data-toggle="pill">
             @String.Format("#{0}", check.id)
             @if (check.Status == Common.CheckStatus.Active) {
-                <button class="close btn btn-primary" title="Remove this check" type="button">
-                    <i class="glyphicon glyphicon-remove-circle" />
-                </button>
+                <i class="glyphicon glyphicon-usd" />
             }
             else if (check.Status == Common.CheckStatus.Ordered) {
                 <i class="glyphicon glyphicon-usd paid" />
@@ -18,7 +16,7 @@
         }
     }
 </ul>
-<div class="tab-content check">
+<div class="tab-content order-tabs check">
     @if (Model.Checks != null) {
         foreach (MenuzRus.Models.Check check in Model.Checks) {
         <div class="tab-pane fade in" id="@String.Format("Check{0}", check.id)" data-value="@check.id" data-type="@check.Type" data-status="@check.Status">

@@ -15,6 +15,58 @@ namespace MenuzRus.Controllers {
     public class DesignerController : BaseController {
 
         [CheckUserSession]
+        public ActionResult Index(Int32? id) {
+            if (!id.HasValue) {
+                id = (Int32)Common.CategoryType.Menu;
+            }
+
+            return View("Index", GetModel((Common.CategoryType)id));
+        }
+
+        [HttpGet]
+        public JsonResult LoadData(String type) {
+            DesignerModel model;
+            List<Item> items;
+            Int32 categoryType = Int32.Parse(type);
+            try {
+                items = new List<Item>();
+
+                model = GetModel((Common.CategoryType)categoryType);
+                foreach (Services.Category category in model.Categories) {
+                    foreach (Item item in category.Items) {
+                        items.Add(item);
+                    }
+                }
+
+                var jsonData = new {
+                    total = (Int32)Math.Ceiling((float)items.Count),
+                    records = items.Count,
+                    rows = (
+                         from item in items
+                         select new {
+                             categoryId = item.Category.id,
+                             category = item.Category.Name,
+                             itemId = item.id,
+                             action = String.Empty,
+                             name = item.Name,
+                             description = item.Description,
+                             price = item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault(),
+                             active = (item.Status == (Int32)Common.Status.Active)
+                         }
+                    ).ToArray()
+                };
+                return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+
+            return new JsonResult() { Data = "", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [CheckUserSession]
         public ActionResult Menu() {
             return View("MenuProduct", GetModel(Common.CategoryType.Menu));
         }

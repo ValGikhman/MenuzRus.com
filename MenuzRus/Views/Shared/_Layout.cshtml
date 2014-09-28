@@ -3,7 +3,7 @@
 <head>
     <title>Menuz R Us</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="digital menu design, digital menus, design menus " />
     <meta name="description" content="You web restorante complete solution" />
 
@@ -59,19 +59,19 @@
                     <li class="dropdown user-dropdown menuAlways">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li><a href="@Url.Content("~/Designer/Index")">Items</a>
+                            </li>
                             <li><a href="@Url.Content("~/Floor")">Floor</a>
-                            </li>
-                            <li><a href="@Url.Content("~/MenuDesigner")">Menu designer</a>
-                            </li>
-                            <li><a href="@Url.Content("~/Designer/Product")">Product</a>
-                            </li>
-                            <li><a href="@Url.Content("~/Designer/Menu")">Menu</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Tables")">Order</a>
                             </li>
+                            <li class="divider"></li>
                             <li><a href="@Url.Content("~/Order/Monitor")">Monitor</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Content("~/MenuDesigner")">Menu designer</a>
                             </li>
                         </ul>
                     </li>

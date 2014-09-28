@@ -17,7 +17,7 @@ namespace MenuzRus.Models {
         public String AdditionalInfo { get; set; }
 
         [DisplayName("Category")]
-        public List<Category> Categories { get; set; }
+        public List<Services.Category> Categories { get; set; }
 
         public Int32 CategoryId { get; set; }
 

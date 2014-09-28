@@ -211,6 +211,11 @@ img {
     font-size: 18px;
     color: #333333;
     margin: 10px;
+    font-weight: normal !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+    text-shadow: none !important;
+    text-transform: none !important;
 }
 
 .item {

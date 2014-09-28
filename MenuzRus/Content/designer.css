@@ -147,6 +147,34 @@ h2 {
     z-index: 1001;
 }
 
-#default {
-    margin-top: 20px;
+.default {
+    padding: 10px;
+}
+
+.ui-jqgrid .ui-jqgrid-view {
+    font-size: medium !important;
+}
+
+.ui-jqgrid .ui-jqgrid-htable {
+    height: 35px;
+}
+
+    .ui-jqgrid .ui-jqgrid-htable th {
+        background-color: #428bca;
+        background-image: linear-gradient(to bottom, #428bca 0px, #155185 100%);
+        background-repeat: repeat-x;
+        color: yellow;
+    }
+
+        .ui-jqgrid .ui-jqgrid-htable th div {
+            height: auto !important;
+        }
+
+.ui-jqgrid tr.jqgroup td {
+    height: 36px !important;
+    cursor: pointer !important;
+}
+
+#btnCategoryType {
+    width: 130px;
 }

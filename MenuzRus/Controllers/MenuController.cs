@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using MenuzRus.Models;
@@ -21,11 +22,13 @@ namespace MenuzRus.Controllers {
             CategoryService categoryService = new CategoryService();
             SettingsService settingsService = new SettingsService();
             MenuDesignerModel model = new MenuDesignerModel();
+            List<Services.MenuItem> categories = new List<Services.MenuItem>();
             try {
                 if (model.Menu == null)
                     model.Menu = new Menu();
                 model.Menu.id = id.HasValue ? id.Value : 1;
-                model.Categories = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.MenuCategories = model.ConvertToCategory(categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu));
+
                 model.Settings = settingsService.GetSettings(model.MyCompany.id);
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);
                 // Backgrounds

@@ -40,17 +40,18 @@ h2, h5 {
 }
 
 .toolbar {
-    background-color: #999999;
+    background-color: #3579B2;
     color: #fff;
     font-size: 12px;
     font-weight: bolder;
     position: absolute;
     left: 0px;
-    bottom: -22px;
-    width: 100px;
+    top: 0px;
+    width: 100%;
     padding: 2px;
     height: 20px;
     border-radius: 4px;
+    z-index: 1;
 }
 
 .copyTable, .editTable, .deleteTable {
@@ -170,11 +171,11 @@ ul {
     width: 200px;
 }
 
-#btnFloorToogle, #btnAddNewToogle, #btnAddNew {
+#btnAddNew {
     height: 46px;
 }
 
 .dropdown-menu {
-    width: 200px;
+    width: 270px;
     z-index: 1001;
 }

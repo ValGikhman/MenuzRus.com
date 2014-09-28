@@ -44,7 +44,7 @@ $(function () {
     });
 
     $("#btnAdd").click(function (e) {
-        $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-type='{2}' data-status='{3}' data-toggle='tab'>{0}{1}</a></li>", "New", addCloseButton(), 'Guest', 'Active'));
+        $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-type='{1}' data-status='{2}' data-toggle='tab'>{0}</a></li>", "New", 'Guest', 'Active'));
         $(".check").append($.validator.format("<div class='tab-pane fade in active' id='New' data-value='0'></div>"));
         $(".checks li:last a").tab("show");
         $("#btnCheckType").text("Guest");
@@ -108,10 +108,6 @@ $(function () {
     showOrder(tableId);
 })
 
-function addCloseButton() {
-    return "<button class='close btn btn-primary' title='Remove this check' type='button'><i class='glyphicon glyphicon-remove-circle' /></button>";
-}
-
 function addStatusSign(text) {
     var retVal = "";
     if (text == "Ordered") {
@@ -150,6 +146,15 @@ function toggleItself(thisObject, toggleObject) {
         $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
 }
 
+function toggleCategory(thisObject, toggleObject) {
+    $(toggleObject).toggle();
+
+    if ($(toggleObject).is(":visible"))
+        $(thisObject).removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    else
+        $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
+}
+
 function orderMenuItem(id) {
     var container = $(".menuItems");
     container.block();
@@ -178,7 +183,7 @@ function orderMenuItem(id) {
             $(activeTab).attr("data-value", result.checkIdheckId);
             $(activeTab).attr("data-type", type);
             $(activeTab).attr("data-status", status);
-            $(activeTab).html($.validator.format("#{0}{1}", result.checkId, addCloseButton()));
+            $(activeTab).html($.validator.format("#{0}", result.checkId));
         })
         .fail(function () {
             message("::orderMenuItem:: Failed.", "error", "topCenter");
@@ -248,48 +253,6 @@ function deleteMenu(object) {
         })
         .fail(function () {
             message("::deleteMenu:: Failed.", "error", "topCenter");
-        })
-        .always(function () {
-            container.unblock();
-        });
-}
-
-function deleteCheck(object) {
-    var activeTab = $(".check").find(".tab-pane.active");
-    var active = $(".checks").find(".active a");
-
-    var checkId = $(activeTab).attr("data-value");
-    if (checkId == "0") {
-        $(active).fadeOut("slow", function () {
-            $(active).remove();
-            $(activeTab).remove();
-        });
-        var setActive = $(".checks li:first a");
-        if ($(setActive).length > 0) {
-            $(setActive).tab("show");
-            toggleObjects($(setActive).attr("data-status"));
-            showMenus($(setActive).attr("data-value"));
-        }
-        return;
-    }
-
-    var container = $(".container-order");
-    container.block();
-    var jqxhr = $.get($.validator.format("{0}Order/DeleteCheck", root), { "checkId": checkId }, "json")
-        .done(function (result) {
-            $(active).parent().fadeOut("slow", function () {
-                $(active).remove();
-                $(activeTab).remove();
-            });
-            var setActive = $(".checks li:first a");
-            if ($(setActive).length > 0) {
-                $(setActive).tab("show");
-                toggleObjects($(setActive).attr("data-status"));
-                showMenus($(setActive).attr("data-value"));
-            }
-        })
-        .fail(function () {
-            message("::deleteCheck:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
@@ -433,12 +396,10 @@ function toggleObjects(text) {
     var activeTab = $(".check").find(".tab-pane.active");
 
     $(active).find(".paid").remove();
-    $(active).find("button.close").remove();
     $(activeTab).find(".btnDelete").hide();
     $("#menuTab").show();
 
     if (text == "Active") {
-        $(active).append(addCloseButton());
         $(activeTab).find(".btnDelete").show();
     }
     else if (text == "Ordered") {
@@ -472,28 +433,5 @@ function BindEvents() {
                 showMenus(checkId);
             }
         }
-    })
-
-    $("button.close").on("click", function () {
-        var object = $(this);
-        noty({
-            layout: "center",
-            type: "error",
-            killer: true,
-            model: true,
-            text: "<strong>" + $(object).parent().text().replace(/\t\r\n\s/g, "") + "</strong></em> will be deleted.<br />Would you like to continue ?",
-            buttons: [{
-                addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {
-                    $noty.close();
-                    deleteCheck(object);
-                }
-            },
-              {
-                  addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {
-                      $noty.close();
-                  }
-              }
-            ]
-        });
     });
 }

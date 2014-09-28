@@ -56,21 +56,21 @@
 
 @helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
     <div class="category-group">
-        @foreach (MenuCategory menuCategory in Model.Categories.Where(m => m.Side == (Int32)side).ToList()) {
-            Category category = menuCategory.Categories.FirstOrDefault(m => m.id == menuCategory.CategoryId);
+        @foreach (MenuzRus.Models.Category category in Model.MenuCategories.Where(m => m.Side == side).ToList()) {
             if (!String.IsNullOrEmpty(category.Name)) {
             <div class="category">
                 @category.Name
+                @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+                    <div>
+                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                    </div>
+                }
+                @if (!String.IsNullOrEmpty(@category.Description)) {
+                    <div class="categoryDescription">@category.Description</div>
+                }
             </div>
             }
-            if (!String.IsNullOrEmpty(@category.ImageUrl)) {
-            <div>
-                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
-            </div>
-            }
-            if (!String.IsNullOrEmpty(@category.Description)) {
-            <div class="categoryDescription">@category.Description</div>
-            }
+
             if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
             <div class="items-group">
                 @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {

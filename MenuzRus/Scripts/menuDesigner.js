@@ -355,3 +355,41 @@ function saveSettings(obj) {
       .always(function () {
       });
 }
+
+/// ******* DESIGN MENU **********///
+function designMenu() {
+    var jqxhr = $.get($.validator.format("MenuDesigner/DesignMenu", root), { menuId: $("#Menu_id").val() })
+        .done(function (result) {
+            $("#modalEditForm").html(result);
+            $(".modalEditForm").modal("show");
+        })
+        .fail(function () {
+        })
+        .always(function () {
+        })
+}
+
+function saveMenuItems() {
+    var model = [];
+    $.each($("#leftItems").val(), function (index, item) {
+        model.push($.validator.format("{0}:{1}", item, "Left"));
+    });
+    $.each($("#centerItems").val(), function (index, item) {
+        model.push($.validator.format("{0}:{1}", item, "Center"));
+    });
+    $.each($("#rightItems").val(), function (index, item) {
+        model.push($.validator.format("{0}:{1}", item, "Right"));
+    });
+
+    var model = JSON.stringify(model);
+
+    var jqxhr = $.post($.validator.format("{0}MenuDesigner/SaveMenuItems/", root), { "menuId": $("#Menu_id").val(), "model": model })
+        .done(function (result) {
+            message("Menu was saved", "success", "topCenter");
+        })
+        .fail(function () {
+            message("Menu was not saved.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}

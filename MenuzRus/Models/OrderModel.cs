@@ -75,7 +75,7 @@ namespace MenuzRus.Models {
 
     public class OrderModel : BaseModel {
 
-        public List<Category> Categories { set; get; }
+        public List<Services.Category> Categories { set; get; }
 
         public List<Check> Checks { set; get; }
 

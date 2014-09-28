@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using MenuzRus.Models;
 using Newtonsoft.Json;
 using Services;
@@ -15,10 +16,10 @@ namespace MenuzRus.Controllers {
     public class MenuDesignerController : BaseController {
 
         [HttpPost]
-        public ActionResult DeleteMenu(Int32? id) {
+        public ActionResult DeleteMenu(Int32 menuId) {
             MenuService service = new MenuService();
             try {
-                if (!service.DeleteMenu(id))
+                if (!service.DeleteMenu(menuId))
                     return RedirectToAction("Index", "Error");
 
                 return RedirectToAction("Index");
@@ -27,6 +28,27 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
+            }
+            return null;
+        }
+
+        [HttpGet]
+        public ActionResult DesignMenu(Int32 menuId) {
+            CategoryService categoryService = new CategoryService();
+            ItemService itemService = new ItemService();
+            DesignerModel model = new DesignerModel();
+            try {
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.MenuItems = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+
+                return PartialView("_MenuDesignerPartial", model);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                categoryService = null;
+                itemService = null;
             }
             return null;
         }
@@ -59,6 +81,25 @@ namespace MenuzRus.Controllers {
                 service = null;
             }
             return null;
+        }
+
+        [HttpPost]
+        public Boolean SaveMenuItems(Int32 menuId, String model) {
+            MenuService service = new MenuService();
+            List<MenuItem> model2Save;
+            try {
+                model2Save = SetModel(model, menuId);
+                service.SaveMenuItems(model2Save);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return false;
+            }
+            finally {
+                service = null;
+                SessionData.item = null;
+            }
+            return true;
         }
 
         [HttpPost]
@@ -112,6 +153,23 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        private List<MenuItem> SetModel(String model, Int32 menuId) {
+            JavaScriptSerializer objJavascript = new JavaScriptSerializer();
+            Char[] colonDelimiter = new char[] { ':' };
+            List<MenuItem> Items2Save;
+
+            Array values = (Array)objJavascript.DeserializeObject(model);
+            if (values.Length > 0) {
+                Items2Save = new List<MenuItem>();
+                foreach (String value in values) {
+                    Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
+                    Items2Save.Add(new MenuItem() { ItemId = Int32.Parse(vars.GetValue(0).ToString()), MenuId = menuId, Side = (Int32)EnumHelper<Common.Side>.Parse(vars.GetValue(1).ToString()) });
+                }
+                return Items2Save;
+            }
+            return null;
+        }
+
         #region private
 
         private MenuDesignerModel GetModel(Int32? id) {
@@ -140,7 +198,8 @@ namespace MenuzRus.Controllers {
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.MenuCategories = model.ConvertToCategory(categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu));
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);
                 // Backgrounds
                 if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString()))

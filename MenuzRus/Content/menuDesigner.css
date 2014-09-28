@@ -57,8 +57,8 @@ a:hover, a:focus {
 }
 
 .categoryImage {
-    width: 125px;
-    height: 100px;
+    width: 62.5px;
+    height: 50px;
     border-radius: 40%;
     margin: 10px auto;
     box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741, 0 0 0 7px #fff, 0 0 0 8px #e6b741;
@@ -86,6 +86,11 @@ a:hover, a:focus {
     font-size: 9px;
     color: #333333;
     margin: 5px;
+    font-weight: normal !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+    text-shadow: none !important;
+    text-transform: none !important;
 }
 
     .categoryDescription:hover {
@@ -109,8 +114,8 @@ a:hover, a:focus {
 }
 
 .itemImage {
-    width: 100px;
-    height: 70px;
+    width: 50px;
+    height: 35px;
     border-radius: 20%;
     margin: 10px auto;
     box-shadow: 0 0 0 3px #fff, 0 0 0 4px #e6b741, 0 0 0 5px #fff, 0 0 0 6px #e6b741;
@@ -268,4 +273,5 @@ a:hover, a:focus {
 .dropdown-menu {
     width: 200px;
     z-index: 1001;
+    left: 50px;
 }

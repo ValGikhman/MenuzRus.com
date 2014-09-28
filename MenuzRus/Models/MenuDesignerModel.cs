@@ -9,6 +9,32 @@ using Services;
 
 namespace MenuzRus.Models {
 
+    public class Category {
+
+        public String Description { set; get; }
+
+        public Int32 id { set; get; }
+
+        public String ImageUrl { set; get; }
+
+        public IEnumerable<Item> Items { set; get; }
+
+        public String Name { set; get; }
+
+        public Common.Side Side { set; get; }
+    }
+
+    public class DesignerModel : BaseModel {
+
+        public List<Services.Category> Categories { set; get; }
+
+        public Common.CategoryType CategoryType { set; get; }
+
+        public List<Category> MenuCategories { set; get; }
+
+        public List<MenuItem> MenuItems { set; get; }
+    }
+
     public class Menu {
 
         public String Description { set; get; }
@@ -18,11 +44,7 @@ namespace MenuzRus.Models {
         public String Name { set; get; }
     }
 
-    public class MenuDesignerModel : BaseModel {
-
-        public List<MenuCategory> Categories { set; get; }
-
-        public Common.CategoryType CategoryType { set; get; }
+    public class MenuDesignerModel : DesignerModel {
 
         public Menu Menu { set; get; }
 

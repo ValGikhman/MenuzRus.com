@@ -1,13 +1,12 @@
 ﻿/* Set position*/
 body {
-    padding-top: 200px;
-    padding-bottom: 40px;
+    padding-top: 30vh;
     background-color: #eee;
 }
 
 .panel {
     width: 400px;
-    margin: 0 auto;
+    margin: auto auto;
 }
 
 #Email, #Password {

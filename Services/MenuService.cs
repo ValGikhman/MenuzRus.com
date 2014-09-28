@@ -17,9 +17,9 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Menus.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Menu)) {
-                        IEnumerable<MenuCategory> menuCategories = db.MenuCategories.Where(m => m.MenuId == id);
+                        IEnumerable<MenuItem> menuCategories = db.MenuItems.Where(m => m.MenuId == id);
                         if (menuCategories != null) {
-                            db.MenuCategories.DeleteAllOnSubmit(menuCategories);
+                            db.MenuItems.DeleteAllOnSubmit(menuCategories);
                         }
                         db.Menus.DeleteOnSubmit(query);
                         db.SubmitChanges();
@@ -60,6 +60,40 @@ namespace MenuzRus {
                 return 0;
             }
             return query.id;
+        }
+
+        public Boolean SaveMenuItems(List<MenuItem> model) {
+            MenuItem query = new MenuItem();
+            IEnumerable<MenuItem> itemsToDelete;
+            if (model == null) {
+                return false;
+            }
+            try {
+                query = model[0];
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    itemsToDelete = db.MenuItems.Where(m => m.MenuId == query.MenuId && !model.Contains(m));
+                    if (itemsToDelete.Any()) {
+                        db.MenuItems.DeleteAllOnSubmit(itemsToDelete);
+                        db.SubmitChanges();
+                    }
+                    foreach (MenuItem item in model) {
+                        query = db.MenuItems.Where(m => m.MenuId == item.MenuId && m.ItemId == item.ItemId).FirstOrDefault();
+                        if (query == default(MenuItem)) {
+                            query = new MenuItem();
+                            query.MenuId = item.MenuId;
+                            query.ItemId = item.ItemId;
+                            query.Side = item.Side;
+                            db.MenuItems.InsertOnSubmit(query);
+                        }
+                    }
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return false;
+            }
+            return true;
         }
     }
 }

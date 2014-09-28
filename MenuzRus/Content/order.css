@@ -10,11 +10,9 @@
 }
 
 .floorArea {
-    height: 55vh;
-    margin-top: 50px;
+    height: 60vh;
     border-radius: 15px;
     width: 100%;
-    margin-top: 50px;
 }
 
 #Floor_id {
@@ -32,8 +30,6 @@
     border-radius: 15px;
     height: 140px;
     width: 95vw;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .row {
@@ -63,10 +59,15 @@
     z-index: 0;
 }
 
+.panel-default {
+    margin: 0px;
+}
+
 .panel-heading.item {
-    margin-left: 0px;
+    margin: 0px;
     color: #2b6da6;
     padding: 15px 20px;
+    font-size: large;
 }
 
 .associationItem {
@@ -91,17 +92,17 @@
         cursor: pointer;
     }
 
-.tab-content {
-    height: 90%;
+.order-tabs {
+    height: 63vh;
+}
+
+.order {
+    padding: 0px;
 }
 
 .menuActions {
     padding: 15px;
-    height: 457px;
-}
-
-.menuItems {
-    margin-left: 15px;
+    height: 63vh;
 }
 
 .menuActions-container {
@@ -149,7 +150,9 @@ h4 {
 }
 
 .btnDelete {
-    padding: 4px 6px;
+    margin-top: -12px;
+    width: 52px;
+    height: 50px;
 }
 
 .category {
@@ -312,7 +315,7 @@ h4 {
 }
 
 .floor {
-    top: 20px;
+    margin-top: 10px;
     display: inline-block;
 }
 

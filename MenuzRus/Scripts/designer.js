@@ -1,28 +1,7 @@
 ﻿$(function () {
-    $("span#popover").popover({
-        placement: "right",
-        html: true,
-        trigger: "hover",
-    });
-
-    if ($(".table tbody").has(".categoryRow").length == 0) {
-        $("#btnNewItem").hide();
-    }
-    else {
-        $("#btnNewItem").show();
-    }
 })
 
 /// ****** CATEGORY ***************///
-function collapseCategory(thisObject, toggleObject) {
-    $(toggleObject).toggle();
-
-    if ($(toggleObject).is(":visible"))
-        $(thisObject).removeClass("glyphicon-plus").addClass("glyphicon-minus");
-    else
-        $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
-}
-
 function editCategory(id) {
     var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
@@ -71,9 +50,14 @@ function deleteCategory(id) {
 
 /// ****** ITEMS ***************///
 function editItem(id) {
+    editItem(id, 1);
+}
+
+function editItem(id, categoryId) {
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
+                      $("#CategoryId").val(categoryId);
                       $(".modalEditForm").modal("show");
                   })
     .fail(function () {

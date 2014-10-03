@@ -4084,9 +4084,9 @@ namespace Services
 		
 		private EntitySet<ItemProduct> _ItemProducts;
 		
-		private EntityRef<Category> _Category;
+		private EntitySet<MenuItem> _MenuItems;
 		
-		private EntityRef<MenuItem> _MenuItem;
+		private EntityRef<Category> _Category;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4114,8 +4114,8 @@ namespace Services
 		{
 			this._ItemPrices = new EntitySet<ItemPrice>(new Action<ItemPrice>(this.attach_ItemPrices), new Action<ItemPrice>(this.detach_ItemPrices));
 			this._ItemProducts = new EntitySet<ItemProduct>(new Action<ItemProduct>(this.attach_ItemProducts), new Action<ItemProduct>(this.detach_ItemProducts));
+			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
 			this._Category = default(EntityRef<Category>);
-			this._MenuItem = default(EntityRef<MenuItem>);
 			OnCreated();
 		}
 		
@@ -4130,10 +4130,6 @@ namespace Services
 			{
 				if ((this._id != value))
 				{
-					if (this._MenuItem.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidChanging(value);
 					this.SendPropertyChanging();
 					this._id = value;
@@ -4313,6 +4309,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_MenuItems", ThisKey="id", OtherKey="ItemId")]
+		public EntitySet<MenuItem> MenuItems
+		{
+			get
+			{
+				return this._MenuItems;
+			}
+			set
+			{
+				this._MenuItems.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Item", Storage="_Category", ThisKey="CategoryId", OtherKey="id", IsForeignKey=true)]
 		public Category Category
 		{
@@ -4343,40 +4352,6 @@ namespace Services
 						this._CategoryId = default(int);
 					}
 					this.SendPropertyChanged("Category");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuItem_Item", Storage="_MenuItem", ThisKey="id", OtherKey="ItemId", IsForeignKey=true)]
-		public MenuItem MenuItem
-		{
-			get
-			{
-				return this._MenuItem.Entity;
-			}
-			set
-			{
-				MenuItem previousValue = this._MenuItem.Entity;
-				if (((previousValue != value) 
-							|| (this._MenuItem.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MenuItem.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._MenuItem.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._id = value.ItemId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("MenuItem");
 				}
 			}
 		}
@@ -4420,6 +4395,18 @@ namespace Services
 		}
 		
 		private void detach_ItemProducts(ItemProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = null;
+		}
+		
+		private void attach_MenuItems(MenuItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = this;
+		}
+		
+		private void detach_MenuItems(MenuItem entity)
 		{
 			this.SendPropertyChanging();
 			entity.Item = null;
@@ -4748,9 +4735,9 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<Item> _Items;
-		
 		private EntityRef<Menu> _Menu;
+		
+		private EntityRef<Item> _Item;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4770,8 +4757,8 @@ namespace Services
 		
 		public MenuItem()
 		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
 			this._Menu = default(EntityRef<Menu>);
+			this._Item = default(EntityRef<Item>);
 			OnCreated();
 		}
 		
@@ -4830,6 +4817,10 @@ namespace Services
 			{
 				if ((this._ItemId != value))
 				{
+					if (this._Item.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnItemIdChanging(value);
 					this.SendPropertyChanging();
 					this._ItemId = value;
@@ -4879,19 +4870,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuItem_Item", Storage="_Items", ThisKey="ItemId", OtherKey="id")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menu_MenuItem", Storage="_Menu", ThisKey="MenuId", OtherKey="id", IsForeignKey=true)]
 		public Menu Menu
 		{
@@ -4926,6 +4904,40 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_Item", ThisKey="ItemId", OtherKey="id", IsForeignKey=true)]
+		public Item Item
+		{
+			get
+			{
+				return this._Item.Entity;
+			}
+			set
+			{
+				Item previousValue = this._Item.Entity;
+				if (((previousValue != value) 
+							|| (this._Item.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Item.Entity = null;
+						previousValue.MenuItems.Remove(this);
+					}
+					this._Item.Entity = value;
+					if ((value != null))
+					{
+						value.MenuItems.Add(this);
+						this._ItemId = value.id;
+					}
+					else
+					{
+						this._ItemId = default(int);
+					}
+					this.SendPropertyChanged("Item");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4944,18 +4956,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.MenuItem = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.MenuItem = null;
 		}
 	}
 }

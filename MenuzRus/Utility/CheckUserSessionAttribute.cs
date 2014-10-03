@@ -13,14 +13,20 @@ namespace MenuzRus {
         //public delegate bool CheckSessionDelegate(HttpSessionStateBase session);
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            HttpSessionStateBase session = filterContext.HttpContext.Session;
-            //if ((CheckSessionAlive == null) || (CheckSessionAlive(session)))
             if (SessionData.user != null)
                 return;
 
+            HttpSessionStateBase session = filterContext.HttpContext.Session;
+            String urlFrom = String.Empty;
+            UrlHelper url;
+
             //send them off to the login page
-            var url = new UrlHelper(filterContext.RequestContext);
-            var loginUrl = url.Content("~/LogIn");
+            url = new UrlHelper(filterContext.RequestContext);
+            urlFrom = filterContext.Controller.ControllerContext.RequestContext.HttpContext.Request.RawUrl;
+            if (!String.IsNullOrEmpty(urlFrom)) {
+                urlFrom = String.Format("?{0}", urlFrom);
+            }
+            var loginUrl = url.Content(String.Format("~/LogIn{0}", urlFrom));
             session.RemoveAll();
             session.Clear();
             session.Abandon();

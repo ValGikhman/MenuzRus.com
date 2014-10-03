@@ -1,8 +1,4 @@
-﻿body {
-    background-color: #eee;
-}
-
-.btn-default:active, .btn-default.active {
+﻿.btn-default:active, .btn-default.active {
     background-color: #d6c6a5;
 }
 
@@ -325,4 +321,8 @@ h4 {
 
 .dropdown-menu {
     z-index: 1001;
+}
+
+.form-control {
+    font-size: inherit;
 }

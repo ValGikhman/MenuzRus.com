@@ -27,7 +27,7 @@ namespace MenuzRus.Controllers {
                 if (model.Menu == null)
                     model.Menu = new Menu();
                 model.Menu.id = id.HasValue ? id.Value : 1;
-                model.MenuCategories = model.ConvertToCategory(categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu));
+                model.Categories = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
 
                 model.Settings = settingsService.GetSettings(model.MyCompany.id);
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);

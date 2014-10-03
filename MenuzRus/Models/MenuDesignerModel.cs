@@ -30,8 +30,6 @@ namespace MenuzRus.Models {
 
         public Common.CategoryType CategoryType { set; get; }
 
-        public List<Category> MenuCategories { set; get; }
-
         public List<MenuItem> MenuItems { set; get; }
     }
 
@@ -40,6 +38,8 @@ namespace MenuzRus.Models {
         public String Description { set; get; }
 
         public Int32 id { set; get; }
+
+        public List<MenuItem> MenuItems { set; get; }
 
         public String Name { set; get; }
     }

@@ -101,18 +101,18 @@
             </tr>
             @if (Model.Split > 1) {
                 <tr>
-                    <td class="total" style="vertical-align: top; padding-top: 25px;">Split:
+                    <td class="totalItem" style="vertical-align: top; padding-top: 25px;">Split:
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="total pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2")/@Model.Split
+                    <td class="totalItem pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2")/@Model.Split
                     </td>
                 </tr>
                 Int32 i = 1;
                 foreach (Double split in Model.SplitValues) {
                 <tr>
-                    <td class="total"></td>
+                    <td class="totalItem"></td>
                     <td></td>
-                    <td class="total pull-right">@String.Format("{0}: {1}", i, split.ToString("C2"))
+                    <td class="totalItem pull-right">@String.Format("{0}: {1}", i, split.ToString("C2"))
                     </td>
                 </tr>
                     i++;

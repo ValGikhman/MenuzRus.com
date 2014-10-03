@@ -26,6 +26,8 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Index(LoginModel model) {
             LoginService service = new LoginService();
+            String pathToNavigate = "~/Order/Tables";
+
             try {
                 User user = service.Login(model.Email, model.Password);
                 if (user == null) {
@@ -35,8 +37,13 @@ namespace MenuzRus {
 
                 SessionData.sessionId = Session.SessionID;
                 model.Success = true;
+
+                if (Request.UrlReferrer != null && !String.IsNullOrEmpty(Request.UrlReferrer.Query)) {
+                    pathToNavigate = Request.UrlReferrer.Query.Replace("?", String.Empty);
+                }
+
                 base.Log(Common.LogType.LogIn, "Logged in", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
-                return RedirectToAction("Tables", "Order");
+                return Redirect(pathToNavigate);
             }
             catch (Exception ex) {
                 base.Log(ex);

@@ -1,11 +1,4 @@
-﻿/* Set position*/
-body {
-    padding-top: 80px;
-    padding-bottom: 40px;
-    background-color: #eee;
-}
-
-h2 {
+﻿h2 {
     color: #787878;
     text-shadow: 2px 2px 3px #8D8484;
 }
@@ -151,10 +144,6 @@ h2 {
     padding: 10px;
 }
 
-.ui-jqgrid .ui-jqgrid-view {
-    font-size: medium !important;
-}
-
 .ui-jqgrid .ui-jqgrid-htable {
     height: 35px;
 }
@@ -163,7 +152,8 @@ h2 {
         background-color: #428bca;
         background-image: linear-gradient(to bottom, #428bca 0px, #155185 100%);
         background-repeat: repeat-x;
-        color: yellow;
+        color: #fff;
+        font-weight: bold;
     }
 
         .ui-jqgrid .ui-jqgrid-htable th div {
@@ -173,8 +163,18 @@ h2 {
 .ui-jqgrid tr.jqgroup td {
     height: 36px !important;
     cursor: pointer !important;
+    padding-left: 15px !important;
+}
+
+.ui-jqgrid tr.jqgrow td {
+    padding-left: 15px !important;
 }
 
 #btnCategoryType {
     width: 130px;
+}
+
+.ui-jqgrid .ui-jqgrid-view {
+    font-size: medium !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 }

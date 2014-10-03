@@ -80,14 +80,8 @@ namespace MenuzRus {
             finally {
                 service = null;
             }
-            if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Product") > -1) {
-                return RedirectToAction("Product", "Designer", new { id = SessionData.menu.id });
-            }
-            else if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Designer/Menu") > -1) {
-                return RedirectToAction("Menu", "Designer", new { id = SessionData.menu.id });
-            }
             // Default menuDesigner
-            return RedirectToAction("Index", "MenuDesigner", new { id = SessionData.menu.id });
+            return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
         }
 
         #region private

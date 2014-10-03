@@ -5,7 +5,7 @@
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <script src="@Url.Content("~/Scripts/MenuDesigner.js")"></script>
 
-<div class="modal fade menuEditForm" role="dialog">
+<div class="modal menuEditForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-new">
@@ -158,7 +158,7 @@
 
 @helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
     <ul class="category-group">
-        @foreach (MenuzRus.Models.Category category in Model.MenuCategories.Where(m => m.Side == side).ToList()) {
+        @foreach (Category category in Model.Categories.Where(m => m.Side == side).ToList()) {
             <li  data-value="@category.id">
                 <a class="categoryMenu">
                     @if (!String.IsNullOrEmpty(category.Name)) {

@@ -9,15 +9,15 @@
     <h4 class="modal-title">Edit Menu</h4>
 </div>
 <div class="container container-item">
-    <div class="left">
+    <div class="leftPanel col-md-4 col-lg-4">
         <div style="margin: 12px 0 12px;">Left Menu Panel</div>
         @BuildList(Model.Categories, "leftItems", Common.Side.Left)
     </div>
-    <div class="center">
+    <div class="centerPanel col-md-4 col-lg-4">
         <div style="margin: 12px 0 12px;">Center Menu Panel</div>
         @BuildList(Model.Categories, "centerItems", Common.Side.Center)
     </div>
-    <div class="right">
+    <div class="rightPanel  col-md-4 col-lg-4">
         <div style="margin: 12px 0 12px;">Right Menu Panel</div>
         @BuildList(Model.Categories, "rightItems", Common.Side.Right)
     </div>
@@ -25,7 +25,7 @@
 
 <div class="modal-footer">
     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary btn-lg" onclick="javascript:saveMenuItems()">Save changes</button>
+    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveMenuItems()">Save changes</button>
 </div>
 <input type="hidden" id="id" />
 
@@ -54,8 +54,8 @@
 
 <script>
     $(function () {
-        $("#leftItems").chosen({ width: "350px", display_disabled_options: false });
-        $("#centerItems").chosen({ width: "350px", display_disabled_options: false });
-        $("#rightItems").chosen({ width: "350px", display_disabled_options: false });
+        $("#leftItems").chosen({ width: "320px", display_disabled_options: false });
+        $("#centerItems").chosen({ width: "320px", display_disabled_options: false });
+        $("#rightItems").chosen({ width: "320px", display_disabled_options: false });
     });
 </script>

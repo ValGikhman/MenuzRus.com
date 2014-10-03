@@ -1,12 +1,49 @@
-.dropdown-menu, .nav-pills > li > a, .navbar-nav > li {
-    font-size: large;
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+    .desktopOnly {
+        display: none;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    .desktopOnly {
+        display: none;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    .desktopOnly {
+        display: none;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    .desktopOnly {
+        display: inherit;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+    .desktopOnly {
+        display: inherit;
+    }
 }
 
 body {
     background-image: url(../images/Web/body.jpg);
     font-size: large;
+    padding-top: 80px;
+    padding-bottom: 40px;
 }
-/* Common */
+
+.dropdown-menu, .nav-pills > li > a, .navbar-nav > li {
+    font-size: large;
+}
+
 .modal-open {
     overflow: auto;
 }
@@ -243,7 +280,7 @@ body {
     padding: 1px;
 }
 
-.modal.fade .modal-dialog {
+.modal .modal-dialog {
     -webkit-transition-duration: 0.1s !important;
     -moz-transition-duration: 0.1s !important;
     -o-transition-duration: 0.1s !important;

@@ -52,7 +52,7 @@ namespace MenuzRus {
             try {
                 User user = new User();
                 user.id = model.id;
-                user.CustomerId = model.CustomerId;
+                user.CustomerId = SessionData.customer.id;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.WorkPhone = model.WorkPhone.FormatPhone();

@@ -14,9 +14,9 @@
         <h2>Floor monitor</h2>
     </div>
 
-    <div class="floor">
+    <div class="floor dropdown">
         <button id="btnFloor" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Model.Floor.Name</button>
-        <ul id="floor" class="dropdown-menu" role="menu">
+        <ul id="floor" class="dropdown-menu alert-warning" role="menu">
             <li><a href="#" data-value="0">All</a></li>
             @foreach (Floor floor in Model.Floors) {
                 <li><a href="#" data-value="@floor.id">@floor.Name</a></li>

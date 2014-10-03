@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -39,17 +40,15 @@ namespace MenuzRus {
             return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
-        public List<MenuItem> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
-            List<MenuItem> retVal;
+        public List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
+            List<Category> retVal = null;
             menuzRusDataContext db = new menuzRusDataContext();
 
-            retVal = (from m in db.Menus
-                      join mi in db.MenuItems on m.id equals mi.MenuId
-                      join i in db.Items on mi.ItemId equals i.id
-                      join c in db.Categories on i.CategoryId equals c.id
-                      where m.CustomerId == customerId && c.Status != (Int32)Common.Status.NotActive && c.Type == (Int32)type
-                      select mi).ToList();
-
+            var a = GetCategories(customerId, type).Where(m => m.Items.Any()).Distinct().OrderBy(m => m.Name).Select(c => new {
+                id = c.id,
+                CustomerId = c.CustomerId,
+                Items = c.Items.Where(i => i.MenuItems.Any())
+            }).ToList();
             return retVal;
         }
 

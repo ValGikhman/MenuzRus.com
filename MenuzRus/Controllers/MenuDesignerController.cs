@@ -39,7 +39,6 @@ namespace MenuzRus.Controllers {
             DesignerModel model = new DesignerModel();
             try {
                 model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
-                model.MenuItems = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
 
                 return PartialView("_MenuDesignerPartial", model);
             }
@@ -198,8 +197,7 @@ namespace MenuzRus.Controllers {
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
-                model.MenuCategories = model.ConvertToCategory(categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu));
+                model.Categories = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);
                 // Backgrounds
                 if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString()))

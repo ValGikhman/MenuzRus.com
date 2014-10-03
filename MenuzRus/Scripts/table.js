@@ -140,10 +140,12 @@ function toggleItself(thisObject, toggleObject) {
 
     $(toggleObject).toggle();
 
-    if ($(toggleObject).is(":visible"))
+    if ($(toggleObject).is(":visible")) {
         $(thisObject).removeClass("glyphicon-plus").addClass("glyphicon-minus");
-    else
+    }
+    else {
         $(thisObject).removeClass("glyphicon-minus").addClass("glyphicon-plus");
+    }
 }
 
 function toggleCategory(thisObject, toggleObject) {
@@ -280,8 +282,8 @@ function showCheckPrint() {
     var container = $(".order");
     container.block();
     var active = $(".check").find(".tab-pane.active");
-    var split = parseInt($("#slideSplit").slider("value"));
-    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+    var split = parseInt($("#slideSplit").val());
+    var adjustment = parseInt($("#adjustmentSplit").val());
     var checkId = $(active).attr("data-value");
     var checkType = $(active).attr("data-type");
 

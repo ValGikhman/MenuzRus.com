@@ -57,7 +57,9 @@ function editItem(id, categoryId) {
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
                   .done(function (result) {
                       $("#modalEditForm").html(result);
-                      $("#CategoryId").val(categoryId);
+                      if (id == 0) {
+                          $("#CategoryId").val(categoryId);
+                      }
                       $(".modalEditForm").modal("show");
                   })
     .fail(function () {

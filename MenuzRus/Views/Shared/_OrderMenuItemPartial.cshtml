@@ -3,12 +3,12 @@
     <div class="panel panel-default" data-value="@Model.id" data-check="@Model.CheckId">
         @{String id = String.Format("menu_{0}", Model.id);  }
         <div class="panel-heading pointer item"  onclick="javascript:toggleItself($(this).find('.collapsibleSign'), '#item-@id');">
-            <span class="glyphicon glyphicon-plus collapsibleSign" style="display: none"></span>
+            <span class="glyphicon glyphicon-plus collapsibleSign"></span>
             @Model.Name
             <span class="badge price" data-value="@Model.Price">$@Model.Price</span>
             <button type="button" class="btn btn-danger pull-right btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
-        <div id="item-@id" class="association collapsible">
+        <div id="item-@id" class="association collapsible" style="display:none">
         </div>
     </div>
 </div>

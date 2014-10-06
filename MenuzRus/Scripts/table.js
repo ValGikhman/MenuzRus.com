@@ -3,7 +3,7 @@
 $(function () {
     tableId = $("#Table_id").val();
     if ($("#btnTableStatus").text() == "Closed") {
-        $(".layout").block();
+        $(".layout").hide();
     }
 
     $("#checkType li a").click(function () {
@@ -18,8 +18,8 @@ $(function () {
     });
 
     $("#checkStatus li a").click(function () {
-        var split = parseInt($("#slideSplit").slider("value"));
-        var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+        var split = parseInt($("#slideSplit").val());
+        var adjustment = parseInt($("#adjustmentSplit").val());
         var text = $(this).text();
         $("#btnCheckStatus").text(text);
         var selected = $(".chosen-select")[0].selectedOptions;
@@ -159,8 +159,6 @@ function toggleCategory(thisObject, toggleObject) {
 
 function orderMenuItem(id) {
     var container = $(".menuItems");
-    container.block();
-    //toggleAll(false);
     var active = $(".check").find(".tab-pane.active");
     if (active.length == 0) {
         $("#btnAdd").click();
@@ -178,7 +176,7 @@ function orderMenuItem(id) {
             var status = $("#btnCheckStatus").text();
             var type = $("#btnCheckType").text();
             $(active).attr("id", $.validator.format("Check{0}", result.checkId)).attr("data-value", result.checkId);
-            $(active).attr("data-value", result.checkIdheckId);
+            $(active).attr("data-value", result.checkId);
             $(active).attr("data-type", type);
             $(active).attr("data-status", status);
             $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
@@ -244,7 +242,7 @@ function saveItem(element) {
 };
 
 function deleteMenu(object) {
-    var container = $(".container-order");
+    var container = $(".layout");
     var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     container.block();
     var jqxhr = $.get($.validator.format("{0}Order/DeleteMenu", root), { "id": $(object).attr("data-value"), "checkId": checkId }, "json")
@@ -301,8 +299,8 @@ function showCheckPrint() {
 
 function getCheckPrint(checkId) {
     var tab = $("#html2Print");
-    var split = parseInt($("#slideSplit").slider("value"));
-    var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+    var split = parseInt($("#slideSplit").val());
+    var adjustment = parseInt($("#adjustmentSplit").val());
     var type = $(".check").find(".tab-pane.active").attr("data-type");
     var status = $(".check").find(".tab-pane.active").attr("data-status");
 
@@ -349,7 +347,7 @@ function updateTableStatus(tableOrderId, status) {
             message("::updateTableStatus:: Failed.", "error", "topCenter");
         })
         .always(function () {
-            $(".container-order").block();
+            $(".layout").block();
             window.location.reload();
         });
 }
@@ -388,7 +386,7 @@ function addNewTableOrder(tableId) {
             message("::AddNewTableOrder:: Failed.", "error", "topCenter");
         })
         .always(function () {
-            $(".container-order").block();
+            $(".layout").block();
             window.location.reload();
         });
 }
@@ -399,10 +397,12 @@ function toggleObjects(text) {
 
     $(active).find(".paid").remove();
     $(activeTab).find(".btnDelete").hide();
+    $("#btnDeleteSelectedChecks").hide();
     $("#menuTab").show();
 
     if (text == "Active") {
         $(activeTab).find(".btnDelete").show();
+        $("#btnDeleteSelectedChecks").show();
     }
     else if (text == "Ordered") {
         $(active).append(addStatusSign(text));
@@ -424,6 +424,7 @@ function BindEvents() {
         $("#btnCheckType").text($(this).attr("data-type"));
         $("#btnCheckStatus").text($(this).attr("data-status"));
         toggleObjects($(this).attr("data-status"));
+        checkStatusManager($(this).attr("data-status"));
 
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
@@ -436,4 +437,36 @@ function BindEvents() {
             }
         }
     });
+}
+
+function checkStatusManager(status) {
+    $("#checkStatus li").each(function () {
+        $(this).removeClass("disabled");
+    });
+
+    switch (status) {
+        case "Active": {
+            break;
+        }
+        case "Ordered": {
+            $("#checkStatus li[data-value='Active']").addClass("disabled");
+            break;
+        }
+        case "Ready": {
+            $("#checkStatus li[data-value='Active']").addClass("disabled");
+            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            break;
+        }
+        case "Paid": {
+            $("#checkStatus li[data-value='Active']").addClass("disabled");
+            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            break;
+        }
+        case "Cancelled": {
+            $("#checkStatus li[data-value='Active']").addClass("disabled");
+            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            $("#checkStatus li[data-value='Paid']").addClass("disabled");
+            break;
+        }
+    }
 }

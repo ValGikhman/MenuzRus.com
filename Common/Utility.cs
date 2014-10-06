@@ -29,6 +29,7 @@ public static class Common {
         Ordered = 2,
         Ready = 3,
         Paid = 4,
+        Cancelled = 5
     }
 
     public enum CheckType {
@@ -94,6 +95,12 @@ public static class Common {
 
         [Display(Name = "Activity")]
         Activity = 36,
+    }
+
+    public enum PrintStatus {
+        Printed = 1,
+        Queued = 2,
+        Cancelled = 3
     }
 
     public enum ProductType {

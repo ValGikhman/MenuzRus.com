@@ -14,16 +14,24 @@
             <h2>Table @Model.Table.Name</h2>
             @Html.Label("Status:")
             <div class="dropdown tableStatus">
-                @{ var currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Common.TableOrderStatus.Closed.ToString());
-                   if (Model.TableOrder != null) {
-                       currentStatus = Enum.Parse(typeof(Common.TableOrderStatus), Model.TableOrder.Status.ToString());
-                   }
+                @{
+                    Common.TableOrderStatus currentStatus = Common.TableOrderStatus.Closed;
+                    if (Model.TableOrder != null) {
+                        currentStatus = (Common.TableOrderStatus)Model.TableOrder.Status;
+                    }
                 }
-                <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@currentStatus</button>
+                <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@currentStatus.ToString()</button>
                 <ul id="tableStatus" class="dropdown-menu alert-warning" role="menu">
                     @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
                         Int32 value = (Int32)status;
-                        <li><a href="#" data-value="@value">@status</a></li>
+                        String disabled = String.Empty;
+                        if (value <= Model.TableOrder.Status) {
+                            disabled = "disabled";
+                            if (currentStatus == Common.TableOrderStatus.Closed && value == (Int32)Common.TableOrderStatus.Open) {
+                                disabled = String.Empty;
+                            }
+                        }
+                        <li class="@disabled"><a href="#" data-value="@value">@status</a></li>
                     }
                 </ul>
             </div>

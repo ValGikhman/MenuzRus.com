@@ -146,6 +146,7 @@
       <Column Name="Tax" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="Adjustment" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="OrderCheck_KitchenOrder" Member="KitchenOrders" ThisKey="id" OtherKey="CheckId" Type="KitchenOrder" />
       <Association Name="TableOrder_OrderCheck" Member="TableOrder" ThisKey="TableOrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
     </Type>
   </Table>
@@ -225,6 +226,15 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Menu_MenuItem" Member="Menu" ThisKey="MenuId" OtherKey="id" Type="Menu" IsForeignKey="true" />
       <Association Name="Item_MenuItem" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KitchenOrders" Member="KitchenOrders">
+    <Type Name="KitchenOrder">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CheckId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="OrderCheck_KitchenOrder" Member="OrderCheck" ThisKey="CheckId" OtherKey="id" Type="OrderCheck" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

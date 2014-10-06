@@ -1,7 +1,7 @@
 ﻿@model List<MenuzRus.Models.Check>
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:selectAll();"><i class="glyphicon glyphicon-plus"></i></button>
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:removeAll();"><i class="glyphicon glyphicon-minus"></i></button>
-<button class="btn btn-danger btn-lg pull-right shadow" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
+<button id="btnDeleteSelectedChecks" class="btn btn-danger btn-lg pull-right shadow" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
 <script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <div class="menuActions-container">
     <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
@@ -55,7 +55,7 @@
                         <ul id="checkStatus" class="dropdown-menu alert-warning" role="menu">
                             @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
                                 if (status != Common.CheckStatus.Ready) {
-                                <li><a href="#">@status</a></li>
+                                <li data-value="@status"><a href="#">@status</a></li>
                                 }
                             }
                         </ul>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
-            <button id="btnViewChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
+            <button id="btnPrintChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
         </div>
     </div>
 </div>
@@ -91,7 +91,7 @@
             postfix: "%"
         });
 
-        $("#btnViewChecks").on("click", function () {
+        $("#btnPrintChecks").on("click", function () {
             var selected = $(".chosen-select")[0].selectedOptions;
             var ids = new Array();
             $.each($(selected), function (index, item) {
@@ -106,12 +106,12 @@
     });
 
     function checksPrint(checksIds) {
-        var split = parseInt($("#slideSplit").slider("value"));
-        var adjustment = parseInt($("#adjustmentSplit").slider("value"));
+        var split = parseInt($("#slideSplit").val());
+        var adjustment = parseInt($("#adjustmentSplit").val());
 
         var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
             .done(function (result) {
-                printRaw(result);
+                printChecks(result);
             })
             .fail(function () {
                 message("::getCheckPrint:: Failed.", "error", "topCenter");
@@ -121,7 +121,7 @@
     }
 
     function html2Print() {
-        printRaw($("#html2Print").html());
+        printChecks($("#html2Print").html());
     }
 
     function selectAll() {
@@ -162,7 +162,7 @@
     }
 
     function deleteSelectedChecks(checksIds) {
-        var container = $(".container-order");
+        var container = $(".layout");
         container.block();
         var jqxhr = $.get($.validator.format("{0}Order/DeleteChecks", root), { "checksIds": JSON.stringify(checksIds) }, "json")
             .done(function (result) {

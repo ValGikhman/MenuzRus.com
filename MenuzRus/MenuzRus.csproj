@@ -132,6 +132,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ConfirmController.cs" />
     <Compile Include="Controllers\ConfirmationsController.cs" />
+    <Compile Include="Controllers\KitchenOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
     <Compile Include="Controllers\DesignerController.cs" />
@@ -153,6 +154,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\KitchenOrderModel.cs" />
     <Compile Include="Models\OrderCheckPrintModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ItemProductModel.cs" />
@@ -201,6 +203,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\kitchenOrder.css" />
     <Content Include="Content\kitchen.css" />
     <Content Include="Content\monitor.css" />
     <Content Include="Content\order.css" />
@@ -323,6 +326,9 @@
     <Content Include="Scripts\chosen\index.proto.html" />
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\Datepicker\css\datepicker.css" />
+    <Content Include="Scripts\Datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Scripts\kitchenOrder.js" />
     <Content Include="Scripts\JQGrid\css\ui.jqgrid.css" />
     <Content Include="Scripts\JQGrid\js\Changes.txt" />
     <Content Include="Scripts\JQGrid\js\i18n\grid.locale-ar.js" />
@@ -610,6 +616,8 @@
     <Content Include="Views\Confirmations\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_MenuDesignerPartial.cshtml" />
     <Content Include="Views\Designer\Index.cshtml" />
+    <Content Include="Views\KitchenOrder\Index.cshtml" />
+    <Content Include="Scripts\Datepicker\less\datepicker.less" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

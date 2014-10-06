@@ -84,6 +84,9 @@ namespace Services
     partial void InsertMenuItem(MenuItem instance);
     partial void UpdateMenuItem(MenuItem instance);
     partial void DeleteMenuItem(MenuItem instance);
+    partial void InsertKitchenOrder(KitchenOrder instance);
+    partial void UpdateKitchenOrder(KitchenOrder instance);
+    partial void DeleteKitchenOrder(KitchenOrder instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -257,6 +260,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<MenuItem>();
+			}
+		}
+		
+		public System.Data.Linq.Table<KitchenOrder> KitchenOrders
+		{
+			get
+			{
+				return this.GetTable<KitchenOrder>();
 			}
 		}
 	}
@@ -3028,6 +3039,8 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
+		private EntitySet<KitchenOrder> _KitchenOrders;
+		
 		private EntityRef<TableOrder> _TableOrder;
 		
     #region Extensibility Method Definitions
@@ -3054,6 +3067,7 @@ namespace Services
 		
 		public OrderCheck()
 		{
+			this._KitchenOrders = new EntitySet<KitchenOrder>(new Action<KitchenOrder>(this.attach_KitchenOrders), new Action<KitchenOrder>(this.detach_KitchenOrders));
 			this._TableOrder = default(EntityRef<TableOrder>);
 			OnCreated();
 		}
@@ -3222,6 +3236,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_KitchenOrder", Storage="_KitchenOrders", ThisKey="id", OtherKey="CheckId")]
+		public EntitySet<KitchenOrder> KitchenOrders
+		{
+			get
+			{
+				return this._KitchenOrders;
+			}
+			set
+			{
+				this._KitchenOrders.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
 		public TableOrder TableOrder
 		{
@@ -3274,6 +3301,18 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_KitchenOrders(KitchenOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderCheck = this;
+		}
+		
+		private void detach_KitchenOrders(KitchenOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderCheck = null;
 		}
 	}
 	
@@ -4934,6 +4973,181 @@ namespace Services
 						this._ItemId = default(int);
 					}
 					this.SendPropertyChanged("Item");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.KitchenOrders")]
+	public partial class KitchenOrder : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CheckId;
+		
+		private int _Status;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntityRef<OrderCheck> _OrderCheck;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCheckIdChanging(int value);
+    partial void OnCheckIdChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public KitchenOrder()
+		{
+			this._OrderCheck = default(EntityRef<OrderCheck>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckId", DbType="Int NOT NULL")]
+		public int CheckId
+		{
+			get
+			{
+				return this._CheckId;
+			}
+			set
+			{
+				if ((this._CheckId != value))
+				{
+					if (this._OrderCheck.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCheckIdChanging(value);
+					this.SendPropertyChanging();
+					this._CheckId = value;
+					this.SendPropertyChanged("CheckId");
+					this.OnCheckIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_KitchenOrder", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
+		public OrderCheck OrderCheck
+		{
+			get
+			{
+				return this._OrderCheck.Entity;
+			}
+			set
+			{
+				OrderCheck previousValue = this._OrderCheck.Entity;
+				if (((previousValue != value) 
+							|| (this._OrderCheck.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._OrderCheck.Entity = null;
+						previousValue.KitchenOrders.Remove(this);
+					}
+					this._OrderCheck.Entity = value;
+					if ((value != null))
+					{
+						value.KitchenOrders.Add(this);
+						this._CheckId = value.id;
+					}
+					else
+					{
+						this._CheckId = default(int);
+					}
+					this.SendPropertyChanged("OrderCheck");
 				}
 			}
 		}

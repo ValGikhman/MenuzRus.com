@@ -17,14 +17,14 @@ namespace MenuzRus {
 
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute(
-            name: "MenuDesigner",
-            url: "MenuDesigner/Index/{id}",
-            defaults: new {
-                controller = "MenuDesigner",
-                action = "Index",
-                monitor = UrlParameter.Optional
-            });
+            //routes.MapRoute(
+            //name: "MenuDesigner",
+            //url: "MenuDesigner/Index/{id}",
+            //defaults: new {
+            //    controller = "MenuDesigner",
+            //    action = "Index",
+            //    monitor = UrlParameter.Optional
+            //});
 
             routes.MapRoute(
                 "Default", // Route name

@@ -1,0 +1,37 @@
+﻿h2 {
+    color: #787878;
+    text-shadow: 2px 2px 3px #8D8484;
+}
+
+.container-designer {
+    background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
+    border-radius: 15px;
+    width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-jqgrid .ui-jqgrid-htable {
+    height: 35px;
+}
+
+    .ui-jqgrid .ui-jqgrid-htable th {
+        background-color: #428bca;
+        background-image: linear-gradient(to bottom, #428bca 0px, #155185 100%);
+        background-repeat: repeat-x;
+        color: #fff;
+        font-weight: bold;
+    }
+
+        .ui-jqgrid .ui-jqgrid-htable th div {
+            height: auto !important;
+        }
+
+.ui-jqgrid tr.jqgrow td {
+    padding-left: 15px !important;
+}
+
+.ui-jqgrid .ui-jqgrid-view {
+    font-size: medium !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}

@@ -66,16 +66,6 @@ namespace MenuzRus.Controllers {
             return new JsonResult() { Data = "", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        [CheckUserSession]
-        public ActionResult Menu() {
-            return View("MenuProduct", GetModel(Common.CategoryType.Menu));
-        }
-
-        [CheckUserSession]
-        public ActionResult Product() {
-            return View("MenuProduct", GetModel(Common.CategoryType.Product));
-        }
-
         #region private
 
         private DesignerModel GetModel(Common.CategoryType type) {

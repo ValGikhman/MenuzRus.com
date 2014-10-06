@@ -1,0 +1,112 @@
+﻿@model MenuzRus.Models.KitchenOrderPrintModel
+@using Services
+<link href="@Url.Content("~/Content/kitchenOrder.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/Datepicker/css/datepicker.css")" rel="stylesheet" />
+
+<script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
+<script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
+<script src="@Url.Content("~/Scripts/Datepicker/js/bootstrap-datepicker.js")"></script>
+<div class="well container container-designer shadow">
+    <div class="modal-header main-header">
+        <h2>Kitchen Order Monitor</h2>
+    </div>
+    <div class="cleafix"></div>
+    <div class="input-group date col-md-2 col-lg-2" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy">
+        <div class="input-group-addon shadow leiba">Date</div>
+        <input id="dateRequested" class="add-on form-control input-sm shadow" type="text" value="@DateTime.Now.ToShortDateString()" readonly>
+        <span class="input-group-addon shadow  add-on glyphicon glyphicon-calendar"></span>
+    </div>
+    <div class="cleafix"></div>
+    <table id="jqGrid"></table>
+</div>
+
+<script>
+    $(function () {
+        $("#date").datepicker().on("changeDate", function (ev) {
+            $(".datepicker ").toggle();
+            $("#jqGrid").setGridParam({
+                url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, ev.date.valueOf())
+            }).trigger("reloadGrid");
+        });
+
+        $(window).on("resize", function () {
+            var width = $(".container-designer").width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
+        $("#jqGrid").jqGrid({
+            caption: "Kitchen order",
+            colNames: ["Kitchen order#", "Check#", "Date Created", "Status"],
+            colModel: [
+                { name: "id", index: "id" },
+                { name: "CheckId", index: "CheckId" },
+                { name: "DateCreated", index: "DateCreated" },
+                { name: "Status", index: "Status" }
+            ],
+            hidegrid: false,
+            sortname: "Status",
+            rowNum: 50,
+            rowList: [10, 20, 50, 100],
+            sortorder: "desc",
+            width: null,
+            height: "auto",
+            width: null,
+            shrinkToFit: true,
+            autowidth: true,
+            datatype: "json",
+            caption: "",
+            viewrecords: true,
+            mtype: 'GET',
+            jsonReader: {
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                repeatitems: false,
+                userdata: "userdata"
+            },
+            url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, $("#dateRequested").val()),
+            grouping: false,
+            groupingView: {
+                groupField: ["CheckId"],
+                groupColumnShow: [false],
+                groupText: ["<b style='margin-left:25px;'>{0}: - {1} menu items(s)</b>"],
+                groupCollapse: true,
+                groupOrder: ['asc'],
+                groupSummary: [true],
+                showSummaryOnHide: false,
+                groupDataSorted: true,
+                plusicon: "ui-icon-plusthick",
+                minusicon: "ui-icon-minusthick"
+            },
+            loadComplete: function (data) {
+                var groups = $("tr.jqgroup");
+                groups.each(function (i, e) {
+                    var categoryId = $(e).next().find("td:first").text();
+                    $(e).children().attr("data-value", categoryId);
+                });
+
+            },
+        });
+        $("#gbox_jqGrid").css("min-height", "500px");
+
+        $("#jqGrid").click(function (e) {
+            var $target = $(e.target),
+                $groupHeader = $target.closest("tr.jqgroup");
+
+            if ($target.hasClass("btn")) {
+                return false;
+            }
+
+            if ($groupHeader.length > 0) {
+                if (e.target.nodeName.toLowerCase() !== "span" ||
+                        (!$target.hasClass("ui-icon-plusthick") && !$target.hasClass("ui-icon-minusthick"))) {
+                    $(this).jqGrid("groupingToggle", $groupHeader.attr("id"));
+                    return false;
+                }
+            }
+        });
+
+    });
+</script>

@@ -134,7 +134,20 @@
         }
     }
 
-    function printRaw(data) {
+    function mirage() {
+        if (notReady()) { return; }
+
+        qz.setAutoSize(true);
+        qz.appendImage($.validator.format("{0}Images/Menus/1/check.png", root));
+
+        // Automatically gets called when "qz.appendImage()" is finished.
+        window['qzDoneAppending'] = function () {
+            qz.printPS();
+            window['qzDoneAppending'] = null;
+        };
+    }
+
+    function printChecks(data) {
         if (notReady()) { return; }
         var checks = $(data);
         qz.appendHex("x1Bx40");     //(Initialize Printer)
@@ -145,6 +158,7 @@
             var companyNameItem = $(this).find(".companyNameItem ").html();
             var addressItems = $(this).find(".addressItem");
             var phoneItem = $(this).find(".phoneItem").html();
+            var date = new Date();
 
             qz.appendHex('x1Bx61x01');  // Center
             qz.appendHex('x1Dx21x12');  // Double all
@@ -209,5 +223,53 @@
             qz.appendHex("x1Bx4AxC8");  // ESC J n - Prints the buffer and feeds the paper of given amount (200 in this //case)
             qz.print();
         });
+
+        function printKitchenOrder(data) {
+            if (notReady()) { return; }
+            var checks = $(data);
+            qz.appendHex("x1Bx40");     //(Initialize Printer)
+            qz.appendHex("x1Bx74x06");   //Cyrillic
+
+            $.each(checks, function () {
+                var checkItem = $(this).find(".checkItem").html();
+                var date = new Date();
+
+                qz.appendHex('x1Bx61x01');  // Center
+                qz.appendHex('x1Dx21x12');  // Double all
+                qz.append("KITCHEN ORDER#");
+                qz.appendHex('x0D');        // CR
+                qz.appendHex('x1Dx21x00');  // Double off
+                qz.append("for:" + checkItem);
+                qz.appendHex('x0D');        // CR
+                qz.append(date);
+                qz.appendHex('x0D');        // CR
+
+                // Items
+                rows = $(this).find("#tableItems tr");
+                qz.appendHex('x1Bx61x00');  // Left adjustment
+                qz.appendHex('x0Dx0A');     // CR LF
+
+                var tds;
+                var name;
+                $.each(rows, function () {
+                    tds = $(this).find("td");
+                    // Has all 3 tds
+                    if (tds.length == 3) {
+                        name = $(tds)[0];
+                        isMainItem = $(name).hasClass("mainItem");
+                        isSubItem = $(name).hasClass("subItem");
+                        if (typeof (name) != "undefined") {
+                            name = $(name).html().replace(/(\r\n|\n|\r)/gm, "").trim().substring(0, 25);
+                        }
+
+                        if (isMainItem) { qz.appendHex("x1Bx45x0") }
+                        if (isSubItem) { qz.appendHex("x1Bx45x0") }
+                        qz.appendHex('x0Dx0A');        // CR LF
+                    }
+                });
+                qz.appendHex("x1Bx4AxC8");  // ESC J n - Prints the buffer and feeds the paper of given amount (200 in this //case)
+                qz.print();
+            });
+        }
     }
 </script>

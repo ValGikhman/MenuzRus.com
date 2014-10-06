@@ -59,6 +59,9 @@
                     <li class="dropdown user-dropdown menuAlways">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li class="disabled"><a href="#">Services</a>
+                            </li>
+                            <li class="divider"></li>
                             <li><a href="@Url.Content("~/Designer/Index")">Items</a>
                             </li>
                             <li class="desktopOnly"><a href="@Url.Content("~/Floor")">Floor</a>
@@ -66,9 +69,14 @@
                             <li><a href="@Url.Content("~/Order/Tables")">Order</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="@Url.Content("~/Order/Monitor")">Monitor</a>
+                            <li class="disabled"><a href="@Url.Content("~/Order/Monitor")">Monitors</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Content("~/Order/Monitor")">Floor</a>
                             </li>
                             <li><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
+                            </li>
+                            <li class="desktopOnly"><a href="@Url.Content("~/KitchenOrder")">Kitchen order</a>
                             </li>
                             <li class="divider desktopOnly"></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/MenuDesigner")">Menu designer</a>

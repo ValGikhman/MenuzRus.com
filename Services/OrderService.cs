@@ -31,11 +31,13 @@ namespace MenuzRus {
         }
 
         public Boolean DeleteCheck(Int32 id) {
+            IEnumerable<OrderChecksMenu> checkMenus;
+
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     OrderCheck orderCheck = db.OrderChecks.FirstOrDefault(m => m.id == id);
                     if (orderCheck != default(OrderCheck)) {
-                        IEnumerable<OrderChecksMenu> checkMenus = db.OrderChecksMenus.Where(m => m.CheckId == orderCheck.id);
+                        checkMenus = db.OrderChecksMenus.Where(m => m.CheckId == orderCheck.id);
                         if (checkMenus.Any()) {
                             foreach (OrderChecksMenu menu in checkMenus) {
                                 IEnumerable<OrderChecksMenuProduct> products = db.OrderChecksMenuProducts.Where(m => m.CheckMenuId == menu.id);
@@ -124,6 +126,11 @@ namespace MenuzRus {
             List<TableOrder> retVal = new List<TableOrder>();
             menuzRusDataContext db = new menuzRusDataContext();
             return db.TableOrders.Where(m => m.Status != (Int32)Common.TableOrderStatus.Closed && m.OrderChecks.Where(c => c.Status == (Int32)Common.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
+        }
+
+        public List<KitchenOrder> GetKitchenOrders(DateTime date) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.KitchenOrders.Where(m => m.DateCreated > date).ToList();
         }
 
         public OrderChecksMenu GetMenuItem(Int32 id) {
@@ -281,11 +288,18 @@ namespace MenuzRus {
 
         public Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
             OrderCheck query = new OrderCheck();
+            KitchenOrder kitchenOrder;
             if (checkId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
                     if (query != default(OrderCheck)) {
                         query.Status = (Int32)status;
+                        if (status == Common.CheckStatus.Ordered) {
+                            kitchenOrder = new KitchenOrder();
+                            kitchenOrder.Status = (Int32)Common.PrintStatus.Queued;
+                            kitchenOrder.CheckId = checkId;
+                            db.KitchenOrders.InsertOnSubmit(kitchenOrder);
+                        }
                         db.SubmitChanges();
                         return true;
                     }

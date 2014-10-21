@@ -609,7 +609,6 @@
     <Content Include="Views\Order\Kitchen.cshtml" />
     <Content Include="Views\Shared\_KitchenPartial.cshtml" />
     <Content Include="Views\Shared\_KitchenDetailsPartial.cshtml" />
-    <Content Include="Views\Shared\_KitchenCheckOrderPartial.cshtml" />
     <Content Include="Views\Shared\_PrintAppletPartial.cshtml" />
     <Content Include="Views\Shared\Emails\_EmailConfirmationPartial.cshtml" />
     <Content Include="Views\Confirmations\EmailConfirmation.cshtml" />
@@ -618,6 +617,8 @@
     <Content Include="Views\Designer\Index.cshtml" />
     <Content Include="Views\KitchenOrder\Index.cshtml" />
     <Content Include="Scripts\Datepicker\less\datepicker.less" />
+    <Content Include="Views\Shared\Printouts\_SendChecks2PrinterPartial.cshtml" />
+    <Content Include="Views\Shared\Printouts\_SendKitchenOrder2PrinterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

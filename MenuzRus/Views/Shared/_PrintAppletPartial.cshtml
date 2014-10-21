@@ -1,6 +1,5 @@
 ﻿<script src="@Url.Content("~/Scripts/QZPrint/deployJava.js")"></script>
-
-<script type="text/javascript">    if (deployJava.versionCheck("1.6.0+") || deployJava.versionCheck("1.4") || deployJava.versionCheck("1.5.0*")) {
+<script type="text/javascript">    var paperLength = 33;    if (deployJava.versionCheck("1.6.0+") || deployJava.versionCheck("1.4") || deployJava.versionCheck("1.5.0*")) {
         QZPrint = true;
         deployQZ();
         useDefaultPrinter();
@@ -9,6 +8,52 @@
     else {
         QZPrint = false;
         message("No printing available for this device.", "warning", "topCenter");
+    }
+
+    function chr(i) {
+        return String.fromCharCode(i);
+    }
+
+    function devider() {
+        qz.append(Array(paperLength).join("-"));
+    }
+
+    function line(n) {
+        qz.append(Array(n).join("\n"));
+    }
+
+    function openCashDrawer() {
+        qz.append(chr(27) + "\x70" + "\x30" + chr(25) + chr(25) + "\r");
+        qz.print();
+    }
+
+    function cutPaper() {
+        qz.append(chr(27) + chr(105));       // cut paper
+    }
+
+    function boldAndCenter() {
+        bold();
+        center();
+    }
+
+    function bold() {
+        qz.append(chr(27) + chr(69) + "1");  // bold on
+    }
+
+    function unBold() {
+        qz.append(chr(27) + chr(69) + "0");  // bold on
+    }
+
+    function center() {
+        qz.append(chr(27) + "\x61" + "1"); // center justify
+    }
+
+    function left() {
+        qz.append(chr(27) + "\x61" + "0"); // left justify
+    }
+
+    function right() {
+        qz.append(chr(27) + "\x61" + "2"); // right justify
     }
 
     function deployQZ() {
@@ -102,7 +147,7 @@
         }
 
         // Alert success message
-        message("Check printed", "success", "topCenter");
+        // message("Printed", "success", "topCenter");
     }
     /***************************************************************************
     * Prototype function for finding the "default printer" on the system
@@ -134,56 +179,35 @@
         }
     }
 
-    function mirage() {
-        if (notReady()) { return; }
-
-        qz.setAutoSize(true);
-        qz.appendImage($.validator.format("{0}Images/Menus/1/check.png", root));
-
-        // Automatically gets called when "qz.appendImage()" is finished.
-        window['qzDoneAppending'] = function () {
-            qz.printPS();
-            window['qzDoneAppending'] = null;
-        };
-    }
-
-    function printChecks(data) {
-        if (notReady()) { return; }
+    function printRawChecks(data) {
         var checks = $(data);
         qz.appendHex("x1Bx40");     //(Initialize Printer)
-        qz.appendHex("x1Bx74x06");   //Cyrillic
+        qz.appendHex("x1Bx74x06");  //Cyrillic
 
-        $.each(checks, function () {
+        $.each(checks, function (i, e) {
+            var element = e;
             var checkItem = $(this).find(".checkItem").html();
             var companyNameItem = $(this).find(".companyNameItem ").html();
             var addressItems = $(this).find(".addressItem");
             var phoneItem = $(this).find(".phoneItem").html();
-            var date = new Date();
+            var date = "@DateTime.Now.ToLongDateString()";
 
-            qz.appendHex('x1Bx61x01');  // Center
-            qz.appendHex('x1Dx21x12');  // Double all
-            qz.append(checkItem);
-            qz.appendHex('x0D');        // CR
-            qz.appendHex('x1Dx21x00');  // Double off
+            qz.appendHex("x1Bx40");     //(Initialize Printer)
+            boldAndCenter();
+            qz.append($.validator.format("{0}\n", checkItem));
+            qz.append($.validator.format("{0}\n", companyNameItem));
+            unBold();
 
-            qz.appendHex('x1Bx45x1');   // Emphasized on
-            qz.append(companyNameItem);
-            qz.appendHex('x0D');        // CR
-            qz.appendHex('x1Bx45x0');   // Emphasized of
-
-            qz.append(phoneItem);
-            qz.appendHex('x0D');        // CR
-
+            qz.append($.validator.format("{0}\n", phoneItem));
             $.each(addressItems, function () {
-                qz.append($(this).html());
-                qz.appendHex('x0D');        // CR
+                qz.append($.validator.format("{0}\n", $(this).html()));
             });
-            qz.appendHex('x0D');        // CR
+            line(1);
 
             // Items
-            rows = $(this).find("#tableItems tr");
-            qz.appendHex('x1Bx61x00');  // Left adjustment
-            qz.appendHex('x0Dx0A');     // CR LF
+            rows = $(element).find("#tableItems tr");
+            left();
+            devider();
 
             var tds;
             var name;
@@ -191,6 +215,9 @@
             var isSummaryItem;
             var isTaxItem;
             var isTotalItem;
+            qz.append($.validator.format("{0}\n", date));
+            devider();
+
             $.each(rows, function () {
                 tds = $(this).find("td");
                 // Has all 3 tds
@@ -208,68 +235,30 @@
                     if (typeof (price) != "undefined") {
                         price = $(price).html().replace(/(\r\n|\n|\r|\s)/gm, "");
                     }
-                    var len = 33 - (name + price).length;
+                    var len = paperLength - (name + price).length;
                     if (len < 0) len = 0;
-                    if (isMainItem) { qz.appendHex("x1Bx45x0") }
-                    if (isSubItem) { qz.appendHex("x1Bx45x0") }
-                    if (isSummaryItem) { qz.appendHex("x1Bx45x1") }
-                    if (isSummaryItem) { qz.appendHex("x1Bx45x1") }
-                    if (isTaxItem) { qz.appendHex("x1Bx45x0") }
-                    if (isTotalItem) { qz.appendHex("x1Bx45x1") }
-                    qz.append($.validator.format("{0}{1}{2}", name, Array(len).join(" "), price));
-                    qz.appendHex('x0Dx0A');        // CR LF
+                    if (isMainItem) { unBold(); }
+                    if (isSubItem) { unBold(); }
+                    if (isSummaryItem) {
+                        bold();
+                        devider();
+                    }
+                    if (isTaxItem) { unBold(); }
+                    if (isTotalItem) { bold(); }
+                    qz.append($.validator.format("{0}{1}{2}\n", name, Array(len).join(" "), price));
                 }
             });
+            line(2);
+            devider();
             qz.appendHex("x1Bx4AxC8");  // ESC J n - Prints the buffer and feeds the paper of given amount (200 in this //case)
             qz.print();
         });
+    }
 
-        function printKitchenOrder(data) {
-            if (notReady()) { return; }
-            var checks = $(data);
-            qz.appendHex("x1Bx40");     //(Initialize Printer)
-            qz.appendHex("x1Bx74x06");   //Cyrillic
-
-            $.each(checks, function () {
-                var checkItem = $(this).find(".checkItem").html();
-                var date = new Date();
-
-                qz.appendHex('x1Bx61x01');  // Center
-                qz.appendHex('x1Dx21x12');  // Double all
-                qz.append("KITCHEN ORDER#");
-                qz.appendHex('x0D');        // CR
-                qz.appendHex('x1Dx21x00');  // Double off
-                qz.append("for:" + checkItem);
-                qz.appendHex('x0D');        // CR
-                qz.append(date);
-                qz.appendHex('x0D');        // CR
-
-                // Items
-                rows = $(this).find("#tableItems tr");
-                qz.appendHex('x1Bx61x00');  // Left adjustment
-                qz.appendHex('x0Dx0A');     // CR LF
-
-                var tds;
-                var name;
-                $.each(rows, function () {
-                    tds = $(this).find("td");
-                    // Has all 3 tds
-                    if (tds.length == 3) {
-                        name = $(tds)[0];
-                        isMainItem = $(name).hasClass("mainItem");
-                        isSubItem = $(name).hasClass("subItem");
-                        if (typeof (name) != "undefined") {
-                            name = $(name).html().replace(/(\r\n|\n|\r)/gm, "").trim().substring(0, 25);
-                        }
-
-                        if (isMainItem) { qz.appendHex("x1Bx45x0") }
-                        if (isSubItem) { qz.appendHex("x1Bx45x0") }
-                        qz.appendHex('x0Dx0A');        // CR LF
-                    }
-                });
-                qz.appendHex("x1Bx4AxC8");  // ESC J n - Prints the buffer and feeds the paper of given amount (200 in this //case)
-                qz.print();
-            });
-        }
+    function printData(data) {
+        qz.appendHTML("<html>");
+        qz.appendHTML(data);
+        qz.appendHTML("</html>");
+        qz.printHTML();
     }
 </script>

@@ -67,6 +67,7 @@ namespace MenuzRus {
                         query.ImageUrl = user.ImageUrl;
                         query.Type = user.Type;
                         query.Hash = user.Hash;
+                        query.DateModified = DateTime.UtcNow;
                     }
                     if (user.id == 0) {
                         db.Users.InsertOnSubmit(query);

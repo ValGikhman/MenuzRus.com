@@ -18,6 +18,8 @@ namespace MenuzRus.Models {
 
         public OrderCheck Check { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
         public List<LineItem> Items { get; set; }
 
         public Int32 Split { get; set; }
@@ -33,6 +35,21 @@ namespace MenuzRus.Models {
         public Decimal TaxPercent { get; set; }
 
         public Decimal Total { get; set; }
+
+        public User User { get; set; }
+    }
+
+    public class KitchenOrderPrint {
+
+        public OrderCheck Check { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public Int32 id { get; set; }
+
+        public List<LineItem> Items { get; set; }
+
+        public User User { get; set; }
     }
 
     public class LineItem {

@@ -294,3 +294,9 @@ body {
 .centered {
     text-align: center;
 }
+
+.dropdown-header {
+    font-size: inherit;
+    padding: 3px 10px;
+    color: #1F5E94;
+}

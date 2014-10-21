@@ -35,7 +35,7 @@ namespace MenuzRus.Controllers {
                          select new {
                              id = order.id,
                              CheckId = order.CheckId,
-                             DateCreated = order.DateCreated.ToShortDateString(),
+                             DateCreated = order.DateCreated.ToLocalTime().ToString(),
                              Status = ((Common.PrintStatus)order.Status).ToString()
                          }
                     ).ToArray()

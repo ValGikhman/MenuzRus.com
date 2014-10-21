@@ -11,22 +11,28 @@
     <div class="modal-header main-header">
         <h2>Kitchen Order Monitor</h2>
     </div>
-    <div class="cleafix"></div>
+    <br />
     <div class="input-group date col-md-2 col-lg-2" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy">
         <div class="input-group-addon shadow leiba">Date</div>
         <input id="dateRequested" class="add-on form-control input-sm shadow" type="text" value="@DateTime.Now.ToShortDateString()" readonly>
         <span class="input-group-addon shadow  add-on glyphicon glyphicon-calendar"></span>
     </div>
-    <div class="cleafix"></div>
+    <br />
     <table id="jqGrid"></table>
 </div>
 
 <script>
     $(function () {
+        window.setInterval(function () {
+            $("#jqGrid").setGridParam({
+                url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, $("#dateRequested").val())
+            }).trigger("reloadGrid");
+        }, 60 * 1000);
+
         $("#date").datepicker().on("changeDate", function (ev) {
             $(".datepicker ").toggle();
             $("#jqGrid").setGridParam({
-                url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, ev.date.valueOf())
+                url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, $("#dateRequested").val())
             }).trigger("reloadGrid");
         });
 
@@ -39,16 +45,17 @@
             caption: "Kitchen order",
             colNames: ["Kitchen order#", "Check#", "Date Created", "Status"],
             colModel: [
-                { name: "id", index: "id" },
-                { name: "CheckId", index: "CheckId" },
-                { name: "DateCreated", index: "DateCreated" },
-                { name: "Status", index: "Status" }
+                { name: "id", align: "center" },
+                { name: "CheckId", align: "center" },
+                { name: "DateCreated", align: "center" },
+                { name: "Status", align: "center" }
             ],
             hidegrid: false,
-            sortname: "Status",
             rowNum: 50,
             rowList: [10, 20, 50, 100],
-            sortorder: "desc",
+            sortable: false,
+            sortname: "id",
+            sortorder: "asc",
             width: null,
             height: "auto",
             width: null,
@@ -56,30 +63,14 @@
             autowidth: true,
             datatype: "json",
             caption: "",
+            loadonce: true,
             viewrecords: true,
             mtype: 'GET',
             jsonReader: {
-                root: "rows",
-                page: "page",
-                total: "total",
-                records: "records",
                 repeatitems: false,
-                userdata: "userdata"
+                id: "id"
             },
             url: $.validator.format("{0}KitchenOrder/LoadData?date={1}", root, $("#dateRequested").val()),
-            grouping: false,
-            groupingView: {
-                groupField: ["CheckId"],
-                groupColumnShow: [false],
-                groupText: ["<b style='margin-left:25px;'>{0}: - {1} menu items(s)</b>"],
-                groupCollapse: true,
-                groupOrder: ['asc'],
-                groupSummary: [true],
-                showSummaryOnHide: false,
-                groupDataSorted: true,
-                plusicon: "ui-icon-plusthick",
-                minusicon: "ui-icon-minusthick"
-            },
             loadComplete: function (data) {
                 var groups = $("tr.jqgroup");
                 groups.each(function (i, e) {

@@ -69,6 +69,9 @@ namespace MenuzRus {
                     else
                         user.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
                 }
+                if (user.id == 0) {
+                    EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
+                }
 
                 Int32 result = userService.SaveUser(user);
                 if (result == 0)
@@ -84,8 +87,6 @@ namespace MenuzRus {
                 else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
-
-                //EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
 
                 if (model.Referer == "Form")
                     return RedirectToAction("Index", "Login");

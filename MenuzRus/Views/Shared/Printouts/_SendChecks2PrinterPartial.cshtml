@@ -1,0 +1,101 @@
+﻿@model MenuzRus.Models.CheckPrint
+@using Extensions;
+<div style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small;">
+    <table cellpadding="0" cellspacing="0" align="center">
+        <tr>
+            <td align="center">
+                <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", MenuzRus.SessionData.customer.id, MenuzRus.SessionData.customer.ImageUrl, Guid.NewGuid().ToString("N"))))" />
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="0" cellspacing="0" align="center" width="100%">
+        <tr>
+            <td style="font-weight: bold;" align="center">
+                <br />
+                @String.Format("RECEIPT #{1}-{0}", Model.Check.id, Model.Check.TableOrder.TableId)</td>
+        </tr>
+
+        @if (MenuzRus.SessionData.customer.ImageUrl.IsEmpty()) {
+            <tr>
+                <td align="center">@MenuzRus.SessionData.customer.Name.ToUpper()</td>
+            </tr>
+        }
+        <tr>
+            <td align="center">@MenuzRus.SessionData.customer.Address.ToUpper()</td>
+        </tr>
+        @if (!String.IsNullOrEmpty(MenuzRus.SessionData.customer.Address2)) {
+            <tr>
+                <td align="center">@MenuzRus.SessionData.customer.Address2.ToUpper()</td>
+            </tr>
+        }
+        <tr>
+            <td align="center">@MenuzRus.SessionData.customer.City.ToUpper(), @MenuzRus.SessionData.customer.State.ToUpper() @MenuzRus.SessionData.customer.Zip</td>
+        </tr>
+        <tr>
+            <td align="center">@MenuzRus.SessionData.customer.Phone.FormatPhone()</td>
+        </tr>
+        <tr>
+            <td align="center">@String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())</td>
+        </tr>
+    </table>
+    <br />
+    <table cellpadding="0" cellspacing="0" width="100%">
+        @foreach (MenuzRus.Models.LineItem item in Model.Items) {
+            <tr>
+                <td>@item.Description</td>
+                <td style="text-align: right">@item.Price.ToString("C2")</td>
+            </tr>
+            foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
+            <tr style="font-style: italic;">
+                <td style="padding-left: 5px;">@subItem.Description</td>
+                <td style="text-align: right">@subItem.Price.ToString("C2")</td>
+            </tr>
+            }
+        }
+    </table>
+    <br />
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr style="border-top: 1px dotted black; font-weight: bold;">
+            <td>Summary:</td>
+            <td style="text-align: right">@Model.Summary.ToString("C2")</td>
+        </tr>
+        @if (Model.AdjustmentPercent != 0) {
+            <tr>
+                <td>Adjustment: @Model.AdjustmentPercent.ToString("P0")</td>
+                <td style="text-align: right">@Model.Adjustment.ToString("C2")</td>
+            </tr>
+            <tr>
+                <td>Subtotal:</td>
+                <td style="text-align: right">@Model.Subtotal.ToString("C2")</td>
+            </tr>
+        }
+        <tr>
+            <td>Tax: @Model.TaxPercent.ToString("P")</td>
+            <td style="text-align: right">@Model.Tax.ToString("C2")</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>Total:</td>
+            <td style="text-align: right">@Model.Total.ToString("C2")</td>
+        </tr>
+    </table>
+    <br>
+    <table cellpadding="0" cellspacing="0" align="center" width="100%">
+        @if (Model.Split > 1) {
+            <tr style="border-top: 1px dotted black;">
+                <td>Split: @Model.Total.ToString("C2")/@Model.Split</td>
+                <td style="text-align: right"></td>
+            </tr>
+            Int32 i = 1;
+            foreach (Double split in Model.SplitValues) {
+            <tr>
+                <td></td>
+                <td style="text-align: right">@String.Format("{0}: {1}", i, split.ToString("C2"))</td>
+            </tr>
+                i++;
+            }
+        }
+    </table>
+    <div style="border-bottom: 1px dashed black; width: 100%; margin-top: 15px; margin-bottom: 15px;">
+        @String.Format("Server: {0}{1} #{2}", Model.User.FirstName, Model.User.LastName.Substring(0, 1), Model.Check.TableOrder.TableId)
+    </div>
+</div>

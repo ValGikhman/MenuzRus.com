@@ -38,7 +38,7 @@
 <script>
     $(function () {
         var lastCategory;
-
+        var expandedEmpGroups = [];
         $(window).on("resize", function () {
             var width = $(".container-designer").width();
             $("#jqGrid").setGridWidth(width);
@@ -55,24 +55,27 @@
             caption: "Gryd",
             colNames: ["CategoryId", "Category", "itemId", "", "Name", "Description", "Price", "Active"],
             colModel: [
-                { name: "categoryId", index: "categoryId", hidden: true },
-                { name: "category", index: "category" },
-                { name: "itemId", index: "itemId", hidden: true },
-                { name: "action", index: "action", width: 45, formatter: edit },
-                { name: "name", index: "name", width: 130, sortable: true },
-                { name: "description", index: "description", width: 180 },
-                { name: "price", index: "price", width: 30, align: "right", sorttype: "float", formatter: "currency", formatoptions: { prefix: "$", thousandsSeparator: ",'" } },
+                { name: "categoryId", hidden: true },
+                { name: "category" },
+                { name: "itemId", hidden: true },
+                { name: "action", width: 45, formatter: edit },
+                { name: "name", width: 130 },
+                { name: "description", width: 180, sortable: true },
+                { name: "price", width: 30, align: "right", sorttype: "float", formatter: "currency", formatoptions: { prefix: "$", thousandsSeparator: ",'" } },
                 { name: "active", align: "center", editable: true, edittype: "checkbox", editoptions: { value: "True:False" }, formatter: "checkbox", width: 20, formatoptions: { disabled: true } }
             ],
             hidegrid: false,
-            sortname: "category",
             rowNum: 50,
             rowList: [10, 20, 50, 100],
-            sortorder: "desc",
             width: null,
             height: "auto",
             width: null,
+            sortable: true,
+            sortname: "category",
+            sortorder: "desc",
+            loadonce: true,
             shrinkToFit: true,
+            hoverrows: true,
             autowidth: true,
             datatype: "json",
             caption: "",
@@ -106,8 +109,29 @@
                     var categoryId = $(e).next().find("td:first").text();
                     $(e).children().attr("data-value", categoryId);
                 });
+                var $this = $(this)
+                if (expandedEmpGroups.length > 0) {
+                    for (var i = 0; i <= expandedEmpGroups.length; i++) {
+                        if (typeof (expandedEmpGroups[i]) != "undefined") {
+                            $this.jqGrid("groupingToggle", expandedEmpGroups[i]);
+                        }
+                    }
+                }
 
             },
+            onClickGroup: function (hid, collapsed) {
+                var i;
+                i = $.inArray(hid, expandedEmpGroups) > -1;
+
+                if (!collapsed && i == false) {
+                    expandedEmpGroups.push(hid);
+                }
+                else if (collapsed && i == true) {
+                    //Grouphid.splice(i, 1);
+                    expandedEmpGroups.splice($.inArray(hid, expandedEmpGroups), 1);
+                }
+
+            }
         });
         $("#gbox_jqGrid").css("min-height", "500px");
 

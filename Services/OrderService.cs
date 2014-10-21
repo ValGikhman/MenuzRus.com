@@ -130,7 +130,7 @@ namespace MenuzRus {
 
         public List<KitchenOrder> GetKitchenOrders(DateTime date) {
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.KitchenOrders.Where(m => m.DateCreated > date).ToList();
+            return db.KitchenOrders.Where(m => m.DateCreated >= date.ToUniversalTime()).ToList();
         }
 
         public OrderChecksMenu GetMenuItem(Int32 id) {
@@ -155,6 +155,11 @@ namespace MenuzRus {
                 return db.OrderChecksMenuProducts.Where(m => m.CheckMenuId == menuId).ToList();
             }
             return null;
+        }
+
+        public List<KitchenOrder> GetQueued4PrintKitchenOrders(DateTime date) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.KitchenOrders.Where(m => m.Status == (Int32)Common.PrintStatus.Queued).ToList();
         }
 
         public Table GetTable(Int32 tableId) {
@@ -253,6 +258,7 @@ namespace MenuzRus {
                         orderCheck.TableOrderId = tableOrder.id;
                         orderCheck.Type = (Int32)Common.CheckType.Guest;
                         orderCheck.Status = (Int32)Common.CheckStatus.Active;
+                        orderCheck.UserId = SessionData.user.id;
                         db.OrderChecks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
                     }
@@ -333,6 +339,21 @@ namespace MenuzRus {
                     query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
                     if (query != default(OrderCheck)) {
                         query.Type = (Int32)type;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public Boolean UpdateKitchenOrderPrintStatus(Int32 id) {
+            KitchenOrder query = new KitchenOrder();
+            if (id != 0) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.KitchenOrders.FirstOrDefault(m => m.id == id);
+                    if (query != default(KitchenOrder)) {
+                        query.Status = (Int32)Common.PrintStatus.Printed;
                         db.SubmitChanges();
                         return true;
                     }

@@ -66,9 +66,6 @@ namespace Services
     partial void InsertOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
     partial void UpdateOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
     partial void DeleteOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
-    partial void InsertOrderCheck(OrderCheck instance);
-    partial void UpdateOrderCheck(OrderCheck instance);
-    partial void DeleteOrderCheck(OrderCheck instance);
     partial void InsertTable(Table instance);
     partial void UpdateTable(Table instance);
     partial void DeleteTable(Table instance);
@@ -87,6 +84,9 @@ namespace Services
     partial void InsertKitchenOrder(KitchenOrder instance);
     partial void UpdateKitchenOrder(KitchenOrder instance);
     partial void DeleteKitchenOrder(KitchenOrder instance);
+    partial void InsertOrderCheck(OrderCheck instance);
+    partial void UpdateOrderCheck(OrderCheck instance);
+    partial void DeleteOrderCheck(OrderCheck instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -215,14 +215,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderCheck> OrderChecks
-		{
-			get
-			{
-				return this.GetTable<OrderCheck>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Table> Tables
 		{
 			get
@@ -268,6 +260,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<KitchenOrder>();
+			}
+		}
+		
+		public System.Data.Linq.Table<OrderCheck> OrderChecks
+		{
+			get
+			{
+				return this.GetTable<OrderCheck>();
 			}
 		}
 	}
@@ -1364,7 +1364,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -3014,305 +3014,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecks")]
-	public partial class OrderCheck : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _TableOrderId;
-		
-		private int _Type;
-		
-		private int _Status;
-		
-		private System.Nullable<decimal> _Price;
-		
-		private System.Nullable<decimal> _Tax;
-		
-		private System.Nullable<decimal> _Adjustment;
-		
-		private System.DateTime _DateCreated;
-		
-		private EntitySet<KitchenOrder> _KitchenOrders;
-		
-		private EntityRef<TableOrder> _TableOrder;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnTableOrderIdChanging(int value);
-    partial void OnTableOrderIdChanged();
-    partial void OnTypeChanging(int value);
-    partial void OnTypeChanged();
-    partial void OnStatusChanging(int value);
-    partial void OnStatusChanged();
-    partial void OnPriceChanging(System.Nullable<decimal> value);
-    partial void OnPriceChanged();
-    partial void OnTaxChanging(System.Nullable<decimal> value);
-    partial void OnTaxChanged();
-    partial void OnAdjustmentChanging(System.Nullable<decimal> value);
-    partial void OnAdjustmentChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public OrderCheck()
-		{
-			this._KitchenOrders = new EntitySet<KitchenOrder>(new Action<KitchenOrder>(this.attach_KitchenOrders), new Action<KitchenOrder>(this.detach_KitchenOrders));
-			this._TableOrder = default(EntityRef<TableOrder>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TableOrderId", DbType="Int NOT NULL")]
-		public int TableOrderId
-		{
-			get
-			{
-				return this._TableOrderId;
-			}
-			set
-			{
-				if ((this._TableOrderId != value))
-				{
-					if (this._TableOrder.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTableOrderIdChanging(value);
-					this.SendPropertyChanging();
-					this._TableOrderId = value;
-					this.SendPropertyChanged("TableOrderId");
-					this.OnTableOrderIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
-		public int Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
-		public int Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Decimal(6,2)")]
-		public System.Nullable<decimal> Price
-		{
-			get
-			{
-				return this._Price;
-			}
-			set
-			{
-				if ((this._Price != value))
-				{
-					this.OnPriceChanging(value);
-					this.SendPropertyChanging();
-					this._Price = value;
-					this.SendPropertyChanged("Price");
-					this.OnPriceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(6,2)")]
-		public System.Nullable<decimal> Tax
-		{
-			get
-			{
-				return this._Tax;
-			}
-			set
-			{
-				if ((this._Tax != value))
-				{
-					this.OnTaxChanging(value);
-					this.SendPropertyChanging();
-					this._Tax = value;
-					this.SendPropertyChanged("Tax");
-					this.OnTaxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Adjustment", DbType="Decimal(6,2)")]
-		public System.Nullable<decimal> Adjustment
-		{
-			get
-			{
-				return this._Adjustment;
-			}
-			set
-			{
-				if ((this._Adjustment != value))
-				{
-					this.OnAdjustmentChanging(value);
-					this.SendPropertyChanging();
-					this._Adjustment = value;
-					this.SendPropertyChanged("Adjustment");
-					this.OnAdjustmentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_KitchenOrder", Storage="_KitchenOrders", ThisKey="id", OtherKey="CheckId")]
-		public EntitySet<KitchenOrder> KitchenOrders
-		{
-			get
-			{
-				return this._KitchenOrders;
-			}
-			set
-			{
-				this._KitchenOrders.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
-		public TableOrder TableOrder
-		{
-			get
-			{
-				return this._TableOrder.Entity;
-			}
-			set
-			{
-				TableOrder previousValue = this._TableOrder.Entity;
-				if (((previousValue != value) 
-							|| (this._TableOrder.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TableOrder.Entity = null;
-						previousValue.OrderChecks.Remove(this);
-					}
-					this._TableOrder.Entity = value;
-					if ((value != null))
-					{
-						value.OrderChecks.Add(this);
-						this._TableOrderId = value.id;
-					}
-					else
-					{
-						this._TableOrderId = default(int);
-					}
-					this.SendPropertyChanged("TableOrder");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_KitchenOrders(KitchenOrder entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderCheck = this;
-		}
-		
-		private void detach_KitchenOrders(KitchenOrder entity)
-		{
-			this.SendPropertyChanging();
-			entity.OrderCheck = null;
 		}
 	}
 	
@@ -5170,6 +4871,329 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecks")]
+	public partial class OrderCheck : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _TableOrderId;
+		
+		private int _Type;
+		
+		private int _Status;
+		
+		private System.Nullable<decimal> _Price;
+		
+		private System.Nullable<decimal> _Tax;
+		
+		private System.Nullable<decimal> _Adjustment;
+		
+		private int _UserId;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntitySet<KitchenOrder> _KitchenOrders;
+		
+		private EntityRef<TableOrder> _TableOrder;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnTableOrderIdChanging(int value);
+    partial void OnTableOrderIdChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnPriceChanging(System.Nullable<decimal> value);
+    partial void OnPriceChanged();
+    partial void OnTaxChanging(System.Nullable<decimal> value);
+    partial void OnTaxChanged();
+    partial void OnAdjustmentChanging(System.Nullable<decimal> value);
+    partial void OnAdjustmentChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public OrderCheck()
+		{
+			this._KitchenOrders = new EntitySet<KitchenOrder>(new Action<KitchenOrder>(this.attach_KitchenOrders), new Action<KitchenOrder>(this.detach_KitchenOrders));
+			this._TableOrder = default(EntityRef<TableOrder>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TableOrderId", DbType="Int NOT NULL")]
+		public int TableOrderId
+		{
+			get
+			{
+				return this._TableOrderId;
+			}
+			set
+			{
+				if ((this._TableOrderId != value))
+				{
+					if (this._TableOrder.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTableOrderIdChanging(value);
+					this.SendPropertyChanging();
+					this._TableOrderId = value;
+					this.SendPropertyChanged("TableOrderId");
+					this.OnTableOrderIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Decimal(6,2)")]
+		public System.Nullable<decimal> Price
+		{
+			get
+			{
+				return this._Price;
+			}
+			set
+			{
+				if ((this._Price != value))
+				{
+					this.OnPriceChanging(value);
+					this.SendPropertyChanging();
+					this._Price = value;
+					this.SendPropertyChanged("Price");
+					this.OnPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(6,2)")]
+		public System.Nullable<decimal> Tax
+		{
+			get
+			{
+				return this._Tax;
+			}
+			set
+			{
+				if ((this._Tax != value))
+				{
+					this.OnTaxChanging(value);
+					this.SendPropertyChanging();
+					this._Tax = value;
+					this.SendPropertyChanged("Tax");
+					this.OnTaxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Adjustment", DbType="Decimal(6,2)")]
+		public System.Nullable<decimal> Adjustment
+		{
+			get
+			{
+				return this._Adjustment;
+			}
+			set
+			{
+				if ((this._Adjustment != value))
+				{
+					this.OnAdjustmentChanging(value);
+					this.SendPropertyChanging();
+					this._Adjustment = value;
+					this.SendPropertyChanged("Adjustment");
+					this.OnAdjustmentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_KitchenOrder", Storage="_KitchenOrders", ThisKey="id", OtherKey="CheckId")]
+		public EntitySet<KitchenOrder> KitchenOrders
+		{
+			get
+			{
+				return this._KitchenOrders;
+			}
+			set
+			{
+				this._KitchenOrders.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
+		public TableOrder TableOrder
+		{
+			get
+			{
+				return this._TableOrder.Entity;
+			}
+			set
+			{
+				TableOrder previousValue = this._TableOrder.Entity;
+				if (((previousValue != value) 
+							|| (this._TableOrder.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TableOrder.Entity = null;
+						previousValue.OrderChecks.Remove(this);
+					}
+					this._TableOrder.Entity = value;
+					if ((value != null))
+					{
+						value.OrderChecks.Add(this);
+						this._TableOrderId = value.id;
+					}
+					else
+					{
+						this._TableOrderId = default(int);
+					}
+					this.SendPropertyChanged("TableOrder");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_KitchenOrders(KitchenOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderCheck = this;
+		}
+		
+		private void detach_KitchenOrders(KitchenOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.OrderCheck = null;
 		}
 	}
 }

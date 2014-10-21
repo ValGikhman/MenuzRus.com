@@ -35,7 +35,6 @@ namespace MenuzRus.Controllers {
             return Json(retVal);
         }
 
-        [CheckUserSession]
         [HttpGet]
         public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
             List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
@@ -44,7 +43,7 @@ namespace MenuzRus.Controllers {
             Services.OrderCheck check;
             foreach (Int32 id in Ids) {
                 check = service.GetCheck(id);
-                retVal += ShowCheckPrint(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
+                retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
             }
             return retVal;
         }
@@ -106,6 +105,19 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
+        public String KitchenOrdersPrint() {
+            OrderService service = new OrderService();
+            String retVal = String.Empty;
+            List<Services.KitchenOrder> orders2Print;
+            orders2Print = service.GetQueued4PrintKitchenOrders(DateTime.Now);
+            foreach (Services.KitchenOrder order in orders2Print) {
+                retVal += PrintKitchenOrders(order);
+                service.UpdateKitchenOrderPrintStatus(order.id);
+            }
+            return retVal;
+        }
+
+        [HttpGet]
         public ActionResult KitchenRefresh() {
             try {
                 return PartialView("_KitchenPartial", GetKitchenModel());
@@ -151,6 +163,16 @@ namespace MenuzRus.Controllers {
             return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        [HttpGet]
+        public String PrintChecks(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
+            return RenderViewToString(this.ControllerContext, "Printouts/_SendChecks2PrinterPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
+        }
+
+        [HttpGet]
+        public String PrintKitchenOrders(Services.KitchenOrder order) {
+            return RenderViewToString(this.ControllerContext, "Printouts/_SendKitchenOrder2PrinterPartial", GetKitchenOrderPrintModel(order));
+        }
+
         [HttpPost]
         public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
             OrderService orderService = new OrderService();
@@ -169,13 +191,11 @@ namespace MenuzRus.Controllers {
             return Json(retVal);
         }
 
-        // Show totals for a check
         [HttpGet]
         public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
             return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
         }
 
-        // Show one menu strip
         [HttpGet]
         public String ShowMenuItem(Int32 id, OrderChecksMenu menuItem) {
             ItemService itemService = new ItemService();
@@ -367,6 +387,7 @@ namespace MenuzRus.Controllers {
             ItemService itemService;
             Services.Item item, itemMenu;
             OrderService orderService;
+            UserService userService;
             CheckPrint model;
             Decimal tax = SessionData.customer.Tax.HasValue ? (Decimal)SessionData.customer.Tax / 100 : 0;
             Decimal price = 0, menuPrice = 0;
@@ -374,9 +395,14 @@ namespace MenuzRus.Controllers {
             try {
                 itemService = new ItemService();
                 orderService = new OrderService();
+                userService = new UserService();
+
                 model = new CheckPrint();
                 model.Items = new List<LineItem>();
                 model.Check = orderService.GetCheck(checkId);
+                model.CreatedDate = model.Check.DateCreated;
+                model.User = userService.GetUser(model.Check.UserId);
+
                 List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
                 List<OrderChecksMenuProduct> products;
                 model.Summary = 0;
@@ -450,6 +476,53 @@ namespace MenuzRus.Controllers {
             }
 
             return null;
+        }
+
+        private KitchenOrderPrint GetKitchenOrderPrintModel(Services.KitchenOrder order) {
+            ItemService itemService;
+            Services.Item item, itemMenu;
+            OrderService orderService;
+            UserService userService;
+            KitchenOrderPrint model;
+            List<LineItem> subItems;
+            try {
+                itemService = new ItemService();
+                orderService = new OrderService();
+                userService = new UserService();
+
+                model = new KitchenOrderPrint();
+                model.Items = new List<LineItem>();
+                model.Check = orderService.GetCheck(order.CheckId);
+                model.id = order.id;
+                model.CreatedDate = model.Check.DateCreated;
+                model.User = userService.GetUser(model.Check.UserId);
+
+                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
+                List<OrderChecksMenuProduct> products;
+                foreach (Services.OrderChecksMenu menuItem in menus) {
+                    itemMenu = itemService.GetItem(menuItem.MenuId);
+                    products = orderService.GetProducts(menuItem.id);
+                    subItems = new List<LineItem>();
+                    foreach (Services.OrderChecksMenuProduct productItem in products) {
+                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            if (item != null) {
+                                subItems.Add(new LineItem() { Description = item.Name });
+                            }
+                        }
+                    }
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, SubItems = subItems });
+                }
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return null;
+            }
+            finally {
+                itemService = null;
+                orderService = null;
+            }
+            return model;
         }
 
         private KitchenOrderModel GetKitchenTableModel(Int32 tableId) {

@@ -21,6 +21,7 @@
     </div>
     <a href="#">Tables <span class="tables badge"></span></a>
 </div>
+@Html.Partial("_PrintAppletPartial")
 
 <script>
     var timerId;
@@ -77,9 +78,7 @@
 
     function refresh() {
         $(".timer").countdown("destroy");
-        $("#floorContainer").fadeOut("slow", function () {
-            $("#floorContainer").remove();
-        });
+        $("#floorContainer").remove();
 
         var jqxhr = $.get($.validator.format("{0}Order/KitchenRefresh", root))
             .done(function (result) {
@@ -87,12 +86,23 @@
                 addTimers();
                 setTableStatus();
                 setCheckStatus();
+                printKitchenOrders();
             })
         .fail(function () {
             message("::setInterval:: Failed.", "error", "topCenter");
         })
         .always(function () {
             message("Refreshed", "success", "topCenter");
+        });
+    }
+
+    function printKitchenOrders() {
+        var jqxhr = $.get($.validator.format("{0}Order/KitchenOrdersPrint", root))
+            .done(function (result) {
+                printData(result);
+            })
+        .fail(function () {
+            message("::printKitchenOrders:: Failed.", "error", "topCenter");
         });
     }
 </script>

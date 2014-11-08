@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using Extensions;
 using Newtonsoft.Json;
 using Services;
@@ -19,6 +20,8 @@ namespace MenuzRus {
         public static Services.Item item { get; set; }
 
         public static Services.Menu menu { get; set; }
+
+        public static String[] printers { get; set; }
 
         public static String route { get; set; }
 

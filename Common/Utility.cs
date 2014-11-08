@@ -12,6 +12,15 @@ using System.Threading.Tasks;
 
 public static class Common {
 
+    public enum Alert {
+
+        [Display(Name = "The dish is ready")]
+        DishIsReady = 1,
+
+        [Display(Name = "Order is ready")]
+        OrderIsReady = 2
+    }
+
     public enum CategoryType {
 
         [Display(Name = "Menu")]
@@ -97,10 +106,24 @@ public static class Common {
         Activity = 36,
     }
 
+    public enum PrinterWidth {
+
+        [Display(Name = "58mm")]
+        Printer58mm = 58,
+
+        [Display(Name = "80mm")]
+        Printer80mm = 80,
+    }
+
     public enum PrintStatus {
         Printed = 1,
         Queued = 2,
         Cancelled = 3
+    }
+
+    public enum PrintType {
+        KitchenOrder = 1,
+        Check = 2
     }
 
     public enum ProductType {
@@ -151,7 +174,19 @@ public static class Common {
         PriceFontSize = 12,
 
         [Display(Name = "Show hidden menu items")]
-        ShowHiddenItems = 13
+        ShowHiddenItems = 13,
+
+        [Display(Name = "Kitchen Printer")]
+        PrinterKitchen = 14,
+
+        [Display(Name = "POS Printer")]
+        PrinterPOS = 15,
+
+        [Display(Name = "Kitchen Printer Width")]
+        PrinterKitchenWidth = 16,
+
+        [Display(Name = "POS Printer Width")]
+        PrinterPOSWidth = 17
     }
 
     public enum SettingsItems {
@@ -178,13 +213,10 @@ public static class Common {
 
     public enum Status {
 
-        [Display(Name = "Show in menu")]
-        ShowInMenu = 2,
-
-        [Display(Name = "Show item")]
+        [Display(Name = "Active")]
         Active = 1,
 
-        [Display(Name = "Do not show this item")]
+        [Display(Name = "Inctive")]
         NotActive = 0
     }
 

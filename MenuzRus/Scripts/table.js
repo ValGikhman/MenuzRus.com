@@ -45,7 +45,7 @@ $(function () {
 
     $("#btnAdd").click(function (e) {
         $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-type='{1}' data-status='{2}' data-toggle='tab'>{0}</a></li>", "New", 'Guest', 'Active'));
-        $(".check").append($.validator.format("<div class='tab-pane fade in active' id='New' data-value='0'></div>"));
+        $(".check").append($.validator.format("<div class='tab-pane fade in active' id='New' data-value='0' data-type='{0}' data-status='{1}'></div>", 'Guest', 'Active'));
         $(".checks li:last a").tab("show");
         $("#btnCheckType").text("Guest");
         $("#btnCheckStatus").text("Active");
@@ -160,9 +160,15 @@ function toggleCategory(thisObject, toggleObject) {
 function orderMenuItem(id) {
     var container = $(".menuItems");
     var active = $(".check").find(".tab-pane.active");
+
     if (active.length == 0) {
         $("#btnAdd").click();
         active = $(".check").find(".tab-pane.active");
+    }
+
+    if ($(active).attr("data-status") !== "Active") {
+        message($.validator.format("Cannot add to check! <br/>Status : [ {0} ]<br/>Add a new check or select check with the status [ Active ].", $(active).attr("data-status")), "information", "topCenter");
+        return;
     }
 
     var activeTab = $(".checks").find(".active a");
@@ -208,6 +214,7 @@ function showOrder(tableId) {
                 toggleObjects($(active).attr("data-status"));
 
                 $(".chosen-select").val($(active).attr("data-value")).trigger("chosen:updated");
+                checkStatusManager($(active).attr("data-status"));
                 showMenus($(active).attr("data-value"));
             }
         })

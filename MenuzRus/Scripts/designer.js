@@ -21,7 +21,7 @@ function deleteCategory(id) {
         layout: "center",
         type: "error",
         killer: true,
-        model: true,
+        modal: true,
         text: "Category <em><strong>" + name + "</strong></em> will be deleted.<br />Would you like to continue ?",
         buttons: [{
             addClass: 'btn btn-danger', text: 'Delete', onClick: function ($noty) {

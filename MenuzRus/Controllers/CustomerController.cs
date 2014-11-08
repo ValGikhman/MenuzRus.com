@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -63,6 +64,10 @@ namespace MenuzRus {
                 else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
+                SaveSetting(Common.Settings.PrinterPOS, model.PrinterPOS);
+                SaveSetting(Common.Settings.PrinterKitchen, model.PrinterKitchen);
+                SaveSetting(Common.Settings.PrinterPOSWidth, ((Int32)(Common.PrinterWidth)Enum.Parse(typeof(Common.PrinterWidth), model.PrinterPOSWidth)).ToString());
+                SaveSetting(Common.Settings.PrinterKitchenWidth, ((Int32)(Common.PrinterWidth)Enum.Parse(typeof(Common.PrinterWidth), model.PrinterKitchenWidth)).ToString());
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
@@ -78,8 +83,11 @@ namespace MenuzRus {
 
         private CustomerModel GetModel(Int32? id, CustomerModel model) {
             CustomerService service = new CustomerService();
+            SettingsService settingsService = new SettingsService();
             try {
                 model.States = Utility.States.ToSelectListItems();
+                model.Printers = SessionData.printers.Select(r => new SelectListItem { Text = r, Value = r });
+                model.PrinterWidth = Enum.GetValues(typeof(Common.PrinterWidth)).Cast<Common.PrinterWidth>().Select(r => new SelectListItem { Text = EnumHelper<Common.PrinterWidth>.GetDisplayValue(r), Value = r.ToString() });
                 if (id != null && id.HasValue) {
                     Customer customer = service.GetCustomer(id.Value);
                     model.id = customer.id;
@@ -92,6 +100,10 @@ namespace MenuzRus {
                     model.Tax = customer.Tax.HasValue ? customer.Tax.Value : 0;
                     model.Phone = customer.Phone.FormatPhone();
                     model.ImageUrl = customer.ImageUrl;
+                    model.PrinterKitchen = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen);
+                    model.PrinterPOS = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS);
+                    model.PrinterKitchenWidth = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth);
+                    model.PrinterPOSWidth = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth);
                 }
                 return model;
             }
@@ -102,6 +114,27 @@ namespace MenuzRus {
                 service = null;
             }
             return null;
+        }
+
+        private Boolean SaveSetting(Common.Settings type, String value) {
+            SettingsService service = new SettingsService();
+            Setting setting = new Setting();
+            try {
+                setting.Type = type.ToString();
+                setting.Value = value;
+                if (!service.SaveSetting(setting)) {
+                    base.Log(SessionData.exeption);
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return false;
+            }
+            finally {
+                service = null;
+            }
+            return true;
         }
 
         #endregion private

@@ -26,17 +26,6 @@ namespace Services.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=C:\\Projects\\MenuzRus.com\\MenuzRus\\App_D" +
-            "ata\\aspnetdb.mdf;Integrated Security=True;User Instance=True")]
-        public string aspnetdbConnectionString {
-            get {
-                return ((string)(this["aspnetdbConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=184.168.47.19;Initial Catalog=menuzrus;User Id=menuzrus;Password=!myD" +
             "ataBase!")]
         public string menuzrusConnectionString {

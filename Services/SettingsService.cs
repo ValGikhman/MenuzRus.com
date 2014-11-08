@@ -15,6 +15,11 @@ namespace MenuzRus {
             return db.Settings.Where(m => m.CustomerId == id).ToDictionary(m => m.Type, m => m.Value);
         }
 
+        public String GetSettings(Int32 id, Common.Settings type) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return db.Settings.Where(m => m.CustomerId == id && m.Type == type.ToString()).Select(m => m.Value).FirstOrDefault();
+        }
+
         public Boolean SaveOrder(String ids, String type) {
             Boolean retVal = true;
             try {

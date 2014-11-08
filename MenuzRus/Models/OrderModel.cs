@@ -29,6 +29,8 @@ namespace MenuzRus.Models {
 
         public List<CheckMenuItemProduct> CheckMenuItemProducts { get; set; }
 
+        public Boolean HasProducts { get; set; }
+
         public Int32 id { get; set; }
 
         public Int32 ItemId { get; set; }

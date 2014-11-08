@@ -207,7 +207,6 @@ h4 {
 
 .addressItem {
     font-size: 10px;
-    line-height: 1;
 }
 
 .checkItem {
@@ -217,7 +216,7 @@ h4 {
 
 .subItem {
     font-size: 12px;
-    line-height: 0.90;
+    font-style: italic;
     padding-left: 10px !important;
 }
 

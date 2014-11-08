@@ -25,7 +25,7 @@
                     @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
                         Int32 value = (Int32)status;
                         String disabled = String.Empty;
-                        if (value <= Model.TableOrder.Status) {
+                        if (Model.TableOrder != null && value <= Model.TableOrder.Status) {
                             disabled = "disabled";
                             if (currentStatus == Common.TableOrderStatus.Closed && value == (Int32)Common.TableOrderStatus.Open) {
                                 disabled = String.Empty;
@@ -70,4 +70,3 @@
 @Html.HiddenFor(m => m.TableOrder.id)
 @Html.HiddenFor(m => m.TableOrder.Status)
 @Html.HiddenFor(m => m.Referer)
-@Html.Partial("_PrintAppletPartial")

@@ -132,6 +132,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ConfirmController.cs" />
     <Compile Include="Controllers\ConfirmationsController.cs" />
+    <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\KitchenOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
@@ -293,6 +294,7 @@
     <Content Include="Images\Menus\1\C-1.jpg" />
     <Content Include="Images\Menus\1\C-5.jpg" />
     <Content Include="Images\Menus\1\C-8.jpg" />
+    <Content Include="Images\Web\bell.png" />
     <Content Include="Images\Web\body.jpg" />
     <Content Include="Images\Web\hori_large.png" />
     <Content Include="Images\Web\hr_divider.png" />
@@ -301,6 +303,7 @@
     <Content Include="Images\Web\Logo-xsmall.png" />
     <Content Include="Images\Web\Logo.png" />
     <Content Include="Images\Web\menushot.png" />
+    <Content Include="Images\Web\printer.png" />
     <Content Include="Images\Web\red_asterisk.png" />
     <Content Include="Images\Web\tv.jpg" />
     <Content Include="Images\Web\valid.png" />
@@ -458,6 +461,24 @@
     <Content Include="Scripts\countdown\jquery.plugin.js" />
     <Content Include="Scripts\countdown\jquery.plugin.min.js" />
     <Content Include="Scripts\JQuery\jquery.jqprint.0.3.js" />
+    <Content Include="Scripts\noty\jquery.noty.js" />
+    <Content Include="Scripts\noty\layouts\bottom.js" />
+    <Content Include="Scripts\noty\layouts\bottomCenter.js" />
+    <Content Include="Scripts\noty\layouts\bottomLeft.js" />
+    <Content Include="Scripts\noty\layouts\bottomRight.js" />
+    <Content Include="Scripts\noty\layouts\center.js" />
+    <Content Include="Scripts\noty\layouts\centerLeft.js" />
+    <Content Include="Scripts\noty\layouts\centerRight.js" />
+    <Content Include="Scripts\noty\layouts\inline.js" />
+    <Content Include="Scripts\noty\layouts\top.js" />
+    <Content Include="Scripts\noty\layouts\topCenter.js" />
+    <Content Include="Scripts\noty\layouts\topLeft.js" />
+    <Content Include="Scripts\noty\layouts\topRight.js" />
+    <Content Include="Scripts\noty\packaged\jquery.noty.packaged.js" />
+    <Content Include="Scripts\noty\packaged\jquery.noty.packaged.min.js" />
+    <Content Include="Scripts\noty\promise.js" />
+    <Content Include="Scripts\noty\themes\bootstrap.js" />
+    <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\QZPrint\deployJava.js" />
     <Content Include="Scripts\QZPrint\html2canvas.js" />
     <Content Include="Scripts\QZPrint\jquery.plugin.html2canvas.js" />
@@ -527,23 +548,6 @@
     <Content Include="Scripts\Ajax\MicrosoftAjax.js" />
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\noty\jquery.noty.js" />
-    <Content Include="Scripts\noty\layouts\bottom.js" />
-    <Content Include="Scripts\noty\layouts\bottomCenter.js" />
-    <Content Include="Scripts\noty\layouts\bottomLeft.js" />
-    <Content Include="Scripts\noty\layouts\bottomRight.js" />
-    <Content Include="Scripts\noty\layouts\center.js" />
-    <Content Include="Scripts\noty\layouts\centerLeft.js" />
-    <Content Include="Scripts\noty\layouts\centerRight.js" />
-    <Content Include="Scripts\noty\layouts\inline.js" />
-    <Content Include="Scripts\noty\layouts\top.js" />
-    <Content Include="Scripts\noty\layouts\topCenter.js" />
-    <Content Include="Scripts\noty\layouts\topLeft.js" />
-    <Content Include="Scripts\noty\layouts\topRight.js" />
-    <Content Include="Scripts\noty\packaged\jquery.noty.packaged.js" />
-    <Content Include="Scripts\noty\packaged\jquery.noty.packaged.min.js" />
-    <Content Include="Scripts\noty\promise.js" />
-    <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\designer.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -619,6 +623,7 @@
     <Content Include="Scripts\Datepicker\less\datepicker.less" />
     <Content Include="Views\Shared\Printouts\_SendChecks2PrinterPartial.cshtml" />
     <Content Include="Views\Shared\Printouts\_SendKitchenOrder2PrinterPartial.cshtml" />
+    <Content Include="Views\Shared\_KitchenCheckOrderPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

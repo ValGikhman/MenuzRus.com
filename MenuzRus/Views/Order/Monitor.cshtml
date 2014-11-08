@@ -36,9 +36,7 @@
     $(function () {
         window.setInterval(function () {
             $(".timer").countdown("destroy");
-            $("#floorContainer").fadeOut("slow", function () {
-                $("#floorContainer").remove();
-            });
+            $("#floorContainer").remove();
 
             var id = $("#Floor.id").val();
             var jqxhr = $.get($.validator.format("{0}Order/MonitorRefresh/", root), { id: id })

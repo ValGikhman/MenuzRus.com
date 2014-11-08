@@ -12,8 +12,8 @@
         <h2>Kitchen Order Monitor</h2>
     </div>
     <br />
-    <div class="input-group date col-md-2 col-lg-2" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy">
-        <div class="input-group-addon shadow leiba">Date</div>
+    <div class="input-group date col-md-3 col-lg-3" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy">
+        <div class="input-group-addon shadow leiba">Date more than</div>
         <input id="dateRequested" class="add-on form-control input-sm shadow" type="text" value="@DateTime.Now.ToShortDateString()" readonly>
         <span class="input-group-addon shadow  add-on glyphicon glyphicon-calendar"></span>
     </div>
@@ -63,9 +63,9 @@
             autowidth: true,
             datatype: "json",
             caption: "",
-            loadonce: true,
+            loadonce: false,
             viewrecords: true,
-            mtype: 'GET',
+            mtype: "GET",
             jsonReader: {
                 repeatitems: false,
                 id: "id"

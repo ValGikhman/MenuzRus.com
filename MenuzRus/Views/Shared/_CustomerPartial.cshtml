@@ -4,6 +4,7 @@
 <link href="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery-ui.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.validate.min.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
 
@@ -19,68 +20,97 @@
 @using (Html.BeginForm("SaveCustomer", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form", enctype = "multipart/form-data" })) {
     <div class="well container container-customer shadow">
         <div class="modal-header">
-            <h2>Customer Form</h2>
+            <h2>Company Form</h2>
         </div>
-        <div class="row">
-            <div class="col-lg-8 col-md-8">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba">Company</div>
-                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control shadow", placeholder = "Enter your business name", required = "" })
+        <ul class="nav nav-pills btn-default  nav-justified settingsTab">
+            <li class="active">
+                <a href="#Information" data-toggle="pill">General Information</a>
+            </li>
+            <li>
+                <a href="#Settings" data-toggle="pill">Settings</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="Information" class="row tab-pane fade in active">
+                <div class="col-lg-8 col-md-8">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Company</div>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control shadow", placeholder = "Enter your business name", required = "" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Address</div>
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control shadow", placeholder = "Enter your business address", required = "" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Address</div>
+                            @Html.TextBoxFor(model => model.Address2, new { @class = "form-control shadow", placeholder = "Business address if needed" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">City</div>
+                            @Html.TextBoxFor(model => model.City, new { @class = "form-control shadow", placeholder = "Enter city", required = "" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">State</div>
+                            @Html.DropDownListFor(m => m.State, Model.States, new { @class = "form-control shadow" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Zip</div>
+                            @Html.TextBoxFor(model => model.Zip, new { @class = "form-control shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Phone</div>
+                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control shadow", placeholder = "Enter phone number" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Tax</div>
+                            @Html.TextBoxFor(model => model.Tax, new { @class = "form-control shadow" })
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba">Address</div>
-                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control shadow", placeholder = "Enter your business address", required = "" })
+                <div class="imagerow col-lg-4 col-md-4">
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                    <input type="file" id="Image" name="Image" />
+                    <div class="col-md-1 col-lg-1">
+                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba">Address</div>
-                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control shadow", placeholder = "Business address if needed" })
+                @Html.HiddenFor(m => m.id)
+                @Html.HiddenFor(m => m.ImageUrl)
+            </div>
+            <div id="Settings" class="row tab-pane fade in">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">POS printer</div>
+                            @Html.DropDownListFor(m => m.PrinterPOS, Model.Printers, new { @class = "form-control shadow" })
+                            @Html.DropDownListFor(m => m.PrinterPOSWidth, Model.PrinterWidth, new { @class = "form-control shadow" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba">City</div>
-                        @Html.TextBoxFor(model => model.City, new { @class = "form-control shadow", placeholder = "Enter city", required = "" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group col-md-6 col-lg-6">
-                        <div class="input-group-addon shadow leiba">State</div>
-                        @Html.DropDownListFor(m => m.State, Model.States, new { @class = "form-control shadow" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba">Zip</div>
-                        @Html.TextBoxFor(model => model.Zip, new { @class = "form-control shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group col-md-6 col-lg-6">
-                        <div class="input-group-addon shadow leiba">Phone</div>
-                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control shadow", placeholder = "Enter phone number" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group col-md-6 col-lg-6">
-                        <div class="input-group-addon shadow leiba">Tax</div>
-                        @Html.TextBoxFor(model => model.Tax, new { @class = "form-control shadow" })
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Kitchen printer</div>
+                            @Html.DropDownListFor(m => m.PrinterKitchen, Model.Printers, new { @class = "form-control shadow" })
+                            @Html.DropDownListFor(m => m.PrinterKitchenWidth, Model.PrinterWidth, new { @class = "form-control shadow" })
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="imagerow col-lg-4 col-md-4">
-                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
-                <input type="file" id="Image" name="Image" />
-                <div class="col-md-1 col-lg-1">
-                    <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
-                </div>
-            </div>
-            @Html.HiddenFor(m => m.id)
-            @Html.HiddenFor(m => m.ImageUrl)
         </div>
 
         <div class="modal-footer">

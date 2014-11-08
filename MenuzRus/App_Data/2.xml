@@ -2,45 +2,57 @@
     <!--<Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="163" OffsetTop="75" />-->
     <Settings ResolutionWidth="1900" ResolutionHeight="1080" OffsetLeft="20" OffsetTop="45" />
     <Categories>
-        <Category Id="2" Name="Pita Sandwiches" Description="*Platters include french fries and a pickle" ImageUrl="" Side="Left">
+        <Category Id="2" Name="Sandwiches" Description="*Platters include french fries and a pickle" ImageUrl="" Side="Left">
             <Items>
                 <Item>
                     <Id>11</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Shawarma</Name>
-                    <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread</Description>
-                    <Price>Sandwich $7 Platter $8.50</Price>
+                    <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread, cucumbers and Korean style carrot</Description>
+                    <Price>Sandwich $7 Platter $9</Price>
                 </Item>
                 <Item>
                     <Id>12</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Gyro</Name>
-                    <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce on pita bread</Description>
-                    <Price>Sandwich $7 Platter $8.50</Price>
+                    <Name>Gyro</Name>s
+                    <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce, cucumbers and Korean style carrot on pita bread</Description>
+                    <Price>Sandwich $7 Platter $9</Price>
                 </Item>
                 <Item>
                     <Id>13</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Falafel</Name>
-                    <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce, wrapped in pita bread</Description>
-                    <Price>Sandwich $7 Platter $8.50</Price>
+                    <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce,, cucumbers and Korean style carrot wrapped in pita bread</Description>
+                    <Price>Sandwich $7 Platter $9</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Lamb kebob</Name>
-                    <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce and mild signature tomato souce</Description>
+                    <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
                     <Price>Sandwich $9 Platter $11</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Chicken kebob</Name>
-                    <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce and mild signature tomato souce</Description>
+                    <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
                     <Price>Sandwich $8 Platter $10</Price>
                 </Item>
             </Items>
         </Category>
+        <Category Id="2" Name="Sandwiches" Description="*Platters include french fries and a pickle" ImageUrl="" Side="Center">
+            <Items>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Russian Meatball</Name>
+                    <Description>Mix of ground turkey and beef, wrapped in bread with tomatoes, onions, lettuce, cucumbers and korean style carrot</Description>
+                    <Price>Sandwich $10 Platter $12</Price>
+                </Item>
+            </Items>
+        </Category>
+
         <Category Id="6" Name="Salads" ImageUrl="" Side="Center">
             <Items>
                 <Item>
@@ -75,13 +87,6 @@
         </Category>
         <Category Id="3" Name="Dumplings" ImageUrl="" Side="Right">
             <Items>
-                <Item>
-                    <Id>14</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Khinkali</Name>
-                    <Description>Ground pork, lamb, beef with spices.</Description>
-                    <Price>$10</Price>
-                </Item>
                 <Item>
                     <Id>15</Id>
                     <ImageUrl></ImageUrl>

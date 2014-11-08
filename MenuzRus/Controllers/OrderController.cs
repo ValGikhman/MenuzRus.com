@@ -105,16 +105,29 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String KitchenOrdersPrint() {
+        public String KitchenOrder2Print(Int32 id) {
             OrderService service = new OrderService();
             String retVal = String.Empty;
-            List<Services.KitchenOrder> orders2Print;
-            orders2Print = service.GetQueued4PrintKitchenOrders(DateTime.Now);
-            foreach (Services.KitchenOrder order in orders2Print) {
-                retVal += PrintKitchenOrders(order);
-                service.UpdateKitchenOrderPrintStatus(order.id);
-            }
-            return retVal;
+            Printout order2Print;
+
+            order2Print = service.GetPrintKitchenOrder(id);
+            return PrintKitchenOrders(order2Print);
+        }
+
+        [HttpGet]
+        public JsonResult KitchenOrders2Print() {
+            OrderService service = new OrderService();
+            List<Services.Printout> orders2Print;
+            orders2Print = service.GetQueued4PrintKitchenOrders();
+            var jsonData = new {
+                rows = (
+                     from order in orders2Print
+                     select new {
+                         id = order.id
+                     }
+                ).ToArray()
+            };
+            return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]
@@ -149,18 +162,30 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public JsonResult OrderMenuItem(Int32 id, Int32 checkId, Int32 tableId) {
-            OrderChecksMenu menu = new OrderChecksMenu(); ;
+            OrderChecksMenu menu = null;
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             Services.Item MenuItem = itemService.GetItem(id);
-            if (MenuItem != null) {
-                menu = orderService.SaveMenuItem(MenuItem, tableId, checkId);
+
+            try {
+                if (MenuItem != null) {
+                    menu = orderService.SaveMenuItem(MenuItem, tableId, checkId);
+                }
+
+                if (menu != null) {
+                    var retVal = new {
+                        html = ShowMenuItem(id, menu),
+                        checkId = menu.CheckId
+                    };
+
+                    return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
             }
-            var retVal = new {
-                html = ShowMenuItem(id, menu),
-                checkId = menu.CheckId
-            };
-            return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            catch (Exception ex) {
+            }
+            finally {
+            }
+            return null;
         }
 
         [HttpGet]
@@ -169,7 +194,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String PrintKitchenOrders(Services.KitchenOrder order) {
+        public String PrintKitchenOrders(Services.Printout order) {
             return RenderViewToString(this.ControllerContext, "Printouts/_SendKitchenOrder2PrinterPartial", GetKitchenOrderPrintModel(order));
         }
 
@@ -271,6 +296,8 @@ namespace MenuzRus.Controllers {
                     menu.ItemId = item.id;
                     menu.Name = item.Name;
                     menu.Price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    menu.HasProducts = (orderService.GetProducts(menu.id).Count() > 0);
+
                     Menus.Add(menu);
                 }
             }
@@ -362,6 +389,24 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
+        public JsonResult UpdateKitchenOrderPrintStatus(Int32 id) {
+            OrderService orderService = new OrderService();
+            try {
+                orderService.UpdateKitchenOrderPrintStatus(id);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+                orderService = null;
+            }
+
+            var retVal = new {
+            };
+            return Json(retVal);
+        }
+
+        [HttpPost]
         public JsonResult UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
             OrderService orderService = new OrderService();
             try {
@@ -419,11 +464,11 @@ namespace MenuzRus.Controllers {
                             if (item != null) {
                                 price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                                 model.Summary += price;
-                                subItems.Add(new LineItem() { Description = item.Name, Price = price });
+                                subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, SubItems = subItems });
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, id = itemMenu.id, SubItems = subItems });
                 }
 
                 model.TaxPercent = 0;
@@ -478,7 +523,7 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
-        private KitchenOrderPrint GetKitchenOrderPrintModel(Services.KitchenOrder order) {
+        private KitchenOrderPrint GetKitchenOrderPrintModel(Services.Printout order) {
             ItemService itemService;
             Services.Item item, itemMenu;
             OrderService orderService;
@@ -511,7 +556,7 @@ namespace MenuzRus.Controllers {
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, SubItems = subItems });
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, SubItems = subItems });
                 }
             }
             catch (Exception ex) {
@@ -562,7 +607,7 @@ namespace MenuzRus.Controllers {
                                     }
                                 }
                             }
-                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, SubItems = subItems });
+                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, SubItems = subItems });
                         }
                         model.Checks.Add(orderModel);
                     }

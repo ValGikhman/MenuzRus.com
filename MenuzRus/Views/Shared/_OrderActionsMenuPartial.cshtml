@@ -101,8 +101,10 @@
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+
         $(".check").find(".tab-pane").html("");
         $(".chosen-select").chosen({ width: "100%", display_disabled_options: false }).val(checkId).trigger("chosen:updated");
+
     });
 
     function checksPrint(checksIds) {
@@ -111,7 +113,7 @@
 
         var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
             .done(function (result) {
-                printData(result);
+                printData(result, printerPOS);
             })
             .fail(function () {
                 message("::checksPrint:: Failed.", "error", "topCenter");

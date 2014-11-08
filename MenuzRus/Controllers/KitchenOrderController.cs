@@ -28,10 +28,10 @@ namespace MenuzRus.Controllers {
 
                 KitchenOrderPrintModel model = GetModel(date.Value);
                 var jsonData = new {
-                    total = (Int32)Math.Ceiling((float)model.KitchenOrders.Count),
-                    records = model.KitchenOrders.Count,
+                    total = (Int32)Math.Ceiling((float)model.Printouts.Count),
+                    records = model.Printouts.Count,
                     rows = (
-                         from order in model.KitchenOrders
+                         from order in model.Printouts
                          select new {
                              id = order.id,
                              CheckId = order.CheckId,
@@ -48,7 +48,7 @@ namespace MenuzRus.Controllers {
             finally {
             }
 
-            return new JsonResult() { Data = "", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         #region private
@@ -58,7 +58,7 @@ namespace MenuzRus.Controllers {
             KitchenOrderPrintModel model = null;
             try {
                 model = new KitchenOrderPrintModel();
-                model.KitchenOrders = service.GetKitchenOrders(date);
+                model.Printouts = service.GetPrintouts(date);
                 return model;
             }
             catch (Exception ex) {

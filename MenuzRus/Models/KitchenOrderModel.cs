@@ -10,6 +10,6 @@ namespace MenuzRus.Models {
 
     public class KitchenOrderPrintModel : BaseModel {
 
-        public List<KitchenOrder> KitchenOrders { get; set; }
+        public List<Printout> Printouts { get; set; }
     }
 }

@@ -36,6 +36,26 @@ namespace MenuzRus.Models {
         [DisplayName("Phone#")]
         public String Phone { get; set; }
 
+        [DisplayName("Kitchen Printer")]
+        [Required]
+        public String PrinterKitchen { get; set; }
+
+        [DisplayName("Kitchen Printer Width")]
+        [Required]
+        public String PrinterKitchenWidth { get; set; }
+
+        [DisplayName("POS Printer")]
+        [Required]
+        public String PrinterPOS { get; set; }
+
+        [DisplayName("POS Printer Width")]
+        [Required]
+        public String PrinterPOSWidth { get; set; }
+
+        public IEnumerable<SelectListItem> Printers { get; set; }
+
+        public IEnumerable<SelectListItem> PrinterWidth { get; set; }
+
         [DisplayName("State")]
         [Required]
         public String State { get; set; }

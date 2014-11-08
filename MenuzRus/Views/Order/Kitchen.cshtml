@@ -21,13 +21,11 @@
     </div>
     <a href="#">Tables <span class="tables badge"></span></a>
 </div>
-@Html.Partial("_PrintAppletPartial")
 
 <script>
-    var timerId;
     $(function () {
         refreshTotal();
-        timerId = window.setInterval(refresh, 60 * 1000);
+        window.setInterval(refresh, 60 * 1000);
     });
 
     function refreshTotal() {
@@ -93,16 +91,6 @@
         })
         .always(function () {
             message("Refreshed", "success", "topCenter");
-        });
-    }
-
-    function printKitchenOrders() {
-        var jqxhr = $.get($.validator.format("{0}Order/KitchenOrdersPrint", root))
-            .done(function (result) {
-                printData(result);
-            })
-        .fail(function () {
-            message("::printKitchenOrders:: Failed.", "error", "topCenter");
         });
     }
 </script>

@@ -1,7 +1,6 @@
 ﻿@model MenuzRus.Models.DesignerModel
 @using Services
 <link href="@Url.Content("~/Content/designer.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
@@ -73,7 +72,7 @@
             sortable: true,
             sortname: "category",
             sortorder: "desc",
-            loadonce: true,
+            loadonce: false,
             shrinkToFit: true,
             hoverrows: true,
             autowidth: true,

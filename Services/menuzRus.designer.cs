@@ -90,6 +90,9 @@ namespace Services
     partial void InsertAlert(Alert instance);
     partial void UpdateAlert(Alert instance);
     partial void DeleteAlert(Alert instance);
+    partial void InsertPrintoutItem(PrintoutItem instance);
+    partial void UpdatePrintoutItem(PrintoutItem instance);
+    partial void DeletePrintoutItem(PrintoutItem instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -279,6 +282,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<Alert>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PrintoutItem> PrintoutItems
+		{
+			get
+			{
+				return this.GetTable<PrintoutItem>();
 			}
 		}
 	}
@@ -4810,6 +4821,8 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
+		private EntitySet<PrintoutItem> _PrintoutItems;
+		
 		private EntityRef<OrderCheck> _OrderCheck;
 		
     #region Extensibility Method Definitions
@@ -4832,6 +4845,7 @@ namespace Services
 		
 		public Printout()
 		{
+			this._PrintoutItems = new EntitySet<PrintoutItem>(new Action<PrintoutItem>(this.attach_PrintoutItems), new Action<PrintoutItem>(this.detach_PrintoutItems));
 			this._OrderCheck = default(EntityRef<OrderCheck>);
 			OnCreated();
 		}
@@ -4960,6 +4974,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Printout_PrintoutItem", Storage="_PrintoutItems", ThisKey="id", OtherKey="PrintoutsId")]
+		public EntitySet<PrintoutItem> PrintoutItems
+		{
+			get
+			{
+				return this._PrintoutItems;
+			}
+			set
+			{
+				this._PrintoutItems.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_Printout", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
 		public OrderCheck OrderCheck
 		{
@@ -5012,6 +5039,18 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_PrintoutItems(PrintoutItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Printout = this;
+		}
+		
+		private void detach_PrintoutItems(PrintoutItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Printout = null;
 		}
 	}
 	
@@ -5384,9 +5423,9 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<Item> _Items;
-		
 		private EntitySet<User> _Users;
+		
+		private EntitySet<Item> _Items;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5412,8 +5451,8 @@ namespace Services
 		
 		public Alert()
 		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
 			OnCreated();
 		}
 		
@@ -5577,19 +5616,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_Item", Storage="_Items", ThisKey="ItemId", OtherKey="id")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_User", Storage="_Users", ThisKey="UserId", OtherKey="id")]
 		public EntitySet<User> Users
 		{
@@ -5600,6 +5626,19 @@ namespace Services
 			set
 			{
 				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_Item", Storage="_Items", ThisKey="ItemId", OtherKey="id")]
+		public EntitySet<Item> Items
+		{
+			get
+			{
+				return this._Items;
+			}
+			set
+			{
+				this._Items.Assign(value);
 			}
 		}
 		
@@ -5623,6 +5662,18 @@ namespace Services
 			}
 		}
 		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alert = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alert = null;
+		}
+		
 		private void attach_Items(Item entity)
 		{
 			this.SendPropertyChanging();
@@ -5634,17 +5685,204 @@ namespace Services
 			this.SendPropertyChanging();
 			entity.Alert = null;
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrintoutItems")]
+	public partial class PrintoutItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_Users(User entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _PrintoutsId;
+		
+		private int _ItemId;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntityRef<Printout> _Printout;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnPrintoutsIdChanging(int value);
+    partial void OnPrintoutsIdChanged();
+    partial void OnItemIdChanging(int value);
+    partial void OnItemIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public PrintoutItem()
 		{
-			this.SendPropertyChanging();
-			entity.Alert = this;
+			this._Printout = default(EntityRef<Printout>);
+			OnCreated();
 		}
 		
-		private void detach_Users(User entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
 		{
-			this.SendPropertyChanging();
-			entity.Alert = null;
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrintoutsId", DbType="Int NOT NULL")]
+		public int PrintoutsId
+		{
+			get
+			{
+				return this._PrintoutsId;
+			}
+			set
+			{
+				if ((this._PrintoutsId != value))
+				{
+					if (this._Printout.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPrintoutsIdChanging(value);
+					this.SendPropertyChanging();
+					this._PrintoutsId = value;
+					this.SendPropertyChanged("PrintoutsId");
+					this.OnPrintoutsIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
+		public int ItemId
+		{
+			get
+			{
+				return this._ItemId;
+			}
+			set
+			{
+				if ((this._ItemId != value))
+				{
+					this.OnItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemId = value;
+					this.SendPropertyChanged("ItemId");
+					this.OnItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Printout_PrintoutItem", Storage="_Printout", ThisKey="PrintoutsId", OtherKey="id", IsForeignKey=true)]
+		public Printout Printout
+		{
+			get
+			{
+				return this._Printout.Entity;
+			}
+			set
+			{
+				Printout previousValue = this._Printout.Entity;
+				if (((previousValue != value) 
+							|| (this._Printout.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Printout.Entity = null;
+						previousValue.PrintoutItems.Remove(this);
+					}
+					this._Printout.Entity = value;
+					if ((value != null))
+					{
+						value.PrintoutItems.Add(this);
+						this._PrintoutsId = value.id;
+					}
+					else
+					{
+						this._PrintoutsId = default(int);
+					}
+					this.SendPropertyChanged("Printout");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

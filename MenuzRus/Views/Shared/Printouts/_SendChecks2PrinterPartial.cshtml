@@ -1,7 +1,7 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
 
-<div id="checkPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small; width: 155px">
+<div id="checkPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small; width: @String.Format("{0}px", MenuzRus.SessionData.printerPOSWidth) ;">
     <table cellpadding="0" cellspacing="0" align="center">
         <tr>
             <td align="center">
@@ -101,11 +101,7 @@
     </div>
 </div>
 <script>
-    $(function () {
-        var div = $("#checkPrint");
-        div.ready(function () {
-            div.width(printerPOSWidth);
-            alert(printerPOSWidth);
-        });
-    })
+    function getPOSWidth() {
+        return $.validator.format("{0}px", parseInt(printerPOSWidth) * 2 - 5);
+    }
 </script>

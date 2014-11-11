@@ -224,6 +224,7 @@
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Printout_PrintoutItem" Member="PrintoutItems" ThisKey="id" OtherKey="PrintoutsId" Type="PrintoutItem" />
       <Association Name="OrderCheck_Printout" Member="OrderCheck" ThisKey="CheckId" OtherKey="id" Type="OrderCheck" IsForeignKey="true" />
     </Type>
   </Table>
@@ -253,8 +254,18 @@
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Alert_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
       <Association Name="Alert_User" Member="Users" ThisKey="UserId" OtherKey="id" Type="User" />
+      <Association Name="Alert_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PrintoutItems" Member="PrintoutItems">
+    <Type Name="PrintoutItem">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PrintoutsId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Printout_PrintoutItem" Member="Printout" ThisKey="PrintoutsId" OtherKey="id" Type="Printout" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

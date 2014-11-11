@@ -232,7 +232,6 @@ function getPrinters() {
             printerKitchen = result.printerKitchen;
             printerPOSWidth = result.printerPOSWidth;
             printerKitchenWidth = result.printerKitchenWidth;
-            alert(printerPOSWidth);
         })
         .fail(function () {
             message("::getPrinters:: Failed.", "error", "topCenter");

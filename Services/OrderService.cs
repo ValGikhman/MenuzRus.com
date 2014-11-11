@@ -30,6 +30,21 @@ namespace MenuzRus {
             return retVal;
         }
 
+        public void AddPrintItem(Int32 printoutId, Int32 itemId) {
+            PrintoutItem query, printItem;
+            using (menuzRusDataContext db = new menuzRusDataContext()) {
+                query = db.PrintoutItems.FirstOrDefault(m => m.PrintoutsId == printoutId && m.ItemId == itemId);
+                if (query == default(PrintoutItem)) {
+                    printItem = new PrintoutItem();
+                    printItem.ItemId = itemId;
+                    printItem.PrintoutsId = printoutId;
+                    printItem.DateModified = DateTime.UtcNow;
+                    db.PrintoutItems.InsertOnSubmit(printItem);
+                    db.SubmitChanges();
+                }
+            }
+        }
+
         public Boolean DeleteCheck(Int32 id) {
             IEnumerable<OrderChecksMenu> checkMenus;
 

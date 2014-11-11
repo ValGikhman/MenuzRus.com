@@ -60,6 +60,8 @@ namespace MenuzRus.Models {
 
         public Decimal Price { get; set; }
 
+        public Boolean Printed { get; set; }
+
         public List<LineItem> SubItems { get; set; }
     }
 }

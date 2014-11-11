@@ -32,14 +32,20 @@ namespace MenuzRus {
 
         [HttpPost]
         public void SendPrinters(String model) {
+            SettingsService service = new SettingsService();
             try {
                 if (!String.IsNullOrEmpty(model)) {
                     JavaScriptSerializer objJavascript = new JavaScriptSerializer();
                     SessionData.printers = objJavascript.Deserialize<String[]>(model);
+                    SessionData.printerKitchenWidth = (2 * Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth)) - 5);
+                    SessionData.printerPOSWidth = (2 * Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth)) - 5);
                 }
             }
             catch (Exception ex) {
                 throw;
+            }
+            finally {
+                service = null;
             }
         }
     }

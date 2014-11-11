@@ -195,7 +195,8 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public String PrintKitchenOrders(Services.Printout order) {
-            return RenderViewToString(this.ControllerContext, "Printouts/_SendKitchenOrder2PrinterPartial", GetKitchenOrderPrintModel(order));
+            KitchenOrderPrint model = GetKitchenOrderPrintModel(order);
+            return RenderViewToString(this.ControllerContext, "Printouts/_SendKitchenOrder2PrinterPartial", model);
         }
 
         [HttpPost]
@@ -428,6 +429,11 @@ namespace MenuzRus.Controllers {
 
         #region private
 
+        private void AddPrintItem(Int32 printoutId, Int32 itemId) {
+            OrderService service = new OrderService();
+            service.AddPrintItem(printoutId, itemId);
+        }
+
         private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
             ItemService itemService;
             Services.Item item, itemMenu;
@@ -553,10 +559,12 @@ namespace MenuzRus.Controllers {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
                                 subItems.Add(new LineItem() { Description = item.Name });
+                                AddPrintItem(order.id, item.id);
                             }
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, SubItems = subItems });
+                    AddPrintItem(order.id, itemMenu.id);
                 }
             }
             catch (Exception ex) {

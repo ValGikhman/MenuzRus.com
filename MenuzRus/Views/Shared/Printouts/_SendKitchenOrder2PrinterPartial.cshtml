@@ -3,31 +3,40 @@
 <div id="kitchenOrderPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: x-small; width: @String.Format("{0}px", @MenuzRus.SessionData.printerKitchenWidth) ;">
     <table cellpadding="0" cellspacing="0" align="center" width="100%">
         <tr>
-            <td style="font-weight: bold;" align="center">KITCHEN ORDER</td>
+            <td style="font-weight: bold;" align="center">@String.Format("KITCHEN ORDER #{0}", Model.id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">
+                @String.Format("Table#{0} Check#{1}", Model.Check.TableOrder.TableId, Model.Check.id)
+            </td>
         </tr>
         <tr>
             <td style="font-weight: bold; border-bottom: 1px dotted black;" align="center">
-                @String.Format("#{0}/{1}-{2}", Model.id, Model.Check.TableOrder.TableId, Model.Check.id)</td>
+                @String.Format("Server: {0}{1}", Model.User.FirstName, Model.User.LastName.Substring(0, 1))
+            </td>
         </tr>
     </table>
     <table cellpadding="0" cellspacing="0" width="100%">
         @foreach (MenuzRus.Models.LineItem item in Model.Items) {
-            <tr>
+            String lineThrough = "none";
+            if (item.Printed) {
+                lineThrough = "line-through";
+            }
+
+            <tr style="text-decoration:@lineThrough;">
                 <td>@item.Description</td>
             </tr>
             foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
-            <tr style="font-style: italic;">
-                <td style="text-align: right">@subItem.Description</td>
+                lineThrough = "none";
+                if (item.Printed) {
+                    lineThrough = "line-through";
+                }
+            <tr style="font-style: italic; text-decoration: @lineThrough;">
+                <td style="margin-left: 10px;">@subItem.Description</td>
             </tr>
             }
         }
     </table>
     <div style="border-bottom: 1px dashed black; width: 100%; margin-top: 5px; margin-bottom: 15px;">
-        @String.Format("Server: {0}{1} #{2}", Model.User.FirstName, Model.User.LastName.Substring(0, 1), Model.Check.TableOrder.TableId)
     </div>
 </div>
-<script>
-    function getKitchenWidth() {
-        return $.validator.format("{0}px", parseInt(printerKitchenWidth) * 2 - 5);
-    }
-</script>

@@ -429,9 +429,9 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private void AddPrintItem(Int32 printoutId, Int32 itemId) {
+        private void AddPrintItem(Int32 printoutId, Int32 checkId, Int32 itemId, out Boolean printed) {
             OrderService service = new OrderService();
-            service.AddPrintItem(printoutId, itemId);
+            printed = service.AddPrintItem(printoutId, checkId, itemId);
         }
 
         private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
@@ -536,6 +536,7 @@ namespace MenuzRus.Controllers {
             UserService userService;
             KitchenOrderPrint model;
             List<LineItem> subItems;
+            Boolean printed;
             try {
                 itemService = new ItemService();
                 orderService = new OrderService();
@@ -558,13 +559,13 @@ namespace MenuzRus.Controllers {
                         foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
-                                subItems.Add(new LineItem() { Description = item.Name });
-                                AddPrintItem(order.id, item.id);
+                                AddPrintItem(order.id, model.Check.id, item.id, out printed);
+                                subItems.Add(new LineItem() { Description = item.Name, Printed = printed });
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, SubItems = subItems });
-                    AddPrintItem(order.id, itemMenu.id);
+                    AddPrintItem(order.id, model.Check.id, itemMenu.id, out printed);
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Printed = printed, id = itemMenu.id, SubItems = subItems });
                 }
             }
             catch (Exception ex) {

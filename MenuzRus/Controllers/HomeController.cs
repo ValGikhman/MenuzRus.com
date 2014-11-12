@@ -37,8 +37,8 @@ namespace MenuzRus {
                 if (!String.IsNullOrEmpty(model)) {
                     JavaScriptSerializer objJavascript = new JavaScriptSerializer();
                     SessionData.printers = objJavascript.Deserialize<String[]>(model);
-                    SessionData.printerKitchenWidth = (2 * Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth)) - 5);
-                    SessionData.printerPOSWidth = (2 * Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth)) - 5);
+                    SessionData.printerKitchenWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth));
+                    SessionData.printerPOSWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth));
                 }
             }
             catch (Exception ex) {

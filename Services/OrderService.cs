@@ -30,9 +30,15 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public void AddPrintItem(Int32 printoutId, Int32 itemId) {
+        public Boolean AddPrintItem(Int32 printoutId, Int32 checkId, Int32 itemId) {
+            Boolean printed;
             PrintoutItem query, printItem;
             using (menuzRusDataContext db = new menuzRusDataContext()) {
+                printed = (from var in db.PrintoutItems
+                           join vars in db.PrintoutItems on var.Printout.id equals vars.PrintoutsId
+                           where var.Printout.CheckId == checkId && vars.ItemId == itemId
+                           select var).Any();
+
                 query = db.PrintoutItems.FirstOrDefault(m => m.PrintoutsId == printoutId && m.ItemId == itemId);
                 if (query == default(PrintoutItem)) {
                     printItem = new PrintoutItem();
@@ -43,6 +49,7 @@ namespace MenuzRus {
                     db.SubmitChanges();
                 }
             }
+            return printed;
         }
 
         public Boolean DeleteCheck(Int32 id) {

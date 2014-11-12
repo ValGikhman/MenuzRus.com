@@ -166,9 +166,16 @@ function orderMenuItem(id) {
         active = $(".check").find(".tab-pane.active");
     }
 
-    if ($(active).attr("data-status") !== "Active") {
-        message($.validator.format("Cannot add to check! <br/>Status : [ {0} ]<br/>Add a new check or select check with the status [ Active ].", $(active).attr("data-status")), "information", "topCenter");
-        return;
+    if ($(active).attr("data-status") == "Ordered") {
+        var text = "Active";
+        var split = parseInt($("#slideSplit").val());
+        var adjustment = parseInt($("#adjustmentSplit").val());
+
+        message($.validator.format("You have added menu item to the Ordered check.<br/>Status : [ {0} ]<br/>Changed to status [ Active ].", $(active).attr("data-status")), "information", "topCenter");
+        $("#btnCheckStatus").text(text);
+        $($.validator.format(".check .tab-pane[data-value={0}]", $(active).attr("data-value"))).attr("data-status", text);
+        $($.validator.format(".checks li a[data-value={0}]", $(active).attr("data-value"))).attr("data-status", text);
+        updateCheckStatus($(active).attr("data-value"), text, adjustment, split);
     }
 
     var activeTab = $(".checks").find(".active a");

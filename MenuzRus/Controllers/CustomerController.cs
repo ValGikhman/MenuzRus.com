@@ -102,8 +102,8 @@ namespace MenuzRus {
                     model.ImageUrl = customer.ImageUrl;
                     model.PrinterKitchen = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen);
                     model.PrinterPOS = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS);
-                    model.PrinterKitchenWidth = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth);
-                    model.PrinterPOSWidth = settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth);
+                    model.PrinterKitchenWidth = ((Common.PrinterWidth)Convert.ToInt32(settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth))).ToString();
+                    model.PrinterPOSWidth = ((Common.PrinterWidth)Convert.ToInt32(settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth))).ToString();
                 }
                 return model;
             }

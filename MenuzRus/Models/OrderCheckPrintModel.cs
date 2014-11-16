@@ -58,9 +58,9 @@ namespace MenuzRus.Models {
 
         public Int32 id { get; set; }
 
-        public Decimal Price { get; set; }
+        public Boolean Ordered { get; set; }
 
-        public Boolean Printed { get; set; }
+        public Decimal Price { get; set; }
 
         public List<LineItem> SubItems { get; set; }
     }

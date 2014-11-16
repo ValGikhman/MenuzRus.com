@@ -30,28 +30,6 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public Boolean AddPrintItem(Int32 printoutId, Int32 checkId, Int32 itemId) {
-            Boolean printed;
-            PrintoutItem query, printItem;
-            using (menuzRusDataContext db = new menuzRusDataContext()) {
-                printed = (from var in db.PrintoutItems
-                           join vars in db.PrintoutItems on var.Printout.id equals vars.PrintoutsId
-                           where var.Printout.CheckId == checkId && vars.ItemId == itemId
-                           select var).Any();
-
-                query = db.PrintoutItems.FirstOrDefault(m => m.PrintoutsId == printoutId && m.ItemId == itemId);
-                if (query == default(PrintoutItem)) {
-                    printItem = new PrintoutItem();
-                    printItem.ItemId = itemId;
-                    printItem.PrintoutsId = printoutId;
-                    printItem.DateModified = DateTime.UtcNow;
-                    db.PrintoutItems.InsertOnSubmit(printItem);
-                    db.SubmitChanges();
-                }
-            }
-            return printed;
-        }
-
         public Boolean DeleteCheck(Int32 id) {
             IEnumerable<OrderChecksMenu> checkMenus;
 
@@ -161,7 +139,7 @@ namespace MenuzRus {
         public List<OrderChecksMenu> GetMenuItems(Int32 checkId) {
             if (checkId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.OrderChecksMenus.Where(m => m.CheckId == checkId).ToList(); ;
+                return db.OrderChecksMenus.Where(m => m.CheckId == checkId).ToList();
             }
             return null;
         }
@@ -294,6 +272,7 @@ namespace MenuzRus {
                     orderCheckMenu = new OrderChecksMenu();
                     orderCheckMenu.CheckId = orderCheck.id;
                     orderCheckMenu.MenuId = menuItem.id;
+                    orderCheckMenu.Status = (Int32)Common.MenuItemStatus.Active;
                     db.OrderChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
@@ -330,12 +309,17 @@ namespace MenuzRus {
                         query.Status = (Int32)status;
                         query.DateModified = DateTime.UtcNow;
                         if (status == Common.CheckStatus.Ordered) {
-                            kitchenOrder = new Printout();
+                            kitchenOrder = db.Printouts.FirstOrDefault(m => m.CheckId == checkId);
+                            if (kitchenOrder == default(Printout)) {
+                                kitchenOrder = new Printout();
+                            }
                             kitchenOrder.Status = (Int32)Common.PrintStatus.Queued;
                             kitchenOrder.Type = (Int32)Common.PrintType.KitchenOrder;
                             kitchenOrder.CheckId = checkId;
                             kitchenOrder.DateModified = DateTime.UtcNow;
-                            db.Printouts.InsertOnSubmit(kitchenOrder);
+                            if (kitchenOrder.id == 0) {
+                                db.Printouts.InsertOnSubmit(kitchenOrder);
+                            }
                         }
                         db.SubmitChanges();
                         return true;
@@ -394,6 +378,22 @@ namespace MenuzRus {
             return false;
         }
 
+        public void UpdateMenuItemStatus(Int32 id, Common.MenuItemStatus status) {
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    OrderChecksMenu menuItem = db.OrderChecksMenus.FirstOrDefault(m => m.id == id);
+                    if (menuItem != default(OrderChecksMenu)) {
+                        menuItem.Status = (Int32)status;
+                        db.SubmitChanges();
+                    }
+                }
+            }
+            catch (Exception ex) {
+            }
+            finally {
+            }
+        }
+
         public Boolean UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
             TableOrder query = new TableOrder();
             if (tableOrderId != 0) {
@@ -407,6 +407,7 @@ namespace MenuzRus {
                     }
                 }
             }
+
             return false;
         }
     }

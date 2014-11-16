@@ -57,9 +57,6 @@ namespace Services
     partial void InsertTableOrder(TableOrder instance);
     partial void UpdateTableOrder(TableOrder instance);
     partial void DeleteTableOrder(TableOrder instance);
-    partial void InsertOrderChecksMenu(OrderChecksMenu instance);
-    partial void UpdateOrderChecksMenu(OrderChecksMenu instance);
-    partial void DeleteOrderChecksMenu(OrderChecksMenu instance);
     partial void InsertOrderChecksMenuProduct(OrderChecksMenuProduct instance);
     partial void UpdateOrderChecksMenuProduct(OrderChecksMenuProduct instance);
     partial void DeleteOrderChecksMenuProduct(OrderChecksMenuProduct instance);
@@ -90,9 +87,9 @@ namespace Services
     partial void InsertAlert(Alert instance);
     partial void UpdateAlert(Alert instance);
     partial void DeleteAlert(Alert instance);
-    partial void InsertPrintoutItem(PrintoutItem instance);
-    partial void UpdatePrintoutItem(PrintoutItem instance);
-    partial void DeletePrintoutItem(PrintoutItem instance);
+    partial void InsertOrderChecksMenu(OrderChecksMenu instance);
+    partial void UpdateOrderChecksMenu(OrderChecksMenu instance);
+    partial void DeleteOrderChecksMenu(OrderChecksMenu instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -197,14 +194,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderChecksMenu> OrderChecksMenus
-		{
-			get
-			{
-				return this.GetTable<OrderChecksMenu>();
-			}
-		}
-		
 		public System.Data.Linq.Table<OrderChecksMenuProduct> OrderChecksMenuProducts
 		{
 			get
@@ -285,11 +274,11 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<PrintoutItem> PrintoutItems
+		public System.Data.Linq.Table<OrderChecksMenu> OrderChecksMenus
 		{
 			get
 			{
-				return this.GetTable<PrintoutItem>();
+				return this.GetTable<OrderChecksMenu>();
 			}
 		}
 	}
@@ -2609,140 +2598,6 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenu")]
-	public partial class OrderChecksMenu : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _CheckId;
-		
-		private int _MenuId;
-		
-		private System.DateTime _DateCreated;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnCheckIdChanging(int value);
-    partial void OnCheckIdChanged();
-    partial void OnMenuIdChanging(int value);
-    partial void OnMenuIdChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public OrderChecksMenu()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckId", DbType="Int NOT NULL")]
-		public int CheckId
-		{
-			get
-			{
-				return this._CheckId;
-			}
-			set
-			{
-				if ((this._CheckId != value))
-				{
-					this.OnCheckIdChanging(value);
-					this.SendPropertyChanging();
-					this._CheckId = value;
-					this.SendPropertyChanged("CheckId");
-					this.OnCheckIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuId", DbType="Int NOT NULL")]
-		public int MenuId
-		{
-			get
-			{
-				return this._MenuId;
-			}
-			set
-			{
-				if ((this._MenuId != value))
-				{
-					this.OnMenuIdChanging(value);
-					this.SendPropertyChanging();
-					this._MenuId = value;
-					this.SendPropertyChanged("MenuId");
-					this.OnMenuIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProducts")]
 	public partial class OrderChecksMenuProduct : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4821,8 +4676,6 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<PrintoutItem> _PrintoutItems;
-		
 		private EntityRef<OrderCheck> _OrderCheck;
 		
     #region Extensibility Method Definitions
@@ -4845,7 +4698,6 @@ namespace Services
 		
 		public Printout()
 		{
-			this._PrintoutItems = new EntitySet<PrintoutItem>(new Action<PrintoutItem>(this.attach_PrintoutItems), new Action<PrintoutItem>(this.detach_PrintoutItems));
 			this._OrderCheck = default(EntityRef<OrderCheck>);
 			OnCreated();
 		}
@@ -4974,19 +4826,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Printout_PrintoutItem", Storage="_PrintoutItems", ThisKey="id", OtherKey="PrintoutsId")]
-		public EntitySet<PrintoutItem> PrintoutItems
-		{
-			get
-			{
-				return this._PrintoutItems;
-			}
-			set
-			{
-				this._PrintoutItems.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_Printout", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
 		public OrderCheck OrderCheck
 		{
@@ -5039,18 +4878,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_PrintoutItems(PrintoutItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Printout = this;
-		}
-		
-		private void detach_PrintoutItems(PrintoutItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Printout = null;
 		}
 	}
 	
@@ -5596,7 +5423,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -5687,23 +5514,21 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrintoutItems")]
-	public partial class PrintoutItem : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenu")]
+	public partial class OrderChecksMenu : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _id;
 		
-		private int _PrintoutsId;
+		private int _CheckId;
 		
-		private int _ItemId;
+		private int _MenuId;
+		
+		private System.Nullable<int> _Status;
 		
 		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntityRef<Printout> _Printout;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5711,23 +5536,22 @@ namespace Services
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnPrintoutsIdChanging(int value);
-    partial void OnPrintoutsIdChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
+    partial void OnCheckIdChanging(int value);
+    partial void OnCheckIdChanged();
+    partial void OnMenuIdChanging(int value);
+    partial void OnMenuIdChanged();
+    partial void OnStatusChanging(System.Nullable<int> value);
+    partial void OnStatusChanged();
     partial void OnDateCreatedChanging(System.DateTime value);
     partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
     #endregion
 		
-		public PrintoutItem()
+		public OrderChecksMenu()
 		{
-			this._Printout = default(EntityRef<Printout>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -5747,46 +5571,62 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrintoutsId", DbType="Int NOT NULL")]
-		public int PrintoutsId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckId", DbType="Int NOT NULL")]
+		public int CheckId
 		{
 			get
 			{
-				return this._PrintoutsId;
+				return this._CheckId;
 			}
 			set
 			{
-				if ((this._PrintoutsId != value))
+				if ((this._CheckId != value))
 				{
-					if (this._Printout.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPrintoutsIdChanging(value);
+					this.OnCheckIdChanging(value);
 					this.SendPropertyChanging();
-					this._PrintoutsId = value;
-					this.SendPropertyChanged("PrintoutsId");
-					this.OnPrintoutsIdChanged();
+					this._CheckId = value;
+					this.SendPropertyChanged("CheckId");
+					this.OnCheckIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuId", DbType="Int NOT NULL")]
+		public int MenuId
 		{
 			get
 			{
-				return this._ItemId;
+				return this._MenuId;
 			}
 			set
 			{
-				if ((this._ItemId != value))
+				if ((this._MenuId != value))
 				{
-					this.OnItemIdChanging(value);
+					this.OnMenuIdChanging(value);
 					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
+					this._MenuId = value;
+					this.SendPropertyChanged("MenuId");
+					this.OnMenuIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
+		public System.Nullable<int> Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
 				}
 			}
 		}
@@ -5807,60 +5647,6 @@ namespace Services
 					this._DateCreated = value;
 					this.SendPropertyChanged("DateCreated");
 					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Printout_PrintoutItem", Storage="_Printout", ThisKey="PrintoutsId", OtherKey="id", IsForeignKey=true)]
-		public Printout Printout
-		{
-			get
-			{
-				return this._Printout.Entity;
-			}
-			set
-			{
-				Printout previousValue = this._Printout.Entity;
-				if (((previousValue != value) 
-							|| (this._Printout.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Printout.Entity = null;
-						previousValue.PrintoutItems.Remove(this);
-					}
-					this._Printout.Entity = value;
-					if ((value != null))
-					{
-						value.PrintoutItems.Add(this);
-						this._PrintoutsId = value.id;
-					}
-					else
-					{
-						this._PrintoutsId = default(int);
-					}
-					this.SendPropertyChanged("Printout");
 				}
 			}
 		}

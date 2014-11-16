@@ -29,6 +29,8 @@ namespace MenuzRus.Models {
 
         public List<CheckMenuItemProduct> CheckMenuItemProducts { get; set; }
 
+        public String Description { get; set; }
+
         public Boolean HasProducts { get; set; }
 
         public Int32 id { get; set; }
@@ -36,6 +38,8 @@ namespace MenuzRus.Models {
         public Int32 ItemId { get; set; }
 
         public String Name { get; set; }
+
+        public Boolean Ordered { get; set; }
 
         public Decimal Price { get; set; }
     }

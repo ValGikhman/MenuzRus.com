@@ -6,7 +6,7 @@
 <div class="menuActions-container">
     <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
         @foreach (MenuzRus.Models.Check check in Model) {
-            <option value="@check.id">Check#@check.id</option>
+            <option value="@check.id">#@check.id</option>
         }
     </select>
 

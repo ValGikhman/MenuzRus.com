@@ -106,6 +106,11 @@ public static class Common {
         Activity = 36,
     }
 
+    public enum MenuItemStatus {
+        Active = 1,
+        Ordered = 2
+    }
+
     public enum PrinterWidth {
 
         [Display(Name = "58mm")]

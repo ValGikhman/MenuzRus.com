@@ -106,10 +106,16 @@
     margin-top: 20px;
 }
 
+.chosen-container .chosen-drop {
+    width: 150px;
+    text-align: center;
+}
+
 li.search-choice {
     font-size: large;
     line-height: 40px !important;
-    width: 100px;
+    width: 75px;
+    text-align: center;
 }
 
 li.search-field {

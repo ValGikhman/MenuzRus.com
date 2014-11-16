@@ -234,6 +234,7 @@ namespace MenuzRus.Controllers {
                 menu.Name = Item.Name;
                 menu.CheckId = menuItem.CheckId;
                 menu.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                menu.HasProducts = (orderService.GetProducts(menu.id).Count() > 0);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -282,6 +283,7 @@ namespace MenuzRus.Controllers {
         }
 
         // Show Menus strips for a check
+        [CheckUserSession]
         [HttpGet]
         public JsonResult ShowMenus(Int32 checkId) {
             ItemService itemService = new ItemService();
@@ -293,12 +295,14 @@ namespace MenuzRus.Controllers {
                 foreach (Services.OrderChecksMenu menuItem in menus) {
                     Services.Item item = itemService.GetItem(menuItem.MenuId);
                     menu = new CheckMenuItem();
+                    menu.CheckId = checkId;
                     menu.id = menuItem.id;
                     menu.ItemId = item.id;
                     menu.Name = item.Name;
+                    menu.Description = item.Description;
                     menu.Price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                     menu.HasProducts = (orderService.GetProducts(menu.id).Count() > 0);
-
+                    menu.Ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
                     Menus.Add(menu);
                 }
             }
@@ -429,11 +433,6 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private void AddPrintItem(Int32 printoutId, Int32 checkId, Int32 itemId, out Boolean printed) {
-            OrderService service = new OrderService();
-            printed = service.AddPrintItem(printoutId, checkId, itemId);
-        }
-
         private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
             ItemService itemService;
             Services.Item item, itemMenu;
@@ -536,7 +535,6 @@ namespace MenuzRus.Controllers {
             UserService userService;
             KitchenOrderPrint model;
             List<LineItem> subItems;
-            Boolean printed;
             try {
                 itemService = new ItemService();
                 orderService = new OrderService();
@@ -551,21 +549,22 @@ namespace MenuzRus.Controllers {
 
                 List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
                 List<OrderChecksMenuProduct> products;
+                Boolean ordered;
                 foreach (Services.OrderChecksMenu menuItem in menus) {
                     itemMenu = itemService.GetItem(menuItem.MenuId);
+                    ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
                     products = orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
                     foreach (Services.OrderChecksMenuProduct productItem in products) {
                         foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
-                                AddPrintItem(order.id, model.Check.id, item.id, out printed);
-                                subItems.Add(new LineItem() { Description = item.Name, Printed = printed });
+                                subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
                             }
                         }
                     }
-                    AddPrintItem(order.id, model.Check.id, itemMenu.id, out printed);
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Printed = printed, id = itemMenu.id, SubItems = subItems });
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, SubItems = subItems });
+                    orderService.UpdateMenuItemStatus(menuItem.id, Common.MenuItemStatus.Ordered);
                 }
             }
             catch (Exception ex) {

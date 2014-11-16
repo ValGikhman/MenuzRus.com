@@ -34,6 +34,12 @@
 
 <script>
     $(function () {
+        $("#floor li a").click(function () {
+            $("#btnFloor").text($(this).text());
+            window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
+        });
+        refreshTotal();
+
         window.setInterval(function () {
             $(".timer").countdown("destroy");
             $("#floorContainer").remove();
@@ -54,11 +60,6 @@
             });
         }, 60 * 1000);
 
-        $("#floor li a").click(function () {
-            $("#btnFloor").text($(this).text());
-            window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
-        });
-        refreshTotal();
     })
 
     function refreshTotal() {

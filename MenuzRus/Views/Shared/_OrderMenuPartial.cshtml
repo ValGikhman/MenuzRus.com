@@ -1,6 +1,7 @@
 ﻿@model List<Services.Category>
 @using Extensions
 @foreach (Services.Category category in Model) {
+    if (category.Items.Any()) {
     <div class="panel panel-default">
         <div class="panel panel-default panel-heading pointer item" data-value="@category.id" onclick="javascript:toggleCategory($(this).find('.collapsibleSign'), '#category-@category.id')">
             <span class="glyphicon glyphicon-plus collapsibleSign"></span>
@@ -21,4 +22,5 @@
             </div>
         }
     </div>
+    }
 }

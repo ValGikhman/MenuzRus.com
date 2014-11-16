@@ -6,7 +6,7 @@
             <div class="tableNameStatus label shadow">@table.TableName</div>
             <div id="labels-container">
                 @foreach (Services.OrderCheck check in table.Order.OrderChecks) {
-                    <div class="checks label shadow" data-status="@check.Status">#@check.id</div>
+                    <div class="label label-success shadow" data-status="@check.Status">#@check.id</div>
                 }
             </div>
             <div class="timer label shadow"></div>

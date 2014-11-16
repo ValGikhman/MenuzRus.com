@@ -30,6 +30,7 @@ $(function () {
         });
 
         toggleObjects(text);
+        checkStatusManager(text);
     });
 
     $("#tableStatus li a").click(function () {
@@ -171,7 +172,6 @@ function orderMenuItem(id) {
         var split = parseInt($("#slideSplit").val());
         var adjustment = parseInt($("#adjustmentSplit").val());
 
-        message($.validator.format("You have added menu item to the Ordered check.<br/>Status : [ {0} ]<br/>Changed to status [ Active ].", $(active).attr("data-status")), "information", "topCenter");
         $("#btnCheckStatus").text(text);
         $($.validator.format(".check .tab-pane[data-value={0}]", $(active).attr("data-value"))).attr("data-status", text);
         $($.validator.format(".checks li a[data-value={0}]", $(active).attr("data-value"))).attr("data-status", text);
@@ -188,12 +188,19 @@ function orderMenuItem(id) {
             $(active).append(result.html);
             var status = $("#btnCheckStatus").text();
             var type = $("#btnCheckType").text();
+            var chosen = $(".chosen-select");
+
+            if ($(".chosen-select").find($.validator.format("option[value={0}]", result.checkId)).length == 0) {
+                $(chosen).append($.validator.format("<option value='{0}'>#{0}</option>", result.checkId)).trigger("chosen:updated");
+                toggleObjects(status);
+            }
+
             $(active).attr("id", $.validator.format("Check{0}", result.checkId)).attr("data-value", result.checkId);
             $(active).attr("data-value", result.checkId);
             $(active).attr("data-type", type);
             $(active).attr("data-status", status);
             $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
-            $(activeTab).attr("data-value", result.checkIdheckId);
+            $(activeTab).attr("data-value", result.checkId);
             $(activeTab).attr("data-type", type);
             $(activeTab).attr("data-status", status);
             $(activeTab).html($.validator.format("#{0}", result.checkId));

@@ -13,7 +13,15 @@
         <tr>
             <td style="font-weight: bold;" align="center">
                 <br />
-                @String.Format("RECEIPT #{1}-{0}", Model.Check.id, Model.Check.TableOrder.TableId)</td>
+                @String.Format("CHECK #{0}", Model.Check.id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">
+                @String.Format("Table#{0}", Model.Check.TableOrder.TableId)
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">@((Common.CheckType)Model.Check.Type)</td>
         </tr>
 
         @if (MenuzRus.SessionData.customer.ImageUrl.IsEmpty()) {

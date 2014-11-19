@@ -57,8 +57,9 @@ namespace MenuzRus {
             ItemProduct itemQuery = new ItemProduct();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    if (item.id != 0)
+                    if (item.id != 0) {
                         itemQuery = db.ItemProducts.Where(m => m.id == item.id).FirstOrDefault();
+                    }
                     if (itemQuery != default(ItemProduct)) {
                         itemQuery.id = item.id;
                         itemQuery.Type = item.Type;

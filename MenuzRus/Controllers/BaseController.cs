@@ -57,15 +57,6 @@ namespace MenuzRus.Controllers {
                 filterContext.Controller.ViewData["Layout"] = "_Layout";
                 if (!this.IsLoggedIn) {
                     filterContext.Controller.ViewData["Layout"] = "_Login";
-
-                    // These 2 controllers do not need to check if logged in or not
-                    //if (route.ToUpper() != "login".ToUpper()
-                    //        && route.ToUpper() != "registration".ToUpper()) {
-                    //    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new {
-                    //        controller = "Login",
-                    //        action = "Index",
-                    //    }));
-                    //}
                 }
 
                 if (SessionData.user != null)

@@ -42,8 +42,10 @@ namespace MenuzRus {
             Menu query = new Menu();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    if (menu.id != 0)
+                    if (menu.id != 0) {
                         query = db.Menus.Where(m => m.id == menu.id).FirstOrDefault();
+                    }
+
                     if (query != default(Menu)) {
                         query.CustomerId = menu.CustomerId;
                         query.Name = menu.Name;

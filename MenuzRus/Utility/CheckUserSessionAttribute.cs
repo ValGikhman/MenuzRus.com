@@ -8,13 +8,11 @@ namespace MenuzRus {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckUserSessionAttribute : ActionFilterAttribute {
-        //public static CheckSessionDelegate CheckSessionAlive;
-
-        //public delegate bool CheckSessionDelegate(HttpSessionStateBase session);
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (SessionData.user != null)
+            if (SessionData.sessionId != null) {
                 return;
+            }
 
             HttpSessionStateBase session = filterContext.HttpContext.Session;
             String urlFrom = String.Empty;

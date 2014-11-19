@@ -32,12 +32,17 @@ namespace Services {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Alerts.FirstOrDefault(m => m.id == alert.id);
+                    if (query == default(Alert)) {
+                        query = new Alert();
+                    }
+
                     query.CheckId = alert.CheckId;
                     query.ItemId = alert.ItemId;
                     query.UserId = alert.UserId;
                     query.Type = alert.Type;
                     query.Status = alert.Status;
                     query.DateModified = DateTime.UtcNow;
+
                     if (alert.id == 0) {
                         db.Alerts.InsertOnSubmit(query);
                     }

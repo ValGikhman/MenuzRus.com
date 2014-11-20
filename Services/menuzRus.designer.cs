@@ -57,12 +57,12 @@ namespace Services
     partial void InsertTableOrder(TableOrder instance);
     partial void UpdateTableOrder(TableOrder instance);
     partial void DeleteTableOrder(TableOrder instance);
-    partial void InsertOrderChecksMenuProduct(OrderChecksMenuProduct instance);
-    partial void UpdateOrderChecksMenuProduct(OrderChecksMenuProduct instance);
-    partial void DeleteOrderChecksMenuProduct(OrderChecksMenuProduct instance);
-    partial void InsertOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
-    partial void UpdateOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
-    partial void DeleteOrderChecksMenuProductItem(OrderChecksMenuProductItem instance);
+    partial void InsertChecksMenuProduct(ChecksMenuProduct instance);
+    partial void UpdateChecksMenuProduct(ChecksMenuProduct instance);
+    partial void DeleteChecksMenuProduct(ChecksMenuProduct instance);
+    partial void InsertChecksMenuProductItem(ChecksMenuProductItem instance);
+    partial void UpdateChecksMenuProductItem(ChecksMenuProductItem instance);
+    partial void DeleteChecksMenuProductItem(ChecksMenuProductItem instance);
     partial void InsertTable(Table instance);
     partial void UpdateTable(Table instance);
     partial void DeleteTable(Table instance);
@@ -81,15 +81,15 @@ namespace Services
     partial void InsertPrintout(Printout instance);
     partial void UpdatePrintout(Printout instance);
     partial void DeletePrintout(Printout instance);
-    partial void InsertOrderCheck(OrderCheck instance);
-    partial void UpdateOrderCheck(OrderCheck instance);
-    partial void DeleteOrderCheck(OrderCheck instance);
+    partial void InsertCheck(Check instance);
+    partial void UpdateCheck(Check instance);
+    partial void DeleteCheck(Check instance);
+    partial void InsertChecksMenu(ChecksMenu instance);
+    partial void UpdateChecksMenu(ChecksMenu instance);
+    partial void DeleteChecksMenu(ChecksMenu instance);
     partial void InsertAlert(Alert instance);
     partial void UpdateAlert(Alert instance);
     partial void DeleteAlert(Alert instance);
-    partial void InsertOrderChecksMenu(OrderChecksMenu instance);
-    partial void UpdateOrderChecksMenu(OrderChecksMenu instance);
-    partial void DeleteOrderChecksMenu(OrderChecksMenu instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -194,19 +194,19 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderChecksMenuProduct> OrderChecksMenuProducts
+		public System.Data.Linq.Table<ChecksMenuProduct> ChecksMenuProducts
 		{
 			get
 			{
-				return this.GetTable<OrderChecksMenuProduct>();
+				return this.GetTable<ChecksMenuProduct>();
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderChecksMenuProductItem> OrderChecksMenuProductItems
+		public System.Data.Linq.Table<ChecksMenuProductItem> ChecksMenuProductItems
 		{
 			get
 			{
-				return this.GetTable<OrderChecksMenuProductItem>();
+				return this.GetTable<ChecksMenuProductItem>();
 			}
 		}
 		
@@ -258,11 +258,19 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<OrderCheck> OrderChecks
+		public System.Data.Linq.Table<Check> Checks
 		{
 			get
 			{
-				return this.GetTable<OrderCheck>();
+				return this.GetTable<Check>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ChecksMenu> ChecksMenus
+		{
+			get
+			{
+				return this.GetTable<ChecksMenu>();
 			}
 		}
 		
@@ -271,14 +279,6 @@ namespace Services
 			get
 			{
 				return this.GetTable<Alert>();
-			}
-		}
-		
-		public System.Data.Linq.Table<OrderChecksMenu> OrderChecksMenus
-		{
-			get
-			{
-				return this.GetTable<OrderChecksMenu>();
 			}
 		}
 	}
@@ -1048,8 +1048,6 @@ namespace Services
 		
 		private EntityRef<Customer> _Customer;
 		
-		private EntityRef<Alert> _Alert;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1090,7 +1088,6 @@ namespace Services
 		{
 			this._Logs = new EntitySet<Log>(new Action<Log>(this.attach_Logs), new Action<Log>(this.detach_Logs));
 			this._Customer = default(EntityRef<Customer>);
-			this._Alert = default(EntityRef<Alert>);
 			OnCreated();
 		}
 		
@@ -1105,10 +1102,6 @@ namespace Services
 			{
 				if ((this._id != value))
 				{
-					if (this._Alert.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidChanging(value);
 					this.SendPropertyChanging();
 					this._id = value;
@@ -1445,40 +1438,6 @@ namespace Services
 						this._CustomerId = default(int);
 					}
 					this.SendPropertyChanged("Customer");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_User", Storage="_Alert", ThisKey="id", OtherKey="UserId", IsForeignKey=true)]
-		public Alert Alert
-		{
-			get
-			{
-				return this._Alert.Entity;
-			}
-			set
-			{
-				Alert previousValue = this._Alert.Entity;
-				if (((previousValue != value) 
-							|| (this._Alert.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Alert.Entity = null;
-						previousValue.Users.Remove(this);
-					}
-					this._Alert.Entity = value;
-					if ((value != null))
-					{
-						value.Users.Add(this);
-						this._id = value.UserId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("Alert");
 				}
 			}
 		}
@@ -2428,7 +2387,7 @@ namespace Services
 		
 		private System.DateTime _DateModified;
 		
-		private EntitySet<OrderCheck> _OrderChecks;
+		private EntitySet<Check> _OrderChecks;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2448,7 +2407,7 @@ namespace Services
 		
 		public TableOrder()
 		{
-			this._OrderChecks = new EntitySet<OrderCheck>(new Action<OrderCheck>(this.attach_OrderChecks), new Action<OrderCheck>(this.detach_OrderChecks));
+			this._OrderChecks = new EntitySet<Check>(new Action<Check>(this.attach_OrderChecks), new Action<Check>(this.detach_OrderChecks));
 			OnCreated();
 		}
 		
@@ -2552,8 +2511,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_OrderChecks", ThisKey="id", OtherKey="TableOrderId")]
-		public EntitySet<OrderCheck> OrderChecks
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_Check", Storage="_OrderChecks", ThisKey="id", OtherKey="TableOrderId")]
+		public EntitySet<Check> Checks
 		{
 			get
 			{
@@ -2585,21 +2544,21 @@ namespace Services
 			}
 		}
 		
-		private void attach_OrderChecks(OrderCheck entity)
+		private void attach_OrderChecks(Check entity)
 		{
 			this.SendPropertyChanging();
 			entity.TableOrder = this;
 		}
 		
-		private void detach_OrderChecks(OrderCheck entity)
+		private void detach_OrderChecks(Check entity)
 		{
 			this.SendPropertyChanging();
 			entity.TableOrder = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProducts")]
-	public partial class OrderChecksMenuProduct : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChecksMenuProducts")]
+	public partial class ChecksMenuProduct : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2612,7 +2571,7 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<OrderChecksMenuProductItem> _OrderChecksMenuProductItems;
+		private EntitySet<ChecksMenuProductItem> _OrderChecksMenuProductItems;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2628,9 +2587,9 @@ namespace Services
     partial void OnDateCreatedChanged();
     #endregion
 		
-		public OrderChecksMenuProduct()
+		public ChecksMenuProduct()
 		{
-			this._OrderChecksMenuProductItems = new EntitySet<OrderChecksMenuProductItem>(new Action<OrderChecksMenuProductItem>(this.attach_OrderChecksMenuProductItems), new Action<OrderChecksMenuProductItem>(this.detach_OrderChecksMenuProductItems));
+			this._OrderChecksMenuProductItems = new EntitySet<ChecksMenuProductItem>(new Action<ChecksMenuProductItem>(this.attach_OrderChecksMenuProductItems), new Action<ChecksMenuProductItem>(this.detach_OrderChecksMenuProductItems));
 			OnCreated();
 		}
 		
@@ -2714,8 +2673,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenuProduct_OrderChecksMenuProductItem", Storage="_OrderChecksMenuProductItems", ThisKey="id", OtherKey="ProductId")]
-		public EntitySet<OrderChecksMenuProductItem> OrderChecksMenuProductItems
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenuProduct_ChecksMenuProductItem", Storage="_OrderChecksMenuProductItems", ThisKey="id", OtherKey="ProductId")]
+		public EntitySet<ChecksMenuProductItem> ChecksMenuProductItems
 		{
 			get
 			{
@@ -2747,21 +2706,21 @@ namespace Services
 			}
 		}
 		
-		private void attach_OrderChecksMenuProductItems(OrderChecksMenuProductItem entity)
+		private void attach_OrderChecksMenuProductItems(ChecksMenuProductItem entity)
 		{
 			this.SendPropertyChanging();
-			entity.OrderChecksMenuProduct = this;
+			entity.ChecksMenuProduct = this;
 		}
 		
-		private void detach_OrderChecksMenuProductItems(OrderChecksMenuProductItem entity)
+		private void detach_OrderChecksMenuProductItems(ChecksMenuProductItem entity)
 		{
 			this.SendPropertyChanging();
-			entity.OrderChecksMenuProduct = null;
+			entity.ChecksMenuProduct = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenuProductItems")]
-	public partial class OrderChecksMenuProductItem : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChecksMenuProductItems")]
+	public partial class ChecksMenuProductItem : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -2774,7 +2733,7 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntityRef<OrderChecksMenuProduct> _OrderChecksMenuProduct;
+		private EntityRef<ChecksMenuProduct> _OrderChecksMenuProduct;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2790,9 +2749,9 @@ namespace Services
     partial void OnDateCreatedChanged();
     #endregion
 		
-		public OrderChecksMenuProductItem()
+		public ChecksMenuProductItem()
 		{
-			this._OrderChecksMenuProduct = default(EntityRef<OrderChecksMenuProduct>);
+			this._OrderChecksMenuProduct = default(EntityRef<ChecksMenuProduct>);
 			OnCreated();
 		}
 		
@@ -2880,8 +2839,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderChecksMenuProduct_OrderChecksMenuProductItem", Storage="_OrderChecksMenuProduct", ThisKey="ProductId", OtherKey="id", IsForeignKey=true)]
-		public OrderChecksMenuProduct OrderChecksMenuProduct
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenuProduct_ChecksMenuProductItem", Storage="_OrderChecksMenuProduct", ThisKey="ProductId", OtherKey="id", IsForeignKey=true)]
+		public ChecksMenuProduct ChecksMenuProduct
 		{
 			get
 			{
@@ -2889,7 +2848,7 @@ namespace Services
 			}
 			set
 			{
-				OrderChecksMenuProduct previousValue = this._OrderChecksMenuProduct.Entity;
+				ChecksMenuProduct previousValue = this._OrderChecksMenuProduct.Entity;
 				if (((previousValue != value) 
 							|| (this._OrderChecksMenuProduct.HasLoadedOrAssignedValue == false)))
 				{
@@ -2897,19 +2856,19 @@ namespace Services
 					if ((previousValue != null))
 					{
 						this._OrderChecksMenuProduct.Entity = null;
-						previousValue.OrderChecksMenuProductItems.Remove(this);
+						previousValue.ChecksMenuProductItems.Remove(this);
 					}
 					this._OrderChecksMenuProduct.Entity = value;
 					if ((value != null))
 					{
-						value.OrderChecksMenuProductItems.Add(this);
+						value.ChecksMenuProductItems.Add(this);
 						this._ProductId = value.id;
 					}
 					else
 					{
 						this._ProductId = default(int);
 					}
-					this.SendPropertyChanged("OrderChecksMenuProduct");
+					this.SendPropertyChanged("ChecksMenuProduct");
 				}
 			}
 		}
@@ -3746,8 +3705,6 @@ namespace Services
 		
 		private EntityRef<Category> _Category;
 		
-		private EntityRef<Alert> _Alert;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3776,7 +3733,6 @@ namespace Services
 			this._ItemProducts = new EntitySet<ItemProduct>(new Action<ItemProduct>(this.attach_ItemProducts), new Action<ItemProduct>(this.detach_ItemProducts));
 			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
 			this._Category = default(EntityRef<Category>);
-			this._Alert = default(EntityRef<Alert>);
 			OnCreated();
 		}
 		
@@ -3791,10 +3747,6 @@ namespace Services
 			{
 				if ((this._id != value))
 				{
-					if (this._Alert.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidChanging(value);
 					this.SendPropertyChanging();
 					this._id = value;
@@ -4017,40 +3969,6 @@ namespace Services
 						this._CategoryId = default(int);
 					}
 					this.SendPropertyChanged("Category");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_Item", Storage="_Alert", ThisKey="id", OtherKey="ItemId", IsForeignKey=true)]
-		public Alert Alert
-		{
-			get
-			{
-				return this._Alert.Entity;
-			}
-			set
-			{
-				Alert previousValue = this._Alert.Entity;
-				if (((previousValue != value) 
-							|| (this._Alert.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Alert.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._Alert.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._id = value.ItemId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("Alert");
 				}
 			}
 		}
@@ -4676,7 +4594,7 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntityRef<OrderCheck> _OrderCheck;
+		private EntityRef<Check> _OrderCheck;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4698,7 +4616,7 @@ namespace Services
 		
 		public Printout()
 		{
-			this._OrderCheck = default(EntityRef<OrderCheck>);
+			this._OrderCheck = default(EntityRef<Check>);
 			OnCreated();
 		}
 		
@@ -4826,8 +4744,8 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_Printout", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
-		public OrderCheck OrderCheck
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Check_Printout", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
+		public Check Check
 		{
 			get
 			{
@@ -4835,7 +4753,7 @@ namespace Services
 			}
 			set
 			{
-				OrderCheck previousValue = this._OrderCheck.Entity;
+				Check previousValue = this._OrderCheck.Entity;
 				if (((previousValue != value) 
 							|| (this._OrderCheck.HasLoadedOrAssignedValue == false)))
 				{
@@ -4855,7 +4773,7 @@ namespace Services
 					{
 						this._CheckId = default(int);
 					}
-					this.SendPropertyChanged("OrderCheck");
+					this.SendPropertyChanged("Check");
 				}
 			}
 		}
@@ -4881,8 +4799,8 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecks")]
-	public partial class OrderCheck : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Checks")]
+	public partial class Check : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -4937,7 +4855,7 @@ namespace Services
     partial void OnDateCreatedChanged();
     #endregion
 		
-		public OrderCheck()
+		public Check()
 		{
 			this._Printouts = new EntitySet<Printout>(new Action<Printout>(this.attach_Printouts), new Action<Printout>(this.detach_Printouts));
 			this._TableOrder = default(EntityRef<TableOrder>);
@@ -5148,7 +5066,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OrderCheck_Printout", Storage="_Printouts", ThisKey="id", OtherKey="CheckId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Check_Printout", Storage="_Printouts", ThisKey="id", OtherKey="CheckId")]
 		public EntitySet<Printout> Printouts
 		{
 			get
@@ -5161,7 +5079,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_OrderCheck", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_Check", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
 		public TableOrder TableOrder
 		{
 			get
@@ -5178,12 +5096,12 @@ namespace Services
 					if ((previousValue != null))
 					{
 						this._TableOrder.Entity = null;
-						previousValue.OrderChecks.Remove(this);
+						previousValue.Checks.Remove(this);
 					}
 					this._TableOrder.Entity = value;
 					if ((value != null))
 					{
-						value.OrderChecks.Add(this);
+						value.Checks.Add(this);
 						this._TableOrderId = value.id;
 					}
 					else
@@ -5218,304 +5136,18 @@ namespace Services
 		private void attach_Printouts(Printout entity)
 		{
 			this.SendPropertyChanging();
-			entity.OrderCheck = this;
+			entity.Check = this;
 		}
 		
 		private void detach_Printouts(Printout entity)
 		{
 			this.SendPropertyChanging();
-			entity.OrderCheck = null;
+			entity.Check = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Alerts")]
-	public partial class Alert : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _UserId;
-		
-		private int _CheckId;
-		
-		private int _ItemId;
-		
-		private int _Type;
-		
-		private int _Status;
-		
-		private System.DateTime _DateModified;
-		
-		private System.DateTime _DateCreated;
-		
-		private EntitySet<User> _Users;
-		
-		private EntitySet<Item> _Items;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    partial void OnCheckIdChanging(int value);
-    partial void OnCheckIdChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
-    partial void OnTypeChanging(int value);
-    partial void OnTypeChanged();
-    partial void OnStatusChanging(int value);
-    partial void OnStatusChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public Alert()
-		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
-		public int UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckId", DbType="Int NOT NULL")]
-		public int CheckId
-		{
-			get
-			{
-				return this._CheckId;
-			}
-			set
-			{
-				if ((this._CheckId != value))
-				{
-					this.OnCheckIdChanging(value);
-					this.SendPropertyChanging();
-					this._CheckId = value;
-					this.SendPropertyChanged("CheckId");
-					this.OnCheckIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
-		{
-			get
-			{
-				return this._ItemId;
-			}
-			set
-			{
-				if ((this._ItemId != value))
-				{
-					this.OnItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
-		public int Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
-		public int Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_User", Storage="_Users", ThisKey="UserId", OtherKey="id")]
-		public EntitySet<User> Users
-		{
-			get
-			{
-				return this._Users;
-			}
-			set
-			{
-				this._Users.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alert_Item", Storage="_Items", ThisKey="ItemId", OtherKey="id")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Alert = this;
-		}
-		
-		private void detach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Alert = null;
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.Alert = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.Alert = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrderChecksMenu")]
-	public partial class OrderChecksMenu : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChecksMenu")]
+	public partial class ChecksMenu : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5529,6 +5161,8 @@ namespace Services
 		private System.Nullable<int> _Status;
 		
 		private System.DateTime _DateCreated;
+		
+		private EntitySet<Alert> _Alerts;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5546,8 +5180,9 @@ namespace Services
     partial void OnDateCreatedChanged();
     #endregion
 		
-		public OrderChecksMenu()
+		public ChecksMenu()
 		{
+			this._Alerts = new EntitySet<Alert>(new Action<Alert>(this.attach_Alerts), new Action<Alert>(this.detach_Alerts));
 			OnCreated();
 		}
 		
@@ -5647,6 +5282,254 @@ namespace Services
 					this._DateCreated = value;
 					this.SendPropertyChanged("DateCreated");
 					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_Alert", Storage="_Alerts", ThisKey="id", OtherKey="CheckMenuId")]
+		public EntitySet<Alert> Alerts
+		{
+			get
+			{
+				return this._Alerts;
+			}
+			set
+			{
+				this._Alerts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Alerts(Alert entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChecksMenu = this;
+		}
+		
+		private void detach_Alerts(Alert entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChecksMenu = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Alerts")]
+	public partial class Alert : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CheckMenuId;
+		
+		private int _Type;
+		
+		private int _Status;
+		
+		private System.DateTime _DateModified;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntityRef<ChecksMenu> _ChecksMenu;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCheckMenuIdChanging(int value);
+    partial void OnCheckMenuIdChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public Alert()
+		{
+			this._ChecksMenu = default(EntityRef<ChecksMenu>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckMenuId", DbType="Int NOT NULL")]
+		public int CheckMenuId
+		{
+			get
+			{
+				return this._CheckMenuId;
+			}
+			set
+			{
+				if ((this._CheckMenuId != value))
+				{
+					if (this._ChecksMenu.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCheckMenuIdChanging(value);
+					this.SendPropertyChanging();
+					this._CheckMenuId = value;
+					this.SendPropertyChanged("CheckMenuId");
+					this.OnCheckMenuIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_Alert", Storage="_ChecksMenu", ThisKey="CheckMenuId", OtherKey="id", IsForeignKey=true)]
+		public ChecksMenu ChecksMenu
+		{
+			get
+			{
+				return this._ChecksMenu.Entity;
+			}
+			set
+			{
+				ChecksMenu previousValue = this._ChecksMenu.Entity;
+				if (((previousValue != value) 
+							|| (this._ChecksMenu.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ChecksMenu.Entity = null;
+						previousValue.Alerts.Remove(this);
+					}
+					this._ChecksMenu.Entity = value;
+					if ((value != null))
+					{
+						value.Alerts.Add(this);
+						this._CheckMenuId = value.id;
+					}
+					else
+					{
+						this._CheckMenuId = default(int);
+					}
+					this.SendPropertyChanged("ChecksMenu");
 				}
 			}
 		}

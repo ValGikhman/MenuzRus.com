@@ -54,7 +54,6 @@
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="User_Log" Member="Logs" ThisKey="id" OtherKey="UserId" Type="Log" />
       <Association Name="Customer_User" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
-      <Association Name="Alert_User" Member="Alert" ThisKey="id" OtherKey="UserId" Type="Alert" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ItemProductAssociation" Member="ItemProductAssociations">
@@ -108,25 +107,25 @@
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="TableOrder_OrderCheck" Member="OrderChecks" ThisKey="id" OtherKey="TableOrderId" Type="OrderCheck" />
+      <Association Name="TableOrder_Check" Member="Checks" Storage="_OrderChecks" ThisKey="id" OtherKey="TableOrderId" Type="Check" />
     </Type>
   </Table>
-  <Table Name="dbo.OrderChecksMenuProducts" Member="OrderChecksMenuProducts">
-    <Type Name="OrderChecksMenuProduct">
+  <Table Name="dbo.ChecksMenuProducts" Member="ChecksMenuProducts">
+    <Type Name="ChecksMenuProduct">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CheckMenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="OrderChecksMenuProduct_OrderChecksMenuProductItem" Member="OrderChecksMenuProductItems" ThisKey="id" OtherKey="ProductId" Type="OrderChecksMenuProductItem" />
+      <Association Name="ChecksMenuProduct_ChecksMenuProductItem" Member="ChecksMenuProductItems" Storage="_OrderChecksMenuProductItems" ThisKey="id" OtherKey="ProductId" Type="ChecksMenuProductItem" />
     </Type>
   </Table>
-  <Table Name="dbo.OrderChecksMenuProductItems" Member="OrderChecksMenuProductItems">
-    <Type Name="OrderChecksMenuProductItem">
+  <Table Name="dbo.ChecksMenuProductItems" Member="ChecksMenuProductItems">
+    <Type Name="ChecksMenuProductItem">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="OrderChecksMenuProduct_OrderChecksMenuProductItem" Member="OrderChecksMenuProduct" ThisKey="ProductId" OtherKey="id" Type="OrderChecksMenuProduct" IsForeignKey="true" />
+      <Association Name="ChecksMenuProduct_ChecksMenuProductItem" Member="ChecksMenuProduct" Storage="_OrderChecksMenuProduct" ThisKey="ProductId" OtherKey="id" Type="ChecksMenuProduct" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Tables" Member="Tables">
@@ -179,7 +178,6 @@
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Item_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="ItemId" Type="MenuItem" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
-      <Association Name="Alert_Item" Member="Alert" ThisKey="id" OtherKey="ItemId" Type="Alert" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Categories" Member="Categories">
@@ -216,11 +214,11 @@
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="OrderCheck_Printout" Member="OrderCheck" ThisKey="CheckId" OtherKey="id" Type="OrderCheck" IsForeignKey="true" />
+      <Association Name="Check_Printout" Member="Check" Storage="_OrderCheck" ThisKey="CheckId" OtherKey="id" Type="Check" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.OrderChecks" Member="OrderChecks">
-    <Type Name="OrderCheck">
+  <Table Name="dbo.Checks" Member="Checks">
+    <Type Name="Check">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TableOrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -231,31 +229,29 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="OrderCheck_Printout" Member="Printouts" ThisKey="id" OtherKey="CheckId" Type="Printout" />
-      <Association Name="TableOrder_OrderCheck" Member="TableOrder" ThisKey="TableOrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
+      <Association Name="Check_Printout" Member="Printouts" ThisKey="id" OtherKey="CheckId" Type="Printout" />
+      <Association Name="TableOrder_Check" Member="TableOrder" ThisKey="TableOrderId" OtherKey="id" Type="TableOrder" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Alerts" Member="Alerts">
-    <Type Name="Alert">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CheckId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Alert_User" Member="Users" ThisKey="UserId" OtherKey="id" Type="User" />
-      <Association Name="Alert_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
-    </Type>
-  </Table>
-  <Table Name="dbo.OrderChecksMenu" Member="OrderChecksMenus">
-    <Type Name="OrderChecksMenu">
+  <Table Name="dbo.ChecksMenu" Member="ChecksMenus">
+    <Type Name="ChecksMenu">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CheckId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="ChecksMenu_Alert" Member="Alerts" ThisKey="id" OtherKey="CheckMenuId" Type="Alert" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Alerts" Member="Alerts">
+    <Type Name="Alert">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CheckMenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="ChecksMenu_Alert" Member="ChecksMenu" ThisKey="CheckMenuId" OtherKey="id" Type="ChecksMenu" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

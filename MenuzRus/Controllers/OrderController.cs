@@ -40,7 +40,7 @@ namespace MenuzRus.Controllers {
             List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
             OrderService service = new OrderService();
             String retVal = String.Empty;
-            Services.OrderCheck check;
+            Services.Check check;
             foreach (Int32 id in Ids) {
                 check = service.GetCheck(id);
                 retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
@@ -162,7 +162,7 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public JsonResult OrderMenuItem(Int32 id, Int32 checkId, Int32 tableId) {
-            OrderChecksMenu menu = null;
+            ChecksMenu menu = null;
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             Services.Item MenuItem = itemService.GetItem(id);
@@ -223,7 +223,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String ShowMenuItem(Int32 id, OrderChecksMenu menuItem) {
+        public String ShowMenuItem(Int32 id, ChecksMenu menuItem) {
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             CheckMenuItem menu = new CheckMenuItem();
@@ -250,11 +250,11 @@ namespace MenuzRus.Controllers {
             ItemService itemService = new ItemService();
             OrderService orderService = new OrderService();
             List<CheckMenuItemProduct> model = new List<CheckMenuItemProduct>();
-            List<OrderChecksMenuProduct> products = new List<OrderChecksMenuProduct>();
+            List<ChecksMenuProduct> products = new List<ChecksMenuProduct>();
             Item Item;
             try {
                 products = orderService.GetProducts(menuId);
-                foreach (Services.OrderChecksMenuProduct productItem in products) {
+                foreach (Services.ChecksMenuProduct productItem in products) {
                     CheckMenuItemProduct product = new CheckMenuItemProduct();
                     Services.ItemProduct itemProduct = itemService.GetItemProduct(productItem.ItemId);
                     product.id = productItem.id;
@@ -266,7 +266,7 @@ namespace MenuzRus.Controllers {
                         Item = itemService.GetItem(associatedItem.ItemId);
                         association.id = associatedItem.id;
                         association.ItemId = associatedItem.ItemId;
-                        association.Selected = productItem.OrderChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
+                        association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
                         association.Name = Item.Name;
                         association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                         association.ImageUrl = Item.ImageUrl;
@@ -291,8 +291,8 @@ namespace MenuzRus.Controllers {
             List<CheckMenuItem> Menus = new List<CheckMenuItem>();
             CheckMenuItem menu;
             try {
-                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
-                foreach (Services.OrderChecksMenu menuItem in menus) {
+                List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkId);
+                foreach (Services.ChecksMenu menuItem in menus) {
                     Services.Item item = itemService.GetItem(menuItem.MenuId);
                     menu = new CheckMenuItem();
                     menu.CheckId = checkId;
@@ -453,18 +453,18 @@ namespace MenuzRus.Controllers {
                 model.CreatedDate = model.Check.DateCreated;
                 model.User = userService.GetUser(model.Check.UserId);
 
-                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkId);
-                List<OrderChecksMenuProduct> products;
+                List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkId);
+                List<ChecksMenuProduct> products;
                 model.Summary = 0;
                 model.Split = split;
-                foreach (Services.OrderChecksMenu menuItem in menus) {
+                foreach (Services.ChecksMenu menuItem in menus) {
                     itemMenu = itemService.GetItem(menuItem.MenuId);
                     menuPrice = (Decimal)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                     model.Summary += menuPrice;
                     products = orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
-                    foreach (Services.OrderChecksMenuProduct productItem in products) {
-                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                    foreach (Services.ChecksMenuProduct productItem in products) {
+                        foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
                                 price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
@@ -547,16 +547,16 @@ namespace MenuzRus.Controllers {
                 model.CreatedDate = model.Check.DateCreated;
                 model.User = userService.GetUser(model.Check.UserId);
 
-                List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
-                List<OrderChecksMenuProduct> products;
+                List<Services.ChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
+                List<ChecksMenuProduct> products;
                 Boolean ordered;
-                foreach (Services.OrderChecksMenu menuItem in menus) {
+                foreach (Services.ChecksMenu menuItem in menus) {
                     itemMenu = itemService.GetItem(menuItem.MenuId);
                     ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
                     products = orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
-                    foreach (Services.OrderChecksMenuProduct productItem in products) {
-                        foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                    foreach (Services.ChecksMenuProduct productItem in products) {
+                        foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
                             item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
                                 subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
@@ -592,22 +592,22 @@ namespace MenuzRus.Controllers {
                 model.TableOrder = orderService.GetTableOrder(tableId);
                 model.Table.Name = model.Table.Name;
 
-                if (model.TableOrder != null && model.TableOrder.OrderChecks != null) {
+                if (model.TableOrder != null && model.TableOrder.Checks != null) {
                     model.Checks = new List<CheckPrint>();
-                    IEnumerable<OrderCheck> checks = model.TableOrder.OrderChecks.Where(m => m.Status == (Int32)Common.CheckStatus.Ordered);
-                    foreach (Services.OrderCheck checkItem in checks) {
+                    IEnumerable<Services.Check> checks = model.TableOrder.Checks.Where(m => m.Status == (Int32)Common.CheckStatus.Ordered);
+                    foreach (Services.Check checkItem in checks) {
                         orderModel = new CheckPrint();
                         orderModel.Check = checkItem;
                         orderModel.Items = new List<LineItem>();
-                        List<Services.OrderChecksMenu> menus = orderService.GetMenuItems(checkItem.id);
-                        List<OrderChecksMenuProduct> products;
-                        foreach (Services.OrderChecksMenu menuItem in menus) {
+                        List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkItem.id);
+                        List<ChecksMenuProduct> products;
+                        foreach (Services.ChecksMenu menuItem in menus) {
                             itemMenu = itemService.GetItem(menuItem.MenuId);
                             products = orderService.GetProducts(menuItem.id);
                             subItems = new List<LineItem>();
                             if (products.Any()) {
-                                foreach (Services.OrderChecksMenuProduct productItem in products) {
-                                    foreach (Services.OrderChecksMenuProductItem associatedItem in productItem.OrderChecksMenuProductItems) {
+                                foreach (Services.ChecksMenuProduct productItem in products) {
+                                    foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
                                         item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                                         if (item != null) {
                                             subItems.Add(new LineItem() { Description = item.Name });
@@ -615,7 +615,7 @@ namespace MenuzRus.Controllers {
                                     }
                                 }
                             }
-                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, SubItems = subItems });
+                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, CheckMenuId = menuItem.id, SubItems = subItems });
                         }
                         model.Checks.Add(orderModel);
                     }
@@ -713,10 +713,10 @@ namespace MenuzRus.Controllers {
                 model.TableId = model.Table.id;
                 model.Table.Name = model.Table.Name;
 
-                if (model.TableOrder != null && model.TableOrder.OrderChecks != null) {
-                    model.Checks = new List<Check>();
-                    foreach (Services.OrderCheck checkItem in model.TableOrder.OrderChecks) {
-                        Check check = new Check();
+                if (model.TableOrder != null && model.TableOrder.Checks != null) {
+                    model.Checks = new List<Models.Check>();
+                    foreach (Services.Check checkItem in model.TableOrder.Checks) {
+                        Models.Check check = new Models.Check();
                         check.id = checkItem.id;
                         check.Price = 0;
                         check.Status = (Common.CheckStatus)checkItem.Status;

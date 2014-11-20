@@ -21,8 +21,9 @@ namespace MenuzRus {
                 items = service.GetAlerts(SessionData.user.id);
                 var retVal = new {
                     alerts = from var in items
-                             let item = var.Items.FirstOrDefault(m => m.id == var.ItemId)
-                             select new { id = var.id, Userid = var.UserId, CheckId = var.CheckId, ItemId = var.ItemId, Item = item.Name, Url = item.ImageUrl }
+                             let item = service.GetAlertItem(var.id)
+                             let check = service.GetAlertCheck(var.id)
+                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = item.ImageUrl }
                 };
                 return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
@@ -65,14 +66,12 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public void SaveAlert(Int32 userId, Int32 checkId, Int32 itemId, Boolean state) {
+        public void SaveAlert(Int32 checkMenuId, Boolean state) {
             Alert alert = new Alert();
             AlertService service = new AlertService();
             try {
-                alert.UserId = userId;
-                alert.CheckId = checkId;
-                alert.ItemId = itemId;
                 alert.Status = (Int32)Common.Status.Active;
+                alert.CheckMenuId = checkMenuId;
                 if (!state) {
                     alert.Status = (Int32)Common.Status.NotActive;
                 }

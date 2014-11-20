@@ -16,7 +16,7 @@ namespace MenuzRus.Models {
 
         public Decimal AdjustmentPercent { get; set; }
 
-        public OrderCheck Check { get; set; }
+        public Services.Check Check { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -41,7 +41,7 @@ namespace MenuzRus.Models {
 
     public class KitchenOrderPrint {
 
-        public OrderCheck Check { get; set; }
+        public Services.Check Check { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -53,6 +53,8 @@ namespace MenuzRus.Models {
     }
 
     public class LineItem {
+
+        public Int32 CheckMenuId { get; set; }
 
         public String Description { get; set; }
 

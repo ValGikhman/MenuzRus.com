@@ -5,7 +5,7 @@
         <div id="@table.Order.TableId" class="table btn btn-default" data-value="@table.Order.TableId" data-date="@table.Order.DateModified" data-status="@table.Order.Status"  onclick="javascript:viewTable(@table.Order.TableId)">
             <div class="tableNameStatus label shadow">@table.TableName</div>
             <div id="labels-container">
-                @foreach (Services.OrderCheck check in table.Order.OrderChecks) {
+                @foreach (Services.Check check in table.Order.Checks) {
                     <div class="label label-success shadow" data-status="@check.Status">#@check.id</div>
                 }
             </div>

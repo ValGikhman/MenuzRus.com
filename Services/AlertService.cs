@@ -17,14 +17,46 @@ namespace Services {
             return db.Alerts.FirstOrDefault(m => m.id == id);
         }
 
-        public List<Alert> GetAlerts(Int32 UserId) {
+        public Check GetAlertCheck(Int32 id) {
+            Check check;
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.Alerts.Where(m => m.UserId == UserId && m.Status == (Int32)Common.Status.Active).ToList();
+            check = (from alert in db.Alerts
+                     join checkMenu in db.ChecksMenus on alert.CheckMenuId equals checkMenu.id
+                     join chk in db.Checks on checkMenu.CheckId equals chk.id
+                     where alert.id == id
+                     select chk).FirstOrDefault();
+
+            return check;
         }
 
-        public Int32 GetAlertsCount(Int32 UserId) {
+        public Item GetAlertItem(Int32 id) {
+            Item item;
             menuzRusDataContext db = new menuzRusDataContext();
-            return GetAlerts(UserId).Count();
+
+            item = (from alert in db.Alerts
+                    join checkMenu in db.ChecksMenus on alert.CheckMenuId equals checkMenu.id
+                    join it in db.Items on checkMenu.MenuId equals it.id
+                    where alert.id == id
+                    select it).FirstOrDefault();
+            return item;
+        }
+
+        public List<Alert> GetAlerts(Int32 userId) {
+            List<Alert> alerts;
+            menuzRusDataContext db = new menuzRusDataContext();
+            alerts = (from check in db.Checks
+                      join checkMenu in db.ChecksMenus on check.id equals checkMenu.CheckId
+                      join alert in db.Alerts on checkMenu.id equals alert.CheckMenuId
+                      where check.UserId == userId
+                        && alert.Status == (Int32)Common.Status.Active
+                      select alert).ToList();
+
+            return alerts;
+        }
+
+        public Int32 GetAlertsCount(Int32 userId) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            return GetAlerts(userId).Count();
         }
 
         public Int32 SaveAlert(Alert alert) {
@@ -35,10 +67,7 @@ namespace Services {
                     if (query == default(Alert)) {
                         query = new Alert();
                     }
-
-                    query.CheckId = alert.CheckId;
-                    query.ItemId = alert.ItemId;
-                    query.UserId = alert.UserId;
+                    query.CheckMenuId = alert.CheckMenuId;
                     query.Type = alert.Type;
                     query.Status = alert.Status;
                     query.DateModified = DateTime.UtcNow;

@@ -31,29 +31,29 @@ namespace MenuzRus {
         }
 
         public Boolean DeleteCheck(Int32 id) {
-            IEnumerable<OrderChecksMenu> checkMenus;
+            IEnumerable<ChecksMenu> checkMenus;
 
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    OrderCheck orderCheck = db.OrderChecks.FirstOrDefault(m => m.id == id);
-                    if (orderCheck != default(OrderCheck)) {
-                        checkMenus = db.OrderChecksMenus.Where(m => m.CheckId == orderCheck.id);
+                    Check orderCheck = db.Checks.FirstOrDefault(m => m.id == id);
+                    if (orderCheck != default(Check)) {
+                        checkMenus = db.ChecksMenus.Where(m => m.CheckId == orderCheck.id);
                         if (checkMenus.Any()) {
-                            foreach (OrderChecksMenu menu in checkMenus) {
-                                IEnumerable<OrderChecksMenuProduct> products = db.OrderChecksMenuProducts.Where(m => m.CheckMenuId == menu.id);
+                            foreach (ChecksMenu menu in checkMenus) {
+                                IEnumerable<ChecksMenuProduct> products = db.ChecksMenuProducts.Where(m => m.CheckMenuId == menu.id);
                                 if (products.Any()) {
-                                    foreach (OrderChecksMenuProduct product in products) {
-                                        IEnumerable<OrderChecksMenuProductItem> items = db.OrderChecksMenuProductItems.Where(m => m.ProductId == product.id);
+                                    foreach (ChecksMenuProduct product in products) {
+                                        IEnumerable<ChecksMenuProductItem> items = db.ChecksMenuProductItems.Where(m => m.ProductId == product.id);
                                         if (items.Any()) {
-                                            db.OrderChecksMenuProductItems.DeleteAllOnSubmit(items);
+                                            db.ChecksMenuProductItems.DeleteAllOnSubmit(items);
                                         }
                                     }
                                 }
-                                db.OrderChecksMenuProducts.DeleteAllOnSubmit(products);
+                                db.ChecksMenuProducts.DeleteAllOnSubmit(products);
                             }
-                            db.OrderChecksMenus.DeleteAllOnSubmit(checkMenus);
+                            db.ChecksMenus.DeleteAllOnSubmit(checkMenus);
                         }
-                        db.OrderChecks.DeleteOnSubmit(orderCheck);
+                        db.Checks.DeleteOnSubmit(orderCheck);
                     }
                     db.SubmitChanges();
                 }
@@ -68,15 +68,15 @@ namespace MenuzRus {
         public Boolean DeleteMenu(Int32 id) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    OrderChecksMenu menuItem = db.OrderChecksMenus.FirstOrDefault(m => m.id == id);
-                    if (menuItem != default(OrderChecksMenu)) {
-                        db.OrderChecksMenus.DeleteOnSubmit(menuItem);
-                        IEnumerable<OrderChecksMenuProduct> products = db.OrderChecksMenuProducts.Where(m => m.CheckMenuId == id);
+                    ChecksMenu menuItem = db.ChecksMenus.FirstOrDefault(m => m.id == id);
+                    if (menuItem != default(ChecksMenu)) {
+                        db.ChecksMenus.DeleteOnSubmit(menuItem);
+                        IEnumerable<ChecksMenuProduct> products = db.ChecksMenuProducts.Where(m => m.CheckMenuId == id);
                         if (products.Any()) {
-                            db.OrderChecksMenuProducts.DeleteAllOnSubmit(products);
-                            foreach (OrderChecksMenuProduct product in products) {
-                                IEnumerable<OrderChecksMenuProductItem> items = db.OrderChecksMenuProductItems.Where(m => m.ProductId == product.id);
-                                db.OrderChecksMenuProductItems.DeleteAllOnSubmit(items);
+                            db.ChecksMenuProducts.DeleteAllOnSubmit(products);
+                            foreach (ChecksMenuProduct product in products) {
+                                IEnumerable<ChecksMenuProductItem> items = db.ChecksMenuProductItems.Where(m => m.ProductId == product.id);
+                                db.ChecksMenuProductItems.DeleteAllOnSubmit(items);
                             }
                         }
                     }
@@ -90,11 +90,11 @@ namespace MenuzRus {
             return true;
         }
 
-        public OrderCheck GetCheck(Int32 checkId) {
+        public Check GetCheck(Int32 checkId) {
             if (checkId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                OrderCheck query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
-                if (query != default(OrderCheck)) {
+                Check query = db.Checks.FirstOrDefault(m => m.id == checkId);
+                if (query != default(Check)) {
                     return query;
                 }
             }
@@ -108,12 +108,12 @@ namespace MenuzRus {
         public String GetChecksIds(Int32 tableId, Boolean showPaidChecks) {
             TableOrder tableOrder = GetTableOrder(tableId);
             if (tableOrder != default(TableOrder)) {
-                List<OrderCheck> checks;
+                List<Check> checks;
                 if (!showPaidChecks) {
-                    checks = tableOrder.OrderChecks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
+                    checks = tableOrder.Checks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
                 }
                 else {
-                    checks = tableOrder.OrderChecks.ToList();
+                    checks = tableOrder.Checks.ToList();
                 }
                 if (checks != null) {
                     return String.Join("|", checks.Select(m => String.Format("{0}:{1}", m.id, m.Status)).ToArray());
@@ -125,21 +125,21 @@ namespace MenuzRus {
         public List<TableOrder> GetKitchenOrders() {
             List<TableOrder> retVal = new List<TableOrder>();
             menuzRusDataContext db = new menuzRusDataContext();
-            return db.TableOrders.Where(m => m.Status != (Int32)Common.TableOrderStatus.Closed && m.OrderChecks.Where(c => c.Status == (Int32)Common.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
+            return db.TableOrders.Where(m => m.Status != (Int32)Common.TableOrderStatus.Closed && m.Checks.Where(c => c.Status == (Int32)Common.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
         }
 
-        public OrderChecksMenu GetMenuItem(Int32 id) {
+        public ChecksMenu GetMenuItem(Int32 id) {
             if (id != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.OrderChecksMenus.FirstOrDefault(m => m.id == id);
+                return db.ChecksMenus.FirstOrDefault(m => m.id == id);
             }
             return null;
         }
 
-        public List<OrderChecksMenu> GetMenuItems(Int32 checkId) {
+        public List<ChecksMenu> GetMenuItems(Int32 checkId) {
             if (checkId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.OrderChecksMenus.Where(m => m.CheckId == checkId).ToList();
+                return db.ChecksMenus.Where(m => m.CheckId == checkId).ToList();
             }
             return null;
         }
@@ -154,10 +154,10 @@ namespace MenuzRus {
             return db.Printouts.Where(m => m.DateCreated >= date.ToUniversalTime()).ToList();
         }
 
-        public List<OrderChecksMenuProduct> GetProducts(Int32 menuId) {
+        public List<ChecksMenuProduct> GetProducts(Int32 menuId) {
             if (menuId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext();
-                return db.OrderChecksMenuProducts.Where(m => m.CheckMenuId == menuId).ToList();
+                return db.ChecksMenuProducts.Where(m => m.CheckMenuId == menuId).ToList();
             }
             return null;
         }
@@ -216,25 +216,25 @@ namespace MenuzRus {
         }
 
         public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
-            OrderChecksMenuProductItem query;
+            ChecksMenuProductItem query;
             if (productId != 0 && knopaId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     if (type == Common.ProductType.Alternatives) {
-                        query = db.OrderChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId);
-                        if (query != default(OrderChecksMenuProductItem)) {
+                        query = db.ChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId);
+                        if (query != default(ChecksMenuProductItem)) {
                             query.ItemId = knopaId;
                         }
                     }
                     else if (type == Common.ProductType.Addons) {
-                        query = db.OrderChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId && m.ItemId == knopaId);
-                        if (query == default(OrderChecksMenuProductItem)) {
-                            query = new OrderChecksMenuProductItem();
+                        query = db.ChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId && m.ItemId == knopaId);
+                        if (query == default(ChecksMenuProductItem)) {
+                            query = new ChecksMenuProductItem();
                             query.ItemId = knopaId;
                             query.ProductId = productId;
-                            db.OrderChecksMenuProductItems.InsertOnSubmit(query);
+                            db.ChecksMenuProductItems.InsertOnSubmit(query);
                         }
                         else {
-                            db.OrderChecksMenuProductItems.DeleteOnSubmit(query);
+                            db.ChecksMenuProductItems.DeleteOnSubmit(query);
                         }
                     }
                     db.SubmitChanges();
@@ -242,8 +242,8 @@ namespace MenuzRus {
             }
         }
 
-        public OrderChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId) {
-            OrderChecksMenu orderCheckMenu;
+        public ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId) {
+            ChecksMenu orderCheckMenu;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     // New order
@@ -257,36 +257,36 @@ namespace MenuzRus {
                         db.SubmitChanges();
                     }
 
-                    OrderCheck orderCheck = db.OrderChecks.FirstOrDefault(m => m.id == orderId);
-                    if (orderCheck == default(OrderCheck)) {
-                        orderCheck = new OrderCheck();
+                    Check orderCheck = db.Checks.FirstOrDefault(m => m.id == orderId);
+                    if (orderCheck == default(Check)) {
+                        orderCheck = new Check();
                         orderCheck.TableOrderId = tableOrder.id;
                         orderCheck.Type = (Int32)Common.CheckType.Guest;
                         orderCheck.Status = (Int32)Common.CheckStatus.Active;
                         orderCheck.UserId = SessionData.user.id;
                         orderCheck.DateModified = DateTime.UtcNow;
-                        db.OrderChecks.InsertOnSubmit(orderCheck);
+                        db.Checks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
                     }
 
-                    orderCheckMenu = new OrderChecksMenu();
+                    orderCheckMenu = new ChecksMenu();
                     orderCheckMenu.CheckId = orderCheck.id;
                     orderCheckMenu.MenuId = menuItem.id;
                     orderCheckMenu.Status = (Int32)Common.MenuItemStatus.Active;
-                    db.OrderChecksMenus.InsertOnSubmit(orderCheckMenu);
+                    db.ChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
                     foreach (ItemProduct itemProduct in menuItem.ItemProducts) {
-                        OrderChecksMenuProduct product = new OrderChecksMenuProduct();
+                        ChecksMenuProduct product = new ChecksMenuProduct();
                         product.CheckMenuId = orderCheckMenu.id;
                         product.ItemId = itemProduct.id;
-                        db.OrderChecksMenuProducts.InsertOnSubmit(product);
+                        db.ChecksMenuProducts.InsertOnSubmit(product);
                         db.SubmitChanges();
                         if (itemProduct.ItemProductAssociations.Count() > 0) {
-                            OrderChecksMenuProductItem item = new OrderChecksMenuProductItem();
+                            ChecksMenuProductItem item = new ChecksMenuProductItem();
                             item.ProductId = product.id;
                             item.ItemId = itemProduct.ItemProductAssociations[0].id;
-                            db.OrderChecksMenuProductItems.InsertOnSubmit(item);
+                            db.ChecksMenuProductItems.InsertOnSubmit(item);
                             db.SubmitChanges();
                         }
                     }
@@ -300,12 +300,12 @@ namespace MenuzRus {
         }
 
         public Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
-            OrderCheck query = new OrderCheck();
+            Check query = new Check();
             Printout kitchenOrder;
             if (checkId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
-                    if (query != default(OrderCheck)) {
+                    query = db.Checks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(Check)) {
                         query.Status = (Int32)status;
                         query.DateModified = DateTime.UtcNow;
                         if (status == Common.CheckStatus.Ordered) {
@@ -330,11 +330,11 @@ namespace MenuzRus {
         }
 
         public Boolean UpdateCheckStatusPaid(Int32 checkId, Decimal price, Decimal tax, Decimal adjustment) {
-            OrderCheck query = new OrderCheck();
+            Check query = new Check();
             if (checkId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
-                    if (query != default(OrderCheck)) {
+                    query = db.Checks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(Check)) {
                         query.Status = (Int32)Common.CheckStatus.Paid;
                         query.Adjustment = adjustment;
                         query.Price = price;
@@ -348,11 +348,11 @@ namespace MenuzRus {
         }
 
         public Boolean UpdateCheckType(Int32 checkId, Common.CheckType type) {
-            OrderCheck query = new OrderCheck();
+            Check query = new Check();
             if (checkId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    query = db.OrderChecks.FirstOrDefault(m => m.id == checkId);
-                    if (query != default(OrderCheck)) {
+                    query = db.Checks.FirstOrDefault(m => m.id == checkId);
+                    if (query != default(Check)) {
                         query.Type = (Int32)type;
                         db.SubmitChanges();
                         return true;
@@ -381,8 +381,8 @@ namespace MenuzRus {
         public void UpdateMenuItemStatus(Int32 id, Common.MenuItemStatus status) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    OrderChecksMenu menuItem = db.OrderChecksMenus.FirstOrDefault(m => m.id == id);
-                    if (menuItem != default(OrderChecksMenu)) {
+                    ChecksMenu menuItem = db.ChecksMenus.FirstOrDefault(m => m.id == id);
+                    if (menuItem != default(ChecksMenu)) {
                         menuItem.Status = (Int32)status;
                         db.SubmitChanges();
                     }

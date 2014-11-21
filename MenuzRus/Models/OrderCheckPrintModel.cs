@@ -54,6 +54,8 @@ namespace MenuzRus.Models {
 
     public class LineItem {
 
+        public Boolean Alerted { get; set; }
+
         public Int32 CheckMenuId { get; set; }
 
         public String Description { get; set; }

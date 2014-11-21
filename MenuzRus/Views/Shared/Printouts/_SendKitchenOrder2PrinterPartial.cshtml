@@ -6,7 +6,7 @@
             <td style="font-weight: bold;" align="center">@String.Format("KITCHEN ORDER #{0}", Model.id)</td>
         </tr>
         <tr>
-            <td style="font-weight: bold;" align="center">@((Common.CheckType)Model.Check.Type)</td>
+            <td style="font-weight: bold;" align="center">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
         </tr>
         <tr>
             <td style="font-weight: bold;" align="center">

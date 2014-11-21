@@ -3,7 +3,11 @@
 <div class="order-view-container" style="height: 450px; padding: 15px; overflow: auto;">
     <div class="panel center" data-toggle="buttons">
         @foreach (MenuzRus.Models.LineItem item in Model.Items) {
-            <div class="btn btn-default knopa">
+            String active = String.Empty;
+            if (item.Alerted) {
+                active = "active";
+            }
+            <div class="btn btn-default knopa @active">
                 <div class="tableNameStatus alert-info label shadow">@item.Description.Ellipsis(55)
                 </div>
                 <input class="knopka" type="checkbox" onchange="javascript : saveAlert(this)" data-check="@Model.Check.id" data-item="@item.id" data-table="@Model.Check.TableOrder.TableId"  data-user="@Model.Check.UserId" data-menu="@item.CheckMenuId" />

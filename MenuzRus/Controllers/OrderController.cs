@@ -615,7 +615,7 @@ namespace MenuzRus.Controllers {
                                     }
                                 }
                             }
-                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, CheckMenuId = menuItem.id, SubItems = subItems });
+                            orderModel.Items.Add(new LineItem() { Description = itemMenu.Name, id = itemMenu.id, Alerted = menuItem.Alerts.Any(m => m.CheckMenuId == menuItem.id), CheckMenuId = menuItem.id, SubItems = subItems });
                         }
                         model.Checks.Add(orderModel);
                     }

@@ -15,9 +15,14 @@ namespace MenuzRus {
 
         [CheckUserSession]
         public ActionResult Index(Int32? id) {
-            CustomerModel model = new CustomerModel();
+            CustomerModel model;
+            String pathToNavigate = "~/Order/Tables";
             try {
-                return View(GetModel(id, model));
+                model = GetModel(id);
+                if (model == null) {
+                    return Redirect(pathToNavigate);
+                }
+                return View(model);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -81,11 +86,16 @@ namespace MenuzRus {
 
         #region private
 
-        private CustomerModel GetModel(Int32? id, CustomerModel model) {
+        private CustomerModel GetModel(Int32? id) {
+            CustomerModel model = new CustomerModel();
             CustomerService service = new CustomerService();
             SettingsService settingsService = new SettingsService();
             try {
                 model.States = Utility.States.ToSelectListItems();
+                if (SessionData.printers == null) {
+                    return null;
+                }
+
                 model.Printers = SessionData.printers.Select(r => new SelectListItem { Text = r, Value = r });
                 model.PrinterWidth = Enum.GetValues(typeof(Common.PrinterWidth)).Cast<Common.PrinterWidth>().Select(r => new SelectListItem { Text = EnumHelper<Common.PrinterWidth>.GetDisplayValue(r), Value = r.ToString() });
                 if (id != null && id.HasValue) {

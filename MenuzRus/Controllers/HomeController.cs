@@ -31,7 +31,7 @@ namespace MenuzRus {
         }
 
         [HttpPost]
-        public void SendPrinters(String model) {
+        public JsonResult SendPrinters(String model) {
             SettingsService service = new SettingsService();
             try {
                 if (!String.IsNullOrEmpty(model)) {
@@ -39,7 +39,15 @@ namespace MenuzRus {
                     SessionData.printers = objJavascript.Deserialize<String[]>(model);
                     SessionData.printerKitchenWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth));
                     SessionData.printerPOSWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth));
+                    var retVal = new {
+                        printerPOS = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
+                        printerKitchen = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
+                        printerPOSWidth = SessionData.printerPOSWidth,
+                        printerKitchenWidth = SessionData.printerKitchenWidth
+                    };
+                    return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
+                return new JsonResult() { Data = { }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex) {
                 throw;

@@ -12,14 +12,26 @@
             </tr>
             <tr>
                 <td>
-                    <div class="checkItem centered">Receipt # @Model.Check.id</div>
+                    <div class="checkItem centered">CHECK #@Model.Check.id</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="companyNameItem centered">@MenuzRus.SessionData.customer.Name.ToUpper()</div>
+                    <div class="companyNameItem centered">@String.Format("Table#{0}", Model.Check.TableOrder.TableId)
+                    </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="companyNameItem centered">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()
+                    </div>
+                </td>
+            </tr>
+            @if (MenuzRus.SessionData.customer.ImageUrl.IsEmpty()) {
+                <tr>
+                    <td align="center">@MenuzRus.SessionData.customer.Name.ToUpper()</td>
+                </tr>
+            }
             <tr>
                 <td>
                     <div class="addressItem centered">@MenuzRus.SessionData.customer.Address.ToUpper()</div>
@@ -70,8 +82,7 @@
                 }
             }
             <tr>
-                <td colspan="3">
-                &nbsp;
+                <td colspan="3">&nbsp;
                 <td>
             </tr>
             <tr>

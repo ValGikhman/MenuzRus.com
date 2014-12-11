@@ -1,0 +1,66 @@
+﻿.ln-letters a {
+    border-color: silver -moz-use-text-color silver silver;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 1.1em;
+    height: 35px;
+    padding: 4px;
+    text-decoration: none;
+    width: 33px;
+    margin-top: 5px;
+    margin-left: 4px;
+}
+
+    .ln-letters a:hover, .ln-letters .ln-selected {
+        background-position: 0px 0px!important;
+        color: #206096!important;
+    }
+
+#comments {
+    top: 10px;
+    height: 170px;
+    padding: 0px !important;
+    list-style: none;
+    overflow: auto;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#commentsList {
+    overflow: hidden;
+}
+
+.comments {
+    border-radius: 4px !important;
+    font-size: 0.6em;
+    height: 50px;
+    line-height: 0.8;
+    margin-right: 0px;
+    margin-top: 5px;
+    max-width: 120px;
+    min-width: 50px;
+    white-space: normal;
+    width: auto !important;
+    color: black;
+}
+
+.modal-footer {
+    padding: 10px 0px;
+}
+
+.comments.hover {
+    color: darkgrey;
+}
+
+#AddNew {
+    height: 240px;
+}
+
+#txtNewComment {
+    margin-top: 20px;
+}
+
+#showComments {
+    font-size: 0.7em;
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Text.RegularExpressions;
 
 namespace Extensions {
@@ -12,8 +13,6 @@ namespace Extensions {
         }
 
         public static String Ellipsis(this String text, Int32 length) {
-            Int32 pos;
-
             if (String.IsNullOrEmpty(text))
                 return String.Empty;
 
@@ -25,6 +24,12 @@ namespace Extensions {
 
         public static String FormatPhone(this String phone) {
             return Regex.Replace(phone, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3");
+        }
+
+        public static EntitySet<T> ToEntitySet<T>(this IEnumerable<T> source) where T : class {
+            var es = new EntitySet<T>();
+            es.AddRange(source);
+            return es;
         }
     }
 }

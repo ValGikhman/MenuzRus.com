@@ -62,7 +62,7 @@
 .panel-heading.item {
     margin: 0px;
     color: #2b6da6;
-    padding: 15px 20px;
+    padding: 15px 0px 15px 10px;
     font-size: large;
 }
 
@@ -151,10 +151,9 @@ h4 {
     margin: 0px;
 }
 
-.btnDelete {
-    margin-top: -12px;
-    width: 52px;
-    height: 50px;
+.btnDelete, .btnComments {
+    margin-top: -7px;
+    margin-right: 10px;
 }
 
 .category {

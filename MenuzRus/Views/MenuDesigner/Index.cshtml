@@ -1,4 +1,5 @@
 ﻿@model MenuzRus.Models.MenuDesignerModel
+@using MenuzRus.Models
 @using Services
 <link href="@Url.Content("~/Content/MenuDesigner.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.colpick.css")" rel="stylesheet" />
@@ -41,7 +42,7 @@
             </button>
             <button id="btnMenu" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Model.Menu.Name&nbsp;</button>
             <ul id="menuList" class="dropdown-menu alert-warning" role="menu">
-                @foreach (Menu menu in Model.Menus) {
+                @foreach (Services.Menu menu in Model.Menus) {
                     <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
                 }
             </ul>
@@ -120,24 +121,64 @@
                 <div class="category">@Model.MyCompany.Name</div>
                 <div class="item">Welcomes you</div>
                 <div class="price">
-                    @Model.MyCompany.Address<br>
-                    @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br>
+                    @Model.MyCompany.Address<br />
+                    @Model.MyCompany.City, @Model.MyCompany.State @Model.MyCompany.Zip<br />
                     @Model.MyCompany.Phone
                 </div>
             </a>
         </div>
+        <ul class="category-group list-group">
+            @foreach (Services.Category category in Model.Categories) {
+                <li class="list-group-item col-md-3 page" data-value="@category.id">
+                    <a class="categoryMenu">
+                        @if (!String.IsNullOrEmpty(category.Name)) {
+                            String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
+                            <div id="@categoryDataValue" class="category" data-value="@category.id">
+                                @category.Name
+                                @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
+                                    <div>
+                                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
+                                    </div>
+                                }
+                                @if (!String.IsNullOrEmpty(@category.Description)) {
+                                    <div class="categoryDescription">@category.Description</div>
+                                }
+                            </div>
+                        }
+                    </a>
 
-        <div class="col-md-3 page">
-            @ShowPage(Model, Common.Side.Left)
-        </div>
-
-        <div class="col-md-3 page">
-            @ShowPage(Model, Common.Side.Center)
-        </div>
-
-        <div class="col-md-3 page">
-            @ShowPage(Model, Common.Side.Right)
-        </div>
+                    @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
+                        <ul class="items-group  list-group">
+                            @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
+                                <li class="list-group-item items" data-value="@item.id">
+                                    <a class="itemMenu">
+                                        @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
+                                            <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
+                                        }
+                                        @if (!String.IsNullOrEmpty(item.Name)) {
+                                            String itemDataValue = String.Format("{0}{1}", "item_", item.id);
+                                            <div id="@itemDataValue"class="item" data-value="@item.id">
+                                                @item.Name
+                                            </div>
+                                        }
+                                    </a>
+                                    @if (!String.IsNullOrEmpty(item.Description)) {
+                                        <div class="itemDescription">@item.Description </div>
+                                    }
+                                    @{
+                                    String price = item.AdditionalInfo;
+                                    if (String.IsNullOrEmpty(item.AdditionalInfo)) {
+                                        price = item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault().ToString("C");
+                                    }
+                                        <div class="price">@price</div>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
     </div>
 </div>
 @Html.HiddenFor(m => m.Menu.id)
@@ -155,58 +196,3 @@
 @Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
 @Html.HiddenFor(m => m.Settings[Common.Settings.ShowHiddenItems.ToString()])
-
-@helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
-    <ul class="category-group">
-        @foreach (Category category in Model.Categories.Where(m => m.Side == side).ToList()) {
-            <li  data-value="@category.id">
-                <a class="categoryMenu">
-                    @if (!String.IsNullOrEmpty(category.Name)) {
-                        String categoryDataValue = String.Format("{0}{1}", "category_", category.id);
-                        <div id="@categoryDataValue" class="category" data-value="@category.id">
-                            @category.Name
-                            @if (!String.IsNullOrEmpty(@category.ImageUrl)) {
-                                <div>
-                                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, category.ImageUrl, Guid.NewGuid().ToString("N")))" class="categoryImage" />
-                                </div>
-                            }
-                            @if (!String.IsNullOrEmpty(@category.Description)) {
-                                <div class="categoryDescription">@category.Description</div>
-                            }
-                        </div>
-                    }
-                </a>
-
-                @if (category.Items != null && !String.IsNullOrEmpty(category.Name)) {
-                    <ul class="items-group">
-                        @foreach (Item item in category.Items.OrderBy(m => m.SortOrder)) {
-                            <li data-value="@item.id">
-                                <a class="itemMenu">
-                                    @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="itemImage" />
-                                    }
-                                    @if (!String.IsNullOrEmpty(item.Name)) {
-                                        String itemDataValue = String.Format("{0}{1}", "item_", item.id);
-                                        <div id="@itemDataValue"class="item" data-value="@item.id">
-                                            @item.Name
-                                        </div>
-                                    }
-                                </a>
-                                @if (!String.IsNullOrEmpty(item.Description)) {
-                                    <div class="itemDescription">@item.Description </div>
-                                }
-                                @{
-                                String price = item.AdditionalInfo;
-                                if (String.IsNullOrEmpty(item.AdditionalInfo)) {
-                                    price = item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault().ToString("C");
-                                }
-                                    <div class="price">@price</div>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
-            </li>
-        }
-    </ul>
-}

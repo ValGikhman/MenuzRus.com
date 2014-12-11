@@ -3,18 +3,21 @@
     <div class="panel panel-default" data-value="@Model.id" data-check="@Model.CheckId" data-ordered="@Model.Ordered">
         @{String id = String.Format("menu_{0}", Model.id);
           String clickActon = String.Empty;
-            if (Model.HasProducts) {
-                clickActon = String.Format("javascript:toggleItself($(this).find('.collapsibleSign'), '#item-{0}');", id);
-            }
+          if (Model.HasProducts) {
+              clickActon = String.Format("javascript:toggleItself($(this).find('.collapsibleSign'), '#item-{0}');", id);
+          }
         }
         <div class="panel panel-default panel-heading pointer item" onclick="@clickActon">
+            @if (!Model.Ordered) {
+                <button type="button" class="btn btn-danger pull-right btn-lg btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
+            }
             @if (Model.HasProducts) {
                 <span class="glyphicon glyphicon-plus collapsibleSign"></span>
             }
             <span class="badge price" data-value="@Model.Price">$@Model.Price</span>
             @Model.Name
             @if (!Model.Ordered) {
-                <button type="button" class="btn btn-danger pull-right btnDelete" onclick="javascript:deleteItself($(this).parent().parent())"><span class="glyphicon glyphicon-trash"></span></button>
+                <button type="button" class="btn btn-warning pull-right btn-lg btnComments" onclick="javascript:getComments('menuItem', $(this).parent().parent())"><span class="glyphicon glyphicon-edit"></span></button>
             }
         </div>
         <div id="item-@id" class="association collapsible" style="display:none">

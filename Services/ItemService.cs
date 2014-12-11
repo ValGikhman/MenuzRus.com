@@ -46,6 +46,22 @@ namespace MenuzRus {
             return true;
         }
 
+        public void DeleteMenuItem(Int32 id) {
+            MenuDesign query = new MenuDesign();
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    query = db.MenuDesigns.FirstOrDefault(m => m.ItemId == id);
+                    if (query != default(MenuDesign)) {
+                        db.MenuDesigns.DeleteOnSubmit(query);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+            }
+        }
+
         public Item GetItem(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
             Item item = db.Items.FirstOrDefault(m => m.id == id);
@@ -114,6 +130,27 @@ namespace MenuzRus {
                         query.ImageUrl = String.Format("{0}{1}", query.id, item.ImageUrl);
                         db.SubmitChanges();
                     }
+                }
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+                return 0;
+            }
+            return query.id;
+        }
+
+        public Int32 SaveMenuItem(Int32 id) {
+            MenuDesign query = new MenuDesign();
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                    if (id != 0)
+                        query = db.MenuDesigns.Where(m => m.ItemId == id).FirstOrDefault();
+                    if (query == default(MenuDesign)) {
+                        query = new MenuDesign();
+                        query.ItemId = id;
+                    }
+                    db.MenuDesigns.InsertOnSubmit(query);
+                    db.SubmitChanges();
                 }
             }
             catch (Exception ex) {

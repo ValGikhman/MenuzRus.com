@@ -47,6 +47,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ConfirmationService.cs" />
     <Compile Include="AlertService.cs" />
+    <Compile Include="CommentsService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="ItemProductService.cs" />
     <Compile Include="UserService.cs" />

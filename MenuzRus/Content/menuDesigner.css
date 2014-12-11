@@ -44,9 +44,8 @@ a:hover, a:focus {
 .category-group {
     padding: 0px;
     margin-top: 15px;
-    list-style-type: none;
     overflow: hidden;
-    height: 470px;
+    height: 500px;
 }
 
 .categoryImage {
@@ -90,6 +89,11 @@ a:hover, a:focus {
         color: #71706c;
         outline: none;
     }
+
+.items {
+    background-color: transparent;
+    border: none;
+}
 
 .items-group {
     padding: 0px;
@@ -152,7 +156,6 @@ a:hover, a:focus {
 
 .modal-dialog {
     margin: 150px auto;
-    width: 75vw;
 }
 
 .container-item {
@@ -259,10 +262,6 @@ a:hover, a:focus {
 
 .menu {
     display: inline-block;
-}
-
-#btnMenu {
-    width: 200px;
 }
 
 #btnMenuToogle, #btnSettings {

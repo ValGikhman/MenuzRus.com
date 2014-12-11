@@ -32,15 +32,16 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
-        [HttpGet]
-        public ActionResult DesignMenu(Int32 menuId) {
+        [CheckUserSession]
+        public ActionResult Designer() {
             CategoryService categoryService = new CategoryService();
             ItemService itemService = new ItemService();
             DesignerModel model = new DesignerModel();
             try {
                 model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.Selected = categoryService.GetMenuDesignerItems(SessionData.customer.id);
 
-                return PartialView("_MenuDesignerPartial", model);
+                return View("Designer", model);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -152,6 +153,47 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        [HttpPost]
+        public void ToggleMenuItem(Int32 itemId, Boolean selected) {
+            try {
+                if (selected) {
+                    SaveMenuItem(itemId);
+                }
+                else {
+                    DeleteMenuItem(itemId);
+                }
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+        }
+
+        private void DeleteMenuItem(Int32 id) {
+            ItemService service = new ItemService();
+            try {
+                service.DeleteMenuItem(id);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+        }
+
+        private void SaveMenuItem(Int32 id) {
+            ItemService service = new ItemService();
+            try {
+                service.SaveMenuItem(id);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+        }
+
         private List<MenuItem> SetModel(String model, Int32 menuId) {
             JavaScriptSerializer objJavascript = new JavaScriptSerializer();
             Char[] colonDelimiter = new char[] { ':' };
@@ -162,7 +204,7 @@ namespace MenuzRus.Controllers {
                 Items2Save = new List<MenuItem>();
                 foreach (String value in values) {
                     Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
-                    Items2Save.Add(new MenuItem() { ItemId = Int32.Parse(vars.GetValue(0).ToString()), MenuId = menuId, Side = (Int32)EnumHelper<Common.Side>.Parse(vars.GetValue(1).ToString()) });
+                    Items2Save.Add(new MenuItem() { ItemId = Int32.Parse(vars.GetValue(0).ToString()), MenuId = menuId });
                 }
                 return Items2Save;
             }
@@ -178,6 +220,7 @@ namespace MenuzRus.Controllers {
             CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             MenuDesignerModel model = new MenuDesignerModel();
+            List<Services.MenuDesign> menuDesign = new List<Services.MenuDesign>();
 
             try {
                 SessionData.menu = new Services.Menu();
@@ -197,7 +240,7 @@ namespace MenuzRus.Controllers {
 
                 SessionData.menu.id = model.Menu.id;
                 SessionData.menu.Name = model.Menu.Name;
-                model.Categories = categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+
                 model.Settings = settingsService.GetSettings(SessionData.customer.id);
                 // Backgrounds
                 if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString()))
@@ -237,6 +280,9 @@ namespace MenuzRus.Controllers {
                 if (System.IO.Directory.Exists(pagesDir)) {
                     model.PageBackgrounds = Directory.EnumerateFiles(pagesDir, "*.png");
                 }
+
+                model.Categories = categoryService.GetMenuDesigner(SessionData.customer.id);
+
                 return model;
             }
             catch (Exception ex) {

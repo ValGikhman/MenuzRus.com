@@ -14,10 +14,18 @@
             </td>
         </tr>
         <tr>
-            <td style="font-weight: bold; border-bottom: 1px dotted black;" align="center">
+            <td style="font-weight: bold;" align="center">
                 @String.Format("Server: {0}{1}", Model.User.FirstName, Model.User.LastName.Substring(0, 1))
             </td>
         </tr>
+        @if (Model.Comments != String.Empty) {
+            <tr>
+                <td style="font-size: 0.94em" align="center">Check comments:</td>
+            </tr>
+            <tr>
+                <td style="font-size: 0.94em;" align="center">@Model.Comments</td>
+            </tr>
+        }
     </table>
     <table cellpadding="0" cellspacing="0" width="100%">
         @foreach (MenuzRus.Models.LineItem item in Model.Items) {
@@ -26,9 +34,14 @@
                 lineThrough = "line-through";
             }
 
-            <tr style="text-decoration:@lineThrough;">
+            <tr style="border-top: 1px dotted black; text-decoration:@lineThrough;">
                 <td>@item.Description</td>
             </tr>
+            if (item.Comments != String.Empty) {
+            <tr style="text-decoration:@lineThrough;">
+                <td style="margin-left: 5px; font-size: 0.94em">Comments: @item.Comments</td>
+            </tr>
+            }
             foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
                 lineThrough = "none";
                 if (item.Ordered) {
@@ -40,6 +53,6 @@
             }
         }
     </table>
-    <div style="border-bottom: 1px dashed black; width: 100%; margin-top: 5px; margin-bottom: 15px;">
+    <div style="border-bottom: 1px dotted black; width: 100%; margin-top: 15px;">
     </div>
 </div>

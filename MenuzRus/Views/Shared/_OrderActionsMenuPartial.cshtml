@@ -1,8 +1,10 @@
 ﻿@model List<MenuzRus.Models.Check>
+<script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
+
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:selectAll();"><i class="glyphicon glyphicon-plus"></i></button>
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:removeAll();"><i class="glyphicon glyphicon-minus"></i></button>
-<button id="btnDeleteSelectedChecks" class="btn btn-danger btn-lg pull-right shadow" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
-<script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
+<button id="btnDeleteSelectedChecks" class="btn btn-danger btn-lg pull-right shadow" style="margin-left: 10px;" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
+<button type="button" class="btn btn-warning btn-lg pull-right shadow" onclick="javascript:getComments('check')"><span class="glyphicon glyphicon-edit"></span></button>
 <div class="menuActions-container">
     <select data-placeholder="Click to add" class="chosen-select shadow" multiple>
         @foreach (MenuzRus.Models.Check check in Model) {
@@ -93,11 +95,9 @@
 
         $("#btnPrintChecks").on("click", function () {
             var selected = $(".chosen-select")[0].selectedOptions;
-            var ids = new Array();
             $.each($(selected), function (index, item) {
-                ids.push(parseInt(item.value));
+                checkPrint(parseInt(item.value));
             });
-            checksPrint(ids);
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
@@ -107,19 +107,22 @@
 
     });
 
-    function checksPrint(checksIds) {
+    function checkPrint(checkId) {
         var split = parseInt($("#slideSplit").val());
         var adjustment = parseInt($("#adjustmentSplit").val());
 
-        var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
-            .done(function (result) {
+        $.ajax({
+            async: false,
+            url: $.validator.format("{0}Order/CheckPrint", root),
+            data: { "checkId": checkId, "split": split, "adjustment": adjustment },
+            type: "GET",
+            success: function (result) {
                 printData(result, printerPOS);
-            })
-            .fail(function () {
+            },
+            error: function (e) {
                 message("::checksPrint:: Failed.", "error", "topCenter");
-            })
-            .always(function () {
-            });
+            }
+        });
     }
 
     function selectAll() {
@@ -170,6 +173,28 @@
             })
             .always(function () {
                 window.location.reload();
+            });
+    }
+
+    function getComments(type, element) {
+        var parentId;
+        if (type == "check") {
+            parentId = $(".check").find(".tab-pane.active").attr("data-value");
+        }
+        else {
+            parentId = $(element).attr("data-value");
+        }
+        $("#commentType").val(type);
+        $("#parentId").val(parentId);
+
+        var jqxhr = $.get($.validator.format("{0}Comments/GetComments/", root), { "parentId": parentId, "type": type })
+            .done(function (result) {
+                $("#modalEditForm").html(result);
+                $(".modalEditForm").modal("show");
+            })
+            .fail(function () {
+            })
+            .always(function () {
             });
     }
 </script>

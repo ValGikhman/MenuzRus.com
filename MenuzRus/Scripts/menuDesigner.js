@@ -358,15 +358,7 @@ function saveSettings(obj) {
 
 /// ******* DESIGN MENU **********///
 function designMenu() {
-    var jqxhr = $.get($.validator.format("MenuDesigner/DesignMenu", root), { menuId: $("#Menu_id").val() })
-        .done(function (result) {
-            $("#modalEditForm").html(result);
-            $(".modalEditForm").modal("show");
-        })
-        .fail(function () {
-        })
-        .always(function () {
-        })
+    window.location = $.validator.format("{0}MenuDesigner/Designer", root);
 }
 
 function saveMenuItems() {

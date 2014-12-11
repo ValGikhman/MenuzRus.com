@@ -133,6 +133,7 @@
     <Compile Include="Controllers\ConfirmController.cs" />
     <Compile Include="Controllers\ConfirmationsController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\KitchenOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
@@ -155,6 +156,7 @@
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\CommentsModel.cs" />
     <Compile Include="Models\KitchenOrderModel.cs" />
     <Compile Include="Models\OrderCheckPrintModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
@@ -204,6 +206,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
+    <Content Include="Content\comments.css" />
     <Content Include="Content\kitchenOrder.css" />
     <Content Include="Content\kitchen.css" />
     <Content Include="Content\monitor.css" />
@@ -329,6 +332,7 @@
     <Content Include="Scripts\chosen\index.proto.html" />
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\comments.js" />
     <Content Include="Scripts\Datepicker\css\datepicker.css" />
     <Content Include="Scripts\Datepicker\js\bootstrap-datepicker.js" />
     <Content Include="Scripts\kitchenOrder.js" />
@@ -454,6 +458,33 @@
     <Content Include="Scripts\JQGrid\src\jquery.fmatter.js" />
     <Content Include="Scripts\JQGrid\src\jquery.jqGrid.js" />
     <Content Include="Scripts\JQGrid\src\JsonXml.js" />
+    <Content Include="Scripts\ListNav\.gitignore" />
+    <Content Include="Scripts\ListNav\css\listnav.css" />
+    <Content Include="Scripts\ListNav\demo\css\demo.css" />
+    <Content Include="Scripts\ListNav\demo\css\listnav.css" />
+    <Content Include="Scripts\ListNav\demo\images\bg_hr.png" />
+    <Content Include="Scripts\ListNav\demo\images\blacktocat.png" />
+    <Content Include="Scripts\ListNav\demo\images\crusher-w.png" />
+    <Content Include="Scripts\ListNav\demo\images\crusher.png" />
+    <Content Include="Scripts\ListNav\demo\images\data.png" />
+    <Content Include="Scripts\ListNav\demo\images\fork-sprite.png" />
+    <Content Include="Scripts\ListNav\demo\images\geordi.png" />
+    <Content Include="Scripts\ListNav\demo\images\icon_download.png" />
+    <Content Include="Scripts\ListNav\demo\images\picard.png" />
+    <Content Include="Scripts\ListNav\demo\images\riker.png" />
+    <Content Include="Scripts\ListNav\demo\images\sprite_download.png" />
+    <Content Include="Scripts\ListNav\demo\images\troi.png" />
+    <Content Include="Scripts\ListNav\demo\images\worf.png" />
+    <Content Include="Scripts\ListNav\demo\index.html" />
+    <Content Include="Scripts\ListNav\demo\js\jquery-cookie.js" />
+    <Content Include="Scripts\ListNav\demo\js\jquery-listnav.js" />
+    <Content Include="Scripts\ListNav\demo\js\main.js" />
+    <Content Include="Scripts\ListNav\demo\js\rainbow-custom.min.js" />
+    <Content Include="Scripts\ListNav\demo\js\tinynav.min.js" />
+    <Content Include="Scripts\ListNav\demo\js\vendor.js" />
+    <Content Include="Scripts\ListNav\gruntfile.js" />
+    <Content Include="Scripts\ListNav\jquery-listnav.js" />
+    <Content Include="Scripts\ListNav\jquery-listnav.min.js" />
     <Content Include="Scripts\monitors.js" />
     <Content Include="Scripts\countdown\jquery.countdown.css" />
     <Content Include="Scripts\countdown\jquery.countdown.js" />
@@ -624,6 +655,24 @@
     <Content Include="Views\Shared\Printouts\_SendChecks2PrinterPartial.cshtml" />
     <Content Include="Views\Shared\Printouts\_SendKitchenOrder2PrinterPartial.cshtml" />
     <Content Include="Views\Shared\_KitchenCheckOrderPartial.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Shared\_CommentsPartial.cshtml" />
+    <Content Include="Scripts\ListNav\.travis-build.sh" />
+    <Content Include="Scripts\ListNav\.travis.yml" />
+    <Content Include="Scripts\ListNav\bower.json" />
+    <Content Include="Scripts\ListNav\css\listnav.css.map" />
+    <Content Include="Scripts\ListNav\demo\css\listnav.css.map" />
+    <Content Include="Scripts\ListNav\demo\scss\listnav.scss" />
+    <Content Include="Scripts\ListNav\demo\scss\stylesheet.scss" />
+    <Content Include="Scripts\ListNav\demo\scss\_demo.scss" />
+    <Content Include="Scripts\ListNav\demo\scss\_pygment_trac.scss" />
+    <Content Include="Scripts\ListNav\demo\scss\_rainbow-github.scss" />
+    <Content Include="Scripts\ListNav\license.md" />
+    <Content Include="Scripts\ListNav\listnav.jquery.json" />
+    <Content Include="Scripts\ListNav\package.json" />
+    <Content Include="Scripts\ListNav\README.md" />
+    <Content Include="Scripts\ListNav\scss\listnav.scss" />
+    <Content Include="Views\MenuDesigner\Designer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

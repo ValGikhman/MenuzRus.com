@@ -46,6 +46,11 @@ public static class Common {
         ToGo = 2
     }
 
+    public enum CommentType {
+        Check = 1,
+        MenuItem = 2
+    }
+
     public enum LogType {
 
         [Display(Name = "Exception")]
@@ -210,10 +215,6 @@ public static class Common {
 
         [Display(Name = "Price")]
         Price = 5
-    }
-
-    public enum Side {
-        Left, Center, Right
     }
 
     public enum Status {

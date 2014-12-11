@@ -178,3 +178,9 @@
     font-size: medium !important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 }
+
+.container-designer {
+    overflow: auto;
+    width: 70vw;
+    height: 85vh;
+}

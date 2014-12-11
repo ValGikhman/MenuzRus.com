@@ -1,0 +1,44 @@
+﻿@model MenuzRus.Models.CommentsModel
+<script src="@Url.Content("~/Scripts/ListNav/jquery-listnav.js")"></script>
+<script src="@Url.Content("~/Scripts/comments.js")"></script>
+<link href="@Url.Content("~/Scripts/ListNav/css/listnav.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/comments.css")" rel="stylesheet" />
+<div class="modal-header">
+    <h2>Comments</h2>
+    <div id="showComments"></div>
+</div>
+<ul class="nav nav-pills btn-default">
+    <li class="active" onclick="javascript:toggleSaveButton('Active')">
+        <a href="#commentsList" data-toggle="pill">Comments</a>
+    </li>
+    <li onclick="javascript:toggleSaveButton('AddNew')">
+        <a href="#AddNew" data-toggle="pill">Add new</a>
+    </li>
+</ul>
+
+<div class="commentsTabs tab-content">
+    <div id="commentsList" class="row tab-pane active">
+        <div id="comments" class="well btn-group" data-toggle="buttons">
+            @foreach (MenuzRus.Models.Comment comment in Model.Comments) {
+                String active = String.Empty;
+                String checkIt = String.Empty;
+                if (comment.Selected) {
+                    active = "active";
+                    checkIt = "checked";
+                }
+                <label class="btn btn-default comments @active">
+                    <input id="@comment.id" type="checkbox" class="commentButton" onchange="javascript : toggleComment(this)" value="@comment.CommentText" @checkIt />
+                    @comment.CommentText
+                </label>
+            }
+        </div>
+    </div>
+    <div id="AddNew" class="row tab-pane">
+        @Html.TextArea("txtNewComment", String.Empty, new { @class = "form-control shadow", rows = 7, placeholder = "Enter comment" })
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button id="btnCancel" type="button" class="btn btn-default btn-lg">Cancel</button>
+    <button id="btnSave" class="btn btn-success btn-lg hide">Save changes</button>
+</div>

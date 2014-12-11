@@ -36,6 +36,16 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
+        public String CheckPrint(Int32 checkId, Int32 split, Decimal adjustment) {
+            OrderService service = new OrderService();
+            String retVal = String.Empty;
+            Services.Check check;
+            check = service.GetCheck(checkId);
+            retVal += PrintChecks(checkId, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
+            return retVal;
+        }
+
+        [HttpGet]
         public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
             List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
             OrderService service = new OrderService();
@@ -533,12 +543,14 @@ namespace MenuzRus.Controllers {
             Services.Item item, itemMenu;
             OrderService orderService;
             UserService userService;
+            CommentService commentService;
             KitchenOrderPrint model;
             List<LineItem> subItems;
             try {
                 itemService = new ItemService();
                 orderService = new OrderService();
                 userService = new UserService();
+                commentService = new CommentService();
 
                 model = new KitchenOrderPrint();
                 model.Items = new List<LineItem>();
@@ -546,6 +558,7 @@ namespace MenuzRus.Controllers {
                 model.id = order.id;
                 model.CreatedDate = model.Check.DateCreated;
                 model.User = userService.GetUser(model.Check.UserId);
+                model.Comments = commentService.GetItemComment(order.CheckId, Common.CommentType.Check);
 
                 List<Services.ChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
                 List<ChecksMenuProduct> products;
@@ -563,7 +576,7 @@ namespace MenuzRus.Controllers {
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, SubItems = subItems });
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem), SubItems = subItems });
                     orderService.UpdateMenuItemStatus(menuItem.id, Common.MenuItemStatus.Ordered);
                 }
             }

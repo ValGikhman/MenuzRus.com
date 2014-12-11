@@ -43,6 +43,8 @@ namespace MenuzRus.Models {
 
         public Services.Check Check { get; set; }
 
+        public String Comments { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public Int32 id { get; set; }
@@ -57,6 +59,8 @@ namespace MenuzRus.Models {
         public Boolean Alerted { get; set; }
 
         public Int32 CheckMenuId { get; set; }
+
+        public String Comments { get; set; }
 
         public String Description { get; set; }
 

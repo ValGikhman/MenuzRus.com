@@ -52,6 +52,44 @@ namespace MenuzRus {
             return retVal;
         }
 
+        public List<Category> GetMenuDesigner(Int32 CustomerId) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            try {
+                List<Category> query = (from category in db.Categories
+                                        join item in db.Items on category.id equals item.CategoryId
+                                        join md in db.MenuDesigns on item.id equals md.ItemId
+                                        where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
+                                        select category).Distinct().ToList();
+
+                foreach (Category category in query) {
+                    category.Items = (from item in category.Items
+                                      join md in db.MenuDesigns on item.id equals md.ItemId
+                                      select item).ToEntitySet();
+                }
+                return query;
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+            }
+            return null;
+        }
+
+        public List<MenuDesign> GetMenuDesignerItems(Int32 CustomerId) {
+            menuzRusDataContext db = new menuzRusDataContext();
+            try {
+                List<MenuDesign> query = (from category in db.Categories
+                                          join item in db.Items on category.id equals item.CategoryId
+                                          join md in db.MenuDesigns on item.id equals md.ItemId
+                                          where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
+                                          select md).ToList();
+                return query;
+            }
+            catch (Exception ex) {
+                SessionData.exeption = ex;
+            }
+            return null;
+        }
+
         public Int32 SaveCategory(Category category) {
             Category query = new Category();
             try {

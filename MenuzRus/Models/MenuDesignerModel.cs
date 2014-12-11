@@ -20,8 +20,6 @@ namespace MenuzRus.Models {
         public IEnumerable<Item> Items { set; get; }
 
         public String Name { set; get; }
-
-        public Common.Side Side { set; get; }
     }
 
     public class DesignerModel : BaseModel {
@@ -31,6 +29,8 @@ namespace MenuzRus.Models {
         public Common.CategoryType CategoryType { set; get; }
 
         public List<MenuItem> MenuItems { set; get; }
+
+        public List<MenuDesign> Selected { set; get; }
     }
 
     public class Menu {

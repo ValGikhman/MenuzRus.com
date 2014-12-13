@@ -106,7 +106,13 @@
                 var groups = $("tr.jqgroup");
                 groups.each(function (i, e) {
                     var categoryId = $(e).next().find("td:first").text();
+                    var categoryName = $($(e).next().find("td:eq(1)")).html();
+
                     $(e).children().attr("data-value", categoryId);
+                    if ($($(e).next().children()[2]).html() == "0") {
+                        $($(e).children().children()[3]).html($.validator.format("{0}: - 0 menu items(s)", categoryName));
+                        $(e).next().children().remove();
+                    }
                 });
 
                 var $this = $(this)

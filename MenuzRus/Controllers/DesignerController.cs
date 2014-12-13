@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using MenuzRus.Models;
-using Newtonsoft.Json;
 using Services;
 
 namespace MenuzRus.Controllers {
@@ -26,32 +25,54 @@ namespace MenuzRus.Controllers {
         [HttpGet]
         public JsonResult LoadData(String type) {
             DesignerModel model;
-            List<Item> items;
             Int32 categoryType = Int32.Parse(type);
             try {
-                items = new List<Item>();
-
                 model = GetModel((Common.CategoryType)categoryType);
+                List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>> gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
+                Tuple<Int32, String, Int32, String, String, Decimal, Boolean> gridRow;
                 foreach (Services.Category category in model.Categories) {
-                    foreach (Item item in category.Items) {
-                        items.Add(item);
+                    if (category.Items.Count > 0) {
+                        foreach (Item item in category.Items) {
+                            gridRow = new Tuple<Int32, String, Int32, String, String, Decimal, Boolean>(
+                                    category.id
+                                    , category.Name
+                                    , item.id
+                                    , item.Name
+                                    , item.Description
+                                    , item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault()
+                                    , (item.Status == (Int32)Common.Status.Active)
+                            );
+                            gridData.Add(gridRow);
+                        }
+                    }
+                    else {
+                        gridRow = new Tuple<Int32, String, Int32, String, String, Decimal, Boolean>(
+                                category.id
+                                , category.Name
+                                , 0
+                                , String.Empty
+                                , String.Empty
+                                , 0
+                                , false
+                        );
+                        gridData.Add(gridRow);
                     }
                 }
 
                 var jsonData = new {
-                    total = (Int32)Math.Ceiling((float)items.Count),
-                    records = items.Count,
+                    total = (Int32)Math.Ceiling((float)gridData.Count),
+                    records = gridData.Count,
                     rows = (
-                         from item in items
+                         from data in gridData
                          select new {
-                             categoryId = item.Category.id,
-                             category = item.Category.Name,
-                             itemId = item.id,
+                             categoryId = data.Item1,
+                             category = data.Item2,
+                             itemId = data.Item3,
                              action = String.Empty,
-                             name = item.Name,
-                             description = item.Description,
-                             price = item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault(),
-                             active = (item.Status == (Int32)Common.Status.Active)
+                             name = data.Item4,
+                             description = data.Item5,
+                             price = data.Item6,
+                             active = data.Item7
                          }
                     ).ToArray()
                 };

@@ -187,6 +187,8 @@
         $("#commentType").val(type);
         $("#parentId").val(parentId);
 
+        var container = $(".layout");
+        container.block();
         var jqxhr = $.get($.validator.format("{0}Comments/GetComments/", root), { "parentId": parentId, "type": type })
             .done(function (result) {
                 $("#modalEditForm").html(result);
@@ -195,6 +197,7 @@
             .fail(function () {
             })
             .always(function () {
+                container.unblock();
             });
     }
 </script>

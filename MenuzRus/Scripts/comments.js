@@ -28,7 +28,7 @@
             data: { "commentText": text },
             type: "POST",
             success: function (result) {
-                getComments();
+                getAllComments();
             },
             error: function (e) {
                 message("::CommentSave:: Failed.", "error", "topCenter");
@@ -82,7 +82,7 @@ function refreshComments() {
     $("#showComments").html(values.join(" | "));
 };
 
-function getComments() {
+function getAllComments() {
     var jqxhr = $.get($.validator.format("{0}Comments/GetComments/", root), { "parentId": $("#parentId").val(), "type": $("#commentType").val() })
         .done(function (result) {
             $("#modalEditForm").html(result);

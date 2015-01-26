@@ -35,13 +35,13 @@
 
 body {
     background-image: url(../images/Web/body.jpg);
-    font-size: large;
+    font-size: larger;
     padding-top: 80px;
     padding-bottom: 40px;
 }
 
 .dropdown-menu, .nav-pills > li > a, .navbar-nav > li {
-    font-size: large;
+    font-size: larger;
 }
 
 .modal-open {

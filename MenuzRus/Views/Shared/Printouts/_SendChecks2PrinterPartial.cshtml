@@ -1,11 +1,11 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
 
-<div id="checkPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small; width: @String.Format("{0}px", MenuzRus.SessionData.printerPOSWidth) ;">
+<div id="checkPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small; width: @String.Format("{0}px", Model.PrinterPOSWidth) ;">
     <table cellpadding="0" cellspacing="0" align="center">
         <tr>
             <td align="center">
-                <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", MenuzRus.SessionData.customer.id, MenuzRus.SessionData.customer.ImageUrl, Guid.NewGuid().ToString("N"))))" />
+                <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
             </td>
         </tr>
     </table>
@@ -24,31 +24,31 @@
             <td style="font-weight: bold;" align="center">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
         </tr>
 
-        @if (MenuzRus.SessionData.customer.ImageUrl.IsEmpty()) {
+        @if (Model.MyCompany.ImageUrl.IsEmpty()) {
             <tr>
-                <td align="center">@MenuzRus.SessionData.customer.Name.ToUpper()</td>
+                <td align="center">@Model.MyCompany.Name.ToUpper()</td>
             </tr>
         }
         <tr>
-            <td align="center">@MenuzRus.SessionData.customer.Address.ToUpper()</td>
+            <td align="center">@Model.MyCompany.Address.ToUpper()</td>
         </tr>
-        @if (!String.IsNullOrEmpty(MenuzRus.SessionData.customer.Address2)) {
+        @if (!String.IsNullOrEmpty(Model.MyCompany.Address2)) {
             <tr>
-                <td align="center">@MenuzRus.SessionData.customer.Address2.ToUpper()</td>
+                <td align="center">@Model.MyCompany.Address2.ToUpper()</td>
             </tr>
         }
         <tr>
-            <td align="center">@MenuzRus.SessionData.customer.City.ToUpper(), @MenuzRus.SessionData.customer.State.ToUpper() @MenuzRus.SessionData.customer.Zip</td>
+            <td align="center">@Model.MyCompany.City.ToUpper(), @Model.MyCompany.State.ToUpper() @Model.MyCompany.Zip</td>
         </tr>
         <tr>
-            <td align="center">@MenuzRus.SessionData.customer.Phone.FormatPhone()</td>
+            <td align="center">@Model.MyCompany.Phone.FormatPhone()</td>
         </tr>
         <tr>
             <td align="center">@String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())</td>
         </tr>
         <tr>
             <td style="font-weight: bold;" align="center">
-                @String.Format("Server: {0}{1}", Model.User.FirstName, Model.User.LastName.Substring(0, 1))
+                @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
             </td>
         </tr>
     </table>

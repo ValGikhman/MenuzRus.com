@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Couchbase;
 
 namespace MenuzRus {
 
@@ -27,15 +28,17 @@ namespace MenuzRus {
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            //Initialize Windsor
+            ControllerBuilder.Current.SetControllerFactory(new CastleControllerFactory());
         }
 
         protected void Session_End(Object sender, EventArgs e) {
-            //SessionData.user = null;
-            //SessionData.floor = null;
-            //SessionData.item = null;
-            //SessionData.customer = null;
-            //SessionData.menu = null;
-            SessionData.sessionId = null;
+            HttpContext.Current.Session[Constants.SESSION_USER] = null;
+            HttpContext.Current.Session[Constants.SESSION_FLOOR] = null;
+            HttpContext.Current.Session[Constants.SESSION_ITEM] = null;
+            HttpContext.Current.Session[Constants.SESSION_CUSTOMER] = null;
+            HttpContext.Current.Session[Constants.SESSION_MENU] = null;
         }
     }
 }

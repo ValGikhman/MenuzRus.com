@@ -11,14 +11,21 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ItemController : BaseController {
+        private ICategoryService _categoryService;
+        private ItemService _itemService;
+
+        public ItemController(ISessionData sessionData, ItemService itemService, ICategoryService categoryService)
+            : base(sessionData) {
+            _itemService = itemService;
+            _categoryService = categoryService;
+        }
 
         #region item
 
         [HttpPost]
         public ActionResult DeleteItem(Int32? id) {
-            ItemService service = new ItemService();
             try {
-                if (!service.DeleteItem(id))
+                if (!_itemService.DeleteItem(id))
                     return RedirectToAction("Index", "Error");
 
                 return Json("OK");
@@ -27,7 +34,6 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             return null;
         }
@@ -46,8 +52,8 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveItem(ItemModel model) {
-            ItemService service = new ItemService();
             Item item = new Item();
+
             try {
                 item.id = model.id;
                 item.CategoryId = model.CategoryId;
@@ -63,7 +69,7 @@ namespace MenuzRus.Controllers {
                         item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
                 }
 
-                Int32 result = service.SaveItem(item);
+                Int32 result = _itemService.SaveItem(item);
                 if (result == 0)
                     return RedirectToAction("Index", "Error");
 
@@ -86,7 +92,6 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             return null;
         }
@@ -96,31 +101,27 @@ namespace MenuzRus.Controllers {
         #region private
 
         private void AddItemPrice(Int32 id, Decimal price) {
-            ItemService service = new ItemService();
             try {
-                service.AddItemPrice(id, price);
+                _itemService.AddItemPrice(id, price);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
         }
 
         private ItemModel GetModel(Int32? id, Common.CategoryType type) {
             ItemModel model = new ItemModel();
             Item item;
-            ItemService itemService = new ItemService();
-            CategoryService categoryService = new CategoryService();
             try {
-                model.Categories = categoryService.GetCategories(SessionData.customer.id, type);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
                 if (model.Categories.Any()) {
                     model.CategoryId = model.Categories[0].id;
                 }
                 model.Status = Common.Status.Active;
                 if (id.HasValue) {
-                    item = itemService.GetItem((Int32)id.Value);
+                    item = _itemService.GetItem((Int32)id.Value);
                     if (item != null) {
                         model.Status = (Common.Status)item.Status;
                         model.id = item.id;
@@ -129,7 +130,7 @@ namespace MenuzRus.Controllers {
                         model.Description = item.Description;
                         model.AdditionalInfo = item.AdditionalInfo;
                         model.ImageUrl = item.ImageUrl;
-                        model.ItemPrices = itemService.GetItemPrices(model.id);
+                        model.ItemPrices = _itemService.GetItemPrices(model.id);
                     }
                 }
                 return model;
@@ -138,8 +139,6 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                itemService = null;
-                categoryService = null;
             }
             return null;
         }

@@ -18,11 +18,14 @@ namespace MenuzRus.Controllers {
 
         public Boolean IsLoggedIn { set; get; }
 
+        public ISessionData SessionData { get; private set; }
+
         #endregion Properties
 
         #region Construtors
 
-        public BaseController() {
+        public BaseController(ISessionData sessionData) {
+            this.SessionData = sessionData;
         }
 
         #endregion Construtors
@@ -31,18 +34,28 @@ namespace MenuzRus.Controllers {
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext) {
             base.Initialize(requestContext);
-            if (_LogService == null)
-                _LogService = new LogService();
+            //if (_LogService == null) {
+            //    _LogService = new LogService();
+            //}
+
+            //if (SessionData.sessionId == null) {
+            //    SessionData = new SessionData();
+            //    SessionData = SessionData.GetSession<SessionData>(Constants.SESSION);
+            //}
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext) {
             MvcHandler handler;
             String route = null;
 
-            this.IsLoggedIn = !(SessionData.user == null);
-
-            SessionData.route = this.BuildRoute();
             base.OnActionExecuting(filterContext);
+
+            Services.User user = SessionData.GetSession<Services.User>(Constants.SESSION_USER);
+
+            if (user != null) {
+                this.IsLoggedIn = SessionData.user != null;
+                SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
+            }
 
             try {
                 // Get the route
@@ -59,8 +72,9 @@ namespace MenuzRus.Controllers {
                     filterContext.Controller.ViewData["Layout"] = "_Login";
                 }
 
-                if (SessionData.user != null)
+                if (user != null) {
                     this.LogAcvitity(filterContext);
+                }
             }
             catch (Exception ex) {
                 throw;
@@ -106,6 +120,7 @@ namespace MenuzRus.Controllers {
             return retValue;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
         private void LogAcvitity(ActionExecutingContext filterContext) {
             var actionDescriptor = filterContext.ActionDescriptor;
             Log(Common.LogType.Activity, "Navigating", "User Name", String.Format("{0} {1} [2]", SessionData.user.FirstName, SessionData.user.LastName, SessionData.user.id), String.Format("Route: {0}/{1}/", actionDescriptor.ControllerDescriptor.ControllerName, actionDescriptor.ActionName));

@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class ConfirmationService {
+    public class ConfirmationService : IConfirmationService {
         private User user;
 
         public User Confirm(String hash) {
@@ -22,7 +22,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return null;
             }
             return user;

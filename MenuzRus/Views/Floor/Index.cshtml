@@ -1,8 +1,6 @@
 ﻿@model MenuzRus.Models.FloorModel
 @using Services
 <link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
-<script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
 <script src="@Url.Content("~/Scripts/floor.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 
@@ -98,7 +96,7 @@
         <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right">Save changes</button>
     </div>
     <div class="gridster floorArea shadow">
-        <ul>
+        <ul id="tables">
         </ul>
     </div>
     <a href="#">Tables <span class="tables badge"></span></a>

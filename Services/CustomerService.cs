@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class CustomerService {
+    public class CustomerService : ICustomerService {
 
         #region customer
 
@@ -69,7 +69,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;

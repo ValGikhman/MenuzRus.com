@@ -141,87 +141,6 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[Users](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerId] [int] NOT NULL,
-	[FirstName] [nvarchar](50) NOT NULL,
-	[LastName] [nvarchar](50) NOT NULL,
-	[WorkPhone] [varchar](50) NOT NULL,
-	[MobilePhone] [varchar](50) NULL,
-	[Email] [varchar](50) NOT NULL,
-	[Password] [varchar](25) NOT NULL,
-	[EmailConfirmed] [bit] NOT NULL,
-	[Active] [bit] NOT NULL,
-	[Hash] [varchar](50) NULL,
-	[Type] [varchar](25) NULL,
-	[ImageUrl] [varchar](50) NULL,
-	[DateCreated] [datetime] NOT NULL,
-	[DateModified] [datetime] NOT NULL,
- CONSTRAINT [PK_Contacts] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_EmailConfirmed]  DEFAULT ((0)) FOR [EmailConfirmed]
-GO
-
-ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_Active]  DEFAULT ((0)) FOR [Active]
-GO
-
-ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]
-GO
-
-ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_DateModified]  DEFAULT (getutcdate()) FOR [DateModified]
-GO
-
-ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Contacts_Customer1] FOREIGN KEY([CustomerId])
-REFERENCES [dbo].[Customers] ([id])
-GO
-
-ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Contacts_Customer1]
-GO
-
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-SET ANSI_PADDING ON
-GO
-
-CREATE TABLE [dbo].[Settings](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerId] [int] NOT NULL,
-	[Type] [varchar](50) NOT NULL,
-	[Value] [varchar](50) NOT NULL,
-	[DateCreated] [datetime] NOT NULL,
-	[DateModified] [datetime] NOT NULL,
- CONSTRAINT [PK_Settings] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-ALTER TABLE [dbo].[Settings] ADD  CONSTRAINT [DF_Settings_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]
-GO
-
-ALTER TABLE [dbo].[Settings] ADD  CONSTRAINT [DF_Settings_DateModified]  DEFAULT (getutcdate()) FOR [DateModified]
-GO
-
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[OrderChecksMenuProducts](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[CheckMenuId] [int] NOT NULL,
@@ -430,6 +349,7 @@ GO
 SET ANSI_PADDING ON
 GO
 
+
 CREATE TABLE [dbo].[Customers](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
@@ -439,6 +359,7 @@ CREATE TABLE [dbo].[Customers](
 	[State] [char](2) NOT NULL,
 	[Zip] [char](5) NOT NULL,
 	[Phone] [char](10) NULL,
+	[Tax] [decimal](5, 2) NULL,
 	[ImageUrl] [varchar](50) NULL,
 	[DateCreated] [datetime] NOT NULL,
 	[DateModified] [datetime] NOT NULL,
@@ -498,18 +419,94 @@ GO
 ALTER TABLE [dbo].[Categories] ADD  CONSTRAINT [DF_Categories_DateModified]  DEFAULT (getutcdate()) FOR [DateModified]
 GO
 
+CREATE TABLE [dbo].[CheckMenuComment](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[CommentId] [int] NOT NULL,
+	[ParentId] [int] NOT NULL,
+	[Type] [int] NOT NULL,
+	[DateModified] [datetime] NOT NULL,
+	[DateCreated] [datetime] NOT NULL,
+ CONSTRAINT [PK_CheckMenuComment] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[CheckMenuComment] ADD  CONSTRAINT [DF_CheckMenuComment_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]
+GO
+
+CREATE TABLE [dbo].[Comments](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerId] [int] NOT NULL,
+	[Comment] [nvarchar](max) NOT NULL,
+	[DateModified] [datetime] NOT NULL,
+	[DateCreated] [datetime] NOT NULL,
+ CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Comments] ADD  CONSTRAINT [DF_Comments_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]
+GO
+
+CREATE TABLE [dbo].[Users](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerId] [int] NOT NULL,
+	[FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[WorkPhone] [varchar](50) NOT NULL,
+	[MobilePhone] [varchar](50) NULL,
+	[Email] [varchar](50) NOT NULL,
+	[Password] [varchar](25) NOT NULL,
+	[EmailConfirmed] [bit] NOT NULL,
+	[Active] [bit] NOT NULL,
+	[Hash] [varchar](50) NULL,
+	[Type] [int] NOT NULL,
+	[ImageUrl] [varchar](50) NULL,
+	[DateCreated] [datetime] NOT NULL,
+	[DateModified] [datetime] NOT NULL,
+ CONSTRAINT [PK_Contacts] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_EmailConfirmed]  DEFAULT ((0)) FOR [EmailConfirmed]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_Active]  DEFAULT ((0)) FOR [Active]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Contacts_DateModified]  DEFAULT (getutcdate()) FOR [DateModified]
+GO
+
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Customer1] FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customers] ([id])
+GO
+
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Customer1]
+GO
 
 
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
 
 
-
-
-
-
-
-
-
-
-
-
-
+SET QUOTED_IDENTIFIER ON
+GO

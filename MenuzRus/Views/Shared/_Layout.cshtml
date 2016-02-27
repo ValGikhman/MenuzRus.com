@@ -91,11 +91,12 @@
                             String picture = String.Empty;
                             Int32 customerId = 0;
                             Int32 userId = 0;
+                            Services.User user = (Services.User)Session[Constants.SESSION_USER];
 
-                            if (MenuzRus.SessionData.user != null) {
-                                customerId = MenuzRus.SessionData.user.CustomerId;
-                                userId = MenuzRus.SessionData.user.id;
-                                picture = String.Format("~/Images/Menus/{0}/Users/{1}?{2}", customerId, MenuzRus.SessionData.user.ImageUrl, Guid.NewGuid().ToString("N"));
+                            if (user != null) {
+                                customerId = user.CustomerId;
+                                userId = user.id;
+                                picture = String.Format("~/Images/Menus/{0}/Users/{1}?{2}", customerId, user.ImageUrl, Guid.NewGuid().ToString("N"));
                             }
                             if (!String.IsNullOrEmpty(picture)) {
                             <a href="@Url.Content("~/User/Index/")@customerId" style="padding:0px">

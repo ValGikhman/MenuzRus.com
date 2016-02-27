@@ -2,19 +2,24 @@
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
-namespace MenuzRus {
+namespace MenuzRus.Controllers {
 
-    public class HomeController : Controller {
+    public class HomeController : BaseController {
+        private ISettingsService _settingsService;
+
+        public HomeController(ISessionData sessionData, ISettingsService settingsService)
+            : base(sessionData) {
+            _settingsService = settingsService;
+        }
 
         [HttpGet]
         public JsonResult GetPrinters() {
-            SettingsService service = new SettingsService();
             try {
                 var retVal = new {
-                    printerPOS = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
-                    printerKitchen = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
-                    printerPOSWidth = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth),
-                    printerKitchenWidth = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth)
+                    printerPOS = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
+                    printerKitchen = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
+                    printerPOSWidth = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth),
+                    printerKitchenWidth = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth)
                 };
                 return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
@@ -22,7 +27,6 @@ namespace MenuzRus {
                 throw;
             }
             finally {
-                service = null;
             }
         }
 
@@ -32,16 +36,15 @@ namespace MenuzRus {
 
         [HttpPost]
         public JsonResult SendPrinters(String model) {
-            SettingsService service = new SettingsService();
             try {
                 if (!String.IsNullOrEmpty(model)) {
                     JavaScriptSerializer objJavascript = new JavaScriptSerializer();
                     SessionData.printers = objJavascript.Deserialize<String[]>(model);
-                    SessionData.printerKitchenWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth));
-                    SessionData.printerPOSWidth = Convert.ToInt32(service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth));
+                    SessionData.printerKitchenWidth = Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth));
+                    SessionData.printerPOSWidth = Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth));
                     var retVal = new {
-                        printerPOS = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
-                        printerKitchen = service.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
+                        printerPOS = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
+                        printerKitchen = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
                         printerPOSWidth = SessionData.printerPOSWidth,
                         printerKitchenWidth = SessionData.printerKitchenWidth
                     };
@@ -53,7 +56,6 @@ namespace MenuzRus {
                 throw;
             }
             finally {
-                service = null;
             }
         }
     }

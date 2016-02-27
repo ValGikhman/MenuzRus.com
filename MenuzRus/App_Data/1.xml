@@ -122,13 +122,6 @@
                     <Price></Price>
                 </Item>
                 <Item>
-                    <Id>20</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Mushroom</Name>
-                    <Description>Creamy mushroom soup with potatoes and barley.</Description>
-                    <Price></Price>
-                </Item>
-                <Item>
                     <Id>21</Id>
                     <ImageUrl></ImageUrl>
                     <ImageOnly />
@@ -142,7 +135,7 @@
                     <ImageOnly />
                     <Name>Solianka</Name>
                     <Description>3 different types of smoked meat in beef broth with vegitables and spices.</Description>
-                    <Price>All soups $6</Price>
+                    <Price>All soups $4</Price>
                 </Item>
             </Items>
         </Category>

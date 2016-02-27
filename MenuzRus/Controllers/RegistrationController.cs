@@ -10,6 +10,14 @@ using Services;
 namespace MenuzRus {
 
     public class RegistrationController : BaseController {
+        private ICustomerService _customerService;
+        private IUserService _userService;
+
+        public RegistrationController(ISessionData sessionData, ICustomerService customerService, IUserService userService)
+            : base(sessionData) {
+            _customerService = customerService;
+            _userService = userService;
+        }
 
         [HttpGet]
         public String GetRegistrationForm(Int32? id) {
@@ -41,11 +49,13 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Index(RegistrationModel model) {
             // Save Customer info
-            CustomerService customerService = new CustomerService();
-            UserService userService = new UserService();
-            Customer customer = new Customer();
-            User user = new User();
+            Customer customer;
+            User user;
+
             try {
+                customer = new Customer();
+                user = new User();
+
                 customer.id = 0;
                 customer.Name = model.Customer.Name;
                 customer.Address = model.Customer.Address;
@@ -57,7 +67,7 @@ namespace MenuzRus {
                 customer.Tax = model.Customer.Tax;
                 customer.ImageUrl = model.Customer.ImageUrl;
 
-                Int32 result = customerService.SaveCustomer(customer);
+                Int32 result = _customerService.SaveCustomer(customer);
                 SessionData.customer = customer;
 
                 // Save user personal info
@@ -73,7 +83,7 @@ namespace MenuzRus {
                 user.Hash = Utility.GetNewConfirmationNumber(); ;
                 user.Type = (Int32)Common.UserType.Administrator;
 
-                result = userService.SaveUser(user);
+                result = _userService.SaveUser(user);
                 SessionData.user = user;
                 base.Log(Common.LogType.Activity, "Registering", "User", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
 
@@ -84,9 +94,8 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                customerService = null;
-                userService = null;
             }
+
             return null;
         }
     }

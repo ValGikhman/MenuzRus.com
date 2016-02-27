@@ -12,14 +12,23 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ItemProductController : BaseController {
+        private ICategoryService _categoryService;
+        private IItemProductService _itemProductService;
+        private IItemService _itemService;
+
+        public ItemProductController(ISessionData sessionData, IItemProductService itemProductService, ICategoryService categoryService, IItemService itemService)
+            : base(sessionData) {
+            _itemProductService = itemProductService;
+            _categoryService = categoryService;
+            _itemService = itemService;
+        }
 
         #region item
 
         [HttpPost]
         public ActionResult DeleteItemProduct(Int32? id) {
-            ItemProductService service = new ItemProductService();
             try {
-                if (!service.DeleteItemProduct(id))
+                if (!_itemProductService.DeleteItemProduct(id))
                     return RedirectToAction("Index", "Error");
 
                 return Json("OK");
@@ -28,34 +37,30 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             return null;
         }
 
         [HttpGet]
         public ActionResult ItemProductAssociate(Int32 id) {
-            CategoryService categoryService = new CategoryService();
-            ItemService itemService = new ItemService();
             DesignerModel model = new DesignerModel();
             try {
-                SessionData.item = itemService.GetItem(id);
-                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Product);
+                SessionData.item = _itemService.GetItem(id);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Product);
+                model.ItemProducts = SessionData.item.ItemProducts;
+
                 return PartialView("_ItemProductAssociatePartial", model);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                categoryService = null;
-                itemService = null;
             }
             return null;
         }
 
         [HttpPost]
         public String SaveAssociatedItems(String model) {
-            ItemProductService service = new ItemProductService();
             ItemProductModel model2Save;
             Services.ItemProduct itemProduct;
             Services.ItemProductAssociation itemProductAssociation;
@@ -73,7 +78,7 @@ namespace MenuzRus.Controllers {
                             itemProductAssociation.ItemProductId = itemAssosiation.ItemProductId;
                             itemProduct.ItemProductAssociations.Add(itemProductAssociation);
                         }
-                        service.SaveItemProduct(itemProduct);
+                        _itemProductService.SaveItemProduct(itemProduct);
                     }
                 }
             }
@@ -82,8 +87,6 @@ namespace MenuzRus.Controllers {
                 return ex.Message;
             }
             finally {
-                service = null;
-                SessionData.item = null;
             }
             return "OK";
         }

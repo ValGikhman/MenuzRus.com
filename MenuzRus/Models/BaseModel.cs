@@ -12,8 +12,8 @@ namespace MenuzRus.Models {
     public class BaseModel {
 
         public BaseModel() {
-            Me = SessionData.user;
-            MyCompany = SessionData.customer;
+            Me = (Services.User)HttpContext.Current.Session[Constants.SESSION_USER];
+            MyCompany = (Services.Customer)HttpContext.Current.Session[Constants.SESSION_CUSTOMER];
         }
 
         public User Me { get; set; }

@@ -8,13 +8,18 @@ using Services;
 namespace MenuzRus {
 
     public class ConfirmController : BaseController {
+        private IConfirmationService _confirmationService;
+
+        public ConfirmController(ISessionData sessionData, IConfirmationService confirmationService)
+            : base(sessionData) {
+            _confirmationService = confirmationService;
+        }
 
         public ActionResult ByHash(String id) {
             User model;
-            ConfirmationService service;
+
             try {
-                service = new ConfirmationService();
-                model = service.Confirm(id);
+                model = _confirmationService.Confirm(id);
                 if (model != null) {
                     base.Log(Common.LogType.Activity, "Email confirmation successful", "User", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.FirstName, model.LastName, model.WorkPhone, model.MobilePhone));
                 }

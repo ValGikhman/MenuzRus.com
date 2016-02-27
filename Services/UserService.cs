@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class UserService {
+    public class UserService : IUserService {
 
         #region user
 
@@ -25,7 +25,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -81,7 +80,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;

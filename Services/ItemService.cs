@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class ItemService {
+    public class ItemService : IItemService {
 
         public Boolean AddItemPrice(Int32 id, Decimal price) {
             ItemPrice query = new ItemPrice();
@@ -21,7 +21,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -40,7 +39,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -58,7 +56,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
             }
         }
 
@@ -133,7 +130,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;
@@ -154,7 +150,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;

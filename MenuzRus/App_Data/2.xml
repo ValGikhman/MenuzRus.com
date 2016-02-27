@@ -9,50 +9,38 @@
                     <ImageUrl></ImageUrl>
                     <Name>Shawarma</Name>
                     <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread, cucumbers and Korean style carrot</Description>
-                    <Price>Sandwich $7 Platter $9</Price>
+                    <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>12</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Gyro</Name>s
                     <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce, cucumbers and Korean style carrot on pita bread</Description>
-                    <Price>Sandwich $7 Platter $9</Price>
+                    <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>13</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Falafel</Name>
                     <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce,, cucumbers and Korean style carrot wrapped in pita bread</Description>
-                    <Price>Sandwich $7 Platter $9</Price>
+                    <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Lamb kebob</Name>
                     <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
-                    <Price>Sandwich $9 Platter $11</Price>
+                    <Price>Sandwich $9 Platter $12</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Chicken kebob</Name>
                     <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
-                    <Price>Sandwich $8 Platter $10</Price>
+                    <Price>Sandwich $8 Platter $11</Price>
                 </Item>
             </Items>
         </Category>
-        <Category Id="2" Name="Sandwiches" Description="*Platters include french fries and a pickle" ImageUrl="" Side="Center">
-            <Items>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Russian Meatball</Name>
-                    <Description>Mix of ground turkey and beef, wrapped in bread with tomatoes, onions, lettuce, cucumbers and korean style carrot</Description>
-                    <Price>Sandwich $10 Platter $12</Price>
-                </Item>
-            </Items>
-        </Category>
-
         <Category Id="6" Name="Salads" ImageUrl="" Side="Center">
             <Items>
                 <Item>
@@ -60,14 +48,7 @@
                     <ImageUrl></ImageUrl>
                     <Name>Greek Salad</Name>
                     <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
-                    <Price>$5,50</Price>
-                </Item>
-                <Item>
-                    <Id>24</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Caesar Salad</Name>
-                    <Description>Lettuce mix, cucumbers, onions topped with croutons, parmesan and our own Caesar deressing</Description>
-                    <Price>$6</Price>
+                    <Price>$7</Price>
                 </Item>
                 <Item>
                     <Id>24</Id>
@@ -81,6 +62,13 @@
                     <ImageUrl></ImageUrl>
                     <Name>Eggplant</Name>
                     <Description>Grilled eggplant, carrots, sweet peppers, tomatoes, cucumbers, cabbage and dressing</Description>
+                    <Price>$6</Price>
+                </Item>
+                <Item>
+                    <Id>25</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Fresh garden salad</Name>
+                    <Description>Tomatoes, cucumbers, onion and lettuce with vinegar dressing</Description>
                     <Price>$6</Price>
                 </Item>
             </Items>
@@ -105,7 +93,7 @@
                     <Id>15</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Perogies</Name>
-                    <Description>Potatoes or cheese or cabbage filled dumpling served with sour cream.</Description>
+                    <Description>Potatoes or cheese or cherry filled dumpling served with sour cream.</Description>
                     <Price>$8</Price>
                 </Item>
             </Items>

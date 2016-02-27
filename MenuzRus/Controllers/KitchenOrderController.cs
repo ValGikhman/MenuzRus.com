@@ -13,6 +13,12 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class KitchenOrderController : BaseController {
+        private IOrderService _orderService;
+
+        public KitchenOrderController(ISessionData sessionData, IOrderService orderService)
+            : base(sessionData) {
+            _orderService = orderService;
+        }
 
         [CheckUserSession]
         public ActionResult Index() {
@@ -54,18 +60,17 @@ namespace MenuzRus.Controllers {
         #region private
 
         private KitchenOrderPrintModel GetModel(DateTime date) {
-            OrderService service = new OrderService();
             KitchenOrderPrintModel model = null;
+
             try {
                 model = new KitchenOrderPrintModel();
-                model.Printouts = service.GetPrintouts(date);
+                model.Printouts = _orderService.GetPrintouts(date);
                 return model;
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             return null;
         }

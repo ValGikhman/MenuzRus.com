@@ -48,11 +48,24 @@
     <Compile Include="ConfirmationService.cs" />
     <Compile Include="AlertService.cs" />
     <Compile Include="CommentsService.cs" />
+    <Compile Include="IItemService.cs" />
+    <Compile Include="IAlertService.cs" />
+    <Compile Include="IUserService.cs" />
+    <Compile Include="ISettingsService.cs" />
+    <Compile Include="IOrderService.cs" />
+    <Compile Include="IMenuService.cs" />
+    <Compile Include="ILogService.cs" />
+    <Compile Include="IItemProductService.cs" />
+    <Compile Include="IFloorService.cs" />
+    <Compile Include="ICustomerService.cs" />
+    <Compile Include="IConfirmationService.cs" />
+    <Compile Include="ICommentsService.cs" />
+    <Compile Include="ICategoryService.cs" />
+    <Compile Include="ILoginService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="ItemProductService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="FloorService.cs" />
-    <Compile Include="SessionData.cs" />
     <Compile Include="CustomerService.cs" />
     <Compile Include="ItemService.cs" />
     <Compile Include="LoginService.cs" />
@@ -72,7 +85,9 @@
     <Compile Include="SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="menuzRus.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>menuzRus.designer.cs</LastGenOutput>

@@ -12,12 +12,17 @@ using Services;
 namespace MenuzRus {
 
     public class CommentsController : BaseController {
+        private ICommentService _commentService;
+
+        public CommentsController(ISessionData sessionData, ICommentService commentService)
+            : base(sessionData) {
+            _commentService = commentService;
+        }
 
         [HttpPost]
         public ActionResult DeleteComment(Int32 id, Int32 parentId, String type) {
-            CommentService service = new CommentService();
             try {
-                service.DeleteComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
+                _commentService.DeleteComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -36,29 +41,25 @@ namespace MenuzRus {
 
         [HttpPost]
         public void Save(String commentText) {
-            CommentService service = new CommentService();
             try {
-                service.Save(commentText);
+                _commentService.Save(commentText, SessionData.customer.id);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
         }
 
         [HttpPost]
         public void SaveComment(Int32 id, Int32 parentId, String type) {
-            CommentService service = new CommentService();
             try {
-                service.SaveComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
+                _commentService.SaveComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
         }
 
@@ -66,10 +67,9 @@ namespace MenuzRus {
             CommentsModel model = new CommentsModel();
             model.Comments = new List<Models.Comment>();
 
-            CommentService service = new CommentService();
-            List<CommentUnion> comments = service.GetComments(SessionData.customer.id, parentId, type);
-
             try {
+                List<CommentUnion> comments = _commentService.GetComments(SessionData.customer.id, parentId, type);
+
                 foreach (CommentUnion comment in comments) {
                     Models.Comment comm = new Models.Comment();
                     comm.id = comment.id;
@@ -83,7 +83,6 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
 
             return model;

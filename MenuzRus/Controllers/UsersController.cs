@@ -11,12 +11,17 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class UsersController : BaseController {
+        private IUserService _userService;
+
+        public UsersController(ISessionData sessionData, IUserService userService)
+            : base(sessionData) {
+            _userService = userService;
+        }
 
         [CheckUserSession]
         public ActionResult Index(Int32 id) {
-            UserService service = new UserService();
             UsersModel model = new UsersModel();
-            model.Users = service.GetUsers(id);
+            model.Users = _userService.GetUsers(id);
             return View(model);
         }
     }

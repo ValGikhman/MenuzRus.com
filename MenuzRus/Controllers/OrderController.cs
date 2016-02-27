@@ -14,21 +14,38 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class OrderController : BaseController {
+        private ICategoryService _categoryService;
+        private ICommentService _commentService;
+        private IFloorService _floorService;
+        private IItemService _itemService;
+        private IOrderService _orderService;
+
+        public OrderController(ISessionData sessionData
+                , IOrderService orderService
+                , IItemService itemService
+                , ICommentService commentService
+                , IFloorService floorService
+                , ICategoryService categoryService)
+            : base(sessionData) {
+            _orderService = orderService;
+            _itemService = itemService;
+            _commentService = commentService;
+            _floorService = floorService;
+            _categoryService = categoryService;
+        }
 
         #region order
 
         [HttpPost]
         public JsonResult AddNewTableOrder(Int32 tableId) {
-            OrderService orderService = new OrderService();
             Int32 newId = 0;
             try {
-                newId = orderService.AddNewTableOrder(tableId);
+                newId = _orderService.AddNewTableOrder(tableId);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new { Data = newId };
@@ -37,10 +54,9 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public String CheckPrint(Int32 checkId, Int32 split, Decimal adjustment) {
-            OrderService service = new OrderService();
             String retVal = String.Empty;
             Services.Check check;
-            check = service.GetCheck(checkId);
+            check = _orderService.GetCheck(checkId);
             retVal += PrintChecks(checkId, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
             return retVal;
         }
@@ -48,11 +64,11 @@ namespace MenuzRus.Controllers {
         [HttpGet]
         public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
             List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
-            OrderService service = new OrderService();
             String retVal = String.Empty;
             Services.Check check;
+
             foreach (Int32 id in Ids) {
-                check = service.GetCheck(id);
+                check = _orderService.GetCheck(id);
                 retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
             }
             return retVal;
@@ -60,36 +76,33 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult DeleteChecks(String checksIds) {
-            OrderService orderService;
             List<Int32> Ids;
+
             try {
                 Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
-                orderService = new OrderService();
                 foreach (Int32 id in Ids) {
-                    orderService.DeleteCheck(id);
+                    _orderService.DeleteCheck(id);
                 }
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
             return null;
         }
 
         [HttpGet]
         public JsonResult DeleteMenu(Int32 id, Int32 checkId) {
-            OrderService orderService = new OrderService();
             try {
-                orderService.DeleteMenu(id);
+                _orderService.DeleteMenu(id);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
+
             var retVal = new {
             };
             return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -103,8 +116,10 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult KitchenDetails(Int32 TableId) {
+            KitchenOrderModel model;
+
             try {
-                KitchenOrderModel model = GetKitchenTableModel(TableId);
+                model = GetKitchenTableModel(TableId);
                 return PartialView("_KitchenDetailsPartial", model);
             }
             catch (Exception ex) {
@@ -116,19 +131,18 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public String KitchenOrder2Print(Int32 id) {
-            OrderService service = new OrderService();
             String retVal = String.Empty;
             Printout order2Print;
 
-            order2Print = service.GetPrintKitchenOrder(id);
+            order2Print = _orderService.GetPrintKitchenOrder(id);
             return PrintKitchenOrders(order2Print);
         }
 
         [HttpGet]
         public JsonResult KitchenOrders2Print() {
-            OrderService service = new OrderService();
             List<Services.Printout> orders2Print;
-            orders2Print = service.GetQueued4PrintKitchenOrders();
+            orders2Print = _orderService.GetQueued4PrintKitchenOrders();
+
             var jsonData = new {
                 rows = (
                      from order in orders2Print
@@ -149,6 +163,7 @@ namespace MenuzRus.Controllers {
             }
             finally {
             }
+
             return null;
         }
 
@@ -173,13 +188,11 @@ namespace MenuzRus.Controllers {
         [HttpGet]
         public JsonResult OrderMenuItem(Int32 id, Int32 checkId, Int32 tableId) {
             ChecksMenu menu = null;
-            ItemService itemService = new ItemService();
-            OrderService orderService = new OrderService();
-            Services.Item MenuItem = itemService.GetItem(id);
-
             try {
+                Services.Item MenuItem = _itemService.GetItem(id);
+
                 if (MenuItem != null) {
-                    menu = orderService.SaveMenuItem(MenuItem, tableId, checkId);
+                    menu = _orderService.SaveMenuItem(MenuItem, tableId, checkId, SessionData.user.id);
                 }
 
                 if (menu != null) {
@@ -211,15 +224,13 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
-            OrderService orderService = new OrderService();
             try {
-                orderService.SaveItem(productId, knopaId, type);
+                _orderService.SaveItem(productId, knopaId, type);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new {
@@ -234,17 +245,16 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public String ShowMenuItem(Int32 id, ChecksMenu menuItem) {
-            ItemService itemService = new ItemService();
-            OrderService orderService = new OrderService();
             CheckMenuItem menu = new CheckMenuItem();
+
             try {
-                Services.Item Item = itemService.GetItem(id);
+                Services.Item Item = _itemService.GetItem(id);
                 menu.id = menuItem.id;
                 menu.ItemId = Item.id;
                 menu.Name = Item.Name;
                 menu.CheckId = menuItem.CheckId;
                 menu.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                menu.HasProducts = (orderService.GetProducts(menu.id).Count() > 0);
+                menu.HasProducts = (_orderService.GetProducts(menu.id).Count() > 0);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -257,29 +267,30 @@ namespace MenuzRus.Controllers {
         // Show products for the menu
         [HttpGet]
         public String ShowMenuProducts(Int32 menuId) {
-            ItemService itemService = new ItemService();
-            OrderService orderService = new OrderService();
             List<CheckMenuItemProduct> model = new List<CheckMenuItemProduct>();
             List<ChecksMenuProduct> products = new List<ChecksMenuProduct>();
             Item Item;
+
             try {
-                products = orderService.GetProducts(menuId);
+                products = _orderService.GetProducts(menuId);
                 foreach (Services.ChecksMenuProduct productItem in products) {
                     CheckMenuItemProduct product = new CheckMenuItemProduct();
-                    Services.ItemProduct itemProduct = itemService.GetItemProduct(productItem.ItemId);
+                    Services.ItemProduct itemProduct = _itemService.GetItemProduct(productItem.ItemId);
                     product.id = productItem.id;
                     product.ItemId = productItem.ItemId;
                     product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
                     product.Type = (Common.ProductType)itemProduct.Type;
+
                     foreach (Services.ItemProductAssociation associatedItem in itemProduct.ItemProductAssociations) {
                         CheckMenuItemProductAssociation association = new CheckMenuItemProductAssociation();
-                        Item = itemService.GetItem(associatedItem.ItemId);
+                        Item = _itemService.GetItem(associatedItem.ItemId);
                         association.id = associatedItem.id;
                         association.ItemId = associatedItem.ItemId;
                         association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
                         association.Name = Item.Name;
                         association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                         association.ImageUrl = Item.ImageUrl;
+                        association.Customer = SessionData.customer;
                         product.CheckMenuItemProductAssociations.Add(association);
                     }
                     model.Add(product);
@@ -296,14 +307,13 @@ namespace MenuzRus.Controllers {
         [CheckUserSession]
         [HttpGet]
         public JsonResult ShowMenus(Int32 checkId) {
-            ItemService itemService = new ItemService();
-            OrderService orderService = new OrderService();
             List<CheckMenuItem> Menus = new List<CheckMenuItem>();
             CheckMenuItem menu;
+
             try {
-                List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkId);
+                List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkId);
                 foreach (Services.ChecksMenu menuItem in menus) {
-                    Services.Item item = itemService.GetItem(menuItem.MenuId);
+                    Services.Item item = _itemService.GetItem(menuItem.MenuId);
                     menu = new CheckMenuItem();
                     menu.CheckId = checkId;
                     menu.id = menuItem.id;
@@ -311,7 +321,7 @@ namespace MenuzRus.Controllers {
                     menu.Name = item.Name;
                     menu.Description = item.Description;
                     menu.Price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    menu.HasProducts = (orderService.GetProducts(menu.id).Count() > 0);
+                    menu.HasProducts = (_orderService.GetProducts(menu.id).Count() > 0);
                     menu.Ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
                     Menus.Add(menu);
                 }
@@ -321,9 +331,8 @@ namespace MenuzRus.Controllers {
                 return null;
             }
             finally {
-                itemService = null;
-                orderService = null;
             }
+
             var retVal = new {
                 html = RenderViewToString(this.ControllerContext, "_OrderMenusPartial", Menus),
                 checkId = checkId
@@ -343,6 +352,7 @@ namespace MenuzRus.Controllers {
             }
             finally {
             }
+
             return RenderViewToString(this.ControllerContext, "_OrderPartial", model);
         }
 
@@ -361,23 +371,21 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public JsonResult UpdateCheckStatus(Int32 checkId, Common.CheckType type, Common.CheckStatus status, Decimal adjustment, Int32 split) {
-            OrderService orderService = new OrderService();
             CheckPrint model;
             try {
                 if (status == Common.CheckStatus.Paid) {
                     model = GetCheckPrintModel(checkId, type.ToString(), status.ToString(), split, adjustment);
                     if (model != null)
-                        orderService.UpdateCheckStatusPaid(checkId, model.Summary, model.Tax, model.Adjustment);
+                        _orderService.UpdateCheckStatusPaid(checkId, model.Summary, model.Tax, model.Adjustment);
                 }
                 else {
-                    orderService.UpdateCheckStatus(checkId, status);
+                    _orderService.UpdateCheckStatus(checkId, status);
                 }
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new {
@@ -387,15 +395,13 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public JsonResult UpdateCheckType(Int32 checkId, Common.CheckType type) {
-            OrderService orderService = new OrderService();
             try {
-                orderService.UpdateCheckType(checkId, type);
+                _orderService.UpdateCheckType(checkId, type);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new {
@@ -405,15 +411,13 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public JsonResult UpdateKitchenOrderPrintStatus(Int32 id) {
-            OrderService orderService = new OrderService();
             try {
-                orderService.UpdateKitchenOrderPrintStatus(id);
+                _orderService.UpdateKitchenOrderPrintStatus(id);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new {
@@ -423,19 +427,18 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public JsonResult UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
-            OrderService orderService = new OrderService();
             try {
-                orderService.UpdateTableStatus(tableOrderId, status);
+                _orderService.UpdateTableStatus(tableOrderId, status);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
             }
 
             var retVal = new {
             };
+
             return Json(retVal);
         }
 
@@ -444,38 +447,31 @@ namespace MenuzRus.Controllers {
         #region private
 
         private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
-            ItemService itemService;
             Services.Item item, itemMenu;
-            OrderService orderService;
-            UserService userService;
             CheckPrint model;
             Decimal tax = SessionData.customer.Tax.HasValue ? (Decimal)SessionData.customer.Tax / 100 : 0;
             Decimal price = 0, menuPrice = 0;
             List<LineItem> subItems;
             try {
-                itemService = new ItemService();
-                orderService = new OrderService();
-                userService = new UserService();
-
                 model = new CheckPrint();
                 model.Items = new List<LineItem>();
-                model.Check = orderService.GetCheck(checkId);
+                model.Check = _orderService.GetCheck(checkId);
                 model.CreatedDate = model.Check.DateCreated;
-                model.User = userService.GetUser(model.Check.UserId);
+                model.PrinterPOSWidth = SessionData.printerPOSWidth;
 
-                List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkId);
+                List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkId);
                 List<ChecksMenuProduct> products;
                 model.Summary = 0;
                 model.Split = split;
                 foreach (Services.ChecksMenu menuItem in menus) {
-                    itemMenu = itemService.GetItem(menuItem.MenuId);
+                    itemMenu = _itemService.GetItem(menuItem.MenuId);
                     menuPrice = (Decimal)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                     model.Summary += menuPrice;
-                    products = orderService.GetProducts(menuItem.id);
+                    products = _orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
                                 price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                                 model.Summary += price;
@@ -503,24 +499,21 @@ namespace MenuzRus.Controllers {
                 return null;
             }
             finally {
-                itemService = null;
-                orderService = null;
             }
             return model;
         }
 
         private KitchenModel GetKitchenModel() {
-            OrderService service = new OrderService();
             KitchenModel model = new KitchenModel();
             List<Models.TableOrder> tables = new List<Models.TableOrder>();
             Models.TableOrder order;
             List<Services.TableOrder> alltables = new List<Services.TableOrder>();
             Services.Table table;
             try {
-                alltables = service.GetKitchenOrders();
+                alltables = _orderService.GetKitchenOrders();
                 foreach (Services.TableOrder tab in alltables) {
                     order = new Models.TableOrder();
-                    table = service.GetTable(tab.TableId);
+                    table = _orderService.GetTable(tab.TableId);
                     order.TableName = table.Name;
                     order.Order = tab;
                     tables.Add(order);
@@ -532,52 +525,43 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
 
             return null;
         }
 
         private KitchenOrderPrint GetKitchenOrderPrintModel(Services.Printout order) {
-            ItemService itemService;
             Services.Item item, itemMenu;
-            OrderService orderService;
-            UserService userService;
-            CommentService commentService;
             KitchenOrderPrint model;
             List<LineItem> subItems;
-            try {
-                itemService = new ItemService();
-                orderService = new OrderService();
-                userService = new UserService();
-                commentService = new CommentService();
 
+            try {
                 model = new KitchenOrderPrint();
                 model.Items = new List<LineItem>();
-                model.Check = orderService.GetCheck(order.CheckId);
+                model.Check = _orderService.GetCheck(order.CheckId);
                 model.id = order.id;
                 model.CreatedDate = model.Check.DateCreated;
-                model.User = userService.GetUser(model.Check.UserId);
-                model.Comments = commentService.GetItemComment(order.CheckId, Common.CommentType.Check);
+                model.Comments = _commentService.GetItemComment(order.CheckId, Common.CommentType.Check, SessionData.customer.id);
+                model.PrinterKitchenWidth = SessionData.printerKitchenWidth;
 
-                List<Services.ChecksMenu> menus = orderService.GetMenuItems(order.CheckId);
+                List<Services.ChecksMenu> menus = _orderService.GetMenuItems(order.CheckId);
                 List<ChecksMenuProduct> products;
                 Boolean ordered;
                 foreach (Services.ChecksMenu menuItem in menus) {
-                    itemMenu = itemService.GetItem(menuItem.MenuId);
+                    itemMenu = _itemService.GetItem(menuItem.MenuId);
                     ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
-                    products = orderService.GetProducts(menuItem.id);
+                    products = _orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                             if (item != null) {
                                 subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem), SubItems = subItems });
-                    orderService.UpdateMenuItemStatus(menuItem.id, Common.MenuItemStatus.Ordered);
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = _commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem, SessionData.customer.id), SubItems = subItems });
+                    _orderService.UpdateMenuItemStatus(menuItem.id, Common.MenuItemStatus.Ordered);
                 }
             }
             catch (Exception ex) {
@@ -585,24 +569,21 @@ namespace MenuzRus.Controllers {
                 return null;
             }
             finally {
-                itemService = null;
-                orderService = null;
             }
+
             return model;
         }
 
         private KitchenOrderModel GetKitchenTableModel(Int32 tableId) {
-            OrderService orderService = new OrderService();
             KitchenOrderModel model = new KitchenOrderModel();
 
-            ItemService itemService = new ItemService();
             Services.Item item, itemMenu;
             List<LineItem> subItems;
             CheckPrint orderModel;
 
             try {
-                model.Table = orderService.GetTable(tableId);
-                model.TableOrder = orderService.GetTableOrder(tableId);
+                model.Table = _orderService.GetTable(tableId);
+                model.TableOrder = _orderService.GetTableOrder(tableId);
                 model.Table.Name = model.Table.Name;
 
                 if (model.TableOrder != null && model.TableOrder.Checks != null) {
@@ -612,16 +593,19 @@ namespace MenuzRus.Controllers {
                         orderModel = new CheckPrint();
                         orderModel.Check = checkItem;
                         orderModel.Items = new List<LineItem>();
-                        List<Services.ChecksMenu> menus = orderService.GetMenuItems(checkItem.id);
+                        orderModel.PrinterPOSWidth = SessionData.printerPOSWidth;
+
+                        List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkItem.id);
                         List<ChecksMenuProduct> products;
+
                         foreach (Services.ChecksMenu menuItem in menus) {
-                            itemMenu = itemService.GetItem(menuItem.MenuId);
-                            products = orderService.GetProducts(menuItem.id);
+                            itemMenu = _itemService.GetItem(menuItem.MenuId);
+                            products = _orderService.GetProducts(menuItem.id);
                             subItems = new List<LineItem>();
                             if (products.Any()) {
                                 foreach (Services.ChecksMenuProduct productItem in products) {
                                     foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                                        item = itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                                        item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
                                         if (item != null) {
                                             subItems.Add(new LineItem() { Description = item.Name });
                                         }
@@ -639,15 +623,11 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                orderService = null;
-                itemService = null;
             }
             return null;
         }
 
         private MonitorFloorModel GetMonitorModel(Int32? id) {
-            FloorService service = new FloorService();
-            OrderService orderService = new OrderService();
             MonitorFloorModel model = new MonitorFloorModel();
             List<Models.TableOrder> tables = new List<Models.TableOrder>();
             Models.TableOrder order;
@@ -656,14 +636,14 @@ namespace MenuzRus.Controllers {
             Services.Table table;
             try {
                 id = id.HasValue ? id.Value : 0;
-                model.Floors = service.GetFloors(SessionData.customer.id);
+                model.Floors = _floorService.GetFloors(SessionData.customer.id);
                 if (id == 0) {
                     floor = new Services.Floor();
                     floor.id = 0;
                     floor.Name = "All";
                 }
                 else {
-                    floor = service.GetFloor(id.Value);
+                    floor = _floorService.GetFloor(id.Value);
                     if (floor == null && model.Floors.Count > 0) {
                         floor = model.Floors[0];
                     }
@@ -673,11 +653,11 @@ namespace MenuzRus.Controllers {
                     SessionData.floor = floor;
                     model.Floor.id = floor.id;
                     model.Floor.Name = floor.Name;
-                    alltables = orderService.GetTableOrdersByFloorId(model.Floor.id);
+                    alltables = _orderService.GetTableOrdersByFloorId(model.Floor.id);
                     if (alltables != null) {
                         foreach (Services.TableOrder tab in alltables) {
                             order = new Models.TableOrder();
-                            table = orderService.GetTable(tab.TableId);
+                            table = _orderService.GetTable(tab.TableId);
                             order.TableName = table.Name;
                             order.Order = tab;
                             tables.Add(order);
@@ -691,38 +671,35 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
 
             return null;
         }
 
         private List<Services.TableOrder> GetMonitorTables(Int32 floorId) {
-            OrderService service = new OrderService();
             try {
-                return service.GetTableOrders(floorId);
+                return _orderService.GetTableOrders(floorId);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
+
             return null;
         }
 
         private OrderModel GetTableModel(Int32 tableId) {
-            CategoryService categoryService = new CategoryService();
-            OrderService orderService = new OrderService();
             OrderModel model = new OrderModel();
+
             try {
                 model.Referer = "Tables";
                 if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
                     model.Referer = "Monitor";
                 }
-                model.Categories = categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
-                model.Table = orderService.GetTable(tableId);
-                model.TableOrder = orderService.GetTableOrder(tableId);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.Table = _orderService.GetTable(tableId);
+                model.TableOrder = _orderService.GetTableOrder(tableId);
                 model.TableId = model.Table.id;
                 model.Table.Name = model.Table.Name;
 
@@ -744,16 +721,13 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                categoryService = null;
             }
             return null;
         }
 
         private String GetTables(Int32 id) {
-            FloorService service = new FloorService();
-            OrderService serviceOrder = new OrderService();
             try {
-                List<Services.Table> tables = service.GetTables(id);
+                List<Services.Table> tables = _floorService.GetTables(id);
                 var result = (from var in tables
                               where var.FloorId == id
                               select new {
@@ -765,9 +739,9 @@ namespace MenuzRus.Controllers {
                                   var.Type,
                                   var.X,
                                   var.Y,
-                                  Status = service.GetTableOrderStatus(var.id),
-                                  Checks = serviceOrder.GetChecksIds(var.id, true),
-                                  DateModified = service.GetTableOrderDate(var.id)
+                                  Status = _floorService.GetTableOrderStatus(var.id),
+                                  Checks = _orderService.GetChecksIds(var.id, true),
+                                  DateModified = _floorService.GetTableOrderDate(var.id)
                               }).ToList();
                 return result.OrderByDescending(m => m.DateModified).ToJson();
             }
@@ -775,20 +749,18 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
-                serviceOrder = null;
             }
+
             return null;
         }
 
         private FloorModel GetTablesModel(Int32? id) {
-            FloorService service = new FloorService();
             FloorModel model = new FloorModel();
             Services.Floor floor;
             try {
                 id = id.HasValue ? id.Value : 0;
-                model.Floors = service.GetFloors(SessionData.customer.id);
-                floor = service.GetFloor(id.Value);
+                model.Floors = _floorService.GetFloors(SessionData.customer.id);
+                floor = _floorService.GetFloor(id.Value);
                 if (floor == null && model.Floors.Count > 0) {
                     floor = model.Floors[0];
                 }
@@ -805,7 +777,6 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
 
             return null;

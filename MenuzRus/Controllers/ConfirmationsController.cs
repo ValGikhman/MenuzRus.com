@@ -8,14 +8,18 @@ using Services;
 namespace MenuzRus {
 
     public class ConfirmationsController : BaseController {
+        private IUserService _userService;
+
+        public ConfirmationsController(ISessionData sessionData, IUserService userService)
+            : base(sessionData) {
+            _userService = userService;
+        }
 
         public ActionResult EmailConfirmation(String hash) {
-            UserService service;
             User model;
             try {
                 model = new Services.User();
-                service = new UserService();
-                model = service.GetUserByHash(hash);
+                model = _userService.GetUserByHash(hash);
                 return View("EmailConfirmation", model);
             }
             catch (Exception ex) {

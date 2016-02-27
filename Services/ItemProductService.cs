@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class ItemProductService {
+    public class ItemProductService : IItemProductService {
 
         public Boolean DeleteItemProduct(Int32? id) {
             ItemProduct itemProduct = new ItemProduct();
@@ -30,7 +30,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -47,7 +46,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -80,7 +78,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;

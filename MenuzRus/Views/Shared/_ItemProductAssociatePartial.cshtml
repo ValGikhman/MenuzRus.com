@@ -12,7 +12,7 @@
 </div>
 <div class="container container-item">
     @{
-        foreach (Services.ItemProduct itemProduct in MenuzRus.SessionData.item.ItemProducts) {
+        foreach (Services.ItemProduct itemProduct in Model.ItemProducts) {
         <div>
             <div style="margin: 12px 0 12px;">Product association #@itemProduct.id</div>
             @{

@@ -10,12 +10,17 @@ using Services;
 namespace MenuzRus {
 
     public class UserController : BaseController {
+        private IUserService _userService;
+
+        public UserController(ISessionData sessionData, IUserService userService)
+            : base(sessionData) {
+            _userService = userService;
+        }
 
         [HttpPost]
         public ActionResult DeleteUser(Int32? id) {
-            UserService service = new UserService();
             try {
-                if (!service.DeleteUser(id))
+                if (!_userService.DeleteUser(id))
                     return RedirectToAction("Index", "Error");
 
                 return Json("OK");
@@ -24,8 +29,8 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
+
             return null;
         }
 
@@ -48,7 +53,6 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult SaveUser(UserModel model) {
-            UserService userService = new UserService();
             try {
                 User user = new User();
                 user.id = model.id;
@@ -73,7 +77,7 @@ namespace MenuzRus {
                     EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
                 }
 
-                Int32 result = userService.SaveUser(user);
+                Int32 result = _userService.SaveUser(user);
                 if (result == 0)
                     return RedirectToAction("Index", "Error");
 
@@ -97,23 +101,25 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                userService = null;
             }
+
             return null;
         }
 
         #region private
 
         private UserModel GetModel(Int32? id) {
-            UserModel model = new UserModel();
+            UserModel model;
+            User user;
+
             try {
                 //set for new or existing user
+                model = new UserModel();
                 model.id = id.HasValue ? id.Value : 0;
-                User user;
-                UserService service = new UserService();
+
                 model.Active = Common.Status.Active;
                 if (id.HasValue) {
-                    user = service.GetUser((Int32)id.Value);
+                    user = _userService.GetUser((Int32)id.Value);
                     if (user != null) {
                         model.id = user.id;
                         model.CustomerId = user.CustomerId;
@@ -129,13 +135,15 @@ namespace MenuzRus {
                         model.ImageUrl = user.ImageUrl;
                     }
                 }
+                return model;
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
             }
-            return model;
+
+            return null;
         }
 
         #endregion private

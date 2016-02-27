@@ -16,7 +16,7 @@
             <div class="btn btn-default knopa @active" onclick="saveItem(this)">
                 <div class="tableNameStatus label @pannelClass @active shadow">@itemProductAssociations.Name.Ellipsis(15)</div>
                 @if (!String.IsNullOrEmpty(@itemProductAssociations.ImageUrl)) {
-                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, itemProductAssociations.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", itemProductAssociations.Customer.id, itemProductAssociations.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
                     <br />
                 }
                 <span class="label @pannelClass shadow priceBadge">$@itemProductAssociations.Price</span>

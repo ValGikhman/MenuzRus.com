@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class FloorService {
+    public class FloorService : IFloorService {
 
         public Boolean DeleteFloor(Int32? id) {
             Floor query = new Floor();
@@ -27,7 +27,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -45,7 +44,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -111,18 +109,15 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;
         }
 
-        public Boolean SaveTables(List<Table> tables) {
+        public Boolean SaveTables(List<Table> tables, Int32 floorId) {
             Table table;
-            Int32 floorId;
             IEnumerable<Table> tablesToDelete;
             try {
-                floorId = SessionData.floor.id;
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     tablesToDelete = db.Tables.Where(m => m.FloorId == floorId && !tables.Contains(m));
                     if (tablesToDelete.Any()) {
@@ -153,7 +148,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;

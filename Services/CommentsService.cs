@@ -9,7 +9,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class CommentService {
+    public class CommentService : ICommentService {
 
         public Boolean DeleteComment(Int32 id, Int32 parentId, Common.CommentType type) {
             CheckMenuComment query;
@@ -23,7 +23,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -52,30 +51,29 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public String GetItemComment(Int32 parentId, Common.CommentType type) {
+        public String GetItemComment(Int32 parentId, Common.CommentType type, Int32 customerId) {
             menuzRusDataContext db = new menuzRusDataContext();
             String[] query = (from com in db.Comments
                               join cmc in db.CheckMenuComments on com.id equals cmc.CommentId
-                              where com.CustomerId == SessionData.customer.id
+                              where com.CustomerId == customerId
                                 && cmc.ParentId == parentId
                                 && cmc.Type == (Int32)type
                               select com.CommentText).ToArray();
             return String.Join(" | ", query);
         }
 
-        public Int32 Save(String commentText) {
+        public Int32 Save(String commentText, Int32 customerId) {
             Comment query = new Comment();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query.CommentText = commentText;
-                    query.CustomerId = SessionData.customer.id;
+                    query.CustomerId = customerId;
                     query.DateModified = DateTime.UtcNow;
                     db.Comments.InsertOnSubmit(query);
                     db.SubmitChanges();
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
             }
             return query.id;
         }
@@ -93,7 +91,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
             }
             return query.id;
         }
@@ -101,7 +98,6 @@ namespace MenuzRus {
 }
 
 public class CommentUnion {
-
     public String CommentText { get; set; }
 
     public Int32 id { get; set; }

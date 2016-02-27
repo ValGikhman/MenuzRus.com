@@ -1,6 +1,5 @@
-﻿@model List<Services.Category>
-@using Extensions
-@foreach (Services.Category category in Model) {
+﻿@using Extensions
+@foreach (Services.Category category in Model.Categories) {
     if (category.Items.Any()) {
     <div class="panel panel-default">
         <div class="panel panel-default panel-heading pointer item" data-value="@category.id" onclick="javascript:toggleCategory($(this).find('.collapsibleSign'), '#category-@category.id')">
@@ -15,7 +14,7 @@
                 <div class="tableNameStatus label alert-warning shadow">@item.Name.Ellipsis(20)</div>
 
                 @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
-                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", MenuzRus.SessionData.customer.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
+                    <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />
                     <br />
                 }
                 <span class="label alert-warning shadow priceBadge">$@price</span>

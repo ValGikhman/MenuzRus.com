@@ -8,7 +8,7 @@ using MenuzRus;
 
 namespace Services {
 
-    public class AlertService {
+    public class AlertService : IAlertService {
 
         #region public
 
@@ -80,7 +80,6 @@ namespace Services {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;

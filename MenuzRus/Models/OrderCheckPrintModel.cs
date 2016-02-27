@@ -10,8 +10,7 @@ using Services;
 
 namespace MenuzRus.Models {
 
-    public class CheckPrint {
-
+    public class CheckPrint : BaseModel {
         public Decimal Adjustment { get; set; }
 
         public Decimal AdjustmentPercent { get; set; }
@@ -21,6 +20,8 @@ namespace MenuzRus.Models {
         public DateTime CreatedDate { get; set; }
 
         public List<LineItem> Items { get; set; }
+
+        public Int32 PrinterPOSWidth { get; set; }
 
         public Int32 Split { get; set; }
 
@@ -35,12 +36,9 @@ namespace MenuzRus.Models {
         public Decimal TaxPercent { get; set; }
 
         public Decimal Total { get; set; }
-
-        public User User { get; set; }
     }
 
-    public class KitchenOrderPrint {
-
+    public class KitchenOrderPrint : BaseModel {
         public Services.Check Check { get; set; }
 
         public String Comments { get; set; }
@@ -51,11 +49,10 @@ namespace MenuzRus.Models {
 
         public List<LineItem> Items { get; set; }
 
-        public User User { get; set; }
+        public Int32 PrinterKitchenWidth { get; set; }
     }
 
     public class LineItem {
-
         public Boolean Alerted { get; set; }
 
         public Int32 CheckMenuId { get; set; }

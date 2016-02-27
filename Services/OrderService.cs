@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class OrderService {
+    public class OrderService : IOrderService {
 
         public Int32 AddNewTableOrder(Int32 tableId) {
             Int32 retVal = 0;
@@ -59,7 +59,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -84,7 +83,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -242,7 +240,7 @@ namespace MenuzRus {
             }
         }
 
-        public ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId) {
+        public ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId) {
             ChecksMenu orderCheckMenu;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
@@ -263,7 +261,7 @@ namespace MenuzRus {
                         orderCheck.TableOrderId = tableOrder.id;
                         orderCheck.Type = (Int32)Common.CheckType.Guest;
                         orderCheck.Status = (Int32)Common.CheckStatus.Active;
-                        orderCheck.UserId = SessionData.user.id;
+                        orderCheck.UserId = userId;
                         orderCheck.DateModified = DateTime.UtcNow;
                         db.Checks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
@@ -293,7 +291,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return null;
             }
             return orderCheckMenu;

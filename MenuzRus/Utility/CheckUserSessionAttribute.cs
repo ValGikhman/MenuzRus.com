@@ -8,13 +8,25 @@ namespace MenuzRus {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckUserSessionAttribute : ActionFilterAttribute {
+        private SessionData _sessionData;
+
+        private SessionData SessionData {
+            set {
+                _sessionData = value;
+            }
+            get {
+                return _sessionData;
+            }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (SessionData.sessionId != null) {
+            HttpSessionStateBase session = filterContext.HttpContext.Session;
+
+            Services.User user = (Services.User)session[Constants.SESSION_USER];
+            if (user != null) {
                 return;
             }
 
-            HttpSessionStateBase session = filterContext.HttpContext.Session;
             String urlFrom = String.Empty;
             UrlHelper url;
 

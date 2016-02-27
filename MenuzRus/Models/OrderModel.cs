@@ -11,7 +11,6 @@ using Services;
 namespace MenuzRus.Models {
 
     public class Check {
-
         public List<CheckMenuItem> CheckMenuItems { get; set; }
 
         public Int32 id { get; set; }
@@ -24,10 +23,11 @@ namespace MenuzRus.Models {
     }
 
     public class CheckMenuItem {
-
         public Int32 CheckId { get; set; }
 
         public List<CheckMenuItemProduct> CheckMenuItemProducts { get; set; }
+
+        public Customer Customer { get; set; }
 
         public String Description { get; set; }
 
@@ -45,7 +45,6 @@ namespace MenuzRus.Models {
     }
 
     public class CheckMenuItemProduct {
-
         public List<CheckMenuItemProductAssociation> CheckMenuItemProductAssociations { get; set; }
 
         public Int32 id { get; set; }
@@ -56,11 +55,10 @@ namespace MenuzRus.Models {
     }
 
     public class CheckMenuItemProductAssociation {
-
+        public Customer Customer { get; set; }
         public Int32 id { get; set; }
 
         public String ImageUrl { get; set; }
-
         public Int32 ItemId { get; set; }
 
         public String Name { get; set; }
@@ -71,7 +69,6 @@ namespace MenuzRus.Models {
     }
 
     public class KitchenOrderModel : BaseModel {
-
         public List<CheckPrint> Checks { set; get; }
 
         public Services.Table Table { set; get; }
@@ -80,7 +77,6 @@ namespace MenuzRus.Models {
     }
 
     public class OrderModel : BaseModel {
-
         public List<Services.Category> Categories { set; get; }
 
         public List<Check> Checks { set; get; }

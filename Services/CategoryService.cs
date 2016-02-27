@@ -9,7 +9,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class CategoryService {
+    public class CategoryService : ICategoryService {
 
         public Boolean DeleteCategory(Int32? id) {
             Category query = new Category();
@@ -24,7 +24,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -69,7 +68,6 @@ namespace MenuzRus {
                 return query;
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
             }
             return null;
         }
@@ -85,7 +83,6 @@ namespace MenuzRus {
                 return query;
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
             }
             return null;
         }
@@ -116,7 +113,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;

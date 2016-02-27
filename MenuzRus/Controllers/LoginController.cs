@@ -9,6 +9,17 @@ namespace MenuzRus {
 
     public class LoginController : BaseController {
 
+        #region Constructors
+
+        private ILoginService _loginService;
+
+        public LoginController(ISessionData sessionData, ILoginService loginService)
+            : base(sessionData) {
+            _loginService = loginService;
+        }
+
+        #endregion Constructors
+
         public ActionResult Index() {
             try {
                 LoginModel model = new LoginModel();
@@ -25,17 +36,21 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Index(LoginModel model) {
-            LoginService service = new LoginService();
             String pathToNavigate = "~/Order/Tables";
+            Tuple<Services.User, Services.Customer, Services.Menu> data;
 
             try {
-                User user = service.Login(model.Email, model.Password);
-                if (user == null) {
+                data = _loginService.Login(model.Email, model.Password);
+                if (data == null || data.Item1 == null) {
                     model.Success = false;
                     return View(model);
                 }
 
-                SessionData.sessionId = Session.SessionID;
+                SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
+                SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
+                SessionData.SetSession(Constants.SESSION_MENU, (Services.Menu)data.Item3);
+
+                IsLoggedIn = true;
                 model.Success = true;
 
                 if (Request.UrlReferrer != null && !String.IsNullOrEmpty(Request.UrlReferrer.Query)) {
@@ -49,9 +64,8 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
-            return null;
+            return View(model);
         }
     }
 }

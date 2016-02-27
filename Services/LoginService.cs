@@ -8,16 +8,27 @@ using Services;
 
 namespace MenuzRus {
 
-    public class LoginService {
+    public class LoginService : ILoginService {
 
-        public User Login(String email, String password) {
+        public Tuple<User, Customer, Menu> Login(String email, String password) {
+            Tuple<User, Customer, Menu> retValue;
             menuzRusDataContext db = new menuzRusDataContext();
-            SessionData.user = db.Users.Where(m => m.Email == email && m.Password == password && m.Active && m.EmailConfirmed).FirstOrDefault();
-            if (SessionData.user != null) {
-                SessionData.customer = db.Customers.Where(m => m.id == SessionData.user.CustomerId).FirstOrDefault();
-                SessionData.menu = db.Menus.Where(m => m.CustomerId == SessionData.user.CustomerId).FirstOrDefault();
+
+            User user;
+            Customer customer;
+            Menu menu;
+
+            user = db.Users.Where(m => m.Email == email && m.Password == password && m.Active && m.EmailConfirmed).FirstOrDefault();
+            if (user != null) {
+                customer = db.Customers.Where(m => m.id == user.CustomerId).FirstOrDefault();
+                menu = db.Menus.Where(m => m.CustomerId == user.CustomerId).FirstOrDefault();
+
+                retValue = new Tuple<User, Customer, Menu>(user, customer, menu);
+
+                return retValue;
             }
-            return SessionData.user;
+
+            return null;
         }
     }
 }

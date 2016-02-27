@@ -13,6 +13,12 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class FloorController : BaseController {
+        private IFloorService _floorService;
+
+        public FloorController(ISessionData sessionData, IFloorService floorService)
+            : base(sessionData) {
+            _floorService = floorService;
+        }
 
         #region floor
 
@@ -40,14 +46,13 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult SaveFloor(Services.Floor model) {
-            FloorService service = new FloorService();
             Services.Floor floor = new Services.Floor();
             try {
                 floor.id = model.id;
                 floor.CustomerId = SessionData.customer.id;
                 floor.Name = model.Name;
                 floor.Description = null;
-                Int32 newId = service.SaveFloor(floor);
+                Int32 newId = _floorService.SaveFloor(floor);
                 if (newId == 0)
                     return RedirectToAction("Index", "Error");
 
@@ -58,23 +63,21 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             return null;
         }
 
         [HttpPost]
         public ActionResult SaveTables(String tables) {
-            FloorService service = new FloorService();
             try {
-                service.SaveTables(new JavaScriptSerializer().Deserialize<List<Services.Table>>(tables));
+                _floorService.SaveTables(new JavaScriptSerializer().Deserialize<List<Services.Table>>(tables), SessionData.floor.id);
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
+
             return Json(SessionData.floor.id);
         }
 
@@ -83,8 +86,8 @@ namespace MenuzRus.Controllers {
         #region private
 
         public String GetTables(Int32 id) {
-            FloorService service = new FloorService();
-            List<Services.Table> tables = service.GetTables(id);
+            List<Services.Table> tables = _floorService.GetTables(id);
+
             var result = (from var in tables
                           where var.FloorId == id
                           select new {
@@ -101,13 +104,13 @@ namespace MenuzRus.Controllers {
         }
 
         private FloorModel GetModel(Int32? id) {
-            FloorService service = new FloorService();
             FloorModel model = new FloorModel();
             Services.Floor floor;
+
             try {
                 id = id.HasValue ? id.Value : 0;
-                model.Floors = service.GetFloors(SessionData.customer.id);
-                floor = service.GetFloor(id.Value);
+                model.Floors = _floorService.GetFloors(SessionData.customer.id);
+                floor = _floorService.GetFloor(id.Value);
                 if (floor == null && model.Floors.Count > 0) {
                     floor = model.Floors[0];
                 }
@@ -125,7 +128,6 @@ namespace MenuzRus.Controllers {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
 
             return null;

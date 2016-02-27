@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="menuzrus" Class="menuzRusDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=184.168.47.19;Initial Catalog=menuzrus;User ID=menuzrus" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=VALS-PC;Initial Catalog=menuzrus;Integrated Security=True" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Settings" Member="Settings">
     <Type Name="Setting">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

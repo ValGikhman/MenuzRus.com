@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class MenuService {
+    public class MenuService : IMenuService {
 
         public Boolean DeleteMenu(Int32? id) {
             Menu query = new Menu();
@@ -27,7 +27,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;
@@ -58,7 +57,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return 0;
             }
             return query.id;
@@ -92,7 +90,6 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return false;
             }
             return true;

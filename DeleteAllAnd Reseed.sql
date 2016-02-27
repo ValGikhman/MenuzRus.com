@@ -48,9 +48,15 @@ GO
 
 DELETE FROM [dbo].[Users]
 GO
+
 DELETE FROM [dbo].[Customers]
 GO
 
+DELETE FROM [dbo].[Comments]
+GO
+
+DELETE FROM [dbo].[CheckMenuComment]
+GO
 
 DBCC CHECKIDENT ([Categories], reseed, 0)
 GO
@@ -85,4 +91,8 @@ GO
 DBCC CHECKIDENT ([Tables], reseed, 0)
 GO
 DBCC CHECKIDENT ([Users], reseed, 0)
+GO
+DBCC CHECKIDENT ([CheckMenuComment], reseed, 0)
+GO
+DBCC CHECKIDENT ([Comments], reseed, 0)
 GO

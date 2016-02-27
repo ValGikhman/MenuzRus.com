@@ -6,7 +6,7 @@
             <tr>
                 <td>
                     <div class="centered">
-                        <img src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", MenuzRus.SessionData.customer.id, MenuzRus.SessionData.customer.ImageUrl, Guid.NewGuid().ToString("N"))))" />
+                        <img src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
                     </div>
                 </td>
             </tr>
@@ -27,31 +27,31 @@
                     </div>
                 </td>
             </tr>
-            @if (MenuzRus.SessionData.customer.ImageUrl.IsEmpty()) {
+            @if (Model.MyCompany.ImageUrl.IsEmpty()) {
                 <tr>
-                    <td align="center">@MenuzRus.SessionData.customer.Name.ToUpper()</td>
+                    <td align="center">@Model.MyCompany.Name.ToUpper()</td>
                 </tr>
             }
             <tr>
                 <td>
-                    <div class="addressItem centered">@MenuzRus.SessionData.customer.Address.ToUpper()</div>
+                    <div class="addressItem centered">@Model.MyCompany.Address.ToUpper()</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    @if (!String.IsNullOrEmpty(MenuzRus.SessionData.customer.Address2)) {
-                        <div class="addressItem centered">@MenuzRus.SessionData.customer.Address2.ToUpper()</div>
+                    @if (!String.IsNullOrEmpty(Model.MyCompany.Address2)) {
+                        <div class="addressItem centered">@Model.MyCompany.Address2.ToUpper()</div>
                     }
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="addressItem centered">@MenuzRus.SessionData.customer.City.ToUpper(), @MenuzRus.SessionData.customer.State.ToUpper() @MenuzRus.SessionData.customer.Zip</div>
+                    <div class="addressItem centered">@Model.MyCompany.City.ToUpper(), @Model.MyCompany.State.ToUpper() @Model.MyCompany.Zip</div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="phoneItem centered">@MenuzRus.SessionData.customer.Phone.FormatPhone()</div>
+                    <div class="phoneItem centered">@Model.MyCompany.Phone.FormatPhone()</div>
                 </td>
             </tr>
         </tbody>
@@ -145,7 +145,7 @@
                 <td style="font-size: x-small;">
                     <br />
                     <br />
-                    @String.Format("Server: {0}{1}", Model.User.FirstName, Model.User.LastName.Substring(0, 1))
+                    @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
                 <td id="total" class="totalItem pull-right"></td>

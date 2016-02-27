@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class SettingsService {
+    public class SettingsService : ISettingsService {
 
         public Dictionary<String, String> GetSettings(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext();
@@ -54,17 +54,16 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 retVal = false;
             }
             return retVal;
         }
 
-        public Boolean SaveSetting(Setting setting) {
+        public Boolean SaveSetting(Setting setting, Int32 customerId) {
             Boolean retVal = true;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
-                    Setting query = db.Settings.Where(m => m.CustomerId == SessionData.customer.id && m.Type == setting.Type).FirstOrDefault();
+                    Setting query = db.Settings.Where(m => m.CustomerId == customerId && m.Type == setting.Type).FirstOrDefault();
                     if (query == default(Setting)) {
                         query = new Setting();
                         db.Settings.InsertOnSubmit(query);
@@ -72,12 +71,11 @@ namespace MenuzRus {
 
                     query.Type = setting.Type;
                     query.Value = setting.Value;
-                    query.CustomerId = SessionData.customer.id;
+                    query.CustomerId = customerId;
                     db.SubmitChanges();
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 retVal = false;
             }
             return retVal;

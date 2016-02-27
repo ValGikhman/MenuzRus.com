@@ -12,12 +12,17 @@ using Services;
 namespace MenuzRus {
 
     public class CategoryController : BaseController {
+        private ICategoryService _categoryService;
+
+        public CategoryController(ISessionData sessionData, ICategoryService categoryService)
+            : base(sessionData) {
+            _categoryService = categoryService;
+        }
 
         [HttpPost]
         public ActionResult DeleteCategory(Int32? id) {
-            CategoryService service = new CategoryService();
             try {
-                if (!service.DeleteCategory(id))
+                if (!_categoryService.DeleteCategory(id))
                     return RedirectToAction("Index", "Error");
             }
             catch (Exception ex) {
@@ -44,7 +49,6 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
-            CategoryService service = new CategoryService();
             Services.Category category = new Services.Category();
             try {
                 category.id = model.id;
@@ -61,7 +65,7 @@ namespace MenuzRus {
                         category.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
                 }
 
-                Int32 result = service.SaveCategory(category);
+                Int32 result = _categoryService.SaveCategory(category);
                 if (result == 0)
                     return RedirectToAction("Index", "Error");
 
@@ -78,7 +82,6 @@ namespace MenuzRus {
                 base.Log(ex);
             }
             finally {
-                service = null;
             }
             // Default menuDesigner
             return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
@@ -92,8 +95,7 @@ namespace MenuzRus {
                 //set for new or existing category
                 model.id = id;
                 Services.Category category;
-                CategoryService categoryService = new CategoryService();
-                category = categoryService.GetCategory(id);
+                category = _categoryService.GetCategory(id);
                 model.Type = type;
                 if (category != null) {
                     model.id = category.id;

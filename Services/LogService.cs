@@ -8,7 +8,7 @@ using MenuzRus;
 
 namespace Services {
 
-    public class LogService {
+    public class LogService : ILogService {
 
         #region public
 
@@ -17,11 +17,11 @@ namespace Services {
         }
 
         public void Log(Common.LogType logType, String messsage, params Object[] data) {
-            SendToLogger(logType, messsage, null, data);
+            SendToLogger(logType, messsage, null, 0, null, null, data);
         }
 
         public void Log(Common.LogType logType, String messsage, String trace, params Object[] data) {
-            SendToLogger(logType, messsage, trace, data);
+            SendToLogger(logType, messsage, trace, 0, null, null, data);
         }
 
         #endregion public
@@ -49,29 +49,27 @@ namespace Services {
                     }
                 }
                 catch (Exception ex) {
-                    SessionData.exeption = ex;
                 }
             }
             return parameter;
         }
 
-        private void SendToLogger(Common.LogType type, String message, String trace, params Object[] data) {
+        private void SendToLogger(Common.LogType type, String message, String trace, Int32 userId, String sessionId, String route, params Object[] data) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     Log log = new Log();
                     log.IP = Common.GetIP();
                     log.LogType = (Int32)type;
-                    log.UserId = SessionData.user != null ? SessionData.user.id : 0;
-                    log.SessionId = SessionData.sessionId != null ? SessionData.sessionId : "N/A";
+                    log.UserId = userId;
+                    log.SessionId = sessionId != null ? sessionId : "N/A";
                     log.Message = String.Format("{0} {1}{2}", message, Environment.NewLine, BuildParameters(data));
                     log.Trace = trace;
-                    log.Route = SessionData.route;
+                    log.Route = route;
                     db.Logs.InsertOnSubmit(log);
                     db.SubmitChanges();
                 }
             }
             catch (Exception ex) {
-                SessionData.exeption = ex;
                 return;
             }
         }

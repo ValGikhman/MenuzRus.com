@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Linq;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -10,7 +11,6 @@ using Services;
 namespace MenuzRus.Models {
 
     public class Category {
-
         public String Description { set; get; }
 
         public Int32 id { set; get; }
@@ -23,10 +23,11 @@ namespace MenuzRus.Models {
     }
 
     public class DesignerModel : BaseModel {
-
         public List<Services.Category> Categories { set; get; }
 
         public Common.CategoryType CategoryType { set; get; }
+
+        public EntitySet<Services.ItemProduct> ItemProducts { set; get; }
 
         public List<MenuItem> MenuItems { set; get; }
 
@@ -34,7 +35,6 @@ namespace MenuzRus.Models {
     }
 
     public class Menu {
-
         public String Description { set; get; }
 
         public Int32 id { set; get; }
@@ -45,7 +45,6 @@ namespace MenuzRus.Models {
     }
 
     public class MenuDesignerModel : DesignerModel {
-
         public Menu Menu { set; get; }
 
         public List<Services.Menu> Menus { set; get; }
@@ -58,14 +57,12 @@ namespace MenuzRus.Models {
     }
 
     public class SettingModel {
-
         public string Type { get; set; }
 
         public string Value { get; set; }
     }
 
     public class SortOrderModel {
-
         public String ids { get; set; }
     }
 }

@@ -12,6 +12,12 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class DesignerController : BaseController {
+        public ICategoryService _categoryService;
+
+        public DesignerController(ISessionData sessionData, ICategoryService categoryService)
+            : base(sessionData) {
+            _categoryService = categoryService;
+        }
 
         [CheckUserSession]
         public ActionResult Index(Int32? id) {
@@ -26,6 +32,7 @@ namespace MenuzRus.Controllers {
         public JsonResult LoadData(String type) {
             DesignerModel model;
             Int32 categoryType = Int32.Parse(type);
+
             try {
                 model = GetModel((Common.CategoryType)categoryType);
                 List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>> gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
@@ -90,18 +97,19 @@ namespace MenuzRus.Controllers {
         #region private
 
         private DesignerModel GetModel(Common.CategoryType type) {
-            CategoryService categoryService = new CategoryService();
             DesignerModel model = new DesignerModel();
+
             try {
                 model.CategoryType = type;
-                model.Categories = categoryService.GetCategories(SessionData.customer.id, type);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
+                model.ItemProducts = SessionData.item.ItemProducts;
+
                 return model;
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
-                categoryService = null;
             }
             return null;
         }

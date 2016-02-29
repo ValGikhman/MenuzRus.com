@@ -11,6 +11,25 @@ GO
 SET ANSI_PADDING ON
 GO
 
+CREATE TABLE [dbo].[Alerts](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[CheckMenuId] [int] NOT NULL,
+	[Type] [int] NOT NULL,
+	[Status] [int] NOT NULL,
+	[DateModified] [datetime] NOT NULL,
+	[DateCreated] [datetime] NOT NULL,
+ CONSTRAINT [PK_Alerts] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Alerts] ADD  CONSTRAINT [DF_Alerts_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]
+GO
+
+
 CREATE TABLE [dbo].[Logs](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[UserId] [int] NOT NULL,
@@ -236,7 +255,7 @@ CREATE TABLE [dbo].[Items](
 	[Description] [nvarchar](255) NULL,
 	[ImageUrl] [varchar](50) NULL,
 	[AdditionalInfo] [nvarchar](250) NULL,
-	[Active] [bit] NOT NULL,
+	[Status] [int] NOT NULL,
 	[SortOrder] [int] NULL,
  CONSTRAINT [PK_Items] PRIMARY KEY CLUSTERED 
 (

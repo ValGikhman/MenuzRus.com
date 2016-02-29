@@ -27,9 +27,10 @@ namespace MenuzRus {
         }
 
         public Boolean DeleteItem(Int32? id) {
-            Item query = new Item();
+            Item query;
             id = id.HasValue ? id : 0;
             try {
+                query = new Item();
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
@@ -44,9 +45,10 @@ namespace MenuzRus {
             return true;
         }
 
-        public void DeleteMenuItem(Int32 id) {
-            MenuDesign query = new MenuDesign();
+        public Boolean DeleteMenuItem(Int32 id) {
+            MenuDesign query;
             try {
+                query = new MenuDesign();
                 using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.MenuDesigns.FirstOrDefault(m => m.ItemId == id);
                     if (query != default(MenuDesign)) {
@@ -56,7 +58,9 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
+                return false;
             }
+            return true;
         }
 
         public Item GetItem(Int32 id) {

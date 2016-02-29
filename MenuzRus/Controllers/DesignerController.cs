@@ -21,11 +21,13 @@ namespace MenuzRus.Controllers {
 
         [CheckUserSession]
         public ActionResult Index(Int32? id) {
+            DesignerModel model;
             if (!id.HasValue) {
                 id = (Int32)Common.CategoryType.Menu;
             }
+            model = GetModel((Common.CategoryType)id);
 
-            return View("Index", GetModel((Common.CategoryType)id));
+            return View("Index", model);
         }
 
         [HttpGet]
@@ -102,8 +104,10 @@ namespace MenuzRus.Controllers {
             try {
                 model.CategoryType = type;
                 model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
-                model.ItemProducts = SessionData.item.ItemProducts;
-
+                model.ItemProducts = null;
+                if (SessionData.item != null) {
+                    model.ItemProducts = SessionData.item.ItemProducts;
+                }
                 return model;
             }
             catch (Exception ex) {

@@ -14,7 +14,7 @@ namespace MenuzRus {
 
         Boolean DeleteItem(Int32? id);
 
-        void DeleteMenuItem(Int32 id);
+        Boolean DeleteMenuItem(Int32 id);
 
         Item GetItem(Int32 id);
 

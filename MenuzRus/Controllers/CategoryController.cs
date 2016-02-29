@@ -49,8 +49,13 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
-            Services.Category category = new Services.Category();
+            Services.Category category;
+            Int32 result;
+            String fileName;
+            String path;
+
             try {
+                category = new Services.Category();
                 category.id = model.id;
                 category.Name = model.Name;
                 category.Description = model.Description;
@@ -65,12 +70,12 @@ namespace MenuzRus {
                         category.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
                 }
 
-                Int32 result = _categoryService.SaveCategory(category);
+                result = _categoryService.SaveCategory(category);
                 if (result == 0)
                     return RedirectToAction("Index", "Error");
 
-                String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
-                String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
+                fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
+                path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.customer.id.ToString(), "Categories", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
                 if (model.Image == null && model.ImageUrl == null) {
                     if (System.IO.File.Exists(path))
                         System.IO.File.Delete(path);
@@ -90,13 +95,16 @@ namespace MenuzRus {
         #region private
 
         private CategoryModel GetModel(Int32 id, Common.CategoryType type) {
-            CategoryModel model = new CategoryModel();
+            CategoryModel model;
+            Services.Category category;
             try {
-                //set for new or existing category
+                model = new CategoryModel();
                 model.id = id;
-                Services.Category category;
-                category = _categoryService.GetCategory(id);
                 model.Type = type;
+                model.Status = Common.Status.Active;
+
+                //set for new or existing category
+                category = _categoryService.GetCategory(id);
                 if (category != null) {
                     model.id = category.id;
                     model.Name = category.Name;
@@ -105,13 +113,14 @@ namespace MenuzRus {
                     model.Type = (Common.CategoryType)category.Type;
                     model.ImageUrl = category.ImageUrl;
                 }
+                return model;
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
             }
-            return model;
+            return null;
         }
 
         #endregion private

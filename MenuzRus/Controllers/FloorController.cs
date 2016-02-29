@@ -68,9 +68,15 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SaveTables(String tables) {
+        public ActionResult SaveTables(String model) {
+            JavaScriptSerializer js;
+            List<Services.Table> tables;
+
             try {
-                _floorService.SaveTables(new JavaScriptSerializer().Deserialize<List<Services.Table>>(tables), SessionData.floor.id);
+                js = new JavaScriptSerializer();
+                tables = js.Deserialize<List<Services.Table>>(model);
+
+                _floorService.SaveTables(tables, SessionData.floor.id);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -91,14 +97,14 @@ namespace MenuzRus.Controllers {
             var result = (from var in tables
                           where var.FloorId == id
                           select new {
-                              var.Col,
+                              var.Top,
                               var.FloorId,
                               var.id,
                               var.Name,
-                              var.Row,
+                              var.Left,
                               var.Type,
-                              var.X,
-                              var.Y
+                              var.Width,
+                              var.Height
                           }).ToList();
             return result.ToJson();
         }

@@ -63,9 +63,6 @@ namespace Services
     partial void InsertChecksMenuProductItem(ChecksMenuProductItem instance);
     partial void UpdateChecksMenuProductItem(ChecksMenuProductItem instance);
     partial void DeleteChecksMenuProductItem(ChecksMenuProductItem instance);
-    partial void InsertTable(Table instance);
-    partial void UpdateTable(Table instance);
-    partial void DeleteTable(Table instance);
     partial void InsertCustomer(Customer instance);
     partial void UpdateCustomer(Customer instance);
     partial void DeleteCustomer(Customer instance);
@@ -99,6 +96,9 @@ namespace Services
     partial void InsertMenuDesign(MenuDesign instance);
     partial void UpdateMenuDesign(MenuDesign instance);
     partial void DeleteMenuDesign(MenuDesign instance);
+    partial void InsertTable(Table instance);
+    partial void UpdateTable(Table instance);
+    partial void DeleteTable(Table instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -219,14 +219,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<Table> Tables
-		{
-			get
-			{
-				return this.GetTable<Table>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Customer> Customers
 		{
 			get
@@ -312,6 +304,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<MenuDesign>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Table> Tables
+		{
+			get
+			{
+				return this.GetTable<Table>();
 			}
 		}
 	}
@@ -2902,349 +2902,6 @@ namespace Services
 						this._ProductId = default(int);
 					}
 					this.SendPropertyChanged("ChecksMenuProduct");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tables")]
-	public partial class Table : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _FloorId;
-		
-		private string _Name;
-		
-		private int _Status;
-		
-		private string _Type;
-		
-		private int _Col;
-		
-		private int _Row;
-		
-		private int _X;
-		
-		private int _Y;
-		
-		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntityRef<Floor> _Floor;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnFloorIdChanging(int value);
-    partial void OnFloorIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnStatusChanging(int value);
-    partial void OnStatusChanged();
-    partial void OnTypeChanging(string value);
-    partial void OnTypeChanged();
-    partial void OnColChanging(int value);
-    partial void OnColChanged();
-    partial void OnRowChanging(int value);
-    partial void OnRowChanged();
-    partial void OnXChanging(int value);
-    partial void OnXChanged();
-    partial void OnYChanging(int value);
-    partial void OnYChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public Table()
-		{
-			this._Floor = default(EntityRef<Floor>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FloorId", DbType="Int NOT NULL")]
-		public int FloorId
-		{
-			get
-			{
-				return this._FloorId;
-			}
-			set
-			{
-				if ((this._FloorId != value))
-				{
-					if (this._Floor.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnFloorIdChanging(value);
-					this.SendPropertyChanging();
-					this._FloorId = value;
-					this.SendPropertyChanged("FloorId");
-					this.OnFloorIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
-		public int Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Col", DbType="Int NOT NULL")]
-		public int Col
-		{
-			get
-			{
-				return this._Col;
-			}
-			set
-			{
-				if ((this._Col != value))
-				{
-					this.OnColChanging(value);
-					this.SendPropertyChanging();
-					this._Col = value;
-					this.SendPropertyChanged("Col");
-					this.OnColChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Row", DbType="Int NOT NULL")]
-		public int Row
-		{
-			get
-			{
-				return this._Row;
-			}
-			set
-			{
-				if ((this._Row != value))
-				{
-					this.OnRowChanging(value);
-					this.SendPropertyChanging();
-					this._Row = value;
-					this.SendPropertyChanged("Row");
-					this.OnRowChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_X", DbType="Int NOT NULL")]
-		public int X
-		{
-			get
-			{
-				return this._X;
-			}
-			set
-			{
-				if ((this._X != value))
-				{
-					this.OnXChanging(value);
-					this.SendPropertyChanging();
-					this._X = value;
-					this.SendPropertyChanged("X");
-					this.OnXChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Y", DbType="Int NOT NULL")]
-		public int Y
-		{
-			get
-			{
-				return this._Y;
-			}
-			set
-			{
-				if ((this._Y != value))
-				{
-					this.OnYChanging(value);
-					this.SendPropertyChanging();
-					this._Y = value;
-					this.SendPropertyChanged("Y");
-					this.OnYChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floor_Table", Storage="_Floor", ThisKey="FloorId", OtherKey="id", IsForeignKey=true)]
-		public Floor Floor
-		{
-			get
-			{
-				return this._Floor.Entity;
-			}
-			set
-			{
-				Floor previousValue = this._Floor.Entity;
-				if (((previousValue != value) 
-							|| (this._Floor.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Floor.Entity = null;
-						previousValue.Tables.Remove(this);
-					}
-					this._Floor.Entity = value;
-					if ((value != null))
-					{
-						value.Tables.Add(this);
-						this._FloorId = value.id;
-					}
-					else
-					{
-						this._FloorId = default(int);
-					}
-					this.SendPropertyChanged("Floor");
 				}
 			}
 		}
@@ -6104,6 +5761,349 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.MenuDesign = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tables")]
+	public partial class Table : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _FloorId;
+		
+		private string _Name;
+		
+		private int _Status;
+		
+		private string _Type;
+		
+		private int _Top;
+		
+		private int _Left;
+		
+		private int _Width;
+		
+		private int _Height;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntityRef<Floor> _Floor;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnFloorIdChanging(int value);
+    partial void OnFloorIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
+    partial void OnTopChanging(int value);
+    partial void OnTopChanged();
+    partial void OnLeftChanging(int value);
+    partial void OnLeftChanged();
+    partial void OnWidthChanging(int value);
+    partial void OnWidthChanged();
+    partial void OnHeightChanging(int value);
+    partial void OnHeightChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public Table()
+		{
+			this._Floor = default(EntityRef<Floor>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FloorId", DbType="Int NOT NULL")]
+		public int FloorId
+		{
+			get
+			{
+				return this._FloorId;
+			}
+			set
+			{
+				if ((this._FloorId != value))
+				{
+					if (this._Floor.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFloorIdChanging(value);
+					this.SendPropertyChanging();
+					this._FloorId = value;
+					this.SendPropertyChanged("FloorId");
+					this.OnFloorIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Top]", Storage="_Top", DbType="Int NOT NULL")]
+		public int Top
+		{
+			get
+			{
+				return this._Top;
+			}
+			set
+			{
+				if ((this._Top != value))
+				{
+					this.OnTopChanging(value);
+					this.SendPropertyChanging();
+					this._Top = value;
+					this.SendPropertyChanged("Top");
+					this.OnTopChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Left]", Storage="_Left", DbType="Int NOT NULL")]
+		public int Left
+		{
+			get
+			{
+				return this._Left;
+			}
+			set
+			{
+				if ((this._Left != value))
+				{
+					this.OnLeftChanging(value);
+					this.SendPropertyChanging();
+					this._Left = value;
+					this.SendPropertyChanged("Left");
+					this.OnLeftChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width", DbType="Int NOT NULL")]
+		public int Width
+		{
+			get
+			{
+				return this._Width;
+			}
+			set
+			{
+				if ((this._Width != value))
+				{
+					this.OnWidthChanging(value);
+					this.SendPropertyChanging();
+					this._Width = value;
+					this.SendPropertyChanged("Width");
+					this.OnWidthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height", DbType="Int NOT NULL")]
+		public int Height
+		{
+			get
+			{
+				return this._Height;
+			}
+			set
+			{
+				if ((this._Height != value))
+				{
+					this.OnHeightChanging(value);
+					this.SendPropertyChanging();
+					this._Height = value;
+					this.SendPropertyChanged("Height");
+					this.OnHeightChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Floor_Table", Storage="_Floor", ThisKey="FloorId", OtherKey="id", IsForeignKey=true)]
+		public Floor Floor
+		{
+			get
+			{
+				return this._Floor.Entity;
+			}
+			set
+			{
+				Floor previousValue = this._Floor.Entity;
+				if (((previousValue != value) 
+							|| (this._Floor.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Floor.Entity = null;
+						previousValue.Tables.Remove(this);
+					}
+					this._Floor.Entity = value;
+					if ((value != null))
+					{
+						value.Tables.Add(this);
+						this._FloorId = value.id;
+					}
+					else
+					{
+						this._FloorId = default(int);
+					}
+					this.SendPropertyChanged("Floor");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

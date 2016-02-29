@@ -389,12 +389,11 @@ GO
 
 CREATE TABLE [dbo].[Categories](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[MenuId] [int] NOT NULL,
+	[CustomerId] [int] NOT NULL,
 	[Name] [nvarchar](250) NOT NULL,
 	[Description] [nvarchar](255) NULL,
 	[ImageUrl] [varchar](50) NULL,
-	[Side] [varchar](10) NOT NULL,
-	[Active] [bit] NOT NULL,
+	[Status] [int] NOT NULL,
 	[Type] [int] NOT NULL,
 	[SortOrder] [int] NULL,
 	[DateCreated] [datetime] NOT NULL,
@@ -410,7 +409,7 @@ GO
 SET ANSI_PADDING OFF
 GO
 
-ALTER TABLE [dbo].[Categories] ADD  CONSTRAINT [DF_Category_Active]  DEFAULT ((1)) FOR [Active]
+ALTER TABLE [dbo].[Categories] ADD  CONSTRAINT [DF_Category_Active]  DEFAULT ((1)) FOR [Status]
 GO
 
 ALTER TABLE [dbo].[Categories] ADD  CONSTRAINT [DF_Categories_DateCreated]  DEFAULT (getutcdate()) FOR [DateCreated]

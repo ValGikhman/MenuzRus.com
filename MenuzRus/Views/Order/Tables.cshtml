@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    <div class="gridster floorArea shadow">
-        <ul>
+    <div class="floorArea shadow">
+        <ul id="tables">
         </ul>
     </div>
     <a href="#">Tables <span class="tables badge"></span></a>
@@ -36,6 +36,3 @@
 @Html.HiddenFor(m => m.Floor.id)
 @Html.HiddenFor(m => m.Floor.Name)
 @Html.HiddenFor(m => m.Floor.Layout)
-<script>
-    initGridster();
-</script>

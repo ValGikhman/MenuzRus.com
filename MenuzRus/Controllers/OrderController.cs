@@ -731,14 +731,14 @@ namespace MenuzRus.Controllers {
                 var result = (from var in tables
                               where var.FloorId == id
                               select new {
-                                  var.Col,
+                                  var.Top,
                                   var.FloorId,
                                   var.id,
                                   var.Name,
-                                  var.Row,
+                                  var.Left,
                                   var.Type,
-                                  var.X,
-                                  var.Y,
+                                  var.Width,
+                                  var.Height,
                                   Status = _floorService.GetTableOrderStatus(var.id),
                                   Checks = _orderService.GetChecksIds(var.id, true),
                                   DateModified = _floorService.GetTableOrderDate(var.id)

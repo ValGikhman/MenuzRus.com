@@ -8,6 +8,7 @@
 .floorArea {
     height: 60vh;
     border-radius: 15px;
+    position: relative;
     width: 100%;
 }
 

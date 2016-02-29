@@ -131,14 +131,14 @@ namespace MenuzRus {
                                 table = db.Tables.FirstOrDefault(m => m.id == t.id);
                             }
 
-                            table.Col = t.Col;
-                            table.FloorId = t.FloorId;
+                            table.Top = t.Top;
+                            table.FloorId = floorId;
                             table.Name = t.Name;
-                            table.Row = t.Row;
+                            table.Left = t.Left;
                             table.Status = (Int32)Common.Status.Active;
                             table.Type = t.Type;
-                            table.X = t.X;
-                            table.Y = t.Y;
+                            table.Width = t.Width;
+                            table.Height = t.Height;
                             if (t.id == 0) {
                                 db.Tables.InsertOnSubmit(table);
                             }

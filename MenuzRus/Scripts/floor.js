@@ -1,16 +1,20 @@
-﻿$(function () {
+﻿var dragSettings = {
+    grid: [20, 20],
+    containment: ".floorArea",
+    cursor: "move",
+    span: true,
+    scroll: true,
+    scrollSensitivity: 100
+};
+
+var resizeSettings = { grid: [20, 20] };
+
+$(function () {
     addLayout();
 
-    $("#tables li").draggable({
-        grid: [20, 20],
-        containment: ".floorArea",
-        cursor: "move",
-        span: true,
-        scroll: true,
-        scrollSensitivity: 100
-    });
+    $("#tables").draggable(dragSettings);
 
-    $(".floorArea").resizable({ grid: [20, 20] });
+    $(".floorArea").resizable(resizeSettings);
 
     $("#btnSave").on("click", function () {
         saveTables();
@@ -96,9 +100,9 @@ function addLayout() {
             var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
             var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
             var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
-            var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
+            var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='tables shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
             $("#tables").append(element);
-            $(selector).css("width", "50px").css("height", "150px").css("top", "50").resizable({ grid: [20, 20] });;
+            $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute");
         });
         refreshTotal();
     }
@@ -106,12 +110,16 @@ function addLayout() {
 
 function addNewTable(style) {
     var name = uid();
+    var id = shortGuid();
+    var selector = $.validator.format("#new-{0}", id);
     var deleteButton = "<span onclick='javascript:editTable($(this).parent().parent());' class='editTable glyphicon glyphicon-pencil'></span>";
     var editButton = "<span onclick='javascript:deleteTable($(this).parent().parent());' class='deleteTable glyphicon glyphicon-trash'></span>";
     var plusButton = "<span onclick='javascript:copyTable($(this).parent().parent());' class='copyTable glyphicon glyphicon-plus'></span>";
     var toolbar = $.validator.format("<div class='toolbar hide shadow'>{0}{1}{2}</div>", deleteButton, editButton, plusButton);
     var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", name);
-    var element = $.validator.format("<li id='new-{0}' data-name='{1}' data-type='{2}' class='shape {2}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", shortGuid(), name, style, toolbar, elementName);
+    var element = $.validator.format("<li id='new-{0}' data-name='{1}' data-type='{2}' class='tables shape {2}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", id, name, style, toolbar, elementName);
+    $("#tables").append(element);
+    $(selector).css("width", "100px").css("height", "100px").resizable(resizeSettings).draggable(dragSettings);
     refreshTotal();
 }
 
@@ -127,9 +135,8 @@ function copyTable(element) {
     newElement.attr("id", $.validator.format("new-{0}", shortGuid()));
     newElement.attr("data-type", element.attr("data-type"));
     newElement.attr("data-name", element.attr("data-name"));
-    newElement.attr("data-sizex", element.attr("data-sizex"));
-    newElement.attr("data-sizey", element.attr("data-sizey"));
     $(newElement).find(".tableName").html(element.attr("data-name"));
+    $("#tables").append(newElement);
     refreshTotal();
 }
 
@@ -152,16 +159,43 @@ function showTools(element, show) {
 
 function saveTables() {
     var container = $(".container-floor");
-    container.block();
-    var postData = gridster.serialize();
+    var postData;
+    var values = "";
+    var selector = $("#tables li");
 
-    $.each(postData, function () {
-        if (this.id.indexOf("new-") == 0) {
-            this.id = 0;
+    var id;
+    var name;
+    var type;
+
+    var top = 0;
+    var left = 0;
+    var width = 0;
+    var height = 0;
+
+    container.block();
+    values += "[";
+
+    $.each(selector, function (index, item) {
+        if ($(item).attr("id").indexOf("new-") == 0) {
+            $(item).attr("id", "0");
         }
+
+        id = $(item).attr("id");
+        name = $(item).attr("data-name");
+        type = $(item).attr("data-type");
+
+        top = $(item).css("top").replace("px", "");
+        left = $(item).css("left").replace("px", "");
+        width = $(item).css("width").replace("px", "");
+        height = $(item).css("height").replace("px", "");
+
+        prefix = index > 0 ? ", " : "";
+        values += $.validator.format("{0}{'id':'{1}', 'Name':'{2}', 'Type':'{3}', 'Top':'{4}', 'Left':'{5}', 'Width':'{6}', 'Height':'{7}'}", prefix, id, name, type, top, left, width, height);
     });
 
-    var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "tables": JSON.stringify(postData) }, "json")
+    values += "]";
+
+    var jqxhr = $.post($.validator.format("{0}Floor/SaveTables", root), { "model": values }, "json")
                   .done(function (result) {
                       message("Save successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}Floor/Index/", root) + result;

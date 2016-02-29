@@ -128,22 +128,6 @@
       <Association Name="ChecksMenuProduct_ChecksMenuProductItem" Member="ChecksMenuProduct" Storage="_OrderChecksMenuProduct" ThisKey="ProductId" OtherKey="id" Type="ChecksMenuProduct" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Tables" Member="Tables">
-    <Type Name="Table">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FloorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
-      <Column Name="Col" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Row" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="X" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Y" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Floor_Table" Member="Floor" ThisKey="FloorId" OtherKey="id" Type="Floor" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Customers" Member="Customers">
     <Type Name="Customer">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -280,6 +264,22 @@
       <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="MenuDesign_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tables" Member="Tables">
+    <Type Name="Table">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FloorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="[Top]" Member="Top" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Left]" Member="Left" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Width" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Height" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Floor_Table" Member="Floor" ThisKey="FloorId" OtherKey="id" Type="Floor" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

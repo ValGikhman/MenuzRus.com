@@ -45,6 +45,8 @@
 
         $("#categoryType li a").click(function () {
             $("#btnCategoryType").text($(this).text());
+            $("#CategoryType").val($(this).text());
+
             $("#jqGrid").setGridParam({
                 url: $.validator.format("{0}Designer/LoadData?type={1}", root, $(this).parent().attr("data-value"))
             }).trigger("reloadGrid");

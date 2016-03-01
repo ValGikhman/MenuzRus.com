@@ -4,10 +4,10 @@
 /// ****** CATEGORY ***************///
 function editCategory(id) {
     var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      $(".modalEditForm").modal("show");
-                  })
+    .done(function (result) {
+        $("#modalEditForm").html(result);
+        $(".modalEditForm").modal("show");
+    })
     .fail(function () {
     })
     .always(function () {
@@ -55,13 +55,13 @@ function editItem(id) {
 
 function editItem(id, categoryId) {
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
-                  .done(function (result) {
-                      $("#modalEditForm").html(result);
-                      if (id == 0) {
-                          $("#CategoryId").val(categoryId);
-                      }
-                      $(".modalEditForm").modal("show");
-                  })
+    .done(function (result) {
+        $("#modalEditForm").html(result);
+        if (id == 0) {
+            $("#CategoryId").val(categoryId);
+        }
+        $(".modalEditForm").modal("show");
+    })
     .fail(function () {
     })
     .always(function () {
@@ -104,12 +104,12 @@ function deleteItem(id) {
 
 function associateItem(id) {
     var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id, type: $("#CategoryType").val() })
-.done(function (result) {
-    $("#modalEditForm").html(result);
-    $(".modalEditForm").modal("show");
-})
-.fail(function () {
-})
-.always(function () {
-});
+    .done(function (result) {
+        $("#modalEditForm").html(result);
+        $(".modalEditForm").modal("show");
+    })
+    .fail(function () {
+    })
+    .always(function () {
+    });
 }

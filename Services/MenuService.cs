@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -8,13 +9,13 @@ using Services;
 
 namespace MenuzRus {
 
-    public class MenuService : IMenuService {
+    public class MenuService : BaseService, IMenuService {
 
         public Boolean DeleteMenu(Int32? id) {
             Menu query = new Menu();
             id = id.HasValue ? id : 0;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Menus.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Menu)) {
                         IEnumerable<MenuItem> menuCategories = db.MenuItems.Where(m => m.MenuId == id);
@@ -33,14 +34,14 @@ namespace MenuzRus {
         }
 
         public List<Menu> GetMenus(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Menus.Where(m => m.CustomerId == id).ToList();
         }
 
         public Int32 SaveMenu(Menu menu) {
             Menu query = new Menu();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (menu.id != 0) {
                         query = db.Menus.Where(m => m.id == menu.id).FirstOrDefault();
                     }
@@ -70,7 +71,7 @@ namespace MenuzRus {
             }
             try {
                 query = model[0];
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     itemsToDelete = db.MenuItems.Where(m => m.MenuId == query.MenuId && !model.Contains(m));
                     if (itemsToDelete.Any()) {
                         db.MenuItems.DeleteAllOnSubmit(itemsToDelete);

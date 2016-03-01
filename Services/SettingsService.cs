@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -8,22 +9,22 @@ using Services;
 
 namespace MenuzRus {
 
-    public class SettingsService : ISettingsService {
+    public class SettingsService : BaseService, ISettingsService {
 
         public Dictionary<String, String> GetSettings(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Settings.Where(m => m.CustomerId == id).ToDictionary(m => m.Type, m => m.Value);
         }
 
         public String GetSettings(Int32 id, Common.Settings type) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Settings.Where(m => m.CustomerId == id && m.Type == type.ToString()).Select(m => m.Value).FirstOrDefault();
         }
 
         public Boolean SaveOrder(String ids, String type) {
             Boolean retVal = true;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Int32 i = 0;
                     String[] order = ids.Split(',');
                     switch (type) {
@@ -62,7 +63,7 @@ namespace MenuzRus {
         public Boolean SaveSetting(Setting setting, Int32 customerId) {
             Boolean retVal = true;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Setting query = db.Settings.Where(m => m.CustomerId == customerId && m.Type == setting.Type).FirstOrDefault();
                     if (query == default(Setting)) {
                         query = new Setting();

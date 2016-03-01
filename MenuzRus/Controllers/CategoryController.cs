@@ -59,7 +59,7 @@ namespace MenuzRus {
                 category.id = model.id;
                 category.Name = model.Name;
                 category.Description = model.Description;
-                category.Status = (Int32)Common.Status.Active;
+                category.Status = (Int32)model.Status;
                 category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
                 category.CustomerId = SessionData.customer.id;
@@ -89,7 +89,7 @@ namespace MenuzRus {
             finally {
             }
             // Default menuDesigner
-            return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
+            return RedirectToAction("Index", "Designer", new { id = (Int32)model.Type });
         }
 
         #region private

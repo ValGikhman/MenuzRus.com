@@ -739,9 +739,9 @@ namespace MenuzRus.Controllers {
                                   var.Type,
                                   var.Width,
                                   var.Height,
-                                  Status = _floorService.GetTableOrderStatus(var.id),
+                                  Status = _orderService.GetTableOrderStatus(var.id),
                                   Checks = _orderService.GetChecksIds(var.id, true),
-                                  DateModified = _floorService.GetTableOrderDate(var.id)
+                                  DateModified = _orderService.GetTableOrderDate(var.id)
                               }).ToList();
                 return result.OrderByDescending(m => m.DateModified).ToJson();
             }

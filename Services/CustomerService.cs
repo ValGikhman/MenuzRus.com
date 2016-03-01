@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -8,19 +9,19 @@ using Services;
 
 namespace MenuzRus {
 
-    public class CustomerService : ICustomerService {
+    public class CustomerService : BaseService, ICustomerService {
 
         #region customer
 
         public Customer GetCustomer(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Customers.Where(m => m.id == id).FirstOrDefault();
         }
 
         public Int32 SaveCustomer(Customer customer) {
             Customer query = new Customer();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (customer.id != 0)
                         query = db.Customers.Where(m => m.id == customer.id).FirstOrDefault();
                     if (query != default(Customer)) {

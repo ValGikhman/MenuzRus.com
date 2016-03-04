@@ -42,9 +42,15 @@ namespace Services
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertItemProductAssociation(ItemProductAssociation instance);
+    partial void UpdateItemProductAssociation(ItemProductAssociation instance);
+    partial void DeleteItemProductAssociation(ItemProductAssociation instance);
     partial void InsertItemPrice(ItemPrice instance);
     partial void UpdateItemPrice(ItemPrice instance);
     partial void DeleteItemPrice(ItemPrice instance);
+    partial void InsertItemProduct(ItemProduct instance);
+    partial void UpdateItemProduct(ItemProduct instance);
+    partial void DeleteItemProduct(ItemProduct instance);
     partial void InsertLog(Log instance);
     partial void UpdateLog(Log instance);
     partial void DeleteLog(Log instance);
@@ -60,6 +66,12 @@ namespace Services
     partial void InsertCustomer(Customer instance);
     partial void UpdateCustomer(Customer instance);
     partial void DeleteCustomer(Customer instance);
+    partial void InsertItem(Item instance);
+    partial void UpdateItem(Item instance);
+    partial void DeleteItem(Item instance);
+    partial void InsertCategory(Category instance);
+    partial void UpdateCategory(Category instance);
+    partial void DeleteCategory(Category instance);
     partial void InsertMenuItem(MenuItem instance);
     partial void UpdateMenuItem(MenuItem instance);
     partial void DeleteMenuItem(MenuItem instance);
@@ -87,22 +99,7 @@ namespace Services
     partial void InsertTable(Table instance);
     partial void UpdateTable(Table instance);
     partial void DeleteTable(Table instance);
-    partial void InsertItem(Item instance);
-    partial void UpdateItem(Item instance);
-    partial void DeleteItem(Item instance);
-    partial void InsertCategory(Category instance);
-    partial void UpdateCategory(Category instance);
-    partial void DeleteCategory(Category instance);
-    partial void InsertItemAssociation(ItemAssociation instance);
-    partial void UpdateItemAssociation(ItemAssociation instance);
-    partial void DeleteItemAssociation(ItemAssociation instance);
     #endregion
-		
-		public menuzRusDataContext() : 
-				base(global::Services.Properties.Settings.Default.menuzrusDEV, mappingSource)
-		{
-			OnCreated();
-		}
 		
 		public menuzRusDataContext(string connection) : 
 				base(connection, mappingSource)
@@ -160,11 +157,27 @@ namespace Services
 			}
 		}
 		
+		public System.Data.Linq.Table<ItemProductAssociation> ItemProductAssociations
+		{
+			get
+			{
+				return this.GetTable<ItemProductAssociation>();
+			}
+		}
+		
 		public System.Data.Linq.Table<ItemPrice> ItemPrices
 		{
 			get
 			{
 				return this.GetTable<ItemPrice>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ItemProduct> ItemProducts
+		{
+			get
+			{
+				return this.GetTable<ItemProduct>();
 			}
 		}
 		
@@ -205,6 +218,22 @@ namespace Services
 			get
 			{
 				return this.GetTable<Customer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Item> Items
+		{
+			get
+			{
+				return this.GetTable<Item>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Category> Categories
+		{
+			get
+			{
+				return this.GetTable<Category>();
 			}
 		}
 		
@@ -277,30 +306,6 @@ namespace Services
 			get
 			{
 				return this.GetTable<Table>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Item> Items
-		{
-			get
-			{
-				return this.GetTable<Item>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Category> Categories
-		{
-			get
-			{
-				return this.GetTable<Category>();
-			}
-		}
-		
-		public System.Data.Linq.Table<ItemAssociation> ItemAssociations
-		{
-			get
-			{
-				return this.GetTable<ItemAssociation>();
 			}
 		}
 	}
@@ -453,7 +458,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -679,7 +684,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -930,7 +935,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -1397,7 +1402,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -1494,6 +1499,205 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItemProductAssociation")]
+	public partial class ItemProductAssociation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _ItemProductId;
+		
+		private int _ItemId;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntityRef<ItemProduct> _ItemProduct;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnItemProductIdChanging(int value);
+    partial void OnItemProductIdChanged();
+    partial void OnItemIdChanging(int value);
+    partial void OnItemIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public ItemProductAssociation()
+		{
+			this._ItemProduct = default(EntityRef<ItemProduct>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemProductId", DbType="Int NOT NULL")]
+		public int ItemProductId
+		{
+			get
+			{
+				return this._ItemProductId;
+			}
+			set
+			{
+				if ((this._ItemProductId != value))
+				{
+					if (this._ItemProduct.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnItemProductIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemProductId = value;
+					this.SendPropertyChanged("ItemProductId");
+					this.OnItemProductIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
+		public int ItemId
+		{
+			get
+			{
+				return this._ItemId;
+			}
+			set
+			{
+				if ((this._ItemId != value))
+				{
+					this.OnItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemId = value;
+					this.SendPropertyChanged("ItemId");
+					this.OnItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemProduct_ItemProductAssociation", Storage="_ItemProduct", ThisKey="ItemProductId", OtherKey="id", IsForeignKey=true)]
+		public ItemProduct ItemProduct
+		{
+			get
+			{
+				return this._ItemProduct.Entity;
+			}
+			set
+			{
+				ItemProduct previousValue = this._ItemProduct.Entity;
+				if (((previousValue != value) 
+							|| (this._ItemProduct.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ItemProduct.Entity = null;
+						previousValue.ItemProductAssociations.Remove(this);
+					}
+					this._ItemProduct.Entity = value;
+					if ((value != null))
+					{
+						value.ItemProductAssociations.Add(this);
+						this._ItemProductId = value.id;
+					}
+					else
+					{
+						this._ItemProductId = default(int);
+					}
+					this.SendPropertyChanged("ItemProduct");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -1669,6 +1873,233 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItemProduct")]
+	public partial class ItemProduct : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _ItemId;
+		
+		private int _Type;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntitySet<ItemProductAssociation> _ItemProductAssociations;
+		
+		private EntityRef<Item> _Item;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnItemIdChanging(int value);
+    partial void OnItemIdChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public ItemProduct()
+		{
+			this._ItemProductAssociations = new EntitySet<ItemProductAssociation>(new Action<ItemProductAssociation>(this.attach_ItemProductAssociations), new Action<ItemProductAssociation>(this.detach_ItemProductAssociations));
+			this._Item = default(EntityRef<Item>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
+		public int ItemId
+		{
+			get
+			{
+				return this._ItemId;
+			}
+			set
+			{
+				if ((this._ItemId != value))
+				{
+					if (this._Item.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._ItemId = value;
+					this.SendPropertyChanged("ItemId");
+					this.OnItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemProduct_ItemProductAssociation", Storage="_ItemProductAssociations", ThisKey="id", OtherKey="ItemProductId")]
+		public EntitySet<ItemProductAssociation> ItemProductAssociations
+		{
+			get
+			{
+				return this._ItemProductAssociations;
+			}
+			set
+			{
+				this._ItemProductAssociations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemProduct", Storage="_Item", ThisKey="ItemId", OtherKey="id", IsForeignKey=true)]
+		public Item Item
+		{
+			get
+			{
+				return this._Item.Entity;
+			}
+			set
+			{
+				Item previousValue = this._Item.Entity;
+				if (((previousValue != value) 
+							|| (this._Item.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Item.Entity = null;
+						previousValue.ItemProducts.Remove(this);
+					}
+					this._Item.Entity = value;
+					if ((value != null))
+					{
+						value.ItemProducts.Add(this);
+						this._ItemId = value.id;
+					}
+					else
+					{
+						this._ItemId = default(int);
+					}
+					this.SendPropertyChanged("Item");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ItemProductAssociations(ItemProductAssociation entity)
+		{
+			this.SendPropertyChanging();
+			entity.ItemProduct = this;
+		}
+		
+		private void detach_ItemProductAssociations(ItemProductAssociation entity)
+		{
+			this.SendPropertyChanging();
+			entity.ItemProduct = null;
 		}
 	}
 	
@@ -2087,7 +2518,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -2787,7 +3218,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -2925,6 +3356,708 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.Customer = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Items")]
+	public partial class Item : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CategoryId;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private string _ImageUrl;
+		
+		private string _AdditionalInfo;
+		
+		private int _Status;
+		
+		private System.Nullable<int> _SortOrder;
+		
+		private EntitySet<ItemPrice> _ItemPrices;
+		
+		private EntitySet<ItemProduct> _ItemProducts;
+		
+		private EntitySet<MenuItem> _MenuItems;
+		
+		private EntityRef<Category> _Category;
+		
+		private EntityRef<MenuDesign> _MenuDesign;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCategoryIdChanging(int value);
+    partial void OnCategoryIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnAdditionalInfoChanging(string value);
+    partial void OnAdditionalInfoChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnSortOrderChanging(System.Nullable<int> value);
+    partial void OnSortOrderChanged();
+    #endregion
+		
+		public Item()
+		{
+			this._ItemPrices = new EntitySet<ItemPrice>(new Action<ItemPrice>(this.attach_ItemPrices), new Action<ItemPrice>(this.detach_ItemPrices));
+			this._ItemProducts = new EntitySet<ItemProduct>(new Action<ItemProduct>(this.attach_ItemProducts), new Action<ItemProduct>(this.detach_ItemProducts));
+			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
+			this._Category = default(EntityRef<Category>);
+			this._MenuDesign = default(EntityRef<MenuDesign>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					if (this._MenuDesign.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", DbType="Int NOT NULL")]
+		public int CategoryId
+		{
+			get
+			{
+				return this._CategoryId;
+			}
+			set
+			{
+				if ((this._CategoryId != value))
+				{
+					if (this._Category.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCategoryIdChanging(value);
+					this.SendPropertyChanging();
+					this._CategoryId = value;
+					this.SendPropertyChanged("CategoryId");
+					this.OnCategoryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdditionalInfo", DbType="NVarChar(250)")]
+		public string AdditionalInfo
+		{
+			get
+			{
+				return this._AdditionalInfo;
+			}
+			set
+			{
+				if ((this._AdditionalInfo != value))
+				{
+					this.OnAdditionalInfoChanging(value);
+					this.SendPropertyChanging();
+					this._AdditionalInfo = value;
+					this.SendPropertyChanged("AdditionalInfo");
+					this.OnAdditionalInfoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int")]
+		public System.Nullable<int> SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemPrice", Storage="_ItemPrices", ThisKey="id", OtherKey="ItemId")]
+		public EntitySet<ItemPrice> ItemPrices
+		{
+			get
+			{
+				return this._ItemPrices;
+			}
+			set
+			{
+				this._ItemPrices.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemProduct", Storage="_ItemProducts", ThisKey="id", OtherKey="ItemId")]
+		public EntitySet<ItemProduct> ItemProducts
+		{
+			get
+			{
+				return this._ItemProducts;
+			}
+			set
+			{
+				this._ItemProducts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_MenuItems", ThisKey="id", OtherKey="ItemId")]
+		public EntitySet<MenuItem> MenuItems
+		{
+			get
+			{
+				return this._MenuItems;
+			}
+			set
+			{
+				this._MenuItems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Item", Storage="_Category", ThisKey="CategoryId", OtherKey="id", IsForeignKey=true)]
+		public Category Category
+		{
+			get
+			{
+				return this._Category.Entity;
+			}
+			set
+			{
+				Category previousValue = this._Category.Entity;
+				if (((previousValue != value) 
+							|| (this._Category.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Category.Entity = null;
+						previousValue.Items.Remove(this);
+					}
+					this._Category.Entity = value;
+					if ((value != null))
+					{
+						value.Items.Add(this);
+						this._CategoryId = value.id;
+					}
+					else
+					{
+						this._CategoryId = default(int);
+					}
+					this.SendPropertyChanged("Category");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuDesign_Item", Storage="_MenuDesign", ThisKey="id", OtherKey="ItemId", IsForeignKey=true)]
+		public MenuDesign MenuDesign
+		{
+			get
+			{
+				return this._MenuDesign.Entity;
+			}
+			set
+			{
+				MenuDesign previousValue = this._MenuDesign.Entity;
+				if (((previousValue != value) 
+							|| (this._MenuDesign.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MenuDesign.Entity = null;
+						previousValue.Items.Remove(this);
+					}
+					this._MenuDesign.Entity = value;
+					if ((value != null))
+					{
+						value.Items.Add(this);
+						this._id = value.ItemId;
+					}
+					else
+					{
+						this._id = default(int);
+					}
+					this.SendPropertyChanged("MenuDesign");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ItemPrices(ItemPrice entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = this;
+		}
+		
+		private void detach_ItemPrices(ItemPrice entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = null;
+		}
+		
+		private void attach_ItemProducts(ItemProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = this;
+		}
+		
+		private void detach_ItemProducts(ItemProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = null;
+		}
+		
+		private void attach_MenuItems(MenuItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = this;
+		}
+		
+		private void detach_MenuItems(MenuItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Categories")]
+	public partial class Category : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CustomerId;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private string _ImageUrl;
+		
+		private int _Status;
+		
+		private int _Type;
+		
+		private System.Nullable<int> _SortOrder;
+		
+		private System.DateTime _DateCreated;
+		
+		private System.DateTime _DateModified;
+		
+		private EntitySet<Item> _Items;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCustomerIdChanging(int value);
+    partial void OnCustomerIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnSortOrderChanging(System.Nullable<int> value);
+    partial void OnSortOrderChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnDateModifiedChanging(System.DateTime value);
+    partial void OnDateModifiedChanged();
+    #endregion
+		
+		public Category()
+		{
+			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
+		public int CustomerId
+		{
+			get
+			{
+				return this._CustomerId;
+			}
+			set
+			{
+				if ((this._CustomerId != value))
+				{
+					this.OnCustomerIdChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerId = value;
+					this.SendPropertyChanged("CustomerId");
+					this.OnCustomerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int")]
+		public System.Nullable<int> SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateModified
+		{
+			get
+			{
+				return this._DateModified;
+			}
+			set
+			{
+				if ((this._DateModified != value))
+				{
+					this.OnDateModifiedChanging(value);
+					this.SendPropertyChanging();
+					this._DateModified = value;
+					this.SendPropertyChanged("DateModified");
+					this.OnDateModifiedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Item", Storage="_Items", ThisKey="id", OtherKey="CategoryId")]
+		public EntitySet<Item> Items
+		{
+			get
+			{
+				return this._Items;
+			}
+			set
+			{
+				this._Items.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = this;
+		}
+		
+		private void detach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = null;
 		}
 	}
 	
@@ -3296,7 +4429,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -3618,7 +4751,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -4052,7 +5185,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -4244,7 +5377,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -4426,7 +5559,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", DbType="DateTime NOT NULL")]
 		public System.DateTime DateModified
 		{
 			get
@@ -4893,7 +6026,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get
@@ -4965,972 +6098,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Items")]
-	public partial class Item : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _CategoryId;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private string _ImageUrl;
-		
-		private int _Status;
-		
-		private System.Nullable<System.DateTime> _DateCreated;
-		
-		private System.Nullable<System.DateTime> _DateModified;
-		
-		private EntitySet<ItemPrice> _ItemPrices;
-		
-		private EntitySet<MenuItem> _MenuItems;
-		
-		private EntitySet<ItemAssociation> _ItemAssociations;
-		
-		private EntityRef<MenuDesign> _MenuDesign;
-		
-		private EntityRef<Category> _Category;
-		
-		private EntityRef<ItemAssociation> _ItemAssociation;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnCategoryIdChanging(int value);
-    partial void OnCategoryIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnImageUrlChanging(string value);
-    partial void OnImageUrlChanged();
-    partial void OnStatusChanging(int value);
-    partial void OnStatusChanged();
-    partial void OnDateCreatedChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public Item()
-		{
-			this._ItemPrices = new EntitySet<ItemPrice>(new Action<ItemPrice>(this.attach_ItemPrices), new Action<ItemPrice>(this.detach_ItemPrices));
-			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
-			this._ItemAssociations = new EntitySet<ItemAssociation>(new Action<ItemAssociation>(this.attach_ItemAssociations), new Action<ItemAssociation>(this.detach_ItemAssociations));
-			this._MenuDesign = default(EntityRef<MenuDesign>);
-			this._Category = default(EntityRef<Category>);
-			this._ItemAssociation = default(EntityRef<ItemAssociation>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					if ((this._MenuDesign.HasLoadedOrAssignedValue || this._ItemAssociation.HasLoadedOrAssignedValue))
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", DbType="Int NOT NULL")]
-		public int CategoryId
-		{
-			get
-			{
-				return this._CategoryId;
-			}
-			set
-			{
-				if ((this._CategoryId != value))
-				{
-					if (this._Category.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCategoryIdChanging(value);
-					this.SendPropertyChanging();
-					this._CategoryId = value;
-					this.SendPropertyChanged("CategoryId");
-					this.OnCategoryIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
-		public string ImageUrl
-		{
-			get
-			{
-				return this._ImageUrl;
-			}
-			set
-			{
-				if ((this._ImageUrl != value))
-				{
-					this.OnImageUrlChanging(value);
-					this.SendPropertyChanging();
-					this._ImageUrl = value;
-					this.SendPropertyChanged("ImageUrl");
-					this.OnImageUrlChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
-		public int Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime", IsDbGenerated=true)]
-		public System.Nullable<System.DateTime> DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime", IsDbGenerated=true)]
-		public System.Nullable<System.DateTime> DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemPrice", Storage="_ItemPrices", ThisKey="id", OtherKey="ItemId")]
-		public EntitySet<ItemPrice> ItemPrices
-		{
-			get
-			{
-				return this._ItemPrices;
-			}
-			set
-			{
-				this._ItemPrices.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_MenuItems", ThisKey="id", OtherKey="ItemId")]
-		public EntitySet<MenuItem> MenuItems
-		{
-			get
-			{
-				return this._MenuItems;
-			}
-			set
-			{
-				this._MenuItems.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemAssociation", Storage="_ItemAssociations", ThisKey="id", OtherKey="ItemId")]
-		public EntitySet<ItemAssociation> ItemAssociations
-		{
-			get
-			{
-				return this._ItemAssociations;
-			}
-			set
-			{
-				this._ItemAssociations.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuDesign_Item", Storage="_MenuDesign", ThisKey="id", OtherKey="ItemId", IsForeignKey=true)]
-		public MenuDesign MenuDesign
-		{
-			get
-			{
-				return this._MenuDesign.Entity;
-			}
-			set
-			{
-				MenuDesign previousValue = this._MenuDesign.Entity;
-				if (((previousValue != value) 
-							|| (this._MenuDesign.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MenuDesign.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._MenuDesign.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._id = value.ItemId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("MenuDesign");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Item", Storage="_Category", ThisKey="CategoryId", OtherKey="id", IsForeignKey=true)]
-		public Category Category
-		{
-			get
-			{
-				return this._Category.Entity;
-			}
-			set
-			{
-				Category previousValue = this._Category.Entity;
-				if (((previousValue != value) 
-							|| (this._Category.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Category.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._Category.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._CategoryId = value.id;
-					}
-					else
-					{
-						this._CategoryId = default(int);
-					}
-					this.SendPropertyChanged("Category");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemAssociation_Item", Storage="_ItemAssociation", ThisKey="id", OtherKey="ItemReferenceId", IsForeignKey=true)]
-		public ItemAssociation ItemAssociation
-		{
-			get
-			{
-				return this._ItemAssociation.Entity;
-			}
-			set
-			{
-				ItemAssociation previousValue = this._ItemAssociation.Entity;
-				if (((previousValue != value) 
-							|| (this._ItemAssociation.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ItemAssociation.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._ItemAssociation.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._id = value.ItemReferenceId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("ItemAssociation");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ItemPrices(ItemPrice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = this;
-		}
-		
-		private void detach_ItemPrices(ItemPrice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = null;
-		}
-		
-		private void attach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = this;
-		}
-		
-		private void detach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = null;
-		}
-		
-		private void attach_ItemAssociations(ItemAssociation entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = this;
-		}
-		
-		private void detach_ItemAssociations(ItemAssociation entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Categories")]
-	public partial class Category : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _CustomerId;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private string _ImageUrl;
-		
-		private int _Status;
-		
-		private int _Type;
-		
-		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntitySet<Item> _Items;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnCustomerIdChanging(int value);
-    partial void OnCustomerIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnImageUrlChanging(string value);
-    partial void OnImageUrlChanged();
-    partial void OnStatusChanging(int value);
-    partial void OnStatusChanged();
-    partial void OnTypeChanging(int value);
-    partial void OnTypeChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public Category()
-		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
-		public int CustomerId
-		{
-			get
-			{
-				return this._CustomerId;
-			}
-			set
-			{
-				if ((this._CustomerId != value))
-				{
-					this.OnCustomerIdChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerId = value;
-					this.SendPropertyChanged("CustomerId");
-					this.OnCustomerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="VarChar(50)")]
-		public string ImageUrl
-		{
-			get
-			{
-				return this._ImageUrl;
-			}
-			set
-			{
-				if ((this._ImageUrl != value))
-				{
-					this.OnImageUrlChanging(value);
-					this.SendPropertyChanging();
-					this._ImageUrl = value;
-					this.SendPropertyChanged("ImageUrl");
-					this.OnImageUrlChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
-		public int Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
-		public int Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Item", Storage="_Items", ThisKey="id", OtherKey="CategoryId")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItemAssociation")]
-	public partial class ItemAssociation : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _ItemId;
-		
-		private int _ItemReferenceId;
-		
-		private int _Type;
-		
-		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntitySet<Item> _Items;
-		
-		private EntityRef<Item> _Item;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
-    partial void OnItemReferenceIdChanging(int value);
-    partial void OnItemReferenceIdChanged();
-    partial void OnTypeChanging(int value);
-    partial void OnTypeChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public ItemAssociation()
-		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			this._Item = default(EntityRef<Item>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
-		{
-			get
-			{
-				return this._ItemId;
-			}
-			set
-			{
-				if ((this._ItemId != value))
-				{
-					if (this._Item.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemReferenceId", DbType="Int NOT NULL")]
-		public int ItemReferenceId
-		{
-			get
-			{
-				return this._ItemReferenceId;
-			}
-			set
-			{
-				if ((this._ItemReferenceId != value))
-				{
-					this.OnItemReferenceIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemReferenceId = value;
-					this.SendPropertyChanged("ItemReferenceId");
-					this.OnItemReferenceIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
-		public int Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ItemAssociation_Item", Storage="_Items", ThisKey="ItemReferenceId", OtherKey="id")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemAssociation", Storage="_Item", ThisKey="ItemId", OtherKey="id", IsForeignKey=true)]
-		public Item Item
-		{
-			get
-			{
-				return this._Item.Entity;
-			}
-			set
-			{
-				Item previousValue = this._Item.Entity;
-				if (((previousValue != value) 
-							|| (this._Item.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Item.Entity = null;
-						previousValue.ItemAssociations.Remove(this);
-					}
-					this._Item.Entity = value;
-					if ((value != null))
-					{
-						value.ItemAssociations.Add(this);
-						this._ItemId = value.id;
-					}
-					else
-					{
-						this._ItemId = default(int);
-					}
-					this.SendPropertyChanged("Item");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.ItemAssociation = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.ItemAssociation = null;
 		}
 	}
 }

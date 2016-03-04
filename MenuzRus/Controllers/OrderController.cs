@@ -53,8 +53,17 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String ChecksPrint(String checkIds, Int32 split, Decimal adjustment) {
-            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checkIds);
+        public String CheckPrint(Int32 checkId, Int32 split, Decimal adjustment) {
+            String retVal = String.Empty;
+            Services.Check check;
+            check = _orderService.GetCheck(checkId);
+            retVal += PrintChecks(checkId, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
+            return retVal;
+        }
+
+        [HttpGet]
+        public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
+            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
             String retVal = String.Empty;
             Services.Check check;
 

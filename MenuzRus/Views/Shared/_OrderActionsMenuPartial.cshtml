@@ -94,16 +94,10 @@
         });
 
         $("#btnPrintChecks").on("click", function () {
-            var split = parseInt($("#slideSplit").val());
-            var adjustment = parseInt($("#adjustmentSplit").val());
-
-            var selected = $(".chosen-select").val();
-            var ids = new Array();
+            var selected = $(".chosen-select")[0].selectedOptions;
             $.each($(selected), function (index, item) {
-                ids.push(parseInt(item));
+                checkPrint(parseInt(item.value));
             });
-
-            checksPrint(ids);
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
@@ -113,14 +107,14 @@
 
     });
 
-    function checksPrint(checksId) {
+    function checkPrint(checkId) {
         var split = parseInt($("#slideSplit").val());
         var adjustment = parseInt($("#adjustmentSplit").val());
 
         $.ajax({
             async: false,
-            url: $.validator.format("{0}Order/ChecksPrint", root),
-            data: { "checkIds": JSON.stringify(checksId), "split": split, "adjustment": adjustment },
+            url: $.validator.format("{0}Order/CheckPrint", root),
+            data: { "checkId": checkId, "split": split, "adjustment": adjustment },
             type: "GET",
             success: function (result) {
                 printData(result, printerPOS);

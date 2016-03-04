@@ -61,6 +61,7 @@ namespace MenuzRus.Controllers {
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
                 item.Status = (Int32)Common.Status.Active;
+                item.AdditionalInfo = model.AdditionalInfo;
                 if (model.Image != null) {
                     if (item.id == 0)
                         item.ImageUrl = Path.GetExtension(model.Image.FileName);
@@ -127,6 +128,7 @@ namespace MenuzRus.Controllers {
                         model.CategoryId = item.CategoryId;
                         model.Name = item.Name;
                         model.Description = item.Description;
+                        model.AdditionalInfo = item.AdditionalInfo;
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
                     }

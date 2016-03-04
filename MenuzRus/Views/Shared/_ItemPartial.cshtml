@@ -11,10 +11,6 @@
             <h4 class="modal-title">Add price</h4>
         </a>
         </li>
-        <li id="tabInventory"><a href="#inventoryTab" data-toggle="tab">
-            <h4 class="modal-title">Inventory</h4>
-        </a>
-        </li>
     </ul>
 </div>
 @using (Html.BeginForm("SaveItem", "Item", FormMethod.Post, new { @id = "form-item", @class = "form-item", role = "form", enctype = "multipart/form-data" })) {
@@ -39,6 +35,9 @@
                 <div class="row">
                     <div class="col-md-3 col-lg3">
                         @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+                    </div>
+                    <div class="col-md-5 col-lg5">
+                        @Html.TextBoxFor(model => model.AdditionalInfo, new { @class = "form-control input-sm shadow", placeholder = "Enter additional information", type = "text" })
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.id)
@@ -74,8 +73,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="tab-pane fade in" id="inventoryTab">
         </div>
     </div>
 

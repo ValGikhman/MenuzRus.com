@@ -11,37 +11,12 @@ namespace MenuzRus {
 
     public class ItemProductService : BaseService, IItemProductService {
 
-        public Boolean DeleteItemProduct(Int32? id) {
-            ItemProduct itemProduct = new ItemProduct();
-            IEnumerable<ItemProductAssociation> itemProductAssocoation; ;
-            id = id.HasValue ? id : 0;
+        public Boolean DeleteItemAssociation(Int32 id) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    itemProductAssocoation = db.ItemProductAssociations.Where(m => m.ItemProductId == id);
-                    if (itemProductAssocoation != default(ItemProductAssociation)) {
-                        db.ItemProductAssociations.DeleteAllOnSubmit(itemProductAssocoation);
-                    }
-
-                    itemProduct = db.ItemProducts.Where(m => m.id == id).FirstOrDefault();
-                    if (itemProduct != default(ItemProduct)) {
-                        db.ItemProducts.DeleteOnSubmit(itemProduct);
-                    }
-
-                    db.SubmitChanges();
-                }
-            }
-            catch (Exception ex) {
-                return false;
-            }
-            return true;
-        }
-
-        public Boolean DeleteItemProductAssociations(Int32 id) {
-            try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    IEnumerable<ItemProductAssociation> query = db.ItemProductAssociations.Where(m => m.ItemProductId == id);
-                    if (query != default(ItemProductAssociation)) {
-                        db.ItemProductAssociations.DeleteAllOnSubmit(query);
+                    IEnumerable<ItemAssociation> query = db.ItemAssociations.Where(m => m.ItemId == id);
+                    if (query != default(ItemAssociation)) {
+                        db.ItemAssociations.DeleteAllOnSubmit(query);
                     }
                     db.SubmitChanges();
                 }
@@ -52,28 +27,21 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean SaveItemProduct(ItemProduct item) {
-            ItemProduct itemQuery = new ItemProduct();
+        public Boolean SaveItemAssociation(ItemAssociation item) {
+            ItemAssociation itemQuery = new ItemAssociation();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (item.id != 0) {
-                        itemQuery = db.ItemProducts.Where(m => m.id == item.id).FirstOrDefault();
+                        itemQuery = db.ItemAssociations.Where(m => m.id == item.id).FirstOrDefault();
                     }
-                    if (itemQuery != default(ItemProduct)) {
+                    if (itemQuery != default(ItemAssociation)) {
                         itemQuery.id = item.id;
                         itemQuery.Type = item.Type;
                         itemQuery.ItemId = item.ItemId;
+                        itemQuery.ItemReferenceId = item.ItemReferenceId;
                     }
                     if (item.id == 0) {
-                        db.ItemProducts.InsertOnSubmit(itemQuery);
-                    }
-                    db.SubmitChanges();
-                    DeleteItemProductAssociations(itemQuery.id);
-                    foreach (ItemProductAssociation ipa in item.ItemProductAssociations) {
-                        ItemProductAssociation itemsQuery = new ItemProductAssociation();
-                        itemsQuery.ItemProductId = itemQuery.id;
-                        itemsQuery.ItemId = ipa.ItemId;
-                        db.ItemProductAssociations.InsertOnSubmit(itemsQuery);
+                        db.ItemAssociations.InsertOnSubmit(itemQuery);
                     }
                     db.SubmitChanges();
                 }

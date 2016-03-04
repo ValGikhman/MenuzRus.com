@@ -106,9 +106,9 @@ namespace MenuzRus.Controllers {
             try {
                 model.CategoryType = type;
                 model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
-                model.ItemProducts = null;
+                model.ItemAssociation = null;
                 if (SessionData.item != null) {
-                    model.ItemProducts = SessionData.item.ItemProducts;
+                    model.ItemAssociation = SessionData.item.ItemAssociations;
                 }
                 return model;
             }

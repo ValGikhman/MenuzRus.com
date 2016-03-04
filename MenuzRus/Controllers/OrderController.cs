@@ -266,24 +266,22 @@ namespace MenuzRus.Controllers {
                 products = _orderService.GetProducts(menuId);
                 foreach (Services.ChecksMenuProduct productItem in products) {
                     CheckMenuItemProduct product = new CheckMenuItemProduct();
-                    Services.ItemProduct itemProduct = _itemService.GetItemProduct(productItem.ItemId);
+                    Services.ItemAssociation itemAssociations = _itemService.GetItemAssociations(productItem.ItemId);
                     product.id = productItem.id;
                     product.ItemId = productItem.ItemId;
-                    product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
-                    product.Type = (Common.ProductType)itemProduct.Type;
+                    product.CheckMenuAssociations = new List<CheckMenuItemAssociation>();
+                    product.Type = (Common.ProductType)itemAssociations.Type;
 
-                    foreach (Services.ItemProductAssociation associatedItem in itemProduct.ItemProductAssociations) {
-                        CheckMenuItemProductAssociation association = new CheckMenuItemProductAssociation();
-                        Item = _itemService.GetItem(associatedItem.ItemId);
-                        association.id = associatedItem.id;
-                        association.ItemId = associatedItem.ItemId;
-                        association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
-                        association.Name = Item.Name;
-                        association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                        association.ImageUrl = Item.ImageUrl;
-                        association.Customer = SessionData.customer;
-                        product.CheckMenuItemProductAssociations.Add(association);
-                    }
+                    CheckMenuItemAssociation association = new CheckMenuItemAssociation();
+                    Item = _itemService.GetItem(association.ItemId);
+                    association.id = association.id;
+                    association.ItemId = association.ItemId;
+                    association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == association.id);
+                    association.Name = Item.Name;
+                    association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    association.ImageUrl = Item.ImageUrl;
+                    association.Customer = SessionData.customer;
+                    product.CheckMenuAssociations.Add(association);
                     model.Add(product);
                 }
             }
@@ -462,12 +460,12 @@ namespace MenuzRus.Controllers {
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                            if (item != null) {
-                                price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                                model.Summary += price;
-                                subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
-                            }
+                            //item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            //if (item != null) {
+                            //    price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                            //    model.Summary += price;
+                            //    subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
+                            //}
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, id = itemMenu.id, SubItems = subItems });
@@ -545,10 +543,10 @@ namespace MenuzRus.Controllers {
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                            if (item != null) {
-                                subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
-                            }
+                            //item = _itemService.GetItemAssociations(associatedItem.ItemId);
+                            //if (item != null) {
+                            //    subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
+                            //}
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = _commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem, SessionData.customer.id), SubItems = subItems });
@@ -596,10 +594,10 @@ namespace MenuzRus.Controllers {
                             if (products.Any()) {
                                 foreach (Services.ChecksMenuProduct productItem in products) {
                                     foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                                        item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                                        if (item != null) {
-                                            subItems.Add(new LineItem() { Description = item.Name });
-                                        }
+                                        //item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                                        //if (item != null) {
+                                        //    subItems.Add(new LineItem() { Description = item.Name });
+                                        //}
                                     }
                                 }
                             }

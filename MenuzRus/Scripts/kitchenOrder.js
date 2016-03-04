@@ -103,7 +103,7 @@ function deleteItem(id) {
 }
 
 function associateItem(id) {
-    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemProductAssociate/", root), { id: id, type: $("#CategoryType").val() })
+    var jqxhr = $.get($.validator.format("{0}ItemProduct/ItemAssociate/", root), { id: id, type: $("#CategoryType").val() })
 .done(function (result) {
     $("#modalEditForm").html(result);
     $(".modalEditForm").modal("show");

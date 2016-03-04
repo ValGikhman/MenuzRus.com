@@ -101,8 +101,8 @@ public static class Common {
         [Display(Name = "Delete Item")]
         DeleteItem = 16,
 
-        [Display(Name = "Delete ItemProduct")]
-        DeleteItemProduct = 17,
+        [Display(Name = "Delete ItemAssociation")]
+        DeleteItemAssociation = 17,
 
         [Display(Name = "Delete ItemPrice")]
         DeleteItemPrice = 18,

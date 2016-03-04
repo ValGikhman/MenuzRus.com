@@ -291,19 +291,18 @@ namespace MenuzRus {
                     db.ChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
-                    foreach (ItemProduct itemProduct in menuItem.ItemProducts) {
+                    foreach (ItemAssociation itemAssociation in menuItem.ItemAssociations) {
                         ChecksMenuProduct product = new ChecksMenuProduct();
                         product.CheckMenuId = orderCheckMenu.id;
-                        product.ItemId = itemProduct.id;
+                        product.ItemId = itemAssociation.id;
                         db.ChecksMenuProducts.InsertOnSubmit(product);
                         db.SubmitChanges();
-                        if (itemProduct.ItemProductAssociations.Count() > 0) {
-                            ChecksMenuProductItem item = new ChecksMenuProductItem();
-                            item.ProductId = product.id;
-                            item.ItemId = itemProduct.ItemProductAssociations[0].id;
-                            db.ChecksMenuProductItems.InsertOnSubmit(item);
-                            db.SubmitChanges();
-                        }
+
+                        ChecksMenuProductItem item = new ChecksMenuProductItem();
+                        item.ProductId = product.id;
+                        item.ItemId = itemAssociation.id;
+                        db.ChecksMenuProductItems.InsertOnSubmit(item);
+                        db.SubmitChanges();
                     }
                 }
             }

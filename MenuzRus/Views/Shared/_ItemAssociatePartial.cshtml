@@ -12,20 +12,20 @@
 </div>
 <div class="container container-item">
     @{
-        foreach (Services.ItemProduct itemProduct in Model.ItemProducts) {
+        foreach (Services.ItemAssociation itemAssociation in Model.ItemAssociation) {
         <div>
-            <div style="margin: 12px 0 12px;">Product association #@itemProduct.id</div>
+            <div style="margin: 12px 0 12px;">Product association #@itemAssociation.id</div>
             @{
-            var description = EnumHelper<Common.ProductType>.GetDisplayValue((Common.ProductType)itemProduct.Type);
+            var description = EnumHelper<Common.ProductType>.GetDisplayValue((Common.ProductType)itemAssociation.Type);
             }
             <button type="button" class="btn btn-default" style="width: 100px;" onclick="javascript:toggleProductType(this)">@description</button>
-            <select id="itemProduct.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add product assosiation" class="chosen-select items shadow" multiple>
+            <select id="itemProduct.@itemAssociation.id" data-value="@itemAssociation.id" data-placeholder="Click to add product assosiation" class="chosen-select items shadow" multiple>
                 @foreach (Services.Category category in Model.Categories) {
                     <option value=""></option>
                     <optgroup label="@category.Name">
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            if (itemProduct.ItemProductAssociations.Any(m => m.ItemId == item.id)) {
+                            if (Model.ItemAssociation.Any(m => m.ItemId == item.id)) {
                                 select = "selected";
                             }
                             <option id="item.@item.id" value="@item.id" @select>@item.Name</option>

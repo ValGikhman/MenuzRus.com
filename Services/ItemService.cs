@@ -70,36 +70,18 @@ namespace MenuzRus {
             return item;
         }
 
+        public ItemAssociation GetItemAssociations(Int32 id) {
+            ItemAssociation item;
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            item = db.ItemAssociations.FirstOrDefault(m => m.id == id);
+            return item;
+        }
+
         public List<ItemPrice> GetItemPrices(Int32 id) {
             List<ItemPrice> items;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).ToList();
             return items;
-        }
-
-        public ItemProduct GetItemProduct(Int32 id) {
-            ItemProduct item;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            item = db.ItemProducts.FirstOrDefault(m => m.id == id);
-            return item;
-        }
-
-        public List<Item> GetItemProductAssosiations(Int32 productId) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            List<Item> item = (from var in db.ItemProductAssociations
-                               join it in db.Items on var.ItemId equals it.id
-                               where var.ItemProductId == productId
-                               select it).ToList();
-            return item;
-        }
-
-        public Item GetItemProductAssosiationsById(Int32 associationId) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            Item item = (from var in db.ItemProductAssociations
-                         join it in db.Items on var.ItemId equals it.id
-                         where var.id == associationId
-                         select it).FirstOrDefault();
-            return item;
         }
 
         public List<Item> GetItems(Int32 id) {

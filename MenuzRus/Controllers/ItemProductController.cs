@@ -26,9 +26,9 @@ namespace MenuzRus.Controllers {
         #region item
 
         [HttpPost]
-        public ActionResult DeleteItemProduct(Int32? id) {
+        public ActionResult DeleteItemAssociation(Int32 id) {
             try {
-                if (!_itemProductService.DeleteItemProduct(id))
+                if (!_itemProductService.DeleteItemAssociation(id))
                     return RedirectToAction("Index", "Error");
 
                 return Json("OK");
@@ -42,14 +42,14 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public ActionResult ItemProductAssociate(Int32 id) {
+        public ActionResult ItemAssociate(Int32 id) {
             DesignerModel model = new DesignerModel();
             try {
                 SessionData.item = _itemService.GetItem(id);
                 model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Product);
-                model.ItemProducts = SessionData.item.ItemProducts;
+                model.ItemAssociation = SessionData.item.ItemAssociations;
 
-                return PartialView("_ItemProductAssociatePartial", model);
+                return PartialView("_ItemAssociatePartial", model);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -61,24 +61,18 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public String SaveAssociatedItems(String model) {
-            ItemProductModel model2Save;
-            Services.ItemProduct itemProduct;
-            Services.ItemProductAssociation itemProductAssociation;
+            ItemAssociationModel model2Save;
+            Services.ItemAssociation itemAssociation;
             try {
                 model2Save = SetModel(model);
                 if (model2Save != null) {
-                    foreach (Models.ItemProduct item in model2Save.ItemsProduct) {
-                        itemProduct = new Services.ItemProduct();
-                        itemProduct.id = item.id;
-                        itemProduct.ItemId = item.ItemId;
-                        itemProduct.Type = (Int32)item.Type;
-                        foreach (ItemProductAssociation itemAssosiation in item.ItemProductAssociation) {
-                            itemProductAssociation = new Services.ItemProductAssociation();
-                            itemProductAssociation.ItemId = itemAssosiation.ItemId;
-                            itemProductAssociation.ItemProductId = itemAssosiation.ItemProductId;
-                            itemProduct.ItemProductAssociations.Add(itemProductAssociation);
-                        }
-                        _itemProductService.SaveItemProduct(itemProduct);
+                    foreach (Models.ItemAssociation item in model2Save.ItemAssociations) {
+                        itemAssociation = new Services.ItemAssociation();
+                        itemAssociation.id = item.id;
+                        itemAssociation.ItemId = item.ItemId;
+                        itemAssociation.ItemReferenceId = item.ItemReferenceId;
+                        itemAssociation.Type = (Int32)item.Type;
+                        _itemProductService.SaveItemAssociation(itemAssociation);
                     }
                 }
             }
@@ -95,36 +89,29 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private ItemProductModel SetModel(String model) {
+        private ItemAssociationModel SetModel(String model) {
             JavaScriptSerializer objJavascript = new JavaScriptSerializer();
             Char[] commaDelimiter = new char[] { ',' };
             Char[] colonDelimiter = new char[] { ':' };
             if (SessionData.item != null) {
-                ItemProductModel productModel = new ItemProductModel();
+                ItemAssociationModel itemAssociationModel = new ItemAssociationModel();
 
                 Array assosiations = (Array)objJavascript.DeserializeObject(model);
-                productModel.ItemsProduct = new List<Models.ItemProduct>();
+                itemAssociationModel.ItemAssociations = new List<Models.ItemAssociation>();
+                Models.ItemAssociation itemAssociation;
                 foreach (String assosiation in assosiations) {
-                    Models.ItemProduct itemProduct = new Models.ItemProduct();
-                    itemProduct.ItemId = SessionData.item.id;
                     Array values = assosiation.Split(commaDelimiter, StringSplitOptions.RemoveEmptyEntries);
-
-                    itemProduct.ItemProductAssociation = new List<ItemProductAssociation>();
                     foreach (String value in values) {
-                        ItemProductAssociation itemProductAssociation = new ItemProductAssociation();
+                        itemAssociation = new Models.ItemAssociation();
+                        itemAssociation.ItemId = SessionData.item.id;
 
                         Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
-
-                        itemProduct.id = Int32.Parse(vars.GetValue(0).ToString());
-                        itemProduct.Type = EnumHelper<Common.ProductType>.Parse(vars.GetValue(2).ToString());
-                        itemProductAssociation.ItemProductId = Int32.Parse(vars.GetValue(0).ToString());
-                        itemProductAssociation.ItemId = Int32.Parse(vars.GetValue(1).ToString());
-
-                        itemProduct.ItemProductAssociation.Add(itemProductAssociation);
+                        itemAssociation.Type = EnumHelper<Common.ProductType>.Parse(vars.GetValue(2).ToString());
+                        itemAssociation.ItemReferenceId = Int32.Parse(vars.GetValue(1).ToString());
+                        itemAssociationModel.ItemAssociations.Add(itemAssociation);
                     }
-                    productModel.ItemsProduct.Add(itemProduct);
                 }
-                return productModel;
+                return itemAssociationModel;
             }
             return null;
         }

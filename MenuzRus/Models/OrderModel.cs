@@ -44,17 +44,7 @@ namespace MenuzRus.Models {
         public Decimal Price { get; set; }
     }
 
-    public class CheckMenuItemProduct {
-        public List<CheckMenuItemProductAssociation> CheckMenuItemProductAssociations { get; set; }
-
-        public Int32 id { get; set; }
-
-        public Int32 ItemId { get; set; }
-
-        public Common.ProductType Type { get; set; }
-    }
-
-    public class CheckMenuItemProductAssociation {
+    public class CheckMenuItemAssociation {
         public Customer Customer { get; set; }
         public Int32 id { get; set; }
 
@@ -66,6 +56,16 @@ namespace MenuzRus.Models {
         public Decimal Price { get; set; }
 
         public Boolean Selected { get; set; }
+    }
+
+    public class CheckMenuItemProduct {
+        public List<CheckMenuItemAssociation> CheckMenuAssociations { get; set; }
+
+        public Int32 id { get; set; }
+
+        public Int32 ItemId { get; set; }
+
+        public Common.ProductType Type { get; set; }
     }
 
     public class KitchenOrderModel : BaseModel {

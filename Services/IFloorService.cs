@@ -18,6 +18,12 @@ namespace MenuzRus {
 
         List<Floor> GetFloors(Int32 id);
 
+        TableOrder GetTableOrder(Int32 tableId);
+
+        String GetTableOrderDate(Int32 tableId);
+
+        Int32 GetTableOrderStatus(Int32 tableId);
+
         List<Table> GetTables(Int32 id);
 
         Int32 SaveFloor(Floor floor);

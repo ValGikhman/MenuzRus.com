@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -9,12 +8,12 @@ using Services;
 
 namespace MenuzRus {
 
-    public class ConfirmationService : BaseService, IConfirmationService {
+    public class ConfirmationService : IConfirmationService {
+        private User user;
 
         public User Confirm(String hash) {
-            User user;
             try {
-                menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+                menuzRusDataContext db = new menuzRusDataContext();
                 user = db.Users.Where(m => m.Hash == hash).FirstOrDefault();
                 if (user != default(User)) {
                     user.Active = true;

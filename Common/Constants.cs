@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 public static class Constants {
     public const String SESSION = "SessionData";
-    public const String SESSION_CONNECTION = "SessionConnection";
     public const String SESSION_CUSTOMER = "SessionCustomer";
     public const String SESSION_EXCEPTION = "SessionException";
     public const String SESSION_FLOOR = "SessionFloor";

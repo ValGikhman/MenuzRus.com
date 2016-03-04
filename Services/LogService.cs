@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -9,7 +8,7 @@ using MenuzRus;
 
 namespace Services {
 
-    public class LogService : BaseService, ILogService {
+    public class LogService : ILogService {
 
         #region public
 
@@ -57,7 +56,7 @@ namespace Services {
 
         private void SendToLogger(Common.LogType type, String message, String trace, Int32 userId, String sessionId, String route, params Object[] data) {
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
                     Log log = new Log();
                     log.IP = Common.GetIP();
                     log.LogType = (Int32)type;

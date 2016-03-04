@@ -12,7 +12,7 @@
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Category Name Description", type = "text" })
             </div>
             <div class="imagerow col-lg-4 col-md-4">
-                <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
+                <img src="@Url.Content(String.Format("/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                 <input type="file" id="Image" name="Image" />
                 <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">Delete Image</a>
             </div>

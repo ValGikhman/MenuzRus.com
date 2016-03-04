@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -9,11 +8,11 @@ using Services;
 
 namespace MenuzRus {
 
-    public class LoginService : BaseService, ILoginService {
+    public class LoginService : ILoginService {
 
         public Tuple<User, Customer, Menu> Login(String email, String password) {
             Tuple<User, Customer, Menu> retValue;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
 
             User user;
             Customer customer;

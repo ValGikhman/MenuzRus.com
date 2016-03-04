@@ -86,7 +86,7 @@ namespace MenuzRus.Controllers {
                     AddItemPrice(result, model.Price2Add);
                 }
                 // Default menuDesigner
-                return RedirectToAction("Index", "Designer", new { id = Common.CategoryType.Menu });
+                return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
             }
             catch (Exception ex) {
                 base.Log(ex);

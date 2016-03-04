@@ -27,9 +27,9 @@ namespace Services.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=VALS-PC;Initial Catalog=menuzrus;Integrated Security=True")]
-        public string menuzrusDEV {
+        public string menuzrusConnectionString1 {
             get {
-                return ((string)(this["menuzrusDEV"]));
+                return ((string)(this["menuzrusConnectionString1"]));
             }
         }
         
@@ -38,9 +38,20 @@ namespace Services.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=184.168.47.19;Initial Catalog=menuzrus;Persist Security Info=True;Use" +
             "r ID=menuzrus;Password=!myDataBase!")]
-        public string menuzrusPROD {
+        public string menuzrusConnectionString2 {
             get {
-                return ((string)(this["menuzrusPROD"]));
+                return ((string)(this["menuzrusConnectionString2"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=184.168.47.19;Initial Catalog=menuzrus;Persist Security Info=True;Use" +
+            "r ID=menuzrus;Password=!myDataBase!")]
+        public string menuzrusConnectionString {
+            get {
+                return ((string)(this["menuzrusConnectionString"]));
             }
         }
     }

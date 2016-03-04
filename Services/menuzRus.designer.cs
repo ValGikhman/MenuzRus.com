@@ -101,6 +101,12 @@ namespace Services
     partial void DeleteTable(Table instance);
     #endregion
 		
+		public menuzRusDataContext() : 
+				base(global::Services.Properties.Settings.Default.menuzrusConnectionString1, mappingSource)
+		{
+			OnCreated();
+		}
+		
 		public menuzRusDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -3995,7 +4001,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.OnUpdate, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateModified
 		{
 			get

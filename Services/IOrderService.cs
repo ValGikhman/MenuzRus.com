@@ -40,13 +40,9 @@ namespace MenuzRus {
 
         TableOrder GetTableOrder(Int32 tableId);
 
-        String GetTableOrderDate(Int32 tableId);
-
         List<TableOrder> GetTableOrders(Int32 tableId);
 
         List<TableOrder> GetTableOrdersByFloorId(Int32 floorId);
-
-        Int32 GetTableOrderStatus(Int32 tableId);
 
         void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
 

@@ -35,7 +35,6 @@
       <HintPath>..\MenuzRus\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
@@ -49,8 +48,6 @@
     <Compile Include="ConfirmationService.cs" />
     <Compile Include="AlertService.cs" />
     <Compile Include="CommentsService.cs" />
-    <Compile Include="BaseService.cs" />
-    <Compile Include="IService.cs" />
     <Compile Include="IItemService.cs" />
     <Compile Include="IAlertService.cs" />
     <Compile Include="IUserService.cs" />

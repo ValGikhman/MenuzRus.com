@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -9,18 +8,18 @@ using MenuzRus;
 
 namespace Services {
 
-    public class AlertService : BaseService, IAlertService {
+    public class AlertService : IAlertService {
 
         #region public
 
         public Alert GetAlert(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
             return db.Alerts.FirstOrDefault(m => m.id == id);
         }
 
         public Check GetAlertCheck(Int32 id) {
             Check check;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
             check = (from alert in db.Alerts
                      join checkMenu in db.ChecksMenus on alert.CheckMenuId equals checkMenu.id
                      join chk in db.Checks on checkMenu.CheckId equals chk.id
@@ -32,7 +31,7 @@ namespace Services {
 
         public Item GetAlertItem(Int32 id) {
             Item item;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
 
             item = (from alert in db.Alerts
                     join checkMenu in db.ChecksMenus on alert.CheckMenuId equals checkMenu.id
@@ -44,7 +43,7 @@ namespace Services {
 
         public List<Alert> GetAlerts(Int32 userId) {
             List<Alert> alerts;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
             alerts = (from check in db.Checks
                       join checkMenu in db.ChecksMenus on check.id equals checkMenu.CheckId
                       join alert in db.Alerts on checkMenu.id equals alert.CheckMenuId
@@ -56,14 +55,14 @@ namespace Services {
         }
 
         public Int32 GetAlertsCount(Int32 userId) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            menuzRusDataContext db = new menuzRusDataContext();
             return GetAlerts(userId).Count();
         }
 
         public Int32 SaveAlert(Alert alert) {
             Alert query;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                using (menuzRusDataContext db = new menuzRusDataContext()) {
                     query = db.Alerts.FirstOrDefault(m => m.id == alert.id);
                     if (query == default(Alert)) {
                         query = new Alert();

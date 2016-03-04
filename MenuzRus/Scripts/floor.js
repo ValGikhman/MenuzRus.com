@@ -102,7 +102,7 @@ function addLayout() {
             var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
             var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='tables shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
             $("#tables").append(element);
-            $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute").resizable(resizeSettings).draggable(dragSettings);
+            $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute");
         });
         refreshTotal();
     }

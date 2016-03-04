@@ -8,7 +8,7 @@
                 <h4 class="modal-title floorTitle">Table @Model.Table.Name</h4>
             </div>
             <div id="kithenDetailsForm" class="modal-body" style="padding: 2px;">
-                <ul class="nav nav-pills btn-default  nav-justified orderedChecks">
+                <ul class="nav btn-default nav-justified orderedChecks">
                     @if (Model.Checks != null) {
                         foreach (MenuzRus.Models.CheckPrint check in Model.Checks) {
                         <li><a href="@String.Format("#Check{0}", check.Check.id)" data-value="@check.Check.id" data-type="@check.Check.Type" data-status="@check.Check.Status" data-toggle="pill">

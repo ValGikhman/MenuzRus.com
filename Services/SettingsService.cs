@@ -29,27 +29,27 @@ namespace MenuzRus {
                     String[] order = ids.Split(',');
                     switch (type) {
                         case "Category":
-                            Category category;
-                            foreach (String o in order) {
-                                category = db.Categories.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
-                                if (category != default(Category)) {
-                                    category.SortOrder = i;
-                                    db.SubmitChanges();
-                                    i++;
-                                }
-                            }
+                            //Category category;
+                            //foreach (String o in order) {
+                            //    category = db.Categories.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
+                            //    if (category != default(Category)) {
+                            //        category.SortOrder = i;
+                            //        db.SubmitChanges();
+                            //        i++;
+                            //    }
+                            //}
                             break;
 
                         case "Items":
-                            Item item;
-                            foreach (String o in order) {
-                                item = db.Items.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
-                                if (item != default(Item)) {
-                                    item.SortOrder = i;
-                                    db.SubmitChanges();
-                                    i++;
-                                }
-                            }
+                            //Item item;
+                            //foreach (String o in order) {
+                            //    item = db.Items.Where(m => m.id == Convert.ToInt32(o)).FirstOrDefault();
+                            //    if (item != default(Item)) {
+                            //        item.SortOrder = i;
+                            //        db.SubmitChanges();
+                            //        i++;
+                            //    }
+                            //}
                             break;
                     }
                 }

@@ -8,7 +8,7 @@ using MenuzRus;
 
 namespace Services {
 
-    public class LogService : ILogService {
+    public class LogService : BaseService, ILogService {
 
         #region public
 
@@ -56,7 +56,7 @@ namespace Services {
 
         private void SendToLogger(Common.LogType type, String message, String trace, Int32 userId, String sessionId, String route, params Object[] data) {
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Log log = new Log();
                     log.IP = Common.GetIP();
                     log.LogType = (Int32)type;

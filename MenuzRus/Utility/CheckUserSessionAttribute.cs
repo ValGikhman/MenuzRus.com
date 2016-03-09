@@ -8,16 +8,6 @@ namespace MenuzRus {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckUserSessionAttribute : ActionFilterAttribute {
-        private SessionData _sessionData;
-
-        private SessionData SessionData {
-            set {
-                _sessionData = value;
-            }
-            get {
-                return _sessionData;
-            }
-        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             HttpSessionStateBase session = filterContext.HttpContext.Session;

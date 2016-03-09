@@ -25,8 +25,9 @@ namespace MenuzRus.Controllers {
         [HttpPost]
         public ActionResult DeleteItem(Int32? id) {
             try {
-                if (!_itemService.DeleteItem(id))
+                if (!_itemService.DeleteItem(id)) {
                     return RedirectToAction("Index", "Error");
+                }
 
                 return Json("OK");
             }
@@ -40,6 +41,10 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult EditItem(Int32? id, Common.CategoryType type) {
+            if (SessionData.user == null) {
+                return PartialView("_SessionEnd");
+            }
+
             try {
                 return PartialView("_ItemPartial", GetModel(id, type));
             }
@@ -61,7 +66,6 @@ namespace MenuzRus.Controllers {
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
                 item.Status = (Int32)Common.Status.Active;
-                item.AdditionalInfo = model.AdditionalInfo;
                 if (model.Image != null) {
                     if (item.id == 0)
                         item.ImageUrl = Path.GetExtension(model.Image.FileName);
@@ -86,7 +90,7 @@ namespace MenuzRus.Controllers {
                     AddItemPrice(result, model.Price2Add);
                 }
                 // Default menuDesigner
-                return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
+                return RedirectToAction("Index", "Designer", new { id = Common.CategoryType.Menu });
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -128,7 +132,6 @@ namespace MenuzRus.Controllers {
                         model.CategoryId = item.CategoryId;
                         model.Name = item.Name;
                         model.Description = item.Description;
-                        model.AdditionalInfo = item.AdditionalInfo;
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
                     }

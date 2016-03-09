@@ -8,13 +8,13 @@ using Services;
 
 namespace MenuzRus {
 
-    public class FloorService : IFloorService {
+    public class FloorService : BaseService, IFloorService {
 
         public Boolean DeleteFloor(Int32? id) {
             Floor query = new Floor();
             id = id.HasValue ? id : 0;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Floors.FirstOrDefault(m => m.id == id);
                     if (query != default(Floor)) {
                         IEnumerable<Table> tables = db.Tables.Where(m => m.FloorId == id);
@@ -35,7 +35,7 @@ namespace MenuzRus {
         public Boolean DeleteTable(Int32 id) {
             Table query = new Table();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Tables.FirstOrDefault(m => m.id == id);
                     if (query != default(Table)) {
                         query.Status = (Int32)Common.Status.NotActive;
@@ -50,12 +50,12 @@ namespace MenuzRus {
         }
 
         public Floor GetFloor(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Floors.FirstOrDefault(m => m.id == id);
         }
 
         public List<Floor> GetFloors(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Floors.Where(m => m.CustomerId == id).ToList();
         }
 
@@ -87,14 +87,14 @@ namespace MenuzRus {
         }
 
         public List<Table> GetTables(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Tables.Where(m => m.FloorId == id && m.Status == (Int32)Common.Status.Active).ToList();
         }
 
         public Int32 SaveFloor(Floor floor) {
             Floor query = new Floor();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (floor.id != 0)
                         query = db.Floors.FirstOrDefault(m => m.id == floor.id);
                     if (query != default(Floor)) {
@@ -118,7 +118,7 @@ namespace MenuzRus {
             Table table;
             IEnumerable<Table> tablesToDelete;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     tablesToDelete = db.Tables.Where(m => m.FloorId == floorId && !tables.Contains(m));
                     if (tablesToDelete.Any()) {
                         db.Tables.DeleteAllOnSubmit(tablesToDelete);

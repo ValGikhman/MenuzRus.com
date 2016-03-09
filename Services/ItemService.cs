@@ -105,7 +105,7 @@ namespace MenuzRus {
         public List<Item> GetItems(Int32 id) {
             List<Item> items;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            items = db.Items.Where(m => m.CategoryId == id).OrderBy(m => m.SortOrder).ToList();
+            items = db.Items.Where(m => m.CategoryId == id).OrderBy(m => m.Name).ToList();
             return items;
         }
 
@@ -121,7 +121,6 @@ namespace MenuzRus {
                         query.Name = item.Name;
                         query.Description = item.Description;
                         query.ImageUrl = item.ImageUrl;
-                        query.AdditionalInfo = item.AdditionalInfo;
                     }
                     if (item.id == 0) {
                         db.Items.InsertOnSubmit(query);

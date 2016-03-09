@@ -53,17 +53,8 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String CheckPrint(Int32 checkId, Int32 split, Decimal adjustment) {
-            String retVal = String.Empty;
-            Services.Check check;
-            check = _orderService.GetCheck(checkId);
-            retVal += PrintChecks(checkId, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
-            return retVal;
-        }
-
-        [HttpGet]
-        public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
-            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
+        public String ChecksPrint(String checkIds, Int32 split, Decimal adjustment) {
+            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checkIds);
             String retVal = String.Empty;
             Services.Check check;
 
@@ -116,6 +107,10 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult KitchenDetails(Int32 TableId) {
+            if (SessionData.user == null) {
+                return PartialView("_SessionEnd");
+            }
+
             KitchenOrderModel model;
 
             try {
@@ -156,6 +151,10 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult KitchenRefresh() {
+            if (SessionData.user == null) {
+                return PartialView("_SessionEnd");
+            }
+
             try {
                 return PartialView("_KitchenPartial", GetKitchenModel());
             }
@@ -175,6 +174,10 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult MonitorRefresh(Int32? id) {
+            if (SessionData.user == null) {
+                return PartialView("_SessionEnd");
+            }
+
             try {
                 return PartialView("_MonitorPartial", GetMonitorModel(id));
             }
@@ -275,22 +278,24 @@ namespace MenuzRus.Controllers {
                 products = _orderService.GetProducts(menuId);
                 foreach (Services.ChecksMenuProduct productItem in products) {
                     CheckMenuItemProduct product = new CheckMenuItemProduct();
-                    Services.ItemAssociation itemAssociations = _itemService.GetItemAssociations(productItem.ItemId);
+                    Services.ItemProduct itemProduct = _itemService.GetItemProduct(productItem.ItemId);
                     product.id = productItem.id;
                     product.ItemId = productItem.ItemId;
-                    product.CheckMenuAssociations = new List<CheckMenuItemAssociation>();
-                    product.Type = (Common.ProductType)itemAssociations.Type;
+                    product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
+                    product.Type = (Common.ProductType)itemProduct.Type;
 
-                    CheckMenuItemAssociation association = new CheckMenuItemAssociation();
-                    Item = _itemService.GetItem(association.ItemId);
-                    association.id = association.id;
-                    association.ItemId = association.ItemId;
-                    association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == association.id);
-                    association.Name = Item.Name;
-                    association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                    association.ImageUrl = Item.ImageUrl;
-                    association.Customer = SessionData.customer;
-                    product.CheckMenuAssociations.Add(association);
+                    foreach (Services.ItemProductAssociation associatedItem in itemProduct.ItemProductAssociations) {
+                        CheckMenuItemProductAssociation association = new CheckMenuItemProductAssociation();
+                        Item = _itemService.GetItem(associatedItem.ItemId);
+                        association.id = associatedItem.id;
+                        association.ItemId = associatedItem.ItemId;
+                        association.Selected = productItem.ChecksMenuProductItems.Any(m => m.ItemId == associatedItem.id);
+                        association.Name = Item.Name;
+                        association.Price = (Decimal)Item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                        association.ImageUrl = Item.ImageUrl;
+                        association.Customer = SessionData.customer;
+                        product.CheckMenuItemProductAssociations.Add(association);
+                    }
                     model.Add(product);
                 }
             }
@@ -469,12 +474,12 @@ namespace MenuzRus.Controllers {
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            //item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                            //if (item != null) {
-                            //    price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-                            //    model.Summary += price;
-                            //    subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
-                            //}
+                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            if (item != null) {
+                                price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                                model.Summary += price;
+                                subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
+                            }
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, id = itemMenu.id, SubItems = subItems });
@@ -552,10 +557,10 @@ namespace MenuzRus.Controllers {
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
                         foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                            //item = _itemService.GetItemAssociations(associatedItem.ItemId);
-                            //if (item != null) {
-                            //    subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
-                            //}
+                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            if (item != null) {
+                                subItems.Add(new LineItem() { Description = item.Name, Ordered = ordered });
+                            }
                         }
                     }
                     model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = _commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem, SessionData.customer.id), SubItems = subItems });
@@ -603,10 +608,10 @@ namespace MenuzRus.Controllers {
                             if (products.Any()) {
                                 foreach (Services.ChecksMenuProduct productItem in products) {
                                     foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                                        //item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                                        //if (item != null) {
-                                        //    subItems.Add(new LineItem() { Description = item.Name });
-                                        //}
+                                        item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                                        if (item != null) {
+                                            subItems.Add(new LineItem() { Description = item.Name });
+                                        }
                                     }
                                 }
                             }
@@ -737,9 +742,9 @@ namespace MenuzRus.Controllers {
                                   var.Type,
                                   var.Width,
                                   var.Height,
-                                  Status = _floorService.GetTableOrderStatus(var.id),
+                                  Status = _orderService.GetTableOrderStatus(var.id),
                                   Checks = _orderService.GetChecksIds(var.id, true),
-                                  DateModified = _floorService.GetTableOrderDate(var.id)
+                                  DateModified = _orderService.GetTableOrderDate(var.id)
                               }).ToList();
                 return result.OrderByDescending(m => m.DateModified).ToJson();
             }

@@ -10,16 +10,17 @@ using Services;
 
 namespace MenuzRus.Models {
 
-    public class ItemAssociation {
+    public class ItemProduct {
         public Int32 id { set; get; }
 
-        public List<ItemAssociation> ItemAssociations { set; get; }
         public Int32 ItemId { set; get; }
-        public Int32 ItemReferenceId { set; get; }
+
+        public List<ItemProductAssociation> ItemProductAssociation { set; get; }
+
         public Common.ProductType Type { set; get; }
     }
 
-    public class ItemAssociationModel : BaseModel {
-        public List<ItemAssociation> ItemAssociations { set; get; }
+    public class ItemProductModel : BaseModel {
+        public List<ItemProduct> ItemsProduct { set; get; }
     }
 }

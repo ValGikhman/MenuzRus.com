@@ -89,7 +89,7 @@ namespace MenuzRus {
             finally {
             }
             // Default menuDesigner
-            return RedirectToAction("Index", "Designer", new { id = SessionData.menu.id });
+            return RedirectToAction("Index", "Designer", new { id = (Int32)model.Type });
         }
 
         #region private

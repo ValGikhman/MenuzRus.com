@@ -10,8 +10,10 @@ namespace MenuzRus {
 
     public interface IItemProductService {
 
-        Boolean DeleteItemAssociation(Int32 id);
+        Boolean DeleteItemProduct(Int32? id);
 
-        Boolean SaveItemAssociation(ItemAssociation item);
+        Boolean DeleteItemProductAssociations(Int32 id);
+
+        Boolean SaveItemProduct(ItemProduct item);
     }
 }

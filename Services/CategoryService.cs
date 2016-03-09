@@ -9,13 +9,13 @@ using Services;
 
 namespace MenuzRus {
 
-    public class CategoryService : ICategoryService {
+    public class CategoryService : BaseService, ICategoryService {
 
         public Boolean DeleteCategory(Int32? id) {
             Category query = new Category();
             id = id.HasValue ? id : 0;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Categories.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Category)) {
                         query.Status = (Int32)Common.Status.NotActive;
@@ -30,18 +30,18 @@ namespace MenuzRus {
         }
 
         public List<Category> GetCategories(Int32 customerId, Common.CategoryType type) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Categories.Where(m => m.CustomerId == customerId && m.Status != (Int32)Common.Status.NotActive && m.Type == (Int32)type).ToList();
         }
 
         public Category GetCategory(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
         public List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
             List<Category> retVal = null;
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
 
             var a = GetCategories(customerId, type).Where(m => m.Items.Any()).Distinct().OrderBy(m => m.Name).Select(c => new {
                 id = c.id,
@@ -52,7 +52,7 @@ namespace MenuzRus {
         }
 
         public List<Category> GetMenuDesigner(Int32 CustomerId) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             try {
                 List<Category> query = (from category in db.Categories
                                         join item in db.Items on category.id equals item.CategoryId
@@ -73,7 +73,7 @@ namespace MenuzRus {
         }
 
         public List<MenuDesign> GetMenuDesignerItems(Int32 CustomerId) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             try {
                 List<MenuDesign> query = (from category in db.Categories
                                           join item in db.Items on category.id equals item.CategoryId
@@ -90,7 +90,7 @@ namespace MenuzRus {
         public Int32 SaveCategory(Category category) {
             Category query = new Category();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (category.id != 0)
                         query = db.Categories.Where(m => m.id == category.id && m.Status != (Int32)Common.Status.NotActive).FirstOrDefault();
                     if (query != default(Category)) {

@@ -8,11 +8,11 @@ using Services;
 
 namespace MenuzRus {
 
-    public class LoginService : ILoginService {
+    public class LoginService : BaseService, ILoginService {
 
         public Tuple<User, Customer, Menu> Login(String email, String password) {
             Tuple<User, Customer, Menu> retValue;
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
 
             User user;
             Customer customer;

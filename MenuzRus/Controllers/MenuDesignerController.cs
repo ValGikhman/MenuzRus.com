@@ -53,7 +53,7 @@ namespace MenuzRus.Controllers {
 
                 model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
                 model.Selected = _categoryService.GetMenuDesignerItems(SessionData.customer.id);
-                model.ItemAssociation = SessionData.item.ItemAssociations;
+                model.ItemProducts = SessionData.item.ItemProducts;
 
                 return View("Designer", model);
             }

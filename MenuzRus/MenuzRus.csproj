@@ -647,7 +647,6 @@
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_ItemAssociatePartial.cshtml" />
     <Content Include="Views\Order\Tables.cshtml" />
     <Content Include="Views\Order\Table.cshtml" />
     <Content Include="Views\Shared\_OrderPartial.cshtml" />
@@ -691,6 +690,8 @@
     <Content Include="Scripts\ListNav\README.md" />
     <Content Include="Scripts\ListNav\scss\listnav.scss" />
     <Content Include="Views\MenuDesigner\Designer.cshtml" />
+    <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
+    <Content Include="Views\Shared\_SessionEnd.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

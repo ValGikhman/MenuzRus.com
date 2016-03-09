@@ -44,12 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="ConfirmationService.cs" />
     <Compile Include="AlertService.cs" />
     <Compile Include="CommentsService.cs" />
     <Compile Include="IItemService.cs" />
     <Compile Include="IAlertService.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="ISettingsService.cs" />
     <Compile Include="IOrderService.cs" />

@@ -34,10 +34,12 @@ namespace MenuzRus.Controllers {
         public JsonResult LoadData(String type) {
             DesignerModel model;
             Int32 categoryType = Int32.Parse(type);
+            List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>> gridData;
 
             try {
+                gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
                 model = GetModel((Common.CategoryType)categoryType);
-                List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>> gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
+
                 Tuple<Int32, String, Int32, String, String, Decimal, Boolean> gridRow;
                 foreach (Services.Category category in model.Categories) {
                     if (category.Items.Count > 0) {
@@ -104,9 +106,9 @@ namespace MenuzRus.Controllers {
             try {
                 model.CategoryType = type;
                 model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
-                model.ItemAssociation = null;
+                model.ItemProducts = null;
                 if (SessionData.item != null) {
-                    model.ItemAssociation = SessionData.item.ItemAssociations;
+                    model.ItemProducts = SessionData.item.ItemProducts;
                 }
                 return model;
             }

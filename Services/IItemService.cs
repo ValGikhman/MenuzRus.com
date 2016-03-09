@@ -18,9 +18,13 @@ namespace MenuzRus {
 
         Item GetItem(Int32 id);
 
-        ItemAssociation GetItemAssociations(Int32 id);
-
         List<ItemPrice> GetItemPrices(Int32 id);
+
+        ItemProduct GetItemProduct(Int32 id);
+
+        List<Item> GetItemProductAssosiations(Int32 productId);
+
+        Item GetItemProductAssosiationsById(Int32 associationId);
 
         List<Item> GetItems(Int32 id);
 

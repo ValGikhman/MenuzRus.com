@@ -16,7 +16,7 @@
                 <ul id="categoryType" class="dropdown-menu alert-warning" role="menu">
                     @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
                         Int32 value = (Int32)type;
-                        <li data-value="@value"><a href="#">@type</a></li>
+                        <li data-text="@type" data-value="@value"><a href="#">@type</a></li>
                     }
                 </ul>
             </div>
@@ -38,6 +38,8 @@
     $(function () {
         var lastCategory;
         var expandedEmpGroups = [];
+        var urlSelector;
+
         $(window).on("resize", function () {
             var width = $(".container-designer").width();
             $("#jqGrid").setGridWidth(width);
@@ -45,11 +47,13 @@
 
         $("#categoryType li a").click(function () {
             $("#btnCategoryType").text($(this).text());
+            $("#CategoryType").val($(this).text());
             $("#jqGrid").setGridParam({
                 url: $.validator.format("{0}Designer/LoadData?type={1}", root, $(this).parent().attr("data-value"))
             }).trigger("reloadGrid");
         });
 
+        urlSelector = $.validator.format("#categoryType li[data-text='{0}']", $("#CategoryType").val());
         $("#jqGrid").jqGrid({
             caption: "Gryd",
             colNames: ["CategoryId", "Category", "itemId", "", "Name", "Description", "Price", "Active"],
@@ -88,7 +92,7 @@
                 repeatitems: false,
                 userdata: "userdata"
             },
-            url: $.validator.format("{0}Designer/LoadData?type={1}", root, 1),
+            url: $.validator.format("{0}Designer/LoadData?type={1}", root, $(urlSelector).attr("data-value")),
             grouping: true,
             groupingView: {
                 groupField: ["category"],

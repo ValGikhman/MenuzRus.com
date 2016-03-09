@@ -168,9 +168,7 @@
 
     function printData(data, name) {
         findPrinter(name);
-        qz.appendHTML("<html>");
-        qz.appendHTML(data);
-        qz.appendHTML("</html>");
+        qz.appendHTML($.validator.format("<html>{0}<div style='margin-top: 50px;'>~</div></html>", data));
         qz.printHTML();
     }
 

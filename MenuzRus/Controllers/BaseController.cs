@@ -34,14 +34,6 @@ namespace MenuzRus.Controllers {
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext) {
             base.Initialize(requestContext);
-            //if (_LogService == null) {
-            //    _LogService = new LogService();
-            //}
-
-            //if (SessionData.sessionId == null) {
-            //    SessionData = new SessionData();
-            //    SessionData = SessionData.GetSession<SessionData>(Constants.SESSION);
-            //}
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext) {
@@ -52,10 +44,8 @@ namespace MenuzRus.Controllers {
 
             Services.User user = SessionData.GetSession<Services.User>(Constants.SESSION_USER);
 
-            if (user != null) {
-                this.IsLoggedIn = SessionData.user != null;
-                SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
-            }
+            this.IsLoggedIn = (SessionData.user != null);
+            SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
 
             try {
                 // Get the route

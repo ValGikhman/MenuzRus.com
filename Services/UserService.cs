@@ -8,7 +8,7 @@ using Services;
 
 namespace MenuzRus {
 
-    public class UserService : IUserService {
+    public class UserService : BaseService, IUserService {
 
         #region user
 
@@ -16,7 +16,7 @@ namespace MenuzRus {
             User query = new User();
             id = id.HasValue ? id : 0;
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Users.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(User)) {
                         db.Users.DeleteOnSubmit(query);
@@ -31,18 +31,18 @@ namespace MenuzRus {
         }
 
         public User GetUser(Int32 id) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Users.Where(m => m.id == id && m.Active).FirstOrDefault();
         }
 
         public User GetUserByHash(String hash) {
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Users.Where(m => m.Hash == hash).FirstOrDefault();
         }
 
         public List<User> GetUsers(Int32 id) {
             List<User> users;
-            menuzRusDataContext db = new menuzRusDataContext();
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             users = db.Users.Where(m => m.CustomerId == id).OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
             return users;
         }
@@ -50,7 +50,7 @@ namespace MenuzRus {
         public Int32 SaveUser(User user) {
             User query = new User();
             try {
-                using (menuzRusDataContext db = new menuzRusDataContext()) {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (user.id != 0)
                         query = db.Users.Where(m => m.id == user.id).FirstOrDefault();
 
@@ -66,13 +66,12 @@ namespace MenuzRus {
                         query.ImageUrl = user.ImageUrl;
                         query.Type = user.Type;
                         query.Hash = user.Hash;
-                        query.DateModified = DateTime.UtcNow;
                     }
                     if (user.id == 0) {
                         db.Users.InsertOnSubmit(query);
                     }
                     db.SubmitChanges();
-                    // Update ImageName for new category
+                    // Update ImageName for new user
                     if (user.id == 0 && query.ImageUrl != null) {
                         query.ImageUrl = String.Format("{0}{1}", query.id, user.ImageUrl);
                         db.SubmitChanges();

@@ -27,7 +27,7 @@ namespace MenuzRus.Models {
 
         public Common.CategoryType CategoryType { set; get; }
 
-        public EntitySet<Services.ItemAssociation> ItemAssociation { set; get; }
+        public EntitySet<Services.ItemProduct> ItemProducts { set; get; }
 
         public List<MenuItem> MenuItems { set; get; }
 

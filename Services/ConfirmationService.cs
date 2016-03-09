@@ -8,12 +8,12 @@ using Services;
 
 namespace MenuzRus {
 
-    public class ConfirmationService : IConfirmationService {
+    public class ConfirmationService : BaseService, IConfirmationService {
         private User user;
 
         public User Confirm(String hash) {
             try {
-                menuzRusDataContext db = new menuzRusDataContext();
+                menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
                 user = db.Users.Where(m => m.Hash == hash).FirstOrDefault();
                 if (user != default(User)) {
                     user.Active = true;

@@ -34,11 +34,6 @@ namespace MenuzRus {
         }
 
         protected void Session_End(Object sender, EventArgs e) {
-            HttpContext.Current.Session[Constants.SESSION_USER] = null;
-            HttpContext.Current.Session[Constants.SESSION_FLOOR] = null;
-            HttpContext.Current.Session[Constants.SESSION_ITEM] = null;
-            HttpContext.Current.Session[Constants.SESSION_CUSTOMER] = null;
-            HttpContext.Current.Session[Constants.SESSION_MENU] = null;
         }
     }
 }

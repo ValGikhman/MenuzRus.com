@@ -2,8 +2,13 @@
 
 $(function () {
     tableId = $("#Table_id").val();
+
     if ($("#btnTableStatus").text() == "Closed") {
-        $(".layout").hide();
+        $("#btnAdd").hide();
+        $("#menuTab").remove();
+
+        $("#actionsTab").parent().addClass("active");
+        $("#actions-tab").addClass("active");
     }
 
     $("#checkType li a").click(function () {

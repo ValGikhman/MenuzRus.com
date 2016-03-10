@@ -13,9 +13,6 @@ namespace MenuzRus.Models {
     public class ItemModel : BaseModel {
         private Decimal _Price;
 
-        [DisplayName("Additional Information")]
-        public String AdditionalInfo { get; set; }
-
         [DisplayName("Category")]
         public List<Services.Category> Categories { get; set; }
 

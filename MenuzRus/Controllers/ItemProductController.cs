@@ -25,24 +25,8 @@ namespace MenuzRus.Controllers {
 
         #region item
 
-        [HttpPost]
-        public ActionResult DeleteItemProduct(Int32? id) {
-            try {
-                if (!_itemProductService.DeleteItemProduct(id))
-                    return RedirectToAction("Index", "Error");
-
-                return Json("OK");
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-            }
-            finally {
-            }
-            return null;
-        }
-
         [HttpGet]
-        public ActionResult ItemProductAssociate(Int32 id) {
+        public ActionResult AssociateItemProduct(Int32 id) {
             if (SessionData.user == null) {
                 return PartialView("_SessionEnd");
             }
@@ -54,6 +38,22 @@ namespace MenuzRus.Controllers {
                 model.ItemProducts = SessionData.item.ItemProducts;
 
                 return PartialView("_ItemProductAssociatePartial", model);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult DeleteItemProduct(Int32? id) {
+            try {
+                if (!_itemProductService.DeleteItemProduct(id))
+                    return RedirectToAction("Index", "Error");
+
+                return Json("OK");
             }
             catch (Exception ex) {
                 base.Log(ex);

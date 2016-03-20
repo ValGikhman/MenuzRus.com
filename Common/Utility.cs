@@ -51,6 +51,13 @@ public static class Common {
         MenuItem = 2
     }
 
+    public enum InventoryType {
+        BeginBalance = 1,
+        In = 2,
+        Out = 4,
+        EndBalance = 8
+    }
+
     public enum LogType {
 
         [Display(Name = "Exception")]
@@ -230,6 +237,16 @@ public static class Common {
         Open = 1,
         Served = 2,
         Closed = 3
+    }
+
+    public enum UOM {
+        Each = 1,
+        Lbl = 2,
+        Oz = 3,
+        Box = 4,
+        Pack = 5,
+        Liter = 6,
+        Gramm = 7
     }
 
     public enum UserType {

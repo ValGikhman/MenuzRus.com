@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.UI.WebControls;
 using MenuzRus.Models;
 using Services;
@@ -66,11 +67,15 @@ namespace MenuzRus.Controllers {
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
                 item.Status = (Int32)Common.Status.Active;
+                item.UOM = (Int32)model.UOM;
+
                 if (model.Image != null) {
-                    if (item.id == 0)
+                    if (item.id == 0) {
                         item.ImageUrl = Path.GetExtension(model.Image.FileName);
-                    else
+                    }
+                    else {
                         item.ImageUrl = String.Format("{0}{1}", model.id, Path.GetExtension(model.Image.FileName));
+                    }
                 }
 
                 Int32 result = _itemService.SaveItem(item);
@@ -80,17 +85,19 @@ namespace MenuzRus.Controllers {
                 String fileName = (model.Image == null ? model.ImageUrl : model.Image.FileName);
                 String path = Path.Combine(Server.MapPath("~/Images/Menus/"), SessionData.user.id.ToString(), "Items", String.Format("{0}{1}", result, Path.GetExtension(fileName)));
                 if (model.Image == null && model.ImageUrl == null) {
-                    if (System.IO.File.Exists(path))
+                    if (System.IO.File.Exists(path)) {
                         System.IO.File.Delete(path);
+                    }
                 }
-                else if (model.Image != null)
+                else if (model.Image != null) {
                     model.Image.SaveAs(path);
+                }
 
                 if (model.Price2Add > 0) {
                     AddItemPrice(result, model.Price2Add);
                 }
                 // Default menuDesigner
-                return RedirectToAction("Index", "Designer", new { id = Common.CategoryType.Menu });
+                return RedirectToAction("Index", "Designer", new { id = (Common.CategoryType)model.CategoryType });
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -124,6 +131,7 @@ namespace MenuzRus.Controllers {
                     model.CategoryId = model.Categories[0].id;
                 }
                 model.Status = Common.Status.Active;
+                model.CategoryType = type;
                 if (id.HasValue) {
                     item = _itemService.GetItem((Int32)id.Value);
                     if (item != null) {
@@ -134,6 +142,7 @@ namespace MenuzRus.Controllers {
                         model.Description = item.Description;
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
+                        model.UOM = (Common.UOM)item.UOM;
                     }
                 }
                 return model;

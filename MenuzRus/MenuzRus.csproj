@@ -146,6 +146,7 @@
     <Compile Include="Controllers\ConfirmationsController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\KitchenOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ItemProductController.cs" />
@@ -312,9 +313,6 @@
     <Content Include="Images\Backgrounds\Wall\thumbnails\7.jpg" />
     <Content Include="Images\Backgrounds\Wall\thumbnails\8.jpg" />
     <Content Include="Images\Backgrounds\Wall\thumbnails\9.jpg" />
-    <Content Include="Images\Menus\1\C-1.jpg" />
-    <Content Include="Images\Menus\1\C-5.jpg" />
-    <Content Include="Images\Menus\1\C-8.jpg" />
     <Content Include="Images\Web\bell.png" />
     <Content Include="Images\Web\body.jpg" />
     <Content Include="Images\Web\hori_large.png" />
@@ -351,6 +349,7 @@
     <Content Include="Scripts\chosen\options.html" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\comments.js" />
+    <Content Include="Scripts\inventory.js" />
     <Content Include="Scripts\Datepicker\css\datepicker.css" />
     <Content Include="Scripts\Datepicker\js\bootstrap-datepicker.js" />
     <Content Include="Scripts\kitchenOrder.js" />
@@ -692,8 +691,11 @@
     <Content Include="Views\MenuDesigner\Designer.cshtml" />
     <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
     <Content Include="Views\Shared\_SessionEnd.cshtml" />
+    <Content Include="Views\Shared\_InventoryAssociatePartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\Menus\1\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

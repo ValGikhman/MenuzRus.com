@@ -49,6 +49,8 @@
     <Compile Include="ConfirmationService.cs" />
     <Compile Include="AlertService.cs" />
     <Compile Include="CommentsService.cs" />
+    <Compile Include="InventoryService.cs" />
+    <Compile Include="IInventoryService.cs" />
     <Compile Include="IItemService.cs" />
     <Compile Include="IAlertService.cs" />
     <Compile Include="IService.cs" />

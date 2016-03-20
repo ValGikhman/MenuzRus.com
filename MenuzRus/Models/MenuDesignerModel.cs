@@ -34,6 +34,16 @@ namespace MenuzRus.Models {
         public List<MenuDesign> Selected { set; get; }
     }
 
+    public class InventoryModel : BaseModel {
+        public List<Services.Category> Categories { set; get; }
+
+        public EntitySet<Services.Iten> ItemProducts { set; get; }
+
+        public List<MenuItem> MenuItems { set; get; }
+
+        public List<MenuDesign> Selected { set; get; }
+    }
+
     public class Menu {
         public String Description { set; get; }
 

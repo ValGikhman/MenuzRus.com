@@ -20,12 +20,17 @@ namespace MenuzRus.Controllers {
         }
 
         [CheckUserSession]
-        public ActionResult Index(Int32? id) {
+        public ActionResult Index(String id) {
             DesignerModel model;
-            if (!id.HasValue) {
-                id = (Int32)Common.CategoryType.Menu;
+            Common.CategoryType categoryType;
+
+            if (String.IsNullOrEmpty(id)) {
+                categoryType = Common.CategoryType.Menu;
             }
-            model = GetModel((Common.CategoryType)id);
+            else {
+                categoryType = EnumHelper<Common.CategoryType>.Parse(id);
+            }
+            model = GetModel(categoryType);
 
             return View("Index", model);
         }

@@ -113,19 +113,25 @@ namespace MenuzRus {
             Item query = new Item();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    if (item.id != 0)
+                    if (item.id != 0) {
                         query = db.Items.Where(m => m.id == item.id).FirstOrDefault();
+                    }
+
                     if (query != default(Item)) {
                         query.CategoryId = item.CategoryId;
                         query.Status = item.Status;
                         query.Name = item.Name;
                         query.Description = item.Description;
                         query.ImageUrl = item.ImageUrl;
+                        query.UOM = item.UOM;
                     }
+
                     if (item.id == 0) {
                         db.Items.InsertOnSubmit(query);
                     }
+
                     db.SubmitChanges();
+
                     // Update ImageName for new category
                     if (item.id == 0 && query.ImageUrl != null) {
                         query.ImageUrl = String.Format("{0}{1}", query.id, item.ImageUrl);

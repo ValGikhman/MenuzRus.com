@@ -18,6 +18,9 @@ namespace MenuzRus.Models {
 
         public Int32 CategoryId { get; set; }
 
+        [DisplayName("Category Type")]
+        public Common.CategoryType CategoryType { get; set; }
+
         [DisplayName("Description")]
         public String Description { get; set; }
 
@@ -28,6 +31,9 @@ namespace MenuzRus.Models {
 
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
+
+        [DisplayName("Inventory")]
+        public List<InventoryRegistry> Inventory { get; set; }
 
         [DisplayName("ItemPrices")]
         public List<ItemPrice> ItemPrices { get; set; }
@@ -54,5 +60,9 @@ namespace MenuzRus.Models {
         [DisplayName("Status")]
         [Required]
         public Common.Status Status { get; set; }
+
+        [DisplayName("UOM")]
+        [Required]
+        public Common.UOM UOM { get; set; }
     }
 }

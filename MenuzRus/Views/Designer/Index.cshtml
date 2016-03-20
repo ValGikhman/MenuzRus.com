@@ -5,6 +5,7 @@
 
 <script src="@Url.Content("~/Scripts/jquery/jquery.colpick.js")"></script>
 <script src="@Url.Content("~/Scripts/itemProduct.js")"></script>
+<script src="@Url.Content("~/Scripts/inventory.js")"></script>
 <script src="@Url.Content("~/Scripts/designer.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
@@ -47,7 +48,7 @@
 
         $("#categoryType li a").click(function () {
             $("#btnCategoryType").text($(this).text());
-            $("#CategoryType").val($(this).text());
+            $("#CategoryType").val($(this).parent().attr("data-value"));
             $("#jqGrid").setGridParam({
                 url: $.validator.format("{0}Designer/LoadData?type={1}", root, $(this).parent().attr("data-value"))
             }).trigger("reloadGrid");
@@ -61,7 +62,7 @@
                 { name: "categoryId", hidden: true },
                 { name: "category" },
                 { name: "itemId", hidden: true },
-                { name: "action", width: 45, formatter: edit },
+                { name: "action", width: 45, formatter: editButtons },
                 { name: "name", width: 130 },
                 { name: "description", width: 180, sortable: true },
                 { name: "price", width: 30, align: "right", sorttype: "float", formatter: "currency", formatoptions: { prefix: "$", thousandsSeparator: ",'" } },
@@ -164,17 +165,20 @@
 
     });
 
-    function edit(cellvalue, options, rowObject) {
+    function editButtons(cellvalue, options, rowObject) {
         var buttons = "";
-        buttons = $.validator.format("<button id='editItrem' type='button' class='btn btn-info' onclick='javascript:editItem({0})' style='margin-left: 20px !important;'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
-        buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' style='margin: 0 30px 0 auto;' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
+        buttons = $.validator.format("<button id='editItem' type='button' class='btn btn-info' onclick='javascript:editItem({0})' style='padding:4px; margin-left: 20px !important; margin-right:5px;'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
+        if ($("#btnCategoryType").text() != "Inventory") {
+            buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' style='padding:4px; margin: 0 5px 0 auto;' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
+            buttons += $.validator.format("<button id='assosiateInventory' type='button' class='btn btn-success' style='padding:4px; margin: 0;' onclick='javascript:associateInventory({0})'><span class='glyphicon glyphicon-barcode'></span></button>", rowObject.itemId);
+        }
         return buttons;
     }
 
     function categoryActionButtons() {
         var object = "$(this).parent()";
-        var buttons = $.validator.format("<button id='addItem' type='button' class='btn btn-info' onclick='javascript:editItemHelper({0})'><span class='glyphicon glyphicon-plus'></span></button>", object);
-        buttons += $.validator.format("<button id='editCategory' type='button' class='btn btn-info' onclick='javascript:editCategoryHelper({0})'><span class='glyphicon glyphicon-pencil'></span></button>", object);
+        var buttons = $.validator.format("<button id='editCategory' type='button' class='btn btn-info' onclick='javascript:editCategoryHelper({0})'><span class='glyphicon glyphicon-pencil'></span></button>", object);
+        buttons += $.validator.format("<button id='addItem' type='button' class='btn btn-info' onclick='javascript:editItemHelper({0})'><span class='glyphicon glyphicon-plus'></span></button>", object);
         return buttons;
     }
 

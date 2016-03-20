@@ -272,13 +272,14 @@ namespace MenuzRus.Controllers {
         public String ShowMenuProducts(Int32 menuId) {
             List<CheckMenuItemProduct> model = new List<CheckMenuItemProduct>();
             List<ChecksMenuProduct> products = new List<ChecksMenuProduct>();
+            Services.ItemProduct itemProduct;
             Item Item;
 
             try {
                 products = _orderService.GetProducts(menuId);
                 foreach (Services.ChecksMenuProduct productItem in products) {
                     CheckMenuItemProduct product = new CheckMenuItemProduct();
-                    Services.ItemProduct itemProduct = _itemService.GetItemProduct(productItem.ItemId);
+                    itemProduct = _itemService.GetItemProduct(productItem.ItemId);
                     product.id = productItem.id;
                     product.ItemId = productItem.ItemId;
                     product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
@@ -301,7 +302,7 @@ namespace MenuzRus.Controllers {
             }
             catch (Exception ex) {
                 base.Log(ex);
-                return "Error";
+                return String.Format("Error");
             }
             return RenderViewToString(this.ControllerContext, "_OrderMenuProductPartial", model);
         }

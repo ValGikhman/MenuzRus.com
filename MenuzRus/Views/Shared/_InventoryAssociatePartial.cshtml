@@ -1,4 +1,4 @@
-﻿@model MenuzRus.Models.DesignerModel
+﻿@model MenuzRus.Models.InventoryAssosiationModel
 @using Services
 <link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/item.css")" rel="stylesheet" />
@@ -7,21 +7,21 @@
 <div class="modal-header  modal-new">
     <button type="button" class="close itemProductClose" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">Inventory Association
-        <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:addAssosiation()"><span class="glyphicon glyphicon-plus"></span></button>
+        <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:addInventoryAssosiation()"><span class="glyphicon glyphicon-plus"></span></button>
     </h4>
 </div>
 <div class="container container-item">
     @{
-        foreach (Services.ItemProduct itemProduct in Model.ItemProducts) {
+        foreach (Services.ItemInventoryAssociation itemInventoryAssociation in Model.ItemInventoryAssociation) {
         <div>
-            <div style="margin: 12px 0 12px;">Inventory association #@itemProduct.id</div>
-            <select id="inventory.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add inventory assosiation" class="chosen-select items shadow" multiple>
+            <div style="margin: 12px 0 12px;">Inventory association #@itemInventoryAssociation.id</div>
+            <select id="inventory.@itemInventoryAssociation.id" data-value="@itemInventoryAssociation.id" data-placeholder="Click to add inventory assosiation" class="chosen-select items shadow" multiple>
                 @foreach (Services.Category category in Model.Categories) {
                     <option value=""></option>
                     <optgroup label="@category.Name">
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            if (itemProduct.ItemProductAssociations.Any(m => m.ItemId == item.id)) {
+                            if (item.ItemInventoryAssociations.Any(m => m.AssociatedItemId == item.id)) {
                                 select = "selected";
                             }
                             <option id="item.@item.id" value="@item.id" @select>@item.Name</option>

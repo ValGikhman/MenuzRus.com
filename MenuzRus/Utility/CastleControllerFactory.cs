@@ -34,6 +34,7 @@ namespace MenuzRus {
             this.Container.Register(Component.For<MenuzRus.IConfirmationService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ConfirmationService)));
             this.Container.Register(Component.For<MenuzRus.ICustomerService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.CustomerService)));
             this.Container.Register(Component.For<MenuzRus.IFloorService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.FloorService)));
+            this.Container.Register(Component.For<MenuzRus.IInventoryService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.InventoryService)));
             this.Container.Register(Component.For<MenuzRus.IItemService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ItemService)));
             this.Container.Register(Component.For<MenuzRus.IItemProductService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ItemProductService)));
             this.Container.Register(Component.For<MenuzRus.ILoginService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.LoginService)));

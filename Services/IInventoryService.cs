@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using MenuzRus;
 
-namespace Services {
+namespace MenuzRus {
 
     public interface IInventoryService {
     }

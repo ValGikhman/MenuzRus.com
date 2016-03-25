@@ -115,7 +115,7 @@ function associateItem(id) {
 }
 
 function associateInventory(id) {
-    var jqxhr = $.get($.validator.format("{0}Invetory/AssociateInventory/", root), { id: id })
+    var jqxhr = $.get($.validator.format("{0}Inventory/AssociateInventory/", root), { id: id })
     .done(function (result) {
         $("#modalEditForm").html(result);
         $(".modalEditForm").modal("show");

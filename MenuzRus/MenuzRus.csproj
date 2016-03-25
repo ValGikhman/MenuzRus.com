@@ -170,6 +170,7 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CommentsModel.cs" />
+    <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\KitchenOrderModel.cs" />
     <Compile Include="Models\OrderCheckPrintModel.cs" />

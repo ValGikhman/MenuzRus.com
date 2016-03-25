@@ -5,7 +5,7 @@
 <script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
 
 <div class="modal-header  modal-new">
-    <button type="button" class="close itemProductClose" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <button type="button" class="close itemInventoryClose" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">Inventory Association
         <button id="addItem" type="button" class="btn btn-primary" onclick="javascript:addInventoryAssosiation()"><span class="glyphicon glyphicon-plus"></span></button>
     </h4>
@@ -15,7 +15,7 @@
         foreach (Services.ItemInventoryAssociation itemInventoryAssociation in Model.ItemInventoryAssociation) {
         <div>
             <div style="margin: 12px 0 12px;">Inventory association #@itemInventoryAssociation.id</div>
-            <select id="inventory.@itemInventoryAssociation.id" data-value="@itemInventoryAssociation.id" data-placeholder="Click to add inventory assosiation" class="chosen-select items shadow" multiple>
+            <select id="itemInventory.@itemInventoryAssociation.id" data-value="@itemInventoryAssociation.id" data-placeholder="Click to add inventory assosiation" class="chosen-select items shadow" multiple>
                 @foreach (Services.Category category in Model.Categories) {
                     <option value=""></option>
                     <optgroup label="@category.Name">
@@ -24,12 +24,12 @@
                             if (item.ItemInventoryAssociations.Any(m => m.AssociatedItemId == item.id)) {
                                 select = "selected";
                             }
-                            <option id="item.@item.id" value="@item.id" @select>@item.Name</option>
+                            <option id="item.@item.id" value="@item.id" @select>@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>
                         }
                     </optgroup>
                 }
             </select>
-            <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         }
     }
@@ -37,29 +37,27 @@
 
 <div class="modal-footer">
     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveItems()">Save changes</button>
+    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveInventoryItems()">Save changes</button>
 </div>
 <div class="hide">
     <div class="template">
         <div style="margin: 12px 0 12px;">New inventory association</div>
-        <select data-value="0" data-placeholder="Click to add product assosiation" class="chosen-select items shadow">
+        <select data-value="0" data-placeholder="Click to add product assosiation" class="chosen-select items">
             @foreach (Services.Category category in Model.Categories) {
                 <option value=""></option>
                 <optgroup label="@category.Name">
                     @foreach (Services.Item item in category.Items) {
-                        String description = String.Empty;
-                        if (!String.IsNullOrEmpty(item.Description)) {
-                            description = String.Format("({0})", item.Description);
-                        }
-                        <option value="@item.id">@item.Name @description</option>
+                        <option value="@item.id">@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>
                     }
                 </optgroup>
             }
         </select>
-        @Html.TextBox("Price", new { @class = "form-control shadow", placeholder = "$ Add price", type = "text", autofocus = "" })
+        @Html.TextBox("Quantity", "", new { @class = "form-control input-sm shadow", style = "display: inline;", placeholder = "Qty", required = "" })
 
-        <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
 </div>
 <input type="hidden" id="id" />
-<script>initChosen()</script>
+<script>
+    initInventoryChosen();
+</script>

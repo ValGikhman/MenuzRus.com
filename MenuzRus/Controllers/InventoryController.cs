@@ -42,6 +42,39 @@ namespace MenuzRus {
             return null;
         }
 
+        [HttpPost]
+        public ActionResult DeleteItemProduct(Int32? id) {
+            try {
+                if (!_itemProductService.DeleteItemProduct(id))
+                    return RedirectToAction("Index", "Error");
+
+                return Json("OK");
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public String SaveInventoryAssociatedItems(String model) {
+            InventoryModel model2Save;
+            try {
+                model2Save = SetModel(model);
+                if (model2Save != null) {
+                }
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return ex.Message;
+            }
+            finally {
+            }
+            return "OK";
+        }
+
         #region private
 
         private InventoryModel SetModel(String model) {

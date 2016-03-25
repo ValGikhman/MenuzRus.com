@@ -1,11 +1,12 @@
 ﻿$(function () {
 });
 
-function initChosen() {
+function initProductChosen() {
     $("select[id^='itemProduct']").chosen({ width: "350px", display_disabled_options: false });
+    $(".chosen-container").addClass("shadow");
 }
 
-function saveItems() {
+function saveProductItems() {
     var model = [];
     $(".items:not(.template)").each(function (i, e) {
         var values = "";

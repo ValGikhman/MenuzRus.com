@@ -33,7 +33,7 @@
                     </optgroup>
                 }
             </select>
-            <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         }
     }
@@ -41,7 +41,7 @@
 
 <div class="modal-footer">
     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveItems()">Save changes</button>
+    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveProductItems()">Save changes</button>
 </div>
 <div class="hide">
     <div class="template">
@@ -61,8 +61,10 @@
                 </optgroup>
             }
         </select>
-        <button type="button" class="btn btn-danger" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
 </div>
 <input type="hidden" id="id" />
-<script>initChosen()</script>
+<script>
+    initProductChosen();
+</script>

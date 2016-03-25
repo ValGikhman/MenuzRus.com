@@ -54,11 +54,16 @@
     overflow-y: auto;
 }
 
-#Price {
+#Price, #Quantity {
     width: 80px;
 }
 
 .chosen-container-multi .chosen-drop .chosen-results {
     max-height: 150px !important;
     overflow-y: auto;
+}
+
+.chosen-container-single .chosen-single {
+    height: 30px;
+    line-height: 26px;
 }

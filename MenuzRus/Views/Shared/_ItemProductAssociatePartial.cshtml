@@ -33,7 +33,7 @@
                     </optgroup>
                 }
             </select>
-            <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="button" class="btn btn-danger shadow" onclick="javascript:addAssociation($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         }
     }
@@ -61,7 +61,7 @@
                 </optgroup>
             }
         </select>
-        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteAssociation($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
 </div>
 <input type="hidden" id="id" />

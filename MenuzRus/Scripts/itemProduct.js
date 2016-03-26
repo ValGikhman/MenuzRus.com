@@ -6,6 +6,14 @@ function initProductChosen() {
     $(".chosen-container").addClass("shadow");
 }
 
+function addAssociation() {
+    var clone = $(".template").clone();
+    clone.removeAttr("style").removeClass("template").css("margin-top", "25px");
+    $(".container-item").append(clone);
+    $(".container-item select:last").chosen({ width: "350px", display_disabled_options: false });
+    $(".chosen-container").addClass("shadow");
+}
+
 function saveProductItems() {
     var model = [];
     $(".items:not(.template)").each(function (i, e) {
@@ -33,14 +41,7 @@ function saveProductItems() {
     });
 };
 
-function addAssosiation() {
-    var clone = $(".template").clone();
-    clone.removeAttr("style").removeClass("template").css("margin-top", "25px");
-    $(".container-item").append(clone);
-    $(".container-item select:last").chosen({ width: "350px", display_disabled_options: false });
-}
-
-function deleteItself(object) {
+function deleteAssociation(object) {
     $(object).fadeOut("slow", function () {
         object.remove();
     });

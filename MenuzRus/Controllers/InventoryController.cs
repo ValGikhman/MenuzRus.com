@@ -12,12 +12,14 @@ namespace MenuzRus {
 
     public class InventoryController : BaseController {
         private ICategoryService _categoryService;
+        private IInventoryService _inventoryService;
         private IItemService _itemService;
 
-        public InventoryController(ISessionData sessionData, IItemService itemService, ICategoryService categoryService)
+        public InventoryController(ISessionData sessionData, IItemService itemService, ICategoryService categoryService, IInventoryService inventoryService)
             : base(sessionData) {
             _itemService = itemService;
             _categoryService = categoryService;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet]
@@ -43,9 +45,9 @@ namespace MenuzRus {
         }
 
         [HttpPost]
-        public ActionResult DeleteItemProduct(Int32? id) {
+        public ActionResult DeleteInventoryAssociation(Int32 id) {
             try {
-                if (!_itemProductService.DeleteItemProduct(id))
+                if (!_inventoryService.DeleteInventoryAssociation(id))
                     return RedirectToAction("Index", "Error");
 
                 return Json("OK");
@@ -59,11 +61,17 @@ namespace MenuzRus {
         }
 
         [HttpPost]
-        public String SaveInventoryAssociatedItems(String model) {
+        public String SaveInventoryAssociation(String model) {
             InventoryModel model2Save;
             try {
                 model2Save = SetModel(model);
                 if (model2Save != null) {
+                    foreach (Models.Inventory item in model2Save.Inventory) {
+                        Services.ItemInventoryAssociation association = new ItemInventoryAssociation();
+                        association.ItemInventoryId = item.ItemId;
+                        association.AssociatedItemId = item.id;
+                        _inventoryService.SaveInventoryAssociation(association);
+                    }
                 }
             }
             catch (Exception ex) {

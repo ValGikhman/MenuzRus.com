@@ -13,15 +13,15 @@
 <div class="container container-item">
     @{
         foreach (Services.ItemInventoryAssociation itemInventoryAssociation in Model.ItemInventoryAssociation) {
-        <div>
+        <div class="items">
             <div style="margin: 12px 0 12px;">Inventory association #@itemInventoryAssociation.id</div>
-            <select id="itemInventory.@itemInventoryAssociation.id" data-value="@itemInventoryAssociation.id" data-placeholder="Click to add inventory assosiation" class="chosen-select items shadow" multiple>
+            <select id="itemInventory.@itemInventoryAssociation.id" data-value="@itemInventoryAssociation.id" data-placeholder="Click to add inventory assosiation" class="chosen-select">
                 @foreach (Services.Category category in Model.Categories) {
                     <option value=""></option>
                     <optgroup label="@category.Name">
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            if (item.ItemInventoryAssociations.Any(m => m.AssociatedItemId == item.id)) {
+                            if (item.ItemInventoryAssociation.AssociatedItemId == item.id) {
                                 select = "selected";
                             }
                             <option id="item.@item.id" value="@item.id" @select>@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>
@@ -29,7 +29,8 @@
                     </optgroup>
                 }
             </select>
-            <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+            @Html.TextBox("Quantity", itemInventoryAssociation.Quantity, new { @class = "form-control input-sm shadow", style = "display: inline;", placeholder = "Qty", required = "" })
+            <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteInventoryAssociation($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
         }
     }
@@ -40,9 +41,9 @@
     <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveInventoryItems()">Save changes</button>
 </div>
 <div class="hide">
-    <div class="template">
+    <div class="items template">
         <div style="margin: 12px 0 12px;">New inventory association</div>
-        <select data-value="0" data-placeholder="Click to add product assosiation" class="chosen-select items">
+        <select data-value="0" data-placeholder="Click to add product assosiation" class="chosen-select">
             @foreach (Services.Category category in Model.Categories) {
                 <option value=""></option>
                 <optgroup label="@category.Name">
@@ -54,7 +55,7 @@
         </select>
         @Html.TextBox("Quantity", "", new { @class = "form-control input-sm shadow", style = "display: inline;", placeholder = "Qty", required = "" })
 
-        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteItself($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-danger shadow" onclick="javascript:deleteInventoryAssociation($(this).parent())"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
 </div>
 <input type="hidden" id="id" />

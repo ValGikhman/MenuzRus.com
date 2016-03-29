@@ -82,7 +82,6 @@ namespace MenuzRus {
             CheckMenuComment query = new CheckMenuComment();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    query.DateModified = DateTime.UtcNow;
                     query.Type = (Int32)type;
                     query.ParentId = parentId;
                     query.CommentId = id;

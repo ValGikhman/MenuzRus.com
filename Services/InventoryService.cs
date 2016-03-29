@@ -37,7 +37,8 @@ namespace MenuzRus {
                     }
                     if (itemQuery != default(ItemInventoryAssociation)) {
                         itemQuery.ItemInventoryId = item.ItemInventoryId;
-                        itemQuery.AssociatedItemId = item.id;
+                        itemQuery.AssociatedItemId = item.AssociatedItemId;
+                        itemQuery.Quantity = item.Quantity;
                     }
                     if (item.id == 0) {
                         db.ItemInventoryAssociations.InsertOnSubmit(itemQuery);

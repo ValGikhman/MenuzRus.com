@@ -48,14 +48,13 @@ public static class Common {
 
     public enum CommentType {
         Check = 1,
-        MenuItem = 2
+        MenuItem = 2,
+        InventoryRegistry = 4
     }
 
     public enum InventoryType {
-        BeginBalance = 1,
         In = 2,
         Out = 4,
-        EndBalance = 8
     }
 
     public enum LogType {

@@ -12,6 +12,8 @@ namespace MenuzRus {
 
         Boolean AddItemPrice(Int32 id, Decimal price);
 
+        Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment);
+
         Boolean DeleteItem(Int32? id);
 
         Boolean DeleteMenuItem(Int32 id);

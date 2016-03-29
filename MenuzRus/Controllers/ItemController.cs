@@ -96,6 +96,16 @@ namespace MenuzRus.Controllers {
                 if (model.Price2Add > 0) {
                     AddItemPrice(result, model.Price2Add);
                 }
+
+                if (model.Quantity > 0) {
+                    if (model.InventoryType == Common.InventoryType.Out) {
+                        // Out is always negative
+                        model.Quantity = Math.Abs(model.Quantity) * -1;
+                    }
+
+                    AddItemRegistry(result, model.Quantity, model.InventoryType, model.InventoryComment);
+                }
+
                 // Default menuDesigner
                 return RedirectToAction("Index", "Designer", new { id = (Common.CategoryType)model.CategoryType });
             }
@@ -114,6 +124,17 @@ namespace MenuzRus.Controllers {
         private void AddItemPrice(Int32 id, Decimal price) {
             try {
                 _itemService.AddItemPrice(id, price);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+        }
+
+        private void AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
+            try {
+                _itemService.AddItemRegistry(id, qty, type, comment);
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -142,6 +163,8 @@ namespace MenuzRus.Controllers {
                         model.Description = item.Description;
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
+                        model.InventoryRegistries = item.InventoryRegistries.ToList();
+                        //model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
                         model.UOM = (Common.UOM)item.UOM;
                     }
                 }

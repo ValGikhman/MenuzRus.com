@@ -32,8 +32,18 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
-        [DisplayName("Inventory")]
-        public List<InventoryRegistry> Inventory { get; set; }
+        [DisplayName("Comment")]
+        public String InventoryComment { get; set; }
+
+        [DisplayName("InventoryRegistries")]
+        public List<InventoryRegistry> InventoryRegistries { get; set; }
+
+        [DisplayName("Type")]
+        [Required]
+        public Common.InventoryType InventoryType { get; set; }
+
+        [DisplayName("ItemInventoryAssociations")]
+        public List<ItemInventoryAssociation> ItemInventoryAssociations { get; set; }
 
         [DisplayName("ItemPrices")]
         public List<ItemPrice> ItemPrices { get; set; }
@@ -56,6 +66,9 @@ namespace MenuzRus.Models {
 
         [DisplayName("Price to add")]
         public Decimal Price2Add { get; set; }
+
+        [DisplayName("Quantity")]
+        public Decimal Quantity { get; set; }
 
         [DisplayName("Status")]
         [Required]

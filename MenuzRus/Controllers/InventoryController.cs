@@ -66,11 +66,8 @@ namespace MenuzRus {
             try {
                 model2Save = SetModel(model);
                 if (model2Save != null) {
-                    foreach (Models.Inventory item in model2Save.Inventory) {
-                        Services.ItemInventoryAssociation association = new ItemInventoryAssociation();
-                        association.ItemInventoryId = item.ItemId;
-                        association.AssociatedItemId = item.id;
-                        _inventoryService.SaveInventoryAssociation(association);
+                    foreach (Services.ItemInventoryAssociation itemInventoryAssociation in model2Save.ItemInventoryAssociations) {
+                        _inventoryService.SaveInventoryAssociation(itemInventoryAssociation);
                     }
                 }
             }
@@ -93,25 +90,19 @@ namespace MenuzRus {
                 InventoryModel inventoryModel = new InventoryModel();
 
                 Array associations = (Array)objJavascript.DeserializeObject(model);
-                inventoryModel.Inventory = new List<Models.Inventory>();
-                foreach (String assosiation in associations) {
-                    Models.Inventory inventory = new Models.Inventory();
-                    inventory.ItemId = SessionData.item.id;
-                    Array values = assosiation.Split(commaDelimiter, StringSplitOptions.RemoveEmptyEntries);
+                inventoryModel.ItemInventoryAssociations = new List<ItemInventoryAssociation>();
 
-                    inventory.ItemInventoryAssociation = new List<ItemInventoryAssociation>();
+                foreach (String association in associations) {
+                    Array values = association.Split(commaDelimiter, StringSplitOptions.RemoveEmptyEntries);
+
+                    ItemInventoryAssociation itemInventoryAssociation = new ItemInventoryAssociation();
                     foreach (String value in values) {
-                        ItemInventoryAssociation itemInventoryAssociation = new ItemInventoryAssociation();
-
                         Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
-
-                        inventory.id = Int32.Parse(vars.GetValue(0).ToString());
+                        itemInventoryAssociation.ItemInventoryId = SessionData.item.id;
                         itemInventoryAssociation.AssociatedItemId = Int32.Parse(vars.GetValue(0).ToString());
-                        itemInventoryAssociation.ItemInventoryId = Int32.Parse(vars.GetValue(1).ToString());
-
-                        inventory.ItemInventoryAssociation.Add(itemInventoryAssociation);
+                        itemInventoryAssociation.Quantity = Decimal.Parse(vars.GetValue(1).ToString());
                     }
-                    inventoryModel.Inventory.Add(inventory);
+                    inventoryModel.ItemInventoryAssociations.Add(itemInventoryAssociation);
                 }
                 return inventoryModel;
             }

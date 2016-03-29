@@ -21,7 +21,7 @@
                     <optgroup label="@category.Name">
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            if (item.ItemInventoryAssociation.AssociatedItemId == item.id) {
+                            if (Model.ItemInventoryAssociation.Any(m => m.AssociatedItemId == item.id)) {
                                 select = "selected";
                             }
                             <option id="item.@item.id" value="@item.id" @select>@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>

@@ -279,18 +279,9 @@
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Item_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="ItemId" Type="MenuItem" />
       <Association Name="Item_ItemInventoryAssociation" Member="ItemInventoryAssociations" ThisKey="id" OtherKey="ItemInventoryId" Type="ItemInventoryAssociation" />
+      <Association Name="Item_InventoryRegistry" Member="InventoryRegistries" ThisKey="id" OtherKey="AssociatedtemId" Type="InventoryRegistry" />
       <Association Name="MenuDesign_Item" Member="MenuDesign" ThisKey="id" OtherKey="ItemId" Type="MenuDesign" IsForeignKey="true" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
-      <Association Name="ItemInventoryAssociation_Item" Member="ItemInventoryAssociation" ThisKey="id" OtherKey="AssociatedItemId" Type="ItemInventoryAssociation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.InventoryRegistry" Member="InventoryRegistries">
-    <Type Name="InventoryRegistry">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ItemInventoryAssociationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.ItemInventoryAssociation" Member="ItemInventoryAssociations">
@@ -299,9 +290,19 @@
       <Column Name="ItemInventoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AssociatedItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
-      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="ItemInventoryAssociation_Item" Member="Items" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Item_ItemInventoryAssociation" Member="Item" ThisKey="ItemInventoryId" OtherKey="id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InventoryRegistry" Member="InventoryRegistries">
+    <Type Name="InventoryRegistry">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AssociatedtemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedtemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

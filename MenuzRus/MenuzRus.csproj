@@ -693,6 +693,7 @@
     <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
     <Content Include="Views\Shared\_SessionEnd.cshtml" />
     <Content Include="Views\Shared\_InventoryAssociatePartial.cshtml" />
+    <Content Include="Views\Shared\_InventoryPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Menus\1\" />

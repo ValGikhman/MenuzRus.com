@@ -11,18 +11,6 @@
       <Association Name="Customer_Setting" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Menus" Member="Menus">
-    <Type Name="Menu">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Menu_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="MenuId" Type="MenuItem" />
-      <Association Name="Customer_Menu" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Floors" Member="Floors">
     <Type Name="Floor">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -143,20 +131,9 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
-      <Association Name="Customer_Menu" Member="Menus" ThisKey="id" OtherKey="CustomerId" Type="Menu" />
       <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
       <Association Name="Customer_User" Member="Users" ThisKey="id" OtherKey="CustomerId" Type="User" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MenuItems" Member="MenuItems">
-    <Type Name="MenuItem">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="MenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Side" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Menu_MenuItem" Member="Menu" ThisKey="MenuId" OtherKey="id" Type="Menu" IsForeignKey="true" />
-      <Association Name="Item_MenuItem" Member="Item" ThisKey="ItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
+      <Association Name="Customer_Category" Member="Categories" ThisKey="id" OtherKey="CustomerId" Type="Category" />
     </Type>
   </Table>
   <Table Name="dbo.Printouts" Member="Printouts">
@@ -194,6 +171,7 @@
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="ChecksMenu_Alert" Member="Alerts" ThisKey="id" OtherKey="CheckMenuId" Type="Alert" />
+      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus" ThisKey="id" OtherKey="ChecksMenuId" Type="InventoryRegestryCheckMenu" />
     </Type>
   </Table>
   <Table Name="dbo.Alerts" Member="Alerts">
@@ -226,14 +204,6 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.MenuDesign" Member="MenuDesigns">
-    <Type Name="MenuDesign">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="MenuDesign_Item" Member="Items" ThisKey="ItemId" OtherKey="id" Type="Item" />
-    </Type>
-  </Table>
   <Table Name="dbo.Tables" Member="Tables">
     <Type Name="Table">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -262,6 +232,7 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Category_Item" Member="Items" ThisKey="id" OtherKey="CategoryId" Type="Item" />
+      <Association Name="Customer_Category" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Items" Member="Items">
@@ -277,10 +248,8 @@
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
-      <Association Name="Item_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="ItemId" Type="MenuItem" />
       <Association Name="Item_ItemInventoryAssociation" Member="ItemInventoryAssociations" ThisKey="id" OtherKey="ItemInventoryId" Type="ItemInventoryAssociation" />
       <Association Name="Item_InventoryRegistry" Member="InventoryRegistries" ThisKey="id" OtherKey="AssociatedtemId" Type="InventoryRegistry" />
-      <Association Name="MenuDesign_Item" Member="MenuDesign" ThisKey="id" OtherKey="ItemId" Type="MenuDesign" IsForeignKey="true" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
@@ -289,7 +258,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ItemInventoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AssociatedItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Quantity" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Item_ItemInventoryAssociation" Member="Item" ThisKey="ItemInventoryId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
@@ -302,7 +271,18 @@
       <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Comment" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegestryCheckMenu" />
       <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedtemId" OtherKey="id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus">
+    <Type Name="InventoryRegestryCheckMenu">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InventoryRegistryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ChecksMenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegistry" ThisKey="InventoryRegistryId" OtherKey="id" Type="InventoryRegistry" IsForeignKey="true" />
+      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="ChecksMenu" ThisKey="ChecksMenuId" OtherKey="id" Type="ChecksMenu" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

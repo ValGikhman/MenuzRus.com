@@ -163,7 +163,7 @@ namespace MenuzRus.Controllers {
                         model.Description = item.Description;
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
-                        model.InventoryRegistries = item.InventoryRegistries.ToList();
+                        model.InventoryRegistries = item.InventoryRegistries.Where(m => m.DateCreated > DateTime.Now.AddDays(-7)).ToList();
                         //model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
                         model.UOM = (Common.UOM)item.UOM;
                     }

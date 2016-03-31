@@ -39,53 +39,53 @@ namespace MenuzRus {
             return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
-        public List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
-            List<Category> retVal = null;
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+        //public List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type) {
+        //    List<Category> retVal = null;
+        //    menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
 
-            var a = GetCategories(customerId, type).Where(m => m.Items.Any()).Distinct().OrderBy(m => m.Name).Select(c => new {
-                id = c.id,
-                CustomerId = c.CustomerId,
-                Items = c.Items.Where(i => i.MenuItems.Any())
-            }).ToList();
-            return retVal;
-        }
+        //    var a = GetCategories(customerId, type).Where(m => m.Items.Any()).Distinct().OrderBy(m => m.Name).Select(c => new {
+        //        id = c.id,
+        //        CustomerId = c.CustomerId,
+        //        Items = c.Items.Where(i => i.MenuItems.Any())
+        //    }).ToList();
+        //    return retVal;
+        //}
 
-        public List<Category> GetMenuDesigner(Int32 CustomerId) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            try {
-                List<Category> query = (from category in db.Categories
-                                        join item in db.Items on category.id equals item.CategoryId
-                                        join md in db.MenuDesigns on item.id equals md.ItemId
-                                        where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
-                                        select category).Distinct().ToList();
+        //public List<Category> GetMenuDesigner(Int32 CustomerId) {
+        //    menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+        //    try {
+        //        List<Category> query = (from category in db.Categories
+        //                                join item in db.Items on category.id equals item.CategoryId
+        //                                join md in db.MenuDesigns on item.id equals md.ItemId
+        //                                where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
+        //                                select category).Distinct().ToList();
 
-                foreach (Category category in query) {
-                    category.Items = (from item in category.Items
-                                      join md in db.MenuDesigns on item.id equals md.ItemId
-                                      select item).ToEntitySet();
-                }
-                return query;
-            }
-            catch (Exception ex) {
-            }
-            return null;
-        }
+        //        foreach (Category category in query) {
+        //            category.Items = (from item in category.Items
+        //                              join md in db.MenuDesigns on item.id equals md.ItemId
+        //                              select item).ToEntitySet();
+        //        }
+        //        return query;
+        //    }
+        //    catch (Exception ex) {
+        //    }
+        //    return null;
+        //}
 
-        public List<MenuDesign> GetMenuDesignerItems(Int32 CustomerId) {
-            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            try {
-                List<MenuDesign> query = (from category in db.Categories
-                                          join item in db.Items on category.id equals item.CategoryId
-                                          join md in db.MenuDesigns on item.id equals md.ItemId
-                                          where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
-                                          select md).ToList();
-                return query;
-            }
-            catch (Exception ex) {
-            }
-            return null;
-        }
+        //public List<MenuDesign> GetMenuDesignerItems(Int32 CustomerId) {
+        //    menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+        //    try {
+        //        List<MenuDesign> query = (from category in db.Categories
+        //                                  join item in db.Items on category.id equals item.CategoryId
+        //                                  join md in db.MenuDesigns on item.id equals md.ItemId
+        //                                  where category.CustomerId == CustomerId && category.Status != (Int32)Common.Status.NotActive && category.Type == (Int32)Common.CategoryType.Menu
+        //                                  select md).ToList();
+        //        return query;
+        //    }
+        //    catch (Exception ex) {
+        //    }
+        //    return null;
+        //}
 
         public Int32 SaveCategory(Category category) {
             Category query = new Category();

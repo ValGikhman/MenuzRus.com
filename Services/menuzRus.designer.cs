@@ -33,9 +33,6 @@ namespace Services
     partial void InsertSetting(Setting instance);
     partial void UpdateSetting(Setting instance);
     partial void DeleteSetting(Setting instance);
-    partial void InsertMenu(Menu instance);
-    partial void UpdateMenu(Menu instance);
-    partial void DeleteMenu(Menu instance);
     partial void InsertFloor(Floor instance);
     partial void UpdateFloor(Floor instance);
     partial void DeleteFloor(Floor instance);
@@ -66,9 +63,6 @@ namespace Services
     partial void InsertCustomer(Customer instance);
     partial void UpdateCustomer(Customer instance);
     partial void DeleteCustomer(Customer instance);
-    partial void InsertMenuItem(MenuItem instance);
-    partial void UpdateMenuItem(MenuItem instance);
-    partial void DeleteMenuItem(MenuItem instance);
     partial void InsertPrintout(Printout instance);
     partial void UpdatePrintout(Printout instance);
     partial void DeletePrintout(Printout instance);
@@ -87,9 +81,6 @@ namespace Services
     partial void InsertCheckMenuComment(CheckMenuComment instance);
     partial void UpdateCheckMenuComment(CheckMenuComment instance);
     partial void DeleteCheckMenuComment(CheckMenuComment instance);
-    partial void InsertMenuDesign(MenuDesign instance);
-    partial void UpdateMenuDesign(MenuDesign instance);
-    partial void DeleteMenuDesign(MenuDesign instance);
     partial void InsertTable(Table instance);
     partial void UpdateTable(Table instance);
     partial void DeleteTable(Table instance);
@@ -105,6 +96,9 @@ namespace Services
     partial void InsertInventoryRegistry(InventoryRegistry instance);
     partial void UpdateInventoryRegistry(InventoryRegistry instance);
     partial void DeleteInventoryRegistry(InventoryRegistry instance);
+    partial void InsertInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
+    partial void UpdateInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
+    partial void DeleteInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -142,14 +136,6 @@ namespace Services
 			get
 			{
 				return this.GetTable<Setting>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Menu> Menus
-		{
-			get
-			{
-				return this.GetTable<Menu>();
 			}
 		}
 		
@@ -233,14 +219,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<MenuItem> MenuItems
-		{
-			get
-			{
-				return this.GetTable<MenuItem>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Printout> Printouts
 		{
 			get
@@ -289,14 +267,6 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<MenuDesign> MenuDesigns
-		{
-			get
-			{
-				return this.GetTable<MenuDesign>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Table> Tables
 		{
 			get
@@ -334,6 +304,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<InventoryRegistry>();
+			}
+		}
+		
+		public System.Data.Linq.Table<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		{
+			get
+			{
+				return this.GetTable<InventoryRegestryCheckMenu>();
 			}
 		}
 	}
@@ -558,257 +536,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Menus")]
-	public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _CustomerId;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private System.DateTime _DateCreated;
-		
-		private System.DateTime _DateModified;
-		
-		private EntitySet<MenuItem> _MenuItems;
-		
-		private EntityRef<Customer> _Customer;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnCustomerIdChanging(int value);
-    partial void OnCustomerIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    partial void OnDateModifiedChanging(System.DateTime value);
-    partial void OnDateModifiedChanged();
-    #endregion
-		
-		public Menu()
-		{
-			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
-			this._Customer = default(EntityRef<Customer>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
-		public int CustomerId
-		{
-			get
-			{
-				return this._CustomerId;
-			}
-			set
-			{
-				if ((this._CustomerId != value))
-				{
-					if (this._Customer.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCustomerIdChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerId = value;
-					this.SendPropertyChanged("CustomerId");
-					this.OnCustomerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(25) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateModified", AutoSync=AutoSync.Always, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateModified
-		{
-			get
-			{
-				return this._DateModified;
-			}
-			set
-			{
-				if ((this._DateModified != value))
-				{
-					this.OnDateModifiedChanging(value);
-					this.SendPropertyChanging();
-					this._DateModified = value;
-					this.SendPropertyChanged("DateModified");
-					this.OnDateModifiedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menu_MenuItem", Storage="_MenuItems", ThisKey="id", OtherKey="MenuId")]
-		public EntitySet<MenuItem> MenuItems
-		{
-			get
-			{
-				return this._MenuItems;
-			}
-			set
-			{
-				this._MenuItems.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menu", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
-		public Customer Customer
-		{
-			get
-			{
-				return this._Customer.Entity;
-			}
-			set
-			{
-				Customer previousValue = this._Customer.Entity;
-				if (((previousValue != value) 
-							|| (this._Customer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Customer.Entity = null;
-						previousValue.Menus.Remove(this);
-					}
-					this._Customer.Entity = value;
-					if ((value != null))
-					{
-						value.Menus.Add(this);
-						this._CustomerId = value.id;
-					}
-					else
-					{
-						this._CustomerId = default(int);
-					}
-					this.SendPropertyChanged("Customer");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Menu = this;
-		}
-		
-		private void detach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Menu = null;
 		}
 	}
 	
@@ -2981,11 +2708,11 @@ namespace Services
 		
 		private EntitySet<Setting> _Settings;
 		
-		private EntitySet<Menu> _Menus;
-		
 		private EntitySet<Floor> _Floors;
 		
 		private EntitySet<User> _Users;
+		
+		private EntitySet<Category> _Categories;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3020,9 +2747,9 @@ namespace Services
 		public Customer()
 		{
 			this._Settings = new EntitySet<Setting>(new Action<Setting>(this.attach_Settings), new Action<Setting>(this.detach_Settings));
-			this._Menus = new EntitySet<Menu>(new Action<Menu>(this.attach_Menus), new Action<Menu>(this.detach_Menus));
 			this._Floors = new EntitySet<Floor>(new Action<Floor>(this.attach_Floors), new Action<Floor>(this.detach_Floors));
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._Categories = new EntitySet<Category>(new Action<Category>(this.attach_Categories), new Action<Category>(this.detach_Categories));
 			OnCreated();
 		}
 		
@@ -3279,19 +3006,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Menu", Storage="_Menus", ThisKey="id", OtherKey="CustomerId")]
-		public EntitySet<Menu> Menus
-		{
-			get
-			{
-				return this._Menus;
-			}
-			set
-			{
-				this._Menus.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Floor", Storage="_Floors", ThisKey="id", OtherKey="CustomerId")]
 		public EntitySet<Floor> Floors
 		{
@@ -3315,6 +3029,19 @@ namespace Services
 			set
 			{
 				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Category", Storage="_Categories", ThisKey="id", OtherKey="CustomerId")]
+		public EntitySet<Category> Categories
+		{
+			get
+			{
+				return this._Categories;
+			}
+			set
+			{
+				this._Categories.Assign(value);
 			}
 		}
 		
@@ -3350,18 +3077,6 @@ namespace Services
 			entity.Customer = null;
 		}
 		
-		private void attach_Menus(Menu entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = this;
-		}
-		
-		private void detach_Menus(Menu entity)
-		{
-			this.SendPropertyChanging();
-			entity.Customer = null;
-		}
-		
 		private void attach_Floors(Floor entity)
 		{
 			this.SendPropertyChanging();
@@ -3385,245 +3100,17 @@ namespace Services
 			this.SendPropertyChanging();
 			entity.Customer = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MenuItems")]
-	public partial class MenuItem : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _MenuId;
-		
-		private int _ItemId;
-		
-		private int _Side;
-		
-		private System.DateTime _DateCreated;
-		
-		private EntityRef<Menu> _Menu;
-		
-		private EntityRef<Item> _Item;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnMenuIdChanging(int value);
-    partial void OnMenuIdChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
-    partial void OnSideChanging(int value);
-    partial void OnSideChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public MenuItem()
+		private void attach_Categories(Category entity)
 		{
-			this._Menu = default(EntityRef<Menu>);
-			this._Item = default(EntityRef<Item>);
-			OnCreated();
+			this.SendPropertyChanging();
+			entity.Customer = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
+		private void detach_Categories(Category entity)
 		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuId", DbType="Int NOT NULL")]
-		public int MenuId
-		{
-			get
-			{
-				return this._MenuId;
-			}
-			set
-			{
-				if ((this._MenuId != value))
-				{
-					if (this._Menu.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMenuIdChanging(value);
-					this.SendPropertyChanging();
-					this._MenuId = value;
-					this.SendPropertyChanged("MenuId");
-					this.OnMenuIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
-		{
-			get
-			{
-				return this._ItemId;
-			}
-			set
-			{
-				if ((this._ItemId != value))
-				{
-					if (this._Item.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Side", DbType="Int NOT NULL")]
-		public int Side
-		{
-			get
-			{
-				return this._Side;
-			}
-			set
-			{
-				if ((this._Side != value))
-				{
-					this.OnSideChanging(value);
-					this.SendPropertyChanging();
-					this._Side = value;
-					this.SendPropertyChanged("Side");
-					this.OnSideChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Menu_MenuItem", Storage="_Menu", ThisKey="MenuId", OtherKey="id", IsForeignKey=true)]
-		public Menu Menu
-		{
-			get
-			{
-				return this._Menu.Entity;
-			}
-			set
-			{
-				Menu previousValue = this._Menu.Entity;
-				if (((previousValue != value) 
-							|| (this._Menu.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Menu.Entity = null;
-						previousValue.MenuItems.Remove(this);
-					}
-					this._Menu.Entity = value;
-					if ((value != null))
-					{
-						value.MenuItems.Add(this);
-						this._MenuId = value.id;
-					}
-					else
-					{
-						this._MenuId = default(int);
-					}
-					this.SendPropertyChanged("Menu");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_Item", ThisKey="ItemId", OtherKey="id", IsForeignKey=true)]
-		public Item Item
-		{
-			get
-			{
-				return this._Item.Entity;
-			}
-			set
-			{
-				Item previousValue = this._Item.Entity;
-				if (((previousValue != value) 
-							|| (this._Item.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Item.Entity = null;
-						previousValue.MenuItems.Remove(this);
-					}
-					this._Item.Entity = value;
-					if ((value != null))
-					{
-						value.MenuItems.Add(this);
-						this._ItemId = value.id;
-					}
-					else
-					{
-						this._ItemId = default(int);
-					}
-					this.SendPropertyChanged("Item");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			this.SendPropertyChanging();
+			entity.Customer = null;
 		}
 	}
 	
@@ -4215,6 +3702,8 @@ namespace Services
 		
 		private EntitySet<Alert> _Alerts;
 		
+		private EntitySet<InventoryRegestryCheckMenu> _InventoryRegestryCheckMenus;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4234,6 +3723,7 @@ namespace Services
 		public ChecksMenu()
 		{
 			this._Alerts = new EntitySet<Alert>(new Action<Alert>(this.attach_Alerts), new Action<Alert>(this.detach_Alerts));
+			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegestryCheckMenu>(new Action<InventoryRegestryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegestryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
 			OnCreated();
 		}
 		
@@ -4350,6 +3840,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="ChecksMenuId")]
+		public EntitySet<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		{
+			get
+			{
+				return this._InventoryRegestryCheckMenus;
+			}
+			set
+			{
+				this._InventoryRegestryCheckMenus.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4377,6 +3880,18 @@ namespace Services
 		}
 		
 		private void detach_Alerts(Alert entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChecksMenu = null;
+		}
+		
+		private void attach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChecksMenu = this;
+		}
+		
+		private void detach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
 		{
 			this.SendPropertyChanging();
 			entity.ChecksMenu = null;
@@ -4946,144 +4461,6 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MenuDesign")]
-	public partial class MenuDesign : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _ItemId;
-		
-		private System.DateTime _DateCreated;
-		
-		private EntitySet<Item> _Items;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnItemIdChanging(int value);
-    partial void OnItemIdChanged();
-    partial void OnDateCreatedChanging(System.DateTime value);
-    partial void OnDateCreatedChanged();
-    #endregion
-		
-		public MenuDesign()
-		{
-			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemId", DbType="Int NOT NULL")]
-		public int ItemId
-		{
-			get
-			{
-				return this._ItemId;
-			}
-			set
-			{
-				if ((this._ItemId != value))
-				{
-					this.OnItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._ItemId = value;
-					this.SendPropertyChanged("ItemId");
-					this.OnItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
-		public System.DateTime DateCreated
-		{
-			get
-			{
-				return this._DateCreated;
-			}
-			set
-			{
-				if ((this._DateCreated != value))
-				{
-					this.OnDateCreatedChanging(value);
-					this.SendPropertyChanging();
-					this._DateCreated = value;
-					this.SendPropertyChanged("DateCreated");
-					this.OnDateCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuDesign_Item", Storage="_Items", ThisKey="ItemId", OtherKey="id")]
-		public EntitySet<Item> Items
-		{
-			get
-			{
-				return this._Items;
-			}
-			set
-			{
-				this._Items.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.MenuDesign = this;
-		}
-		
-		private void detach_Items(Item entity)
-		{
-			this.SendPropertyChanging();
-			entity.MenuDesign = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tables")]
 	public partial class Table : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5453,6 +4830,8 @@ namespace Services
 		
 		private EntitySet<Item> _Items;
 		
+		private EntityRef<Customer> _Customer;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -5480,6 +4859,7 @@ namespace Services
 		public Category()
 		{
 			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
+			this._Customer = default(EntityRef<Customer>);
 			OnCreated();
 		}
 		
@@ -5514,6 +4894,10 @@ namespace Services
 			{
 				if ((this._CustomerId != value))
 				{
+					if (this._Customer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnCustomerIdChanging(value);
 					this.SendPropertyChanging();
 					this._CustomerId = value;
@@ -5676,6 +5060,40 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Customer_Category", Storage="_Customer", ThisKey="CustomerId", OtherKey="id", IsForeignKey=true)]
+		public Customer Customer
+		{
+			get
+			{
+				return this._Customer.Entity;
+			}
+			set
+			{
+				Customer previousValue = this._Customer.Entity;
+				if (((previousValue != value) 
+							|| (this._Customer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Customer.Entity = null;
+						previousValue.Categories.Remove(this);
+					}
+					this._Customer.Entity = value;
+					if ((value != null))
+					{
+						value.Categories.Add(this);
+						this._CustomerId = value.id;
+					}
+					else
+					{
+						this._CustomerId = default(int);
+					}
+					this.SendPropertyChanged("Customer");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -5737,13 +5155,9 @@ namespace Services
 		
 		private EntitySet<ItemProduct> _ItemProducts;
 		
-		private EntitySet<MenuItem> _MenuItems;
-		
 		private EntitySet<ItemInventoryAssociation> _ItemInventoryAssociations;
 		
 		private EntitySet<InventoryRegistry> _InventoryRegistries;
-		
-		private EntityRef<MenuDesign> _MenuDesign;
 		
 		private EntityRef<Category> _Category;
 		
@@ -5775,10 +5189,8 @@ namespace Services
 		{
 			this._ItemPrices = new EntitySet<ItemPrice>(new Action<ItemPrice>(this.attach_ItemPrices), new Action<ItemPrice>(this.detach_ItemPrices));
 			this._ItemProducts = new EntitySet<ItemProduct>(new Action<ItemProduct>(this.attach_ItemProducts), new Action<ItemProduct>(this.detach_ItemProducts));
-			this._MenuItems = new EntitySet<MenuItem>(new Action<MenuItem>(this.attach_MenuItems), new Action<MenuItem>(this.detach_MenuItems));
 			this._ItemInventoryAssociations = new EntitySet<ItemInventoryAssociation>(new Action<ItemInventoryAssociation>(this.attach_ItemInventoryAssociations), new Action<ItemInventoryAssociation>(this.detach_ItemInventoryAssociations));
 			this._InventoryRegistries = new EntitySet<InventoryRegistry>(new Action<InventoryRegistry>(this.attach_InventoryRegistries), new Action<InventoryRegistry>(this.detach_InventoryRegistries));
-			this._MenuDesign = default(EntityRef<MenuDesign>);
 			this._Category = default(EntityRef<Category>);
 			OnCreated();
 		}
@@ -5794,10 +5206,6 @@ namespace Services
 			{
 				if ((this._id != value))
 				{
-					if (this._MenuDesign.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidChanging(value);
 					this.SendPropertyChanging();
 					this._id = value;
@@ -5997,19 +5405,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_MenuItem", Storage="_MenuItems", ThisKey="id", OtherKey="ItemId")]
-		public EntitySet<MenuItem> MenuItems
-		{
-			get
-			{
-				return this._MenuItems;
-			}
-			set
-			{
-				this._MenuItems.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_ItemInventoryAssociation", Storage="_ItemInventoryAssociations", ThisKey="id", OtherKey="ItemInventoryId")]
 		public EntitySet<ItemInventoryAssociation> ItemInventoryAssociations
 		{
@@ -6033,40 +5428,6 @@ namespace Services
 			set
 			{
 				this._InventoryRegistries.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MenuDesign_Item", Storage="_MenuDesign", ThisKey="id", OtherKey="ItemId", IsForeignKey=true)]
-		public MenuDesign MenuDesign
-		{
-			get
-			{
-				return this._MenuDesign.Entity;
-			}
-			set
-			{
-				MenuDesign previousValue = this._MenuDesign.Entity;
-				if (((previousValue != value) 
-							|| (this._MenuDesign.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MenuDesign.Entity = null;
-						previousValue.Items.Remove(this);
-					}
-					this._MenuDesign.Entity = value;
-					if ((value != null))
-					{
-						value.Items.Add(this);
-						this._id = value.ItemId;
-					}
-					else
-					{
-						this._id = default(int);
-					}
-					this.SendPropertyChanged("MenuDesign");
-				}
 			}
 		}
 		
@@ -6148,18 +5509,6 @@ namespace Services
 			entity.Item = null;
 		}
 		
-		private void attach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = this;
-		}
-		
-		private void detach_MenuItems(MenuItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = null;
-		}
-		
 		private void attach_ItemInventoryAssociations(ItemInventoryAssociation entity)
 		{
 			this.SendPropertyChanging();
@@ -6197,7 +5546,7 @@ namespace Services
 		
 		private int _AssociatedItemId;
 		
-		private System.Nullable<decimal> _Quantity;
+		private decimal _Quantity;
 		
 		private System.DateTime _DateCreated;
 		
@@ -6213,7 +5562,7 @@ namespace Services
     partial void OnItemInventoryIdChanged();
     partial void OnAssociatedItemIdChanging(int value);
     partial void OnAssociatedItemIdChanged();
-    partial void OnQuantityChanging(System.Nullable<decimal> value);
+    partial void OnQuantityChanging(decimal value);
     partial void OnQuantityChanged();
     partial void OnDateCreatedChanging(System.DateTime value);
     partial void OnDateCreatedChanged();
@@ -6290,7 +5639,7 @@ namespace Services
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity", DbType="Decimal(8,2)")]
-		public System.Nullable<decimal> Quantity
+		public decimal Quantity
 		{
 			get
 			{
@@ -6402,6 +5751,8 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
+		private EntitySet<InventoryRegestryCheckMenu> _InventoryRegestryCheckMenus;
+		
 		private EntityRef<Item> _Item;
 		
     #region Extensibility Method Definitions
@@ -6424,6 +5775,7 @@ namespace Services
 		
 		public InventoryRegistry()
 		{
+			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegestryCheckMenu>(new Action<InventoryRegestryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegestryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
 			this._Item = default(EntityRef<Item>);
 			OnCreated();
 		}
@@ -6552,6 +5904,19 @@ namespace Services
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="InventoryRegistryId")]
+		public EntitySet<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		{
+			get
+			{
+				return this._InventoryRegestryCheckMenus;
+			}
+			set
+			{
+				this._InventoryRegestryCheckMenus.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_InventoryRegistry", Storage="_Item", ThisKey="AssociatedtemId", OtherKey="id", IsForeignKey=true)]
 		public Item Item
 		{
@@ -6582,6 +5947,234 @@ namespace Services
 						this._AssociatedtemId = default(int);
 					}
 					this.SendPropertyChanged("Item");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		{
+			this.SendPropertyChanging();
+			entity.InventoryRegistry = this;
+		}
+		
+		private void detach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		{
+			this.SendPropertyChanging();
+			entity.InventoryRegistry = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.InventoryRegestryCheckMenu")]
+	public partial class InventoryRegestryCheckMenu : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _InventoryRegistryId;
+		
+		private int _ChecksMenuId;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntityRef<InventoryRegistry> _InventoryRegistry;
+		
+		private EntityRef<ChecksMenu> _ChecksMenu;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnInventoryRegistryIdChanging(int value);
+    partial void OnInventoryRegistryIdChanged();
+    partial void OnChecksMenuIdChanging(int value);
+    partial void OnChecksMenuIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public InventoryRegestryCheckMenu()
+		{
+			this._InventoryRegistry = default(EntityRef<InventoryRegistry>);
+			this._ChecksMenu = default(EntityRef<ChecksMenu>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InventoryRegistryId", DbType="Int NOT NULL")]
+		public int InventoryRegistryId
+		{
+			get
+			{
+				return this._InventoryRegistryId;
+			}
+			set
+			{
+				if ((this._InventoryRegistryId != value))
+				{
+					if (this._InventoryRegistry.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnInventoryRegistryIdChanging(value);
+					this.SendPropertyChanging();
+					this._InventoryRegistryId = value;
+					this.SendPropertyChanged("InventoryRegistryId");
+					this.OnInventoryRegistryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChecksMenuId", DbType="Int NOT NULL")]
+		public int ChecksMenuId
+		{
+			get
+			{
+				return this._ChecksMenuId;
+			}
+			set
+			{
+				if ((this._ChecksMenuId != value))
+				{
+					if (this._ChecksMenu.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnChecksMenuIdChanging(value);
+					this.SendPropertyChanging();
+					this._ChecksMenuId = value;
+					this.SendPropertyChanged("ChecksMenuId");
+					this.OnChecksMenuIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegestryCheckMenu", Storage="_InventoryRegistry", ThisKey="InventoryRegistryId", OtherKey="id", IsForeignKey=true)]
+		public InventoryRegistry InventoryRegistry
+		{
+			get
+			{
+				return this._InventoryRegistry.Entity;
+			}
+			set
+			{
+				InventoryRegistry previousValue = this._InventoryRegistry.Entity;
+				if (((previousValue != value) 
+							|| (this._InventoryRegistry.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._InventoryRegistry.Entity = null;
+						previousValue.InventoryRegestryCheckMenus.Remove(this);
+					}
+					this._InventoryRegistry.Entity = value;
+					if ((value != null))
+					{
+						value.InventoryRegestryCheckMenus.Add(this);
+						this._InventoryRegistryId = value.id;
+					}
+					else
+					{
+						this._InventoryRegistryId = default(int);
+					}
+					this.SendPropertyChanged("InventoryRegistry");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegestryCheckMenu", Storage="_ChecksMenu", ThisKey="ChecksMenuId", OtherKey="id", IsForeignKey=true)]
+		public ChecksMenu ChecksMenu
+		{
+			get
+			{
+				return this._ChecksMenu.Entity;
+			}
+			set
+			{
+				ChecksMenu previousValue = this._ChecksMenu.Entity;
+				if (((previousValue != value) 
+							|| (this._ChecksMenu.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ChecksMenu.Entity = null;
+						previousValue.InventoryRegestryCheckMenus.Remove(this);
+					}
+					this._ChecksMenu.Entity = value;
+					if ((value != null))
+					{
+						value.InventoryRegestryCheckMenus.Add(this);
+						this._ChecksMenuId = value.id;
+					}
+					else
+					{
+						this._ChecksMenuId = default(int);
+					}
+					this.SendPropertyChanged("ChecksMenu");
 				}
 			}
 		}

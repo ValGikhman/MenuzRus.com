@@ -56,9 +56,6 @@
             </tr>
         </tbody>
     </table>
-    <div class="addressItem centered">
-        @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
-    </div>
 
     <table id="tableItems" class="center">
         <tbody>
@@ -143,12 +140,13 @@
             }
             <tr>
                 <td style="font-size: x-small;">
-                    <br />
-                    <br />
-                    @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
+                    <div>
+                        @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
+                    </div>
+                    <div>
+                        @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1)) 
+                    </div>
                 </td>
-                <td class="col-md-2 col-sm-2"></td>
-                <td id="total" class="totalItem pull-right"></td>
             </tr>
         </tbody>
     </table>

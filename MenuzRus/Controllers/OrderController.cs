@@ -17,6 +17,7 @@ namespace MenuzRus.Controllers {
         private ICategoryService _categoryService;
         private ICommentService _commentService;
         private IFloorService _floorService;
+        private IInventoryService _inventoryService;
         private IItemService _itemService;
         private IOrderService _orderService;
 
@@ -25,13 +26,15 @@ namespace MenuzRus.Controllers {
                 , IItemService itemService
                 , ICommentService commentService
                 , IFloorService floorService
-                , ICategoryService categoryService)
+                , ICategoryService categoryService
+                , IInventoryService inventoryService)
             : base(sessionData) {
             _orderService = orderService;
             _itemService = itemService;
             _commentService = commentService;
             _floorService = floorService;
             _categoryService = categoryService;
+            _inventoryService = inventoryService;
         }
 
         #region order
@@ -53,8 +56,8 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String ChecksPrint(String checkIds, Int32 split, Decimal adjustment) {
-            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checkIds);
+        public String ChecksPrint(String checksIds, Int32 split, Decimal adjustment) {
+            List<Int32> Ids = new JavaScriptSerializer().Deserialize<List<Int32>>(checksIds);
             String retVal = String.Empty;
             Services.Check check;
 
@@ -84,9 +87,21 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public JsonResult DeleteMenu(Int32 id, Int32 checkId) {
+        public JsonResult DeleteMenu(Int32 id) {
+            Services.Item item;
+            Services.ChecksMenu checkMenu;
+
             try {
+                checkMenu = _orderService.GetMenuItem(id);
+                item = _itemService.GetItem(checkMenu.MenuId);
                 _orderService.DeleteMenu(id);
+
+                if (item.ItemInventoryAssociations.Any()) {
+                    foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
+                        item = _itemService.GetItem(association.AssociatedItemId);
+                        _inventoryService.DeleteInventoryRegistry(association, checkMenu, item);
+                    }
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -190,12 +205,14 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public JsonResult OrderMenuItem(Int32 id, Int32 checkId, Int32 tableId) {
+            Services.Item item;
+
             ChecksMenu menu = null;
             try {
-                Services.Item MenuItem = _itemService.GetItem(id);
+                item = _itemService.GetItem(id);
 
-                if (MenuItem != null) {
-                    menu = _orderService.SaveMenuItem(MenuItem, tableId, checkId, SessionData.user.id);
+                if (item != null) {
+                    menu = _orderService.SaveMenuItem(item, tableId, checkId, SessionData.user.id);
                 }
 
                 if (menu != null) {
@@ -203,6 +220,13 @@ namespace MenuzRus.Controllers {
                         html = ShowMenuItem(id, menu),
                         checkId = menu.CheckId
                     };
+
+                    if (item.ItemInventoryAssociations.Any()) {
+                        foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
+                            item = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.AddInventoryRegistry(association, menu, item);
+                        }
+                    }
 
                     return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }

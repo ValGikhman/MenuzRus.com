@@ -269,9 +269,8 @@ function saveItem(element) {
 
 function deleteMenu(object) {
     var container = $(".layout");
-    var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     container.block();
-    var jqxhr = $.get($.validator.format("{0}Order/DeleteMenu", root), { "id": $(object).attr("data-value"), "checkId": checkId }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/DeleteMenu", root), { "id": $(object).attr("data-value") }, "json")
         .done(function (result) {
             $(object).fadeOut("slow", function () {
                 object.remove();

@@ -15,8 +15,10 @@ namespace MenuzRus {
         private Exception _exception;
         private Services.Floor _floor;
         private Services.Item _item;
-        private Services.Menu _menu;
+
+        //private Services.Menu _menu;
         private Int32 _printerKitchenWidth;
+
         private Int32 _printerPOSWidth;
         private String[] _printers;
         private String _route;
@@ -63,14 +65,14 @@ namespace MenuzRus {
             }
         }
 
-        public Services.Menu menu {
-            get {
-                return GetSession<Services.Menu>(Constants.SESSION_MENU, _menu);
-            }
-            set {
-                SetSession(Constants.SESSION_MENU, value);
-            }
-        }
+        //public Services.Menu menu {
+        //    get {
+        //        return GetSession<Services.Menu>(Constants.SESSION_MENU, _menu);
+        //    }
+        //    set {
+        //        SetSession(Constants.SESSION_MENU, value);
+        //    }
+        //}
 
         public Int32 printerKitchenWidth {
             get {

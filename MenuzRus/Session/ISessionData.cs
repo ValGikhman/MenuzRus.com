@@ -18,7 +18,7 @@ namespace MenuzRus {
 
         Services.Item item { get; set; }
 
-        Services.Menu menu { get; set; }
+        //Services.Menu menu { get; set; }
 
         Int32 printerKitchenWidth { get; set; }
 

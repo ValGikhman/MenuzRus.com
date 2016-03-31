@@ -95,9 +95,11 @@
 
         $("#btnPrintChecks").on("click", function () {
             var selected = $(".chosen-select")[0].selectedOptions;
+            var ids = new Array();
             $.each($(selected), function (index, item) {
-                checkPrint(parseInt(item.value));
+                ids.push(parseInt(item.value));
             });
+            checksPrint(ids);
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
@@ -107,22 +109,19 @@
 
     });
 
-    function checkPrint(checkId) {
+    function checksPrint(checksIds) {
         var split = parseInt($("#slideSplit").val());
         var adjustment = parseInt($("#adjustmentSplit").val());
 
-        $.ajax({
-            async: false,
-            url: $.validator.format("{0}Order/CheckPrint", root),
-            data: { "checkId": checkId, "split": split, "adjustment": adjustment },
-            type: "GET",
-            success: function (result) {
+        var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
+            .done(function (result) {
                 printData(result, printerPOS);
-            },
-            error: function (e) {
+            })
+            .fail(function () {
                 message("::checksPrint:: Failed.", "error", "topCenter");
-            }
-        });
+            })
+            .always(function () {
+            });
     }
 
     function selectAll() {

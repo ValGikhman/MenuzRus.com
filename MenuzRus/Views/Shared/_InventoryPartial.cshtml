@@ -14,8 +14,9 @@
             @Html.TextAreaFor(m => m.InventoryComment, new { @class = "form-control shadow", @style = "width: 360px; height: 34px;" })
         </div>
     </div>
+    @if(Model.InventoryRegistries != null) {
     <div>
-        <table class="table" style="width: 100%;">
+        <table class="table" style="width: 100%; margin-bottom: -1px;">
             <thead>
                 <tr>
                     <th style="width: 35%">Date</th>
@@ -25,7 +26,7 @@
             </thead>
         </table>
         <div class="bodycontainer scrollable" style="height: 200px;">
-            <table class="table" style="width: 100%; margin-bottom: -1px;">
+            <table class="table" style="width: 100%;">
                 <tbody>
                     @{
                         String color;
@@ -45,6 +46,7 @@
             </table>
         </div>
     </div>
+    }
 </div>
 
 <script>

@@ -37,7 +37,7 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Index(LoginModel model) {
             String pathToNavigate = "~/Order/Tables";
-            Tuple<Services.User, Services.Customer, Services.Menu> data;
+            Tuple<Services.User, Services.Customer> data;
 
             try {
                 data = _loginService.Login(model.Email, model.Password);
@@ -48,7 +48,6 @@ namespace MenuzRus {
 
                 SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
-                SessionData.SetSession(Constants.SESSION_MENU, (Services.Menu)data.Item3);
 
                 IsLoggedIn = true;
                 model.Success = true;

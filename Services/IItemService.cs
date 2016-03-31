@@ -32,6 +32,6 @@ namespace MenuzRus {
 
         Int32 SaveItem(Item item);
 
-        Int32 SaveMenuItem(Int32 id);
+        //Int32 SaveMenuItem(Int32 id);
     }
 }

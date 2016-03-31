@@ -9,11 +9,12 @@
 <script src="@Url.Content("~/Scripts/designer.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
+
 <div class="well container container-designer shadow">
     <div class="modal-header main-header">
         <div class="default pull-left">
             <div class="dropdown categoryType">
-                <button id="btnCategoryType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Model.CategoryType.ToString()</button>
+                <button id="btnCategoryType" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@Model.CategoryType.ToString()</button>
                 <ul id="categoryType" class="dropdown-menu alert-warning" role="menu">
                     @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
                         Int32 value = (Int32)type;
@@ -26,6 +27,22 @@
     </div>
 
     <div class="clearfix default">
+        @*        In case if will decide to use it somewhere when provide multi menu system*@
+        <div id="MenuZone" class="pull-left hide">
+            <div class="dropdown categoryType">
+                <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@Model.CategoryType.ToString()</button>
+                <ul id="Menus" class="dropdown-menu alert-warning" role="menu">
+                    @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
+                        Int32 value = (Int32)type;
+                        <li data-text="@type" data-value="@value"><a href="#">@type</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <button id="btnNewMenu" type="button" class="btn btn-primary btn-lg shadow hide" data-toggle="modal">New Menu</button>
+        <button id="btnEditMenu" type="button" class="btn btn-primary btn-lg shadow hide" data-toggle="modal">Edit menu</button>
+        <button id="btnDeleteMenu" type="button" class="btn btn-danger btn-lg shadow hide" data-toggle="modal">Delete menu</button>
+        @*            end*@
         <div class=" pull-right">
             <button id="btnNewCategory" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
         </div>

@@ -175,6 +175,15 @@
     width: 130px;
 }
 
+#btnMenus {
+    width: 130px;
+    margin-left: 15px;
+}
+
+#btnNewMenu {
+    margin-left: 15px;
+}
+
 .ui-jqgrid .ui-jqgrid-view {
     font-size: medium !important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;

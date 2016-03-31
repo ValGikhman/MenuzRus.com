@@ -10,20 +10,20 @@ namespace MenuzRus {
 
     public class LoginService : BaseService, ILoginService {
 
-        public Tuple<User, Customer, Menu> Login(String email, String password) {
-            Tuple<User, Customer, Menu> retValue;
+        public Tuple<User, Customer> Login(String email, String password) {
+            Tuple<User, Customer> retValue;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
 
             User user;
             Customer customer;
-            Menu menu;
+            //Menu menu;
 
             user = db.Users.Where(m => m.Email == email && m.Password == password && m.Active && m.EmailConfirmed).FirstOrDefault();
             if (user != null) {
                 customer = db.Customers.Where(m => m.id == user.CustomerId).FirstOrDefault();
-                menu = db.Menus.Where(m => m.CustomerId == user.CustomerId).FirstOrDefault();
+                //menu = db.Menus.Where(m => m.CustomerId == user.CustomerId).FirstOrDefault();
 
-                retValue = new Tuple<User, Customer, Menu>(user, customer, menu);
+                retValue = new Tuple<User, Customer>(user, customer);
 
                 return retValue;
             }

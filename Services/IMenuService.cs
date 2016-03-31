@@ -9,13 +9,12 @@ using Services;
 namespace MenuzRus {
 
     public interface IMenuService {
+        //Boolean DeleteMenu(Int32? id);
 
-        Boolean DeleteMenu(Int32? id);
+        //List<Menu> GetMenus(Int32 id);
 
-        List<Menu> GetMenus(Int32 id);
+        //Int32 SaveMenu(Menu menu);
 
-        Int32 SaveMenu(Menu menu);
-
-        Boolean SaveMenuItems(List<MenuItem> model);
+        //Boolean SaveMenuItems(List<MenuItem> model);
     }
 }

@@ -10,6 +10,6 @@ namespace MenuzRus {
 
     public interface ILoginService {
 
-        Tuple<User, Customer, Menu> Login(String email, String password);
+        Tuple<User, Customer> Login(String email, String password);
     }
 }

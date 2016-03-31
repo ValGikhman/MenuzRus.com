@@ -28,14 +28,14 @@ namespace MenuzRus.Controllers {
             String pagesDir = Server.MapPath("~/Images/Backgrounds/Pages/thumbnails");
 
             MenuDesignerModel model = new MenuDesignerModel();
-            List<Services.MenuItem> categories = new List<Services.MenuItem>();
+            //List<Services.MenuItem> categories = new List<Services.MenuItem>();
             try {
                 if (model.Menu == null) {
                     model.Menu = new Menu();
                 }
 
                 model.Menu.id = id.HasValue ? id.Value : 1;
-                model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                //model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
 
                 model.Settings = _settingsService.GetSettings(model.MyCompany.id);
                 model.Settings = _settingsService.GetSettings(SessionData.customer.id);

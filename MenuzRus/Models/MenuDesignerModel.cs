@@ -29,9 +29,9 @@ namespace MenuzRus.Models {
 
         public EntitySet<Services.ItemProduct> ItemProducts { set; get; }
 
-        public List<MenuItem> MenuItems { set; get; }
+        //public List<MenuItem> MenuItems { set; get; }
 
-        public List<MenuDesign> Selected { set; get; }
+        //public List<MenuDesign> Selected { set; get; }
     }
 
     public class InventoryAssosiationModel : BaseModel {
@@ -45,7 +45,7 @@ namespace MenuzRus.Models {
 
         public Int32 id { set; get; }
 
-        public List<MenuItem> MenuItems { set; get; }
+        //public List<MenuItem> MenuItems { set; get; }
 
         public String Name { set; get; }
     }
@@ -53,7 +53,7 @@ namespace MenuzRus.Models {
     public class MenuDesignerModel : DesignerModel {
         public Menu Menu { set; get; }
 
-        public List<Services.Menu> Menus { set; get; }
+        //public List<Services.Menu> Menus { set; get; }
 
         public IEnumerable<String> PageBackgrounds { set; get; }
 

@@ -65,20 +65,20 @@ namespace MenuzRus {
         }
 
         public Boolean DeleteMenuItem(Int32 id) {
-            MenuDesign query;
-            try {
-                query = new MenuDesign();
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    query = db.MenuDesigns.FirstOrDefault(m => m.ItemId == id);
-                    if (query != default(MenuDesign)) {
-                        db.MenuDesigns.DeleteOnSubmit(query);
-                        db.SubmitChanges();
-                    }
-                }
-            }
-            catch (Exception ex) {
-                return false;
-            }
+            //MenuDesign query;
+            //try {
+            //    query = new MenuDesign();
+            //    using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+            //        query = db.MenuDesigns.FirstOrDefault(m => m.ItemId == id);
+            //        if (query != default(MenuDesign)) {
+            //            db.MenuDesigns.DeleteOnSubmit(query);
+            //            db.SubmitChanges();
+            //        }
+            //    }
+            //}
+            //catch (Exception ex) {
+            //    return false;
+            //}
             return true;
         }
 
@@ -163,24 +163,24 @@ namespace MenuzRus {
             return query.id;
         }
 
-        public Int32 SaveMenuItem(Int32 id) {
-            MenuDesign query = new MenuDesign();
-            try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    if (id != 0)
-                        query = db.MenuDesigns.Where(m => m.ItemId == id).FirstOrDefault();
-                    if (query == default(MenuDesign)) {
-                        query = new MenuDesign();
-                        query.ItemId = id;
-                    }
-                    db.MenuDesigns.InsertOnSubmit(query);
-                    db.SubmitChanges();
-                }
-            }
-            catch (Exception ex) {
-                return 0;
-            }
-            return query.id;
-        }
+        //public Int32 SaveMenuItem(Int32 id) {
+        //    MenuDesign query = new MenuDesign();
+        //    try {
+        //        using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+        //            if (id != 0)
+        //                query = db.MenuDesigns.Where(m => m.ItemId == id).FirstOrDefault();
+        //            if (query == default(MenuDesign)) {
+        //                query = new MenuDesign();
+        //                query.ItemId = id;
+        //            }
+        //            db.MenuDesigns.InsertOnSubmit(query);
+        //            db.SubmitChanges();
+        //        }
+        //    }
+        //    catch (Exception ex) {
+        //        return 0;
+        //    }
+        //    return query.id;
+        //}
     }
 }

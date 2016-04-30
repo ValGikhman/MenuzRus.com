@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using MenuzRus.Models;
 using Services;
 
@@ -13,10 +14,27 @@ namespace MenuzRus.Controllers {
 
     public class DesignerController : BaseController {
         public ICategoryService _categoryService;
+        public IMenuService _menuService;
 
-        public DesignerController(ISessionData sessionData, ICategoryService categoryService)
+        public DesignerController(ISessionData sessionData, ICategoryService categoryService, IMenuService menuService)
             : base(sessionData) {
             _categoryService = categoryService;
+            _menuService = menuService;
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMenu(Int32 id) {
+            try {
+                if (!_menuService.DeleteMenu(id)) {
+                    return RedirectToAction("Menu", "Error");
+                }
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
         }
 
         [CheckUserSession]
@@ -101,6 +119,81 @@ namespace MenuzRus.Controllers {
             }
 
             return new JsonResult() { Data = "", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [CheckUserSession]
+        public ActionResult Menu(Int32? id) {
+            Menus menu;
+            Models.Menu model = new Menu();
+
+            model.Menus = _menuService.GetMenus(SessionData.customer.id);
+            if (id.HasValue) {
+                menu = model.Menus.Where(m => m.id == id).FirstOrDefault();
+            }
+            else {
+                menu = model.Menus.Take(1).FirstOrDefault();
+            }
+
+            if (menu != null) {
+                model.id = menu.id;
+                model.Name = menu.Name;
+                model.Description = menu.Description;
+            }
+
+            model.CurrentMenu = menu;
+            model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+            return View("Menu", model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveMenu(Models.Menu model) {
+            Services.Menus menu = new Services.Menus();
+            try {
+                menu.id = model.id;
+                menu.CustomerId = SessionData.customer.id;
+                menu.Name = model.Name;
+                menu.Description = model.Description;
+                Int32 newId = _menuService.SaveMenu(menu);
+                if (newId == 0) {
+                    return RedirectToAction("Index", "Error");
+                }
+                model.Menus = _menuService.GetMenus(SessionData.customer.id);
+
+                return View("Menu", model);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult SaveMenuItems(Models.MenuItems model) {
+            JavaScriptSerializer js;
+            List<Int32> menuItems;
+            List<Services.MenuItem> itemsModel;
+            Services.MenuItem itemModel;
+
+            try {
+                js = new JavaScriptSerializer();
+                menuItems = js.Deserialize<List<Int32>>(model.Items);
+                itemsModel = new List<Services.MenuItem>();
+                foreach (Int32 item in menuItems) {
+                    itemModel = new Services.MenuItem();
+                    itemModel.ItemId = item;
+                    itemModel.MenuId = model.id;
+                    itemsModel.Add(itemModel);
+                }
+                _menuService.SaveMenuItems(itemsModel);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
         }
 
         #region private

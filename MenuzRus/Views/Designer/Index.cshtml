@@ -27,22 +27,6 @@
     </div>
 
     <div class="clearfix default">
-        @*        In case if will decide to use it somewhere when provide multi menu system*@
-        <div id="MenuZone" class="pull-left hide">
-            <div class="dropdown categoryType">
-                <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@Model.CategoryType.ToString()</button>
-                <ul id="Menus" class="dropdown-menu alert-warning" role="menu">
-                    @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
-                        Int32 value = (Int32)type;
-                        <li data-text="@type" data-value="@value"><a href="#">@type</a></li>
-                    }
-                </ul>
-            </div>
-        </div>
-        <button id="btnNewMenu" type="button" class="btn btn-primary btn-lg shadow hide" data-toggle="modal">New Menu</button>
-        <button id="btnEditMenu" type="button" class="btn btn-primary btn-lg shadow hide" data-toggle="modal">Edit menu</button>
-        <button id="btnDeleteMenu" type="button" class="btn btn-danger btn-lg shadow hide" data-toggle="modal">Delete menu</button>
-        @*            end*@
         <div class=" pull-right">
             <button id="btnNewCategory" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
         </div>
@@ -54,7 +38,7 @@
 
 <script>
     $(function () {
-        var lastCategory;
+        //var lastCategory;
         var expandedEmpGroups = [];
         var urlSelector;
 

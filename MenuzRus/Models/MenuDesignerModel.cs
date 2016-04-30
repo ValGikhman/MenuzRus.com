@@ -40,12 +40,15 @@ namespace MenuzRus.Models {
         public EntitySet<Services.ItemInventoryAssociation> ItemInventoryAssociation { set; get; }
     }
 
-    public class Menu {
+    public class Menu : BaseModel {
+        public List<Services.Category> Categories { set; get; }
+
+        public Menus CurrentMenu { set; get; }
+
         public String Description { set; get; }
 
         public Int32 id { set; get; }
-
-        //public List<MenuItem> MenuItems { set; get; }
+        public List<Menus> Menus { set; get; }
 
         public String Name { set; get; }
     }
@@ -60,6 +63,12 @@ namespace MenuzRus.Models {
         public Dictionary<String, String> Settings { set; get; }
 
         public IEnumerable<String> Wallpapers { set; get; }
+    }
+
+    public class MenuItems : BaseModel {
+        public Int32 id { set; get; }
+
+        public String Items { set; get; }
     }
 
     public class SettingModel {

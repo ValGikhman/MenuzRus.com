@@ -202,28 +202,28 @@ function saveFloor(id, name) {
     if (id == null) id = 0;
     var postData = { id: id, name: name };
     var jqxhr = $.post($.validator.format("{0}Floor/SaveFloor/", root), postData)
-                  .done(function (result) {
-                      message("Save successfully.", "success", "topCenter");
-                      window.location = $.validator.format("{0}Floor/Index/", root) + result;
-                  })
-    .fail(function () {
-        message("Save floor failed.", "error", "topCenter");
-    })
-    .always(function () {
-    });
+        .done(function (result) {
+            message("Save successfully.", "success", "topCenter");
+            window.location = $.validator.format("{0}Floor/Index/", root) + result;
+        })
+        .fail(function () {
+            message("Save floor failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
 }
 
 function deleteFloor(id) {
     if (id == null) id = 0;
     var postData = { id: id };
     var jqxhr = $.post($.validator.format("{0}Floor/DeleteFloor/", root), postData)
-                  .done(function (result) {
-                      message("Menu deleted successfully.", "success", "topCenter");
-                      window.location = $.validator.format("{0}Floor", root);
-                  })
-    .fail(function () {
-        message("Delete floor failed.", "error", "topCenter");
-    })
-    .always(function () {
-    });
+        .done(function (result) {
+            message("Floor deleted successfully.", "success", "topCenter");
+            window.location = $.validator.format("{0}Floor", root);
+        })
+        .fail(function () {
+            message("Delete floor failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
 }

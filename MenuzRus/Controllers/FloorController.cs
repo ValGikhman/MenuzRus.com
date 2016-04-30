@@ -24,18 +24,17 @@ namespace MenuzRus.Controllers {
 
         [HttpPost]
         public ActionResult DeleteFloor(Int32? id) {
-            FloorService service = new FloorService();
             try {
-                if (!service.DeleteFloor(id))
+                if (!_floorService.DeleteFloor(id)) {
                     return RedirectToAction("Index", "Error");
-
-                return RedirectToAction("Index");
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
             finally {
             }
+
             return null;
         }
 
@@ -45,7 +44,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SaveFloor(Services.Floor model) {
+        public ActionResult SaveFloor(Models.Floor model) {
             Services.Floor floor = new Services.Floor();
             try {
                 floor.id = model.id;

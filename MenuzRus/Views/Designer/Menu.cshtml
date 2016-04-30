@@ -1,0 +1,165 @@
+﻿@model MenuzRus.Models.Menu
+@using Services
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/designer.css")" rel="stylesheet" />
+
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
+<div class="modal menuEditForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-new">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title menuTitle">Menu editor</h4>
+            </div>
+            <div id="menuEditForm" class="modal-body">
+                <div class="container">
+                    @Html.HiddenFor(m => m.id)
+                    <div class="row">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-sm shadow", required = "", placeholder = "Enter new menu name", style = "width: 45%" })
+                    </div>
+                    <br />
+                    <div class="row">
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter menu description", type = "text", style = "width: 45%" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelMenu" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                <button id="btnSaveMenu" type="button" class="btn btn-success btn-lg">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="well container container-designer shadow">
+    <div class="modal-header main-header">
+        <h2>Menu Designer</h2>
+    </div>
+    <br />
+    <div class="default pull-left" style="width: 100%">
+        <div class="dropdown menu" style="width: 100%">
+            <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@Model.Name</button>
+            <ul id="Menus" class="dropdown-menu alert-warning" role="menu">
+                @foreach (Menus menu in Model.Menus) {
+                    <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
+                }
+            </ul>
+            <button id="btnNewMenu" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal">New Menu</button>
+            <button id="btnEditMenu" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal">Edit menu</button>
+            <button id="btnDeleteMenu" type="button" class="btn btn-danger btn-lg shadow" data-toggle="modal">Delete menu</button>
+            <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right shadow">Save changes</button>
+        </div>
+        <div style="margin-top: 25px;">
+            <select data-placeholder="Click to add menu assosiation" class="chosen-select" multiple>
+                @foreach (Services.Category category in Model.Categories) {
+                    <option value=""></option>
+                    <optgroup label="@category.Name">
+                        @foreach (Services.Item item in category.Items) {
+                            String select = String.Empty;
+                            if (Model.CurrentMenu.MenuItems.Any(m => m.ItemId == item.id)) {
+                                select = "selected";
+                            }
+                            <option id="@item.id" value="@item.id" @select>@String.Format("{0}", item.Name)</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $(".chosen-select").chosen({ width: "250px;", display_disabled_options: false }).addClass("shadow")
+        $("#Menus li a").click(function () {
+            $("#btnMenus").text($(this).text());
+            window.location = $.validator.format("{0}Designer/Menu/{1}", root, $(this).attr("data-value"));
+        });
+
+        $("#btnNewMenu").on("click", function () {
+            $("#id").val(0);
+            $("#Name").val("");
+            $("#Description").val("");
+            $(".menuEditForm").modal("show");
+        });
+        $("#btnEditMenu").on("click", function () {
+            $(".menuEditForm").modal("show");
+        });
+
+        $("#btnDeleteMenu").on("click", function () {
+            noty({
+                layout: "center",
+                type: "error",
+                killer: true,
+                model: true,
+                text: "Menu <em><strong>" + $("#btnMenus").text() + "</strong></em> will be deleted.<br />Would you like to continue ?",
+                buttons: [{
+                    addClass: "btn btn-danger", text: "Delete", onClick: function ($noty) {
+                        $noty.close();
+                        deleteMenu($("#id").val());
+                    }
+                },
+                  {
+                      addClass: "btn btn-default", text: "Cancel", onClick: function ($noty) {
+                          $noty.close();
+                      }
+                  }
+                ]
+            });
+        });
+
+        $("#btnSaveMenu").on("click", function () {
+            saveMenu();
+        });
+
+        $("#btnSave").on("click", function () {
+            saveMenuItems();
+        });
+    });
+
+    function deleteMenu(id) {
+        if (id == null) id = 0;
+        var postData = { id: id };
+        var jqxhr = $.post($.validator.format("{0}Designer/DeleteMenu/", root), postData)
+            .done(function (result) {
+                message("Menu deleted successfully.", "success", "topCenter");
+                window.location = $.validator.format("{0}Designer/Menu", root);
+            })
+            .fail(function () {
+                message("Delete menu failed.", "error", "topCenter");
+            })
+            .always(function () {
+            });
+    }
+
+    function saveMenu() {
+        var container = $(".modal-content");
+        var postData = { id: $("#id").val(), Name: $("#Name").val(), Description: $("#Description").val() };
+        container.block();
+        var jqxhr = $.post($.validator.format("{0}Designer/SaveMenu", root), postData)
+        .done(function (result) {
+            message("Saved successfully.", "success", "topCenter");
+            window.location.reload();
+        })
+        .fail(function () {
+            message("Save menu failed.", "error", "topCenter");
+        })
+        .always(function () {
+            $(".menuEditForm").modal("hide");
+            container.unblock();
+        });
+    }
+
+    function saveMenuItems() {
+        var postData = { id: $("#id").val(), Items: JSON.stringify($(".chosen-select").val()) };
+        var jqxhr = $.post($.validator.format("{0}Designer/SaveMenuItems", root), postData)
+        .done(function (result) {
+            message("Saved successfully.", "success", "topCenter");
+        })
+        .fail(function () {
+            message("Save failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+    }
+</script>

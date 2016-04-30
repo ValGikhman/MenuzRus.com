@@ -129,7 +129,7 @@
 }
 
 #btnMenu {
-    width: 200px;
+    width: 350px;
 }
 
 #btnMenuToogle {
@@ -142,7 +142,8 @@
 }
 
 .default {
-    padding: 10px;
+    padding: 10px! important;
+    height: 30px! important;
 }
 
 .ui-jqgrid .ui-jqgrid-htable {
@@ -187,4 +188,8 @@
 .ui-jqgrid .ui-jqgrid-view {
     font-size: medium !important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+#btnMenus {
+    width: 200px;
 }

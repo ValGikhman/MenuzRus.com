@@ -81,6 +81,8 @@ namespace MenuzRus.Models {
 
         public List<Check> Checks { set; get; }
 
+        public Menu Menu { set; get; }
+
         public String Referer { set; get; }
 
         public Services.Table Table { set; get; }

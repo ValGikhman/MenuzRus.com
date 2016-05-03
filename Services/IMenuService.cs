@@ -12,6 +12,8 @@ namespace MenuzRus {
 
         Boolean DeleteMenu(Int32? id);
 
+        List<MenuItem> GetMenuItems(Int32 id);
+
         List<Menus> GetMenus(Int32 id);
 
         Int32 SaveMenu(Menus menu);

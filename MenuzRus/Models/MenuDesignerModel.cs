@@ -48,6 +48,7 @@ namespace MenuzRus.Models {
         public String Description { set; get; }
 
         public Int32 id { set; get; }
+
         public List<Menus> Menus { set; get; }
 
         public String Name { set; get; }

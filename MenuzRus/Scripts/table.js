@@ -111,6 +111,11 @@ $(function () {
     $("#menuTab").tab("show");
     $("#propertiesTab").tab("show");
 
+    $("#Menus li a").click(function () {
+        $("#btnMenus").text($(this).text());
+        getCurrentMenu($(this).attr("data-value"));
+    });
+
     showOrder(tableId);
 })
 
@@ -494,4 +499,20 @@ function checkStatusManager(status) {
             break;
         }
     }
+}
+
+function getCurrentMenu(id) {
+    var container = $(".menu");
+    container.block();
+
+    var jqxhr = $.get($.validator.format("{0}Order/GetCurrentMenu", root), { "id": id }, "json")
+        .done(function (result) {
+            $("#menu-tab").html(result);
+        })
+        .fail(function () {
+            message("::getCurrentMenu:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            container.unblock();
+        });
 }

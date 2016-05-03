@@ -19,6 +19,7 @@ namespace MenuzRus.Controllers {
         private IFloorService _floorService;
         private IInventoryService _inventoryService;
         private IItemService _itemService;
+        private IMenuService _menuService;
         private IOrderService _orderService;
 
         public OrderController(ISessionData sessionData
@@ -27,7 +28,9 @@ namespace MenuzRus.Controllers {
                 , ICommentService commentService
                 , IFloorService floorService
                 , ICategoryService categoryService
-                , IInventoryService inventoryService)
+                , IInventoryService inventoryService
+                , IMenuService menuService
+            )
             : base(sessionData) {
             _orderService = orderService;
             _itemService = itemService;
@@ -35,6 +38,7 @@ namespace MenuzRus.Controllers {
             _floorService = floorService;
             _categoryService = categoryService;
             _inventoryService = inventoryService;
+            _menuService = menuService;
         }
 
         #region order
@@ -112,6 +116,22 @@ namespace MenuzRus.Controllers {
             var retVal = new {
             };
             return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpGet]
+        public String GetCurrentMenu(Int32 id) {
+            OrderModel model;
+            try {
+                model = new OrderModel();
+                model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu, id);
+                return RenderViewToString(this.ControllerContext, "_OrderMenuPartial", model);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+            return null;
         }
 
         [CheckUserSession]
@@ -655,6 +675,23 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        private Models.Menu GetMenus() {
+            Services.Menus menu;
+            Models.Menu model = new Models.Menu();
+
+            model.Menus = _menuService.GetMenus(SessionData.customer.id);
+            model.Menus.Insert(0, new Menus() { id = 0, CustomerId = SessionData.customer.id, Name = "All", Description = "" });
+            menu = model.Menus.Take(1).FirstOrDefault();
+
+            if (menu != null) {
+                model.id = menu.id;
+                model.Name = menu.Name;
+                model.Description = menu.Description;
+            }
+            model.CurrentMenu = menu;
+            return model;
+        }
+
         private MonitorFloorModel GetMonitorModel(Int32? id) {
             MonitorFloorModel model = new MonitorFloorModel();
             List<Models.TableOrder> tables = new List<Models.TableOrder>();
@@ -719,7 +756,6 @@ namespace MenuzRus.Controllers {
 
         private OrderModel GetTableModel(Int32 tableId) {
             OrderModel model = new OrderModel();
-
             try {
                 model.Referer = "Tables";
                 if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
@@ -743,6 +779,9 @@ namespace MenuzRus.Controllers {
                         model.Checks.Add(check);
                     }
                 }
+
+                model.Menu = GetMenus();
+
                 return model;
             }
             catch (Exception ex) {

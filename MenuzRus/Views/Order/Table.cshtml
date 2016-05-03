@@ -12,7 +12,6 @@
     <div class="row">
         <div class="modal-header">
             <h2>Table @Model.Table.Name</h2>
-            @Html.Label("Status:")
             <div class="dropdown tableStatus">
                 @{
                     Common.TableOrderStatus currentStatus = Common.TableOrderStatus.Closed;
@@ -20,7 +19,7 @@
                         currentStatus = (Common.TableOrderStatus)Model.TableOrder.Status;
                     }
                 }
-                <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@currentStatus.ToString()</button>
+                <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@currentStatus.ToString()</button>
                 <ul id="tableStatus" class="dropdown-menu alert-warning" role="menu">
                     @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
                         Int32 value = (Int32)status;
@@ -35,6 +34,12 @@
                     }
                 </ul>
             </div>
+            <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow pull-right" data-toggle="dropdown">@Model.Menu.Name</button>
+            <ul id="Menus" class="dropdown-menu alert-warning pull-right" role="menu" style="right: 2%; top: 90%;">
+                @foreach (Services.Menus menu in Model.Menu.Menus) {
+                    <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
+                }
+            </ul>
             <button id="btnAdd" class="add-check btn btn-primary btn-lg shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Add Check</button>
             <button id="btnBack" class="btn btn-primary btn-lg shadow pull-right" style="margin-left: 15px;"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Back to floor</button>
         </div>

@@ -17,11 +17,7 @@ namespace MenuzRus {
 
         Category GetCategory(Int32 id);
 
-        //List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type);
-
-        //List<Category> GetMenuDesigner(Int32 CustomerId);
-
-        //List<MenuDesign> GetMenuDesignerItems(Int32 CustomerId);
+        List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type, Int32 menuId);
 
         Int32 SaveCategory(Category category);
     }

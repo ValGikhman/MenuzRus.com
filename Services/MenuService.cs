@@ -29,6 +29,11 @@ namespace MenuzRus {
             return true;
         }
 
+        public List<MenuItem> GetMenuItems(Int32 id) {
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            return db.MenuItems.Where(m => m.MenuId == id).ToList();
+        }
+
         public List<Menus> GetMenus(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Menus.Where(m => m.CustomerId == id).ToList();

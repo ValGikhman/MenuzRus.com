@@ -125,10 +125,10 @@ public static class Common {
     public enum PrinterWidth {
 
         [Display(Name = "58mm")]
-        Printer58mm = 105,
+        Printer58mm = 165,
 
         [Display(Name = "80mm")]
-        Printer80mm = 155,
+        Printer80mm = 235
     }
 
     public enum PrintStatus {

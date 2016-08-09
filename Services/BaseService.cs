@@ -9,15 +9,20 @@ using MenuzRus;
 namespace Services {
 
     public class BaseService : IService {
+        public readonly String devComputer = "VALS-PC";
+
         public String _connectionString;
 
         public BaseService() {
-            if (Environment.GetEnvironmentVariable("COMPUTERNAME") == "VALS-PC") {
+            //TODO: Connection String Change
+            if (Environment.GetEnvironmentVariable("COMPUTERNAME") == devComputer) {
                 this.connectionString = Services.Properties.Settings.Default.menuzrusDEV;
             }
             else {
                 this.connectionString = Services.Properties.Settings.Default.menuzrusPROD;
             }
+            // TODO: Remove
+            this.connectionString = Services.Properties.Settings.Default.menuzrusPROD;
         }
 
         public String connectionString {

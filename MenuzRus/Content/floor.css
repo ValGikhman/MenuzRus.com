@@ -61,8 +61,8 @@ ul {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background-color: #efefef!important;
-    border: 1px solid #BBB!important;
+    background-color: #ddd!important;
+    border: 1px solid #ddd!important;
 }
 
 .square {

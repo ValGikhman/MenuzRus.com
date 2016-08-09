@@ -50,7 +50,9 @@ namespace MenuzRus.Controllers {
                 floor.id = model.id;
                 floor.CustomerId = SessionData.customer.id;
                 floor.Name = model.Name;
-                floor.Description = null;
+                floor.Description = floor.Description;
+                floor.Height = model.Height;
+                floor.Width = model.Width;
                 Int32 newId = _floorService.SaveFloor(floor);
                 if (newId == 0)
                     return RedirectToAction("Index", "Error");
@@ -126,6 +128,8 @@ namespace MenuzRus.Controllers {
                     model.Floor.id = floor.id;
                     model.Floor.Name = floor.Name;
                     model.Floor.Layout = GetTables(model.Floor.id);
+                    model.Floor.Width = floor.Width;
+                    model.Floor.Height = floor.Height;
                 }
                 return model;
             }

@@ -1,18 +1,20 @@
-﻿var QZPrint = false;
-var uid = (function () { var id = 1; return function () { if (arguments[0] === 1) id = 1; return id++; } })();
+﻿var uid = (function () { var id = 1; return function () { if (arguments[0] === 1) id = 1; return id++; } })();
+var webSocket;
 var printerKitchen = "";
+var printers = "";
 var printerPOS = "";
 var printerKitchenWidth = "";
 var printerPOSWidth = "";
+var alertsDelay = 60 * 1000;
 
 $(function () {
     $.blockUI.defaults.message = $("#bowlG");
     $.blockUI.defaults.css = " border: '0px none transparent;";
 
     $(".page").sortable();
-    setMenu();
+
     getAlertsCount();
-    window.setInterval(refreshActions, 60 * 1000);
+    window.setInterval(refreshActions, alertsDelay);
     $("#printerImage").on("click", function () {
         message($.validator.format("Kitchen Printer:{0}<br/>POS Printer:{1}", printerKitchen, printerPOS), "warning", "topLeft");
     });
@@ -36,13 +38,6 @@ function guid() {
 function shortGuid() {
     return guid().substring(0, 8);
 }
-
-function setMenu() {
-    if (window.location.href.indexOf("/Login") == -1)
-        $(".menuAlways").show();
-    else
-        $(".menuAlways").hide();
-};
 
 function deleteImage() {
     $(".preview").attr("src", "");
@@ -225,6 +220,7 @@ function getAlertsCount() {
         });
 };
 
+// TODO: Delete
 function getPrinters() {
     var jqxhr = $.get($.validator.format("{0}Home/GetPrinters", root))
         .done(function (result) {
@@ -266,3 +262,12 @@ function refreshMessageBadge(count) {
         $(".alertsCount").html(count);
     }
 };
+
+function printData(data, name) {
+    if (WSPrint) {
+        WSPrint.printHTML(data, name);
+    }
+    else {
+        message("::printData:: Printing is not connected.", "error", "topCenter");
+    }
+}

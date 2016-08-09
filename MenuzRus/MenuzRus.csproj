@@ -353,6 +353,15 @@
     <Content Include="Scripts\inventory.js" />
     <Content Include="Scripts\Datepicker\css\datepicker.css" />
     <Content Include="Scripts\Datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="packages.config" />
+    <None Include="Scripts\JQuery\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\JQuery\jquery-3.1.0.js" />
+    <Content Include="Scripts\JQuery\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\JQuery\jquery-3.1.0.slim.js" />
+    <Content Include="Scripts\JQuery\jquery-3.1.0.slim.min.js" />
+    <None Include="Scripts\JQuery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.min.js" />
     <Content Include="Scripts\kitchenOrder.js" />
     <Content Include="Scripts\JQGrid\css\ui.jqgrid.css" />
     <Content Include="Scripts\JQGrid\js\Changes.txt" />
@@ -528,39 +537,6 @@
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\bootstrap.js" />
     <Content Include="Scripts\noty\themes\default.js" />
-    <Content Include="Scripts\QZTray\auth\firefox\firefox-prefs.js" />
-    <Content Include="Scripts\QZTray\auth\windows-keygen.js" />
-    <Content Include="Scripts\QZTray\demo\assets\epl_multiples.txt" />
-    <Content Include="Scripts\QZTray\demo\assets\epl_sample.txt" />
-    <Content Include="Scripts\QZTray\demo\assets\fgl_sample.txt" />
-    <Content Include="Scripts\QZTray\demo\assets\img\image_sample.png" />
-    <Content Include="Scripts\QZTray\demo\assets\img\image_sample_bw.png" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.asp" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.java" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.js" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.jsl" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.vb" />
-    <Content Include="Scripts\QZTray\demo\assets\zpl_sample.txt" />
-    <Content Include="Scripts\QZTray\demo\assets\zpl_sample.xml" />
-    <Content Include="Scripts\QZTray\demo\css\bootstrap.min.css" />
-    <Content Include="Scripts\QZTray\demo\css\font-awesome.min.css" />
-    <Content Include="Scripts\QZTray\demo\css\style.css" />
-    <Content Include="Scripts\QZTray\demo\fonts\fontawesome-webfont.svg" />
-    <Content Include="Scripts\QZTray\demo\js\additional\bootstrap.min.js" />
-    <Content Include="Scripts\QZTray\demo\js\additional\jquery-1.11.3.min.js" />
-    <Content Include="Scripts\QZTray\demo\js\dependencies\rsvp-3.1.0.min.js" />
-    <Content Include="Scripts\QZTray\demo\js\dependencies\sha-256.min.js" />
-    <Content Include="Scripts\QZTray\demo\js\qz-tray.js" />
-    <Content Include="Scripts\QZTray\demo\sample.html" />
-    <Content Include="Scripts\QZTray\LICENSE.txt" />
-    <Content Include="Scripts\QZTray\qz-tray.exe" />
-    <Content Include="Scripts\QZTray\qz-tray.jar" />
-    <Content Include="Scripts\QZTray\uninstall.exe" />
-    <Content Include="Scripts\QZTray\windows-icon.ico" />
-    <Content Include="Scripts\QZPrint\deployJava.js" />
-    <Content Include="Scripts\QZPrint\html2canvas.js" />
-    <Content Include="Scripts\QZPrint\jquery.plugin.html2canvas.js" />
-    <Content Include="Scripts\QZPrint\PluginDetect.js" />
     <Content Include="Scripts\table.js" />
     <Content Include="Scripts\tables.js" />
     <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.css" />
@@ -574,12 +550,6 @@
     <Content Include="Scripts\JQuery\jquery.json-2.4.min.js" />
     <Content Include="Scripts\JQuery\jquery.tablesorter.min.js" />
     <Content Include="Scripts\menuDesigner.js" />
-    <Content Include="Scripts\gridster\jquery.gridster.css" />
-    <Content Include="Scripts\gridster\jquery.gridster.js" />
-    <Content Include="Scripts\gridster\jquery.gridster.min.css" />
-    <Content Include="Scripts\gridster\jquery.gridster.min.js" />
-    <Content Include="Scripts\gridster\jquery.gridster.with-extras.js" />
-    <Content Include="Scripts\gridster\jquery.gridster.with-extras.min.js" />
     <Content Include="Scripts\JQuery\jquery.colpick.js" />
     <Content Include="Scripts\JQuery\jquery.blockUI.js" />
     <Content Include="Scripts\JQuery\jquery-1.10.2.min.js" />
@@ -620,13 +590,14 @@
     <Content Include="Scripts\JQuery\jquery.ui.tabs.min.js" />
     <Content Include="Scripts\JQuery\jquery.ui.tooltip.min.js" />
     <Content Include="Scripts\JQuery\jquery.ui.widget.min.js" />
-    <Content Include="Scripts\JQuery\jquery.validate.min.js" />
     <Content Include="Scripts\menu.js" />
     <Content Include="Scripts\Ajax\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\Ajax\MicrosoftAjax.js" />
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\designer.js" />
+    <Content Include="Scripts\WSPrint\WSPrint-assembly-1.0.jar" />
+    <Content Include="Scripts\WSPrint\WSPrint.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -637,6 +608,8 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Scripts\JQuery\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\JQuery\jquery-3.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -690,7 +663,6 @@
     <Content Include="Views\Order\Kitchen.cshtml" />
     <Content Include="Views\Shared\_KitchenPartial.cshtml" />
     <Content Include="Views\Shared\_KitchenDetailsPartial.cshtml" />
-    <Content Include="Views\Shared\_PrintAppletPartial.cshtml" />
     <Content Include="Views\Shared\Emails\_EmailConfirmationPartial.cshtml" />
     <Content Include="Views\Confirmations\EmailConfirmation.cshtml" />
     <Content Include="Views\Confirmations\_ViewStart.cshtml" />
@@ -724,22 +696,6 @@
     <Content Include="Views\Shared\_InventoryAssociatePartial.cshtml" />
     <Content Include="Views\Shared\_InventoryPartial.cshtml" />
     <Content Include="Views\Designer\Menu.cshtml" />
-    <Content Include="Scripts\QZTray\auth\firefox\firefox-config.cfg" />
-    <Content Include="Scripts\QZTray\auth\qz-tray.crt" />
-    <Content Include="Scripts\QZTray\auth\qz-tray.jks" />
-    <Content Include="Scripts\QZTray\demo\assets\pdf_sample.pdf" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\private-key.pem" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.cfm" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.php" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.pl" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.py" />
-    <Content Include="Scripts\QZTray\demo\assets\signing\sign-message.rb" />
-    <Content Include="Scripts\QZTray\demo\fonts\fontawesome-webfont.eot" />
-    <Content Include="Scripts\QZTray\demo\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Scripts\QZTray\demo\fonts\fontawesome-webfont.woff" />
-    <Content Include="Scripts\QZTray\demo\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Scripts\QZTray\demo\fonts\FontAwesome.otf" />
-    <Content Include="Scripts\QZTray\qz-tray.properties" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Menus\1\" />

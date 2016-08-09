@@ -24,7 +24,6 @@ namespace MenuzRus {
             Boolean retVal = true;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    Int32 i = 0;
                     String[] order = ids.Split(',');
                     switch (type) {
                         case "Category":

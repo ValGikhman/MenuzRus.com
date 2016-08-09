@@ -10,12 +10,17 @@ namespace MenuzRus {
 
     public class LoginService : BaseService, ILoginService {
 
+        public Boolean GetProduction() {
+            return (connectionString.IndexOf(devComputer) > -1);
+        }
+
         public Tuple<User, Customer> Login(String email, String password) {
             Tuple<User, Customer> retValue;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
 
             User user;
             Customer customer;
+
             //Menu menu;
 
             user = db.Users.Where(m => m.Email == email && m.Password == password && m.Active && m.EmailConfirmed).FirstOrDefault();

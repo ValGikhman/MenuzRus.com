@@ -20,6 +20,7 @@ public static class Constants {
     public const String SESSION_PRINTER_KITCHEN_WIDTH = "SessionPrinterKitchenWidth";
     public const String SESSION_PRINTER_POS_WIDTH = "SessionDataPOSWidth";
     public const String SESSION_PRINTERS = "SessionPrinters";
+    public const String SESSION_PRODUCTION = "SessionProduction";
     public const String SESSION_ROUTE = "SessionDataRoute";
     public const String SESSION_USER = "SessionUser";
 }

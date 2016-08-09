@@ -1,11 +1,9 @@
 ﻿@model MenuzRus.Models.FloorModel
 @using Services
-<link href="@Url.Content("~/Scripts/gridster/jquery.gridster.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/countdown/jquery.countdown.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/floor.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 
-<script src="@Url.Content("~/Scripts/gridster/jquery.gridster.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.plugin.js")"></script>
 <script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
@@ -36,3 +34,5 @@
 @Html.HiddenFor(m => m.Floor.id)
 @Html.HiddenFor(m => m.Floor.Name)
 @Html.HiddenFor(m => m.Floor.Layout)
+@Html.HiddenFor(m => m.Floor.Width)
+@Html.HiddenFor(m => m.Floor.Height)

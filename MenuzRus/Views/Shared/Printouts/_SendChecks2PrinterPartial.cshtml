@@ -1,15 +1,22 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
 
-<div id="checkPrint" style="padding: 0px; margin: 0px; font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: xx-small; width: @String.Format("{0}px", Model.PrinterPOSWidth) ;">
-    <table cellpadding="0" cellspacing="0" align="center">
+<style>
+    td {
+        font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif;
+        font-size: small;
+    }
+</style>
+
+<div id="checkPrint" style="padding: 0px; margin: 0px; width: @String.Format("{0}px", Model.PrinterPOSWidth);">
+    <table align="center">
         <tr>
-            <td align="center">
+            <td>
                 <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
             </td>
         </tr>
     </table>
-    <table cellpadding="0" cellspacing="0" align="center" width="100%">
+    <table align="center" width="100%">
         <tr>
             <td style="font-weight: bold;" align="center">
                 <br />
@@ -53,7 +60,7 @@
         </tr>
     </table>
     <br />
-    <table cellpadding="0" cellspacing="0" width="100%">
+    <table width="100%">
         @foreach (MenuzRus.Models.LineItem item in Model.Items) {
             <tr>
                 <td>@item.Description</td>
@@ -68,7 +75,7 @@
         }
     </table>
     <hr />
-    <table cellpadding="0" cellspacing="0" width="100%">
+    <table width="100%">
         <tr style="font-weight: bold;">
             <td>Summary:</td>
             <td style="text-align: right">@Model.Summary.ToString("C2")</td>
@@ -92,8 +99,8 @@
             <td style="text-align: right">@Model.Total.ToString("C2")</td>
         </tr>
     </table>
-    <br>
-    <table cellpadding="0" cellspacing="0" align="center" width="100%">
+    <br />
+    <table align="center" width="100%">
         @if (Model.Split > 1) {
             <tr style="border-top: 1px dotted black;">
                 <td>Split: @Model.Total.ToString("C2")/@Model.Split</td>
@@ -109,5 +116,5 @@
             }
         }
     </table>
-    <hr />
+    <hr style="padding-bottom: 60px;" />
 </div>

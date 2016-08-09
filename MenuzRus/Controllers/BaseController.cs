@@ -110,7 +110,6 @@ namespace MenuzRus.Controllers {
             return retValue;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
         private void LogAcvitity(ActionExecutingContext filterContext) {
             var actionDescriptor = filterContext.ActionDescriptor;
             Log(Common.LogType.Activity, "Navigating", "User Name", String.Format("{0} {1} [2]", SessionData.user.FirstName, SessionData.user.LastName, SessionData.user.id), String.Format("Route: {0}/{1}/", actionDescriptor.ControllerDescriptor.ControllerName, actionDescriptor.ActionName));

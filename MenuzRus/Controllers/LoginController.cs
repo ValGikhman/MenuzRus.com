@@ -22,6 +22,7 @@ namespace MenuzRus {
 
         public ActionResult Index() {
             try {
+                SessionData.SetSession(Constants.SESSION_PRODUCTION, _loginService.GetProduction());
                 LoginModel model = new LoginModel();
                 model.Success = true;
                 return View(model);

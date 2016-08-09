@@ -80,20 +80,27 @@
                 </Item>
             </Items>
         </Category>
-        <Category Id="3" Name="Pastas" ImageUrl="" Side="Center">
+        <Category Id="3" Name="Dumplings" ImageUrl="" Side="Center">
             <Items>
                 <Item>
-                    <Id>14</Id>
+                    <Id>15</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Meaty Marinara Pasta</Name>
-                    <Description>Rotini pasta w/grilled ground beef, marinara sauce covered with melted mozarella cheese</Description>
-                    <Price>$8</Price>
+                    <Name>Manti</Name>
+                    <Description>Three large steamed dumplings stuffed with beef, lamb, served with butter and sour cream.</Description>
+                    <Price>$9</Price>
                 </Item>
                 <Item>
                     <Id>15</Id>
                     <ImageUrl></ImageUrl>
-                    <Name>Chicken Alfredo Pasta</Name>
-                    <Description>Rotini pasta w/grilled chicken breast, alfreado sauce covered with melted mozarella cheese</Description>
+                    <Name>Pelmeni</Name>
+                    <Description>Russian ravioli. Boiled dumplings stuffed with spiced ground beef or chicken and sour cream.</Description>
+                    <Price>$9</Price>
+                </Item>
+                <Item>
+                    <Id>15</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Perogies</Name>
+                    <Description>Potatoes or cheese or cherry filled dumpling served with sour cream.</Description>
                     <Price>$8</Price>
                 </Item>
             </Items>
@@ -135,7 +142,23 @@
                     <ImageOnly />
                     <Name>Solianka</Name>
                     <Description>3 different types of smoked meat in beef broth with vegitables and spices.</Description>
-                    <Price>All soups $4</Price>
+                    <Price></Price>
+                </Item>
+                <Item>
+                    <Id>21</Id>
+                    <ImageUrl></ImageUrl>
+                    <ImageOnly />
+                    <Name>Ashlian Fu</Name>
+                    <Description>Tradional soup with beef, noodles, tomatoes, onions, peppers, eggs, and asian spices</Description>
+                    <Price></Price>
+                </Item>
+                <Item>
+                    <Id>21</Id>
+                    <ImageUrl></ImageUrl>
+                    <ImageOnly />
+                    <Name>Okroshka (seasonal)</Name>
+                    <Description>Cold creamy summer soup with green leafy veggies, eggs, and potatoes</Description>
+                    <Price></Price>
                 </Item>
             </Items>
         </Category>

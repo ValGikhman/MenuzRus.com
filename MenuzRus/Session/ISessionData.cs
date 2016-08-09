@@ -26,6 +26,8 @@ namespace MenuzRus {
 
         String[] printers { get; set; }
 
+        Boolean production { get; set; }
+
         String route { get; set; }
 
         String sessionId { get; }

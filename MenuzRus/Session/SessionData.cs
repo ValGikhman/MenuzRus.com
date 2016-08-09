@@ -11,19 +11,19 @@ namespace MenuzRus {
 
     public class SessionData : ISessionData {
         private readonly IHttpContextProvider _httpContext;
-        private Customer _customer;
-        private Exception _exception;
-        private Services.Floor _floor;
-        private Services.Item _item;
+        private Customer _customer = null;
+        private Exception _exception = null;
+        private Services.Floor _floor = null;
+        private Services.Item _item = null;
 
         //private Services.Menu _menu;
-        private Int32 _printerKitchenWidth;
+        private Int32 _printerKitchenWidth = 0;
 
-        private Int32 _printerPOSWidth;
-        private String[] _printers;
-        private String _route;
-        private String _sessionId;
-        private Services.User _user;
+        private Int32 _printerPOSWidth = 0;
+        private String[] _printers = null;
+        private Boolean _production = false;
+        private String _route = null;
+        private Services.User _user = null;
 
         public SessionData(IHttpContextProvider httpContext) {
             _httpContext = httpContext;
@@ -98,6 +98,15 @@ namespace MenuzRus {
             }
             set {
                 SetSession(Constants.SESSION_PRINTERS, value);
+            }
+        }
+
+        public Boolean production {
+            get {
+                return GetSession<Boolean>(Constants.SESSION_PRODUCTION, _production);
+            }
+            set {
+                SetSession(Constants.SESSION_PRODUCTION, value);
             }
         }
 

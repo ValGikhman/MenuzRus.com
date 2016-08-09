@@ -7,11 +7,19 @@
     scrollSensitivity: 100
 };
 
-var resizeSettings = { grid: [20, 20] };
+var tableResizeSettings = {
+    grid: [20, 20],
+    animate: true,
+    ghost: true
+};
+
+var resizeSettings = {
+    grid: [20, 20],
+    animate: true,
+    ghost: true
+};
 
 $(function () {
-    addLayout();
-
     $("#tables").draggable(dragSettings);
 
     $(".floorArea").resizable(resizeSettings);
@@ -65,7 +73,7 @@ $(function () {
 
     $("#btnSaveFloor").click(function () {
         $(".floorEditForm").modal("hide");
-        saveFloor($("#Floor_id").val(), $("#Floor_Name").val());
+        saveFloor($("#Floor_id").val(), $("#Floor_Name").val(), $(".floorArea").width(), $(".floorArea").height());
     })
 
     $("#btnSaveTable").click(function () {
@@ -84,6 +92,8 @@ $(function () {
     else {
         $(".addMenu").show();
     }
+
+    addLayout();
 });
 
 function addLayout() {
@@ -101,9 +111,11 @@ function addLayout() {
             var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", this.Name);
             var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' class='tables shape {1}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", this.id, this.Type, this.Name, toolbar, elementName);
             $("#tables").append(element);
-            $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute").resizable(resizeSettings).draggable(dragSettings);
+            $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute").resizable(tableResizeSettings).draggable(dragSettings);
         });
         refreshTotal();
+
+        $(".floorArea").width($("#Floor_Width").val()).height($("#Floor_Height").val());
     }
 }
 
@@ -117,7 +129,7 @@ function addNewTable(style) {
     var elementName = $.validator.format("<div class='tableName label label-default shadow'>{0}</div>", name);
     var element = $.validator.format("<li id='new-{0}' data-name='{1}' data-type='{2}' class='tables shape {2}' onmouseleave='javascript:showTools(this, false)' onmouseover='javascript:showTools(this, true)'>{3}{4}</li>", id, name, style, toolbar, elementName);
     $("#tables").append(element);
-    $(selector).css("width", "100px").css("height", "100px").resizable(resizeSettings).draggable(dragSettings);
+    $(selector).css("top", 0).css("left", 0).css("width", 100).css("height", 100).css("position", "absolute").resizable(tableResizeSettings).draggable(dragSettings);
     refreshTotal();
 }
 
@@ -158,6 +170,9 @@ function saveTables() {
     var width = 0;
     var height = 0;
 
+    // saving floor attributes
+    saveFloor($("#Floor_id").val(), $("#Floor_Name").val(), $(".floorArea").width(), $(".floorArea").height());
+
     container.block();
     values += "[";
 
@@ -186,21 +201,21 @@ function saveTables() {
                       message("Save successfully.", "success", "topCenter");
                       window.location = $.validator.format("{0}Floor/Index/", root) + result;
                   })
-    .fail(function () {
-        message("Save tables failed.", "error", "topCenter");
-    })
-    .always(function () {
-        container.unblock();
-    });
+                .fail(function () {
+                    message("Save tables failed.", "error", "topCenter");
+                })
+                .always(function () {
+                    container.unblock();
+                });
 }
 
 function refreshTotal() {
     $(".tables.badge").html($("#tables li").length);
 }
 /// ****** FLOOR ********///
-function saveFloor(id, name) {
+function saveFloor(id, name, width, height) {
     if (id == null) id = 0;
-    var postData = { id: id, name: name };
+    var postData = { id: id, name: name, width: width, height: height };
     var jqxhr = $.post($.validator.format("{0}Floor/SaveFloor/", root), postData)
         .done(function (result) {
             message("Save successfully.", "success", "topCenter");

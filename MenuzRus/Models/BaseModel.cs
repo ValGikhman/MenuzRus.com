@@ -19,5 +19,7 @@ namespace MenuzRus.Models {
         public User Me { get; set; }
 
         public Customer MyCompany { get; set; }
+
+        public Boolean Production { get; set; }
     }
 }

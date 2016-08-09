@@ -11,12 +11,20 @@
                     @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg shadow", placeholder = "Password", required = "", type = "password" })
                 </div>
 
-                <div id="lastRow" class="row col-sm-8 col-md-8 col-lg-8 centered" style="display: none;">
+                @{String showRow = "none";
+                  String showAlert = "none";
+                  if (Model.Success) {
+                      showRow = "block";
+                  }
+                  else {
+                      showAlert = "block";
+                  }}
+                <div id="lastRow" class="row col-sm-8 col-md-8 col-lg-8 centered" style="display: @showRow;">
                     <button id="register" class="btn btn-lg btn-default shadow" type="button">Register</button>
                     <button class="shadow btn btn-success btn-lg" type="submit">Sign in</button>
                 </div>
 
-                <div class="alert alert-danger fade in" role="alert" style="display: none;">
+                <div class="alert alert-danger fade in" role="alert" style="display: @showAlert;">
                     <button id="btnCloseXError" type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4>Log in failed</h4>
                     <p>Please check you credentials and try again. Close this window to continue.</p>
@@ -33,13 +41,6 @@
 
 <script type="text/javascript">
     $(function () {
-        @if (!Model.Success) {
-            @: $(".alert").show(); $("#lastRow").hide();
-        }
-        else {
-            @: $("#lastRow").show(); $(".alert").hide();
-        }
-
         $("#register").click(function () {
             window.location = $.validator.format("{0}Registration/", root);
         });

@@ -8,35 +8,35 @@
                     <Id>11</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Shawarma</Name>
-                    <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread, cucumbers and Korean style carrot</Description>
+                    <Description>Shredded roasted breast of chicken with onions, tomatoes, lettuce and hummus on pita bread, cucumbers</Description>
                     <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>12</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Gyro</Name>s
-                    <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce, cucumbers and Korean style carrot on pita bread</Description>
+                    <Description>Shredded roasted beef and lamb with Tzatziki sauce, onions, tomato and lettuce, cucumbers on pita bread</Description>
                     <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>13</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Falafel</Name>
-                    <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce,, cucumbers and Korean style carrot wrapped in pita bread</Description>
+                    <Description>Vegitarian sandwich handmade falafel, hummus, tomatoes, red onions and lettuce, cucumbers wrapped in pita bread</Description>
                     <Price>Sandwich $7 Platter $10</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Lamb kebob</Name>
-                    <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
+                    <Description>Juicy fire roasted lamb kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers and mild signature tomato souce</Description>
                     <Price>Sandwich $9 Platter $12</Price>
                 </Item>
                 <Item>
                     <Id>14</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Chicken kebob</Name>
-                    <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers, Korean style carrot and mild signature tomato souce</Description>
+                    <Description>Juicy fire roasted chicken kebob wrapped into pita bread with tomaties, onions, lettuce, cucumbers and mild signature tomato souce</Description>
                     <Price>Sandwich $8 Platter $11</Price>
                 </Item>
             </Items>
@@ -47,7 +47,7 @@
                     <Id>22</Id>
                     <ImageUrl></ImageUrl>
                     <Name>Greek Salad</Name>
-                    <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese and thinly sliced cured beef </Description>
+                    <Description>Roman lettuce, sliced tomatoes, cucumbers, black olives and onions, tossed in olive oil and vineger, topped with feta cheese</Description>
                     <Price>$7</Price>
                 </Item>
                 <Item>
@@ -73,32 +73,7 @@
                 </Item>
             </Items>
         </Category>
-        <Category Id="3" Name="Dumplings" ImageUrl="" Side="Right">
-            <Items>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Manti</Name>
-                    <Description>Three large steamed dumplings stuffed with beef, lamb, served with butter and sour cream.</Description>
-                    <Price>$8</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Pelmeni</Name>
-                    <Description>Russian ravioli. Boiled dumplings stuffed with spiced ground beef or chicken and sour cream.</Description>
-                    <Price>$8</Price>
-                </Item>
-                <Item>
-                    <Id>15</Id>
-                    <ImageUrl></ImageUrl>
-                    <Name>Perogies</Name>
-                    <Description>Potatoes or cheese or cherry filled dumpling served with sour cream.</Description>
-                    <Price>$8</Price>
-                </Item>
-            </Items>
-        </Category>
-        <Category Id="4" Name="Wings" ImageUrl="" Side="Right">
+        <Category Id="4" Name="Wings" ImageUrl="" Side="Center">
             <Items>
                 <Item>
                     <Id>16</Id>
@@ -106,6 +81,52 @@
                     <Name>Buffalo, BBQ, Garlic</Name>
                     <Description></Description>
                     <Price>8-$6, 14-$10, 22-$15</Price>
+                </Item>
+            </Items>
+        </Category>
+        <Category Id="4" Name="Appetisers" ImageUrl="" Side="Right">
+            <Items>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Samsa</Name>
+                    <Description>Traditional oven baked puff pastry filled with chopped beef, lamb, onion, and spices</Description>
+                    <Price>$3</Price>
+                </Item>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Green Samsa</Name>
+                    <Description>Traditional oven baked puff pastry filled with spinach and spices</Description>
+                    <Price>$3</Price>
+                </Item>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Cheburek</Name>
+                    <Description>Pan-fried pastry filled with ground beef and spices</Description>
+                    <Price>$4</Price>
+                </Item>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Kutab</Name>
+                    <Description>Pan- fried pastry filled with spinach and mozzarella</Description>
+                    <Price>$4</Price>
+                </Item>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Khachapuri</Name>
+                    <Description>Mozzarella and Feta cheese baked in puff pastry</Description>
+                    <Price>$5</Price>
+                </Item>
+                <Item>
+                    <Id>16</Id>
+                    <ImageUrl></ImageUrl>
+                    <Name>Pirozhki</Name>
+                    <Description>2 chicken or beef filled pastries baked till golden</Description>
+                    <Price>$5</Price>
                 </Item>
             </Items>
         </Category>

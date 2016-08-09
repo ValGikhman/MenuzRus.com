@@ -47,11 +47,23 @@ function addLayout() {
             var checks = getChecks(this.Checks);
             var elementName = $.validator.format("<div class='tableNameStatus label alert-{1} shadow'>{0} ({2})</div>", this.Name, getStatusColor(this.Status), statusName);
             var timer = $.validator.format("<div class='timer label alert-{0} shadow'></div>", getStatusColor(this.Status));
-            var element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='tables shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
+
+            var element;
+
+            if (this.Type == "filler") {
+                // Do not hang anything on filler
+                element = $.validator.format("<li id='{0}' data-type='{1}' class='tables shape {1}'>{2}</li>", this.id, this.Type, this.Name);
+            }
+            else {
+                element = $.validator.format("<li id='{0}' data-name='{2}' data-type='{1}' data-status='{4}' data-date='{6}' class='tables shape {1}' onclick='javascript:viewTable({0})'>{3}{5}{7}</li>", this.id, this.Type, this.Name, elementName, statusName, checks, this.DateModified, timer);
+            }
+
             $("#tables").append(element);
             $(selector).css("top", this.Top).css("left", this.Left).css("width", this.Width).css("height", this.Height).css("position", "absolute");
             refreshTotal();
             addTimers();
+
+            $(".floorArea").width($("#Floor_Width").val()).height($("#Floor_Height").val());
         });
     }
 }

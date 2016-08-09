@@ -11,18 +11,6 @@
       <Association Name="Customer_Setting" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Floors" Member="Floors">
-    <Type Name="Floor">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Floor_Table" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Table" />
-      <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -131,9 +119,9 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Customer_Setting" Member="Settings" ThisKey="id" OtherKey="CustomerId" Type="Setting" />
-      <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
       <Association Name="Customer_User" Member="Users" ThisKey="id" OtherKey="CustomerId" Type="User" />
       <Association Name="Customer_Category" Member="Categories" ThisKey="id" OtherKey="CustomerId" Type="Category" />
+      <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
     </Type>
   </Table>
   <Table Name="dbo.Printouts" Member="Printouts">
@@ -305,6 +293,20 @@
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Menus_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="MenuId" Type="MenuItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Floors" Member="Floors">
+    <Type Name="Floor">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Width" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="Height" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Floor_Table" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Table" />
+      <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -14,6 +14,7 @@
     <script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/Common.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/WSPrint/WSprint.js")"></script>
 
     <link href="@Url.Content("~/Content/base/jquery-ui.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
@@ -56,12 +57,12 @@
             </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav navbar-right menuAlways">
+                <ul class="nav navbar-nav navbar-right">
                     <li class="alerts dropdown user-dropdown" style="padding: 5px 0; cursor: pointer;" onclick="javascript:getAlerts();">
-                        <img id="printerImage" src="@Url.Content("~/Images/Web/bell.png")" />
+                        <img id="bellImage" src="@Url.Content("~/Images/Web/bell.png")" />
                         <span class="alertsCount badge pull-right alert-warning">0</span>
                     </li>
-                    <li class="dropdown user-dropdown menuAlways">
+                    <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li role="presentation" class="dropdown-header">Services</li>
@@ -74,12 +75,12 @@
                             </li>
                             <li><a href="@Url.Content("~/Order/Tables")">Order</a>
                             </li>
-                            <li class="divider"></li>
-                            <li role="presentation" class="dropdown-header">Monitors</li>
-                            <li class="divider"></li>
-                            <li><a href="@Url.Content("~/Order/Monitor")">Floor</a>
+                            <li class="divider desktopOnly"></li>
+                            <li role="presentation" class="dropdown-header desktopOnly">Monitors</li>
+                            <li class="divider desktopOnly"></li>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Monitor")">Floor</a>
                             </li>
-                            <li><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
                             </li>
                             <li class="desktopOnly"><a href="@Url.Content("~/KitchenOrder")">Order</a>
                             </li>
@@ -88,7 +89,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown user-dropdown menuAlways">
+                    <li>
                         @{
                             String picture = String.Empty;
                             Int32 customerId = 0;
@@ -102,13 +103,13 @@
                             }
                             if (!String.IsNullOrEmpty(picture)) {
                             <a href="@Url.Content("~/User/Index/")@customerId" style="padding:0px">
-                                <img src="@Url.Content(picture)" class="img-thumbnail" id="userImage" /></a>
+                                <img src="@Url.Content(picture)" class="img-thumbnail desktopOnly" id="userImage" /></a>
 
                             }
                         }
                     </li>
 
-                    <li class="dropdown user-dropdown menuAlways">
+                    <li class="dropdown user-dropdown" style="float: left">
                         @{
                             String contact = "Unknown";
                             Int32 contactId = 0;
@@ -131,7 +132,7 @@
                             <li class="desktopOnly"><a href="@Url.Content("~/Customer/Index/")@customerId">My Company</a></li>
                             <li class="divider desktopOnly"></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/Users/Index/")@customerId">My Users</a></li>
-                            <li class="divider"></li>
+                            <li class="divider desktopOnly "></li>
                             <li><a href="@Url.Content("~/Logout/")">Log Out</a></li>
                         </ul>
                     </li>
@@ -143,6 +144,5 @@
             @RenderBody()
         </div>
     </div>
-    @Html.Partial("_PrintAppletPartial")
 </body>
 </html>

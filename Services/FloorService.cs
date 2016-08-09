@@ -101,6 +101,8 @@ namespace MenuzRus {
                         query.CustomerId = floor.CustomerId;
                         query.Name = floor.Name;
                         query.Description = floor.Description;
+                        query.Height = floor.Height;
+                        query.Width = floor.Width;
                     }
                     if (floor.id == 0) {
                         db.Floors.InsertOnSubmit(query);

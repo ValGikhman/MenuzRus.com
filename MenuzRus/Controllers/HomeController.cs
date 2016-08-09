@@ -12,6 +12,7 @@ namespace MenuzRus.Controllers {
             _settingsService = settingsService;
         }
 
+        // TODO: Not needed
         [HttpGet]
         public JsonResult GetPrinters() {
             try {
@@ -34,7 +35,7 @@ namespace MenuzRus.Controllers {
             return RedirectToAction("Index", "Login");
         }
 
-        [HttpPost]
+        [HttpGet]
         public JsonResult SendPrinters(String model) {
             try {
                 if (!String.IsNullOrEmpty(model)) {

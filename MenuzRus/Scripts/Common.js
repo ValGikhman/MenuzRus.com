@@ -16,7 +16,12 @@ $(function () {
     getAlertsCount();
     window.setInterval(refreshActions, alertsDelay);
     $("#printerImage").on("click", function () {
-        message($.validator.format("Kitchen Printer:{0}<br/>POS Printer:{1}", printerKitchen, printerPOS), "warning", "topLeft");
+        if ((printerKitchen == null) || (printerPOS == null)) {
+            message("Kitchen Printer/POS Printer are not defined", "error", "topLeft");
+        }
+        else {
+            message($.validator.format("Kitchen Printer:{0}<br/>POS Printer:{1}", printerKitchen, printerPOS), "warning", "topLeft");
+        }
     });
 });
 
@@ -215,22 +220,6 @@ function getAlertsCount() {
         })
         .fail(function () {
             message("::getAlertsCount:: Failed.", "error", "topCenter");
-        })
-        .always(function () {
-        });
-};
-
-// TODO: Delete
-function getPrinters() {
-    var jqxhr = $.get($.validator.format("{0}Home/GetPrinters", root))
-        .done(function (result) {
-            printerPOS = result.printerPOS;
-            printerKitchen = result.printerKitchen;
-            printerPOSWidth = result.printerPOSWidth;
-            printerKitchenWidth = result.printerKitchenWidth;
-        })
-        .fail(function () {
-            message("::getPrinters:: Failed.", "error", "topCenter");
         })
         .always(function () {
         });

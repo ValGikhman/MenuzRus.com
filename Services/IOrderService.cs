@@ -18,10 +18,6 @@ namespace MenuzRus {
 
         Check GetCheck(Int32 checkId);
 
-        String GetChecksIds(Int32 tableId);
-
-        String GetChecksIds(Int32 tableId, Boolean showPaidChecks);
-
         List<TableOrder> GetKitchenOrders();
 
         ChecksMenu GetMenuItem(Int32 id);
@@ -38,15 +34,13 @@ namespace MenuzRus {
 
         Table GetTable(Int32 tableId);
 
-        TableOrder GetTableOrder(Int32 tableId);
+        Tuple<String, Int32, String> GetTableAttributes(Int32 tableId, Boolean showPaidChecks);
 
-        String GetTableOrderDate(Int32 tableId);
+        TableOrder GetTableOrder(Int32 tableId);
 
         List<TableOrder> GetTableOrders(Int32 tableId);
 
         List<TableOrder> GetTableOrdersByFloorId(Int32 floorId);
-
-        Int32 GetTableOrderStatus(Int32 tableId);
 
         void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
 

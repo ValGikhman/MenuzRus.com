@@ -796,7 +796,7 @@ namespace MenuzRus.Controllers {
             try {
                 List<Services.Table> tables = _floorService.GetTables(id);
                 var result = (from var in tables
-                              where var.FloorId == id
+                              let attributes = _orderService.GetTableAttributes(var.id, true)
                               select new {
                                   var.Top,
                                   var.FloorId,
@@ -806,9 +806,12 @@ namespace MenuzRus.Controllers {
                                   var.Type,
                                   var.Width,
                                   var.Height,
-                                  Status = _orderService.GetTableOrderStatus(var.id),
-                                  Checks = _orderService.GetChecksIds(var.id, true),
-                                  DateModified = _orderService.GetTableOrderDate(var.id)
+                                  //Status = _orderService.GetTableOrderStatus(var.id),
+                                  //Checks = _orderService.GetChecksIds(var.id, true),
+                                  //DateModified = _orderService.GetTableOrderDate(var.id)
+                                  Checks = attributes.Item1,
+                                  Status = attributes.Item2,
+                                  DateModified = attributes.Item3
                               }).ToList();
                 return result.OrderByDescending(m => m.DateModified).ToJson();
             }

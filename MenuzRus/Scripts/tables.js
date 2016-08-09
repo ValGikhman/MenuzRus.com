@@ -16,7 +16,7 @@ function viewTable(id) {
 }
 
 function refreshTotal() {
-    $(".tables.badge").html($("#tables li").length);
+    $(".tables.badge").html($("#tables li:not([data-type='filler'])").length);
 }
 
 function watchCountdown(periods) {

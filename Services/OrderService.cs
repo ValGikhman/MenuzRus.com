@@ -100,27 +100,6 @@ namespace MenuzRus {
             return null;
         }
 
-        public String GetChecksIds(Int32 tableId) {
-            return GetChecksIds(tableId, true);
-        }
-
-        public String GetChecksIds(Int32 tableId, Boolean showPaidChecks) {
-            TableOrder tableOrder = GetTableOrder(tableId);
-            if (tableOrder != default(TableOrder)) {
-                List<Check> checks;
-                if (!showPaidChecks) {
-                    checks = tableOrder.Checks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
-                }
-                else {
-                    checks = tableOrder.Checks.ToList();
-                }
-                if (checks != null) {
-                    return String.Join("|", checks.Select(m => String.Format("{0}:{1}", m.id, m.Status)).ToArray());
-                }
-            }
-            return String.Empty;
-        }
-
         public List<TableOrder> GetKitchenOrders() {
             List<TableOrder> retVal = new List<TableOrder>();
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
@@ -174,6 +153,35 @@ namespace MenuzRus {
             return null;
         }
 
+        public Tuple<String, Int32, String> GetTableAttributes(Int32 tableId, Boolean showPaidChecks) {
+            TableOrder tableOrder = GetTableOrder(tableId);
+
+            String checksIds = String.Empty;
+            Int32 orderStatus = (Int32)Common.TableOrderStatus.Closed;
+            String orderDate = String.Format("{0:M/d/yyyy HH:mm:ss}", DateTime.Now);
+
+            // Grabbing checks
+            if (tableOrder != default(TableOrder)) {
+                List<Check> checks;
+                if (!showPaidChecks) {
+                    checks = tableOrder.Checks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
+                }
+                else {
+                    checks = tableOrder.Checks.ToList();
+                }
+                if (checks != null) {
+                    checksIds = String.Join("|", checks.Select(m => String.Format("{0}:{1}", m.id, m.Status)).ToArray());
+                }
+
+                // Grab Status
+                orderStatus = tableOrder.Status;
+                // Grab Date
+                orderDate = String.Format("{0:M/d/yyyy HH:mm:ss}", tableOrder.DateModified);
+            }
+
+            return new Tuple<String, Int32, String>(checksIds, orderStatus, orderDate);
+        }
+
         public TableOrder GetTableOrder(Int32 tableId) {
             TableOrder tableOrder = new TableOrder();
             if (tableId != 0) {
@@ -185,14 +193,6 @@ namespace MenuzRus {
                 return tableOrder;
             }
             return null;
-        }
-
-        public String GetTableOrderDate(Int32 tableId) {
-            TableOrder tableOrder = GetTableOrder(tableId);
-            if (tableOrder != default(TableOrder)) {
-                return String.Format("{0:M/d/yyyy HH:mm:ss}", tableOrder.DateModified);
-            }
-            return String.Format("{0:M/d/yyyy HH:mm:ss}", DateTime.Now);
         }
 
         public List<TableOrder> GetTableOrders(Int32 tableId) {
@@ -220,14 +220,6 @@ namespace MenuzRus {
                           select order).OrderByDescending(m => m.DateModified).ToList();
             }
             return retVal;
-        }
-
-        public Int32 GetTableOrderStatus(Int32 tableId) {
-            TableOrder tableOrder = GetTableOrder(tableId);
-            if (tableOrder != default(TableOrder)) {
-                return tableOrder.Status;
-            }
-            return (Int32)Common.TableOrderStatus.Closed;
         }
 
         public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {

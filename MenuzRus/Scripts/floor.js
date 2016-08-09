@@ -210,7 +210,7 @@ function saveTables() {
 }
 
 function refreshTotal() {
-    $(".tables.badge").html($("#tables li").length);
+    $(".tables.badge").html($("#tables li:not([data-type='filler'])").length);
 }
 /// ****** FLOOR ********///
 function saveFloor(id, name, width, height) {

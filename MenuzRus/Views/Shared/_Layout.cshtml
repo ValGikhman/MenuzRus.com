@@ -115,7 +115,12 @@
                             Int32 contactId = 0;
                             if (Model != null) {
                                 if (Model.Me != null) {
-                                    contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
+                                    if ((Boolean)Session[Constants.SESSION_PRODUCTION]) {
+                                        contact = String.Format("{0}, {1}", Model.Me.LastName, Model.Me.FirstName);
+                                    }
+                                    else {
+                                        contact = String.Format("{0} {1}", Model.Me.FirstName, Model.Me.LastName);
+                                    }
                                 }
                                 if (Model.MyCompany != null) {
                                     customerId = Model.MyCompany.id;

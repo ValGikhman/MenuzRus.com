@@ -12,25 +12,6 @@ namespace MenuzRus.Controllers {
             _settingsService = settingsService;
         }
 
-        // TODO: Not needed
-        [HttpGet]
-        public JsonResult GetPrinters() {
-            try {
-                var retVal = new {
-                    printerPOS = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS),
-                    printerKitchen = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen),
-                    printerPOSWidth = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth),
-                    printerKitchenWidth = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth)
-                };
-                return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-            }
-            catch (Exception ex) {
-                throw;
-            }
-            finally {
-            }
-        }
-
         public ActionResult Index() {
             return RedirectToAction("Index", "Login");
         }

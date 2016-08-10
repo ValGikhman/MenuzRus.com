@@ -72,10 +72,13 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        if (!WSPrint) {
-            $("#printTab").parent().hide();
-            $("#menu-actions-print-tab").hide();
+        if (!able2Print) {
+            $("#btnPrintChecks").hide();
         }
+        else {
+            $("#btnPrintChecks").show();
+        }
+
 
         $("#slideSplit").TouchSpin({
             min: 1,

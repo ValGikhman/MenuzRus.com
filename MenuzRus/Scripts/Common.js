@@ -15,6 +15,7 @@ $(function () {
 
     getAlertsCount();
     window.setInterval(refreshActions, alertsDelay);
+
     $("#printerImage").on("click", function () {
         if ((printerKitchen == null) || (printerPOS == null)) {
             message("Kitchen Printer/POS Printer are not defined", "error", "topLeft");

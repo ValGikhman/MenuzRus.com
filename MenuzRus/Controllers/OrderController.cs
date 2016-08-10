@@ -505,7 +505,11 @@ namespace MenuzRus.Controllers {
                 model.Items = new List<LineItem>();
                 model.Check = _orderService.GetCheck(checkId);
                 model.CreatedDate = model.Check.DateCreated;
-                model.PrinterPOSWidth = SessionData.printerPOSWidth;
+
+                // If no printers - webSocket not running, or no connection to webSocket
+                if (SessionData.printers != null) {
+                    model.PrinterPOSWidth = SessionData.printerPOSWidth;
+                }
 
                 List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkId);
                 List<ChecksMenuProduct> products;
@@ -641,7 +645,11 @@ namespace MenuzRus.Controllers {
                         orderModel = new CheckPrint();
                         orderModel.Check = checkItem;
                         orderModel.Items = new List<LineItem>();
-                        orderModel.PrinterPOSWidth = SessionData.printerPOSWidth;
+
+                        // If no printers - webSocket not running, or no connection to webSocket
+                        if (SessionData.printers != null) {
+                            orderModel.PrinterPOSWidth = SessionData.printerPOSWidth;
+                        }
 
                         List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkItem.id);
                         List<ChecksMenuProduct> products;
@@ -806,9 +814,6 @@ namespace MenuzRus.Controllers {
                                   var.Type,
                                   var.Width,
                                   var.Height,
-                                  //Status = _orderService.GetTableOrderStatus(var.id),
-                                  //Checks = _orderService.GetChecksIds(var.id, true),
-                                  //DateModified = _orderService.GetTableOrderDate(var.id)
                                   Checks = attributes.Item1,
                                   Status = attributes.Item2,
                                   DateModified = attributes.Item3

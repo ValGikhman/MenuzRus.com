@@ -27,7 +27,7 @@
     </div>
 
     <div class="clearfix">
-        <div class="pull-right" style="margin-top:-65px; margin-right:5px;">
+        <div class="pull-right" style="margin-top: -65px; margin-right: 5px;">
             <button id="btnNewCategory" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
         </div>
     </div>
@@ -162,14 +162,16 @@
                 }
             }
         });
-
     });
 
     function editButtons(cellvalue, options, rowObject) {
+        var type = $("#btnCategoryType").text();
         var buttons = "";
         buttons = $.validator.format("<button id='editItem' type='button' class='btn btn-info' onclick='javascript:editItem({0})' style='padding:4px; margin-left: 20px !important; margin-right:5px;'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
-        if ($("#btnCategoryType").text() != "Inventory") {
-            buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' style='padding:4px; margin: 0 5px 0 auto;' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
+        if (type!= "Inventory") {
+            if(type!= "Product") {
+                buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' style='padding:4px; margin: 0 5px 0 auto;' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
+            }
             buttons += $.validator.format("<button id='assosiateInventory' type='button' class='btn btn-success' style='padding:4px; margin: 0;' onclick='javascript:associateInventory({0})'><span class='glyphicon glyphicon-barcode'></span></button>", rowObject.itemId);
         }
         return buttons;

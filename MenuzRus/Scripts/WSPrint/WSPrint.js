@@ -1,8 +1,11 @@
-﻿var WSPrint = {
+﻿var webSocket;
+var able2Print = false;
+var WSPrint = {
     open: function () {
         if (!webSocket) {
             webSocket = new WS(
                 function (on) {
+                    able2Print = on;
                     if (on) {
                         $("#printerImage").show();
                     }

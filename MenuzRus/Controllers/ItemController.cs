@@ -93,7 +93,8 @@ namespace MenuzRus.Controllers {
                     model.Image.SaveAs(path);
                 }
 
-                if (model.Price2Add > 0) {
+                model.ItemPrices = _itemService.GetItemPrices(model.id);
+                if (model.Price2Add != model.ItemPrices[0].Price) {
                     AddItemPrice(result, model.Price2Add);
                 }
 
@@ -102,9 +103,9 @@ namespace MenuzRus.Controllers {
                         // Out is always negative
                         model.Quantity = Math.Abs(model.Quantity) * -1;
                     }
-
-                    AddItemRegistry(result, model.Quantity, model.InventoryType, model.InventoryComment);
                 }
+
+                AddItemRegistry(result, model.Quantity, model.InventoryType, model.InventoryComment);
 
                 // Default menuDesigner
                 return RedirectToAction("Index", "Designer", new { id = (Common.CategoryType)model.CategoryType });
@@ -164,8 +165,9 @@ namespace MenuzRus.Controllers {
                         model.ImageUrl = item.ImageUrl;
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
                         model.InventoryRegistries = item.InventoryRegistries.Where(m => m.DateCreated > DateTime.Now.AddDays(-7)).ToList();
-                        //model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
+                        model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
                         model.UOM = (Common.UOM)item.UOM;
+                        model.Price2Add = model.ItemPrices[0].Price;
                     }
                 }
                 return model;

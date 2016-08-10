@@ -77,6 +77,7 @@ namespace MenuzRus {
         public Int32 printerKitchenWidth {
             get {
                 return GetSession<Int32>(Constants.SESSION_PRINTER_KITCHEN_WIDTH, _printerKitchenWidth);
+                //return (_printerKitchenWidth == 0 ? 0 : GetSession<Int32>(Constants.SESSION_PRINTER_KITCHEN_WIDTH, _printerKitchenWidth));
             }
             set {
                 SetSession(Constants.SESSION_PRINTER_KITCHEN_WIDTH, value);
@@ -86,6 +87,7 @@ namespace MenuzRus {
         public Int32 printerPOSWidth {
             get {
                 return GetSession<Int32>(Constants.SESSION_PRINTER_POS_WIDTH, _printerPOSWidth);
+                //return (_printerPOSWidth == 0 ? 0 : GetSession<Int32>(Constants.SESSION_PRINTER_POS_WIDTH, _printerPOSWidth));
             }
             set {
                 SetSession(Constants.SESSION_PRINTER_POS_WIDTH, value);

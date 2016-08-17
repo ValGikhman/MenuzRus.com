@@ -41,6 +41,8 @@
             @if (Model.Menus.Count() > 0) {
                 <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown" data-value="@Model.id">@Model.Name</button>
                 <ul id="Menus" class="dropdown-menu alert-warning" role="menu">
+                    <li class="dropdown-header">Menus:</li>
+                    <li role="separator" class="divider"></li>
                     @foreach (Menus menu in Model.Menus) {
                         <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
                     }

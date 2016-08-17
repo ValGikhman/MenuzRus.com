@@ -10,12 +10,21 @@
 <script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
 
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        height: auto;
+        white-space: normal;
+        padding: 5px;
+    }
+</style>
 <div class="well container container-designer shadow">
     <div class="modal-header main-header">
         <div class="default pull-left">
             <div class="dropdown categoryType">
                 <button id="btnCategoryType" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@Model.CategoryType.ToString()</button>
                 <ul id="categoryType" class="dropdown-menu alert-warning" role="menu">
+                    <li class="dropdown-header">Item type:</li>
+                    <li role="separator" class="divider"></li>
                     @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
                         Int32 value = (Int32)type;
                         <li data-text="@type" data-value="@value"><a href="#">@type</a></li>
@@ -62,16 +71,16 @@
                 { name: "categoryId", hidden: true },
                 { name: "category" },
                 { name: "itemId", hidden: true },
-                { name: "action", width: 45, formatter: editButtons },
-                { name: "name", width: 130 },
-                { name: "description", width: 180, sortable: true },
-                { name: "price", width: 30, align: "right", sorttype: "float", formatter: "currency", formatoptions: { prefix: "$", thousandsSeparator: ",'" } },
-                { name: "active", align: "center", editable: true, edittype: "checkbox", editoptions: { value: "True:False" }, formatter: "checkbox", width: 20, formatoptions: { disabled: true } }
+                { name: "action", width: 145, formatter: editButtons, resizable: false, fixed: true },
+                { name: "name", width: 100, sortable: true },
+                { name: "description", width: 220, sortable: true },
+                { name: "price", width: 35, align: "right", sorttype: "float", formatter: "currency", formatoptions: { prefix: "$", thousandsSeparator: ",'" } },
+                { name: "active", align: "center", editable: false, edittype: "checkbox", editoptions: { value: "True:False" }, formatter: "checkbox", width: 65, fixed: true, formatoptions: { disabled: true } }
             ],
             hidegrid: false,
             rowNum: 50,
             rowList: [10, 20, 50, 100],
-            width: "90%",
+            width: null,
             height: "auto",
             width: null,
             sortable: true,
@@ -98,7 +107,7 @@
             groupingView: {
                 groupField: ["category"],
                 groupColumnShow: [false],
-                groupText: [categoryActionButtons() + "<b style='margin-left:25px;'>{0}: - {1} menu items(s)</b>"],
+                groupText: [categoryActionButtons() + "<b style='margin-left:25px;'>{0}: - {1} menu item(s)</b>"],
                 groupCollapse: true,
                 groupOrder: ['asc'],
                 groupSummary: [true],
@@ -116,7 +125,7 @@
 
                     $(e).children().attr("data-value", categoryId);
                     if ($($(e).next().children()[2]).html() == "0") {
-                        $($(e).children().children()[3]).html($.validator.format("{0}: - 0 menu items(s)", categoryName));
+                        $($(e).children().children()[2]).html($.validator.format("{0}: - 0 menu item(s)", categoryName));
                         $(e).next().children().remove();
                     }
                 });
@@ -142,9 +151,10 @@
                     //Grouphid.splice(i, 1);
                     expandedEmpGroups.splice($.inArray(hid, expandedEmpGroups), 1);
                 }
-
             }
         });
+
+        $("#gbox_jqGrid").css("min-height", "500px");
 
         $("#jqGrid").click(function (e) {
             var $target = $(e.target),
@@ -166,21 +176,24 @@
 
     function editButtons(cellvalue, options, rowObject) {
         var type = $("#btnCategoryType").text();
-        var buttons = "";
-        buttons = $.validator.format("<button id='editItem' type='button' class='btn btn-info' onclick='javascript:editItem({0})' style='padding:4px; margin-left: 20px !important; margin-right:5px;'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
-        if (type!= "Inventory") {
-            if(type!= "Product") {
-                buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' style='padding:4px; margin: 0 5px 0 auto;' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
+        var buttons = "<div class='btn-group' role='group' style='margin-left: 20px !important; width: 545px;'>";
+        buttons += $.validator.format("<button id='editItem' type='button' class='btn btn-info' onclick='javascript:editItem({0})'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
+        if (type != "Inventory") {
+            if (type != "Product") {
+                buttons += $.validator.format("<button id='assosiateItem' type='button' class='btn btn-success' onclick='javascript:associateItem({0})'><span class='glyphicon glyphicon-transfer'></span></button>", rowObject.itemId);
             }
-            buttons += $.validator.format("<button id='assosiateInventory' type='button' class='btn btn-success' style='padding:4px; margin: 0;' onclick='javascript:associateInventory({0})'><span class='glyphicon glyphicon-barcode'></span></button>", rowObject.itemId);
+            buttons += $.validator.format("<button id='assosiateInventory' type='button' class='btn btn-success'onclick='javascript:associateInventory({0})'><span class='glyphicon glyphicon-barcode'></span></button>", rowObject.itemId);
         }
+        buttons += "</div>";
         return buttons;
     }
 
     function categoryActionButtons() {
-        var object = "$(this).parent()";
-        var buttons = $.validator.format("<button id='editCategory' type='button' class='btn btn-info' onclick='javascript:editCategoryHelper({0})'><span class='glyphicon glyphicon-pencil'></span></button>", object);
+        var object = "$(this).parent().parent()";
+        var buttons = "<div class='btn-group' role='group'>";
+        buttons += $.validator.format("<button id='editCategory' type='button' class='btn btn-info' onclick='javascript:editCategoryHelper({0})'><span class='glyphicon glyphicon-pencil'></span></button>", object);
         buttons += $.validator.format("<button id='addItem' type='button' class='btn btn-info' onclick='javascript:editItemHelper({0})'><span class='glyphicon glyphicon-plus'></span></button>", object);
+        buttons += "</div>";
         return buttons;
     }
 

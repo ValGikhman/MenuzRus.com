@@ -12,80 +12,34 @@
         }
     </select>
 
-    <ul class="nav nav-pills btn-default menu-actions-tab">
-        <li><a id="propertiesTab" href="#menu-actions-properties-tab" data-toggle="pill">Properties
-        </a></li>
-        <li><a id="printTab" href="#menu-actions-print-tab" data-toggle="pill">Print Mode
-        </a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="menu-actions-properties-tab" class="tab-pane fade in actionsProperties">
-            <div class="col-md-7 col-lg-7">
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba" style="width: 100px">Split</div>
-                        <input id="slideSplit" name="slideSplit" type="text" class="form-control shadow" value="1" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon shadow leiba" style="width: 100px">Adjustment</div>
-                        <input id="adjustmentSplit" name="adjustmentSplit" type="text" class="form-control shadow" value="0" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-control properties col-md-12 col-lg-12">
-                <div class="dropdown" style="display: inline">
-                    @Html.Label("Type:")
-                    <div class="dropup checkType">
-                        <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
-                        <ul id="checkType" class="dropdown-menu alert-warning" role="menu">
-                            @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
-                                <li><a href="#">@type</a></li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="dropdown col-md-offset-1 col-lg-offset-1" style="display: inline">
-                    @Html.Label("Status:")
-                    <div class="dropup checkStatus">
-                        <button id="btnCheckStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
-                        <ul id="checkStatus" class="dropdown-menu alert-warning" role="menu">
-                            @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
-                                if (status != Common.CheckStatus.Ready) {
-                                <li data-value="@status"><a href="#">@status</a></li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                </div>
+    <div style="margin-top: 35px; width: 305px;">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon shadow leiba" style="width:100px;">Split for :</div>
+                <input id="slideSplit" name="slideSplit" type="text" class="form-control shadow" style="width:100px;" value="1" />
             </div>
         </div>
-        <div id="menu-actions-print-tab" class="tab-pane fade in actionsPrint">
-            <button id="btnPrintChecks" class="btn btn-primary shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon shadow leiba"style="width:100px;">Adjustment :</div>
+                <input id="adjustmentSplit" name="adjustmentSplit" type="text" class="form-control shadow" style="width:100px;" value="0" />
+            </div>
         </div>
     </div>
+    <div style="clear:left">
+    </div>
+    
+    <button id="btnPrintChecks" class="btn btn-primary btn-lg shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
 </div>
 <script type="text/javascript">
     $(function () {
-        if (!able2Print) {
-            $("#btnPrintChecks").hide();
-        }
-        else {
-            $("#btnPrintChecks").show();
-        }
-
-
         $("#slideSplit").TouchSpin({
             min: 1,
-            max: 5,
+            max: 20,
             step: 1,
             decimals: 0,
-            postfix: "person(s)"
+            postfix: "<span class='glyphicon glyphicon-user' aria-hidden='true'></span>"
         });
 
         $("#adjustmentSplit").TouchSpin({
@@ -102,7 +56,9 @@
             $.each($(selected), function (index, item) {
                 ids.push(parseInt(item.value));
             });
-            checksPrint(ids);
+            if (able2Print) {
+                checksPrint(ids);
+            }
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");
@@ -113,17 +69,23 @@
     });
 
     function checksPrint(checksIds) {
+        var container = $(".menuActions-container");
+        container.block();
+
         var split = parseInt($("#slideSplit").val());
         var adjustment = parseInt($("#adjustmentSplit").val());
 
         var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
             .done(function (result) {
-                printData(result, printerPOS);
+                if (printerPOS != "") {
+                    printData(result, printerPOS);
+                }
             })
             .fail(function () {
                 message("::checksPrint:: Failed.", "error", "topCenter");
             })
             .always(function () {
+                container.unblock();
             });
     }
 

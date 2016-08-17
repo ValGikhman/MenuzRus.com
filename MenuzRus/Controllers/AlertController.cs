@@ -28,7 +28,8 @@ namespace MenuzRus {
                     alerts = from var in items
                              let item = _alertService.GetAlertItem(var.id)
                              let check = _alertService.GetAlertCheck(var.id)
-                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = item.ImageUrl }
+                             let table = _alertService.GetAlertTable(check.TableOrder.TableId)
+                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = item.ImageUrl, Table = table.Name }
                 };
                 return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

@@ -128,7 +128,13 @@ function buzz(title, message) {
                     readMessage($(this).parent());
                     $noty.close();
                 }
+            },
+            {
+                addClass: 'btn btn-warning', text: 'Skip', onClick: function ($noty) {
+                    $noty.close();
+                }
             }
+
         ]
     });
 }
@@ -197,8 +203,10 @@ function printKitchenOrders() {
 function printKitchenOrder(id) {
     var jqxhr = $.get($.validator.format("{0}Order/KitchenOrder2Print", root), { "id": id }, "json")
         .done(function (result) {
-            printData(result, printerKitchen);
-            updateKitchenOrderPrintStatus(id);
+            if (printerKitchen != "") {
+                printData(result, printerKitchen);
+                updateKitchenOrderPrintStatus(id);
+            }
         })
         .fail(function () {
             message("::printKitchenOrder:: Failed.", "error", "topCenter");
@@ -231,7 +239,7 @@ function getAlerts() {
         .done(function (result) {
             var alerts = result.alerts;
             $.each(alerts, function (i, e) {
-                var title = $.validator.format("<strong>Check#{0}</strong>", e.CheckId);
+                var title = $.validator.format("<strong>Table#{0} - Check#{1}</strong>", e.Table, e.CheckId);
                 var message = $.validator.format("<div id='{0}' style='display:inline; float:right'>{1} is ready.</div>", e.id, e.Item);
                 buzz(title, message);
             });

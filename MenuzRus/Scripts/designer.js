@@ -3,6 +3,8 @@
 
 /// ****** CATEGORY ***************///
 function editCategory(id) {
+    var container = $(".container-designer");
+    container.block();
     var jqxhr = $.get($.validator.format("{0}Category/EditCategory/", root), { id: id, type: $("#CategoryType").val() })
     .done(function (result) {
         $("#modalEditForm").html(result);
@@ -12,6 +14,7 @@ function editCategory(id) {
     })
     .always(function () {
         $('.glyphicon-cog').show();
+        container.unblock();
     });
 }
 
@@ -54,6 +57,8 @@ function editItem(id) {
 }
 
 function editItem(id, categoryId) {
+    var container = $(".container-designer");
+    container.block();
     var jqxhr = $.get($.validator.format("{0}Item/EditItem/", root), { id: id, type: $("#CategoryType").val() })
     .done(function (result) {
         $("#modalEditForm").html(result);
@@ -66,6 +71,7 @@ function editItem(id, categoryId) {
     })
     .always(function () {
         $('.glyphicon-cog').show();
+        container.unblock();
     });
 }
 
@@ -103,6 +109,8 @@ function deleteItem(id) {
 }
 
 function associateItem(id) {
+    var container = $(".container-designer");
+    container.block();
     var jqxhr = $.get($.validator.format("{0}ItemProduct/AssociateItemProduct/", root), { id: id })
     .done(function (result) {
         $("#modalEditForm").html(result);
@@ -111,10 +119,13 @@ function associateItem(id) {
     .fail(function () {
     })
     .always(function () {
+        container.unblock();
     });
 }
 
 function associateInventory(id) {
+    var container = $(".container-designer");
+    container.block();
     var jqxhr = $.get($.validator.format("{0}Inventory/AssociateInventory/", root), { id: id })
     .done(function (result) {
         $("#modalEditForm").html(result);
@@ -123,5 +134,6 @@ function associateInventory(id) {
     .fail(function () {
     })
     .always(function () {
+        container.unblock();
     });
 }

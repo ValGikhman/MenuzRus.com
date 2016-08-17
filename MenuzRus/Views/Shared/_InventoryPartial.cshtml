@@ -14,43 +14,37 @@
             @Html.TextAreaFor(m => m.InventoryComment, new { @class = "form-control shadow", @style = "width: 360px; height: 34px;" })
         </div>
     </div>
-    @if(Model.InventoryRegistries != null) {
-    <div>
-        <table class="table" style="width: 100%; margin-bottom: -1px;">
-            <thead>
-                <tr>
-                    <th style="width: 35%">Date</th>
-                    <th style="width: 20%;">Qty</th>
-                    <th style="width: 45%">Comments</th>
-                </tr>
-            </thead>
-        </table>
-        <div class="bodycontainer scrollable" style="height: 200px;">
-            <table class="table" style="width: 100%;">
-                <tbody>
-                    @{
-                        String color;
-                        foreach (Services.InventoryRegistry registry in Model.InventoryRegistries) {
-                        <tr>
-                            <td style="width: 35%">@registry.DateCreated</td>
-                            @{
-                            color = registry.Quantity < 0 ? "red" : "default";
-                            }
-
-                            <td style="width:20%; color: @color">@registry.Quantity</td>
-                            <td style="width: 45%">@registry.Comment</td>
-                        </tr>
-                        }
-                    }
-                </tbody>
+    @if (Model.InventoryRegistries != null) {
+        <div>
+            <table class="table" style="width: 100%; margin-bottom: -1px;">
+                <thead>
+                    <tr>
+                        <th style="width: 35%">Date</th>
+                        <th style="width: 20%;">Qty</th>
+                        <th style="width: 45%">Comments</th>
+                    </tr>
+                </thead>
             </table>
+            <div class="bodycontainer scrollable" style="height: 200px;">
+                <table class="table" style="width: 100%;">
+                    <tbody>
+                        @{
+        String color;
+        foreach (Services.InventoryRegistry registry in Model.InventoryRegistries) {
+                            <tr>
+                                <td style="width: 35%">@registry.DateCreated</td>
+                                @{
+            color = registry.Quantity < 0 ? "red" : "default";
+                                }
+
+                                <td style="width:20%; color: @color">@registry.Quantity</td>
+                                <td style="width: 45%">@registry.Comment</td>
+                            </tr>
+        }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     }
 </div>
-
-<script>
-    $(function () {
-
-    })
-</script>

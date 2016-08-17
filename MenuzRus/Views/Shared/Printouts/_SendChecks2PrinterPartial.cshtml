@@ -9,33 +9,19 @@
 </style>
 
 <div id="checkPrint" style="padding: 0px; margin: 0px; width: @String.Format("{0}px", Model.PrinterPOSWidth);">
-    <table align="center">
+    @*    <table align="center">
         <tr>
             <td>
                 <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
             </td>
         </tr>
-    </table>
+    </table>*@
     <table align="center" width="100%">
-        <tr>
-            <td style="font-weight: bold;" align="center">
-                <br />
-                @String.Format("CHECK #{0}", Model.Check.id)</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;" align="center">
-                @String.Format("Table#{0}", Model.Check.TableOrder.TableId)
-            </td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;" align="center">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
-        </tr>
-
-        @if (Model.MyCompany.ImageUrl.IsEmpty()) {
-            <tr>
-                <td align="center">@Model.MyCompany.Name.ToUpper()</td>
+        @*        @if (Model.MyCompany.ImageUrl.IsEmpty()) {
+            *@<tr>
+                <td style="font-weight: bold;" align="center">@Model.MyCompany.Name.ToUpper()</td>
             </tr>
-        }
+        @*        }*@
         <tr>
             <td align="center">@Model.MyCompany.Address.ToUpper()</td>
         </tr>
@@ -50,6 +36,19 @@
         <tr>
             <td align="center">@Model.MyCompany.Phone.FormatPhone()</td>
         </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">
+                @String.Format("CHECK #{0}", Model.Check.id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">
+                @String.Format("Table#{0}", Model.Check.TableOrder.TableId)
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;" align="center">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
+        </tr>
+
         <tr>
             <td align="center">@String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())</td>
         </tr>

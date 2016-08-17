@@ -22,6 +22,8 @@ namespace Services {
 
         Int32 GetAlertsCount(Int32 userId);
 
+        Table GetAlertTable(Int32 tableId);
+
         Int32 SaveAlert(Alert alert);
 
         #endregion public

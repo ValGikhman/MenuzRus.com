@@ -59,6 +59,16 @@ namespace Services {
             return GetAlerts(userId).Count();
         }
 
+        public Table GetAlertTable(Int32 tableId) {
+            Table table;
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            table = (from t in db.Tables
+                     where t.id == tableId
+                     select t).FirstOrDefault();
+
+            return table;
+        }
+
         public Int32 SaveAlert(Alert alert) {
             Alert query;
             try {
@@ -70,7 +80,6 @@ namespace Services {
                     query.CheckMenuId = alert.CheckMenuId;
                     query.Type = alert.Type;
                     query.Status = alert.Status;
-                    query.DateModified = DateTime.UtcNow;
 
                     if (alert.id == 0) {
                         db.Alerts.InsertOnSubmit(query);

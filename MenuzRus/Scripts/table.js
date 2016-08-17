@@ -53,6 +53,10 @@ $(function () {
         $(".checks").append($.validator.format("<li><a href='#{0}' data-value='0' data-type='{1}' data-status='{2}' data-toggle='tab'>{0}</a></li>", "New", 'Guest', 'Active'));
         $(".check").append($.validator.format("<div class='tab-pane fade in active' id='New' data-value='0' data-type='{0}' data-status='{1}'></div>", 'Guest', 'Active'));
         $(".checks li:last a").tab("show");
+        // Always default to Menu
+        $("#menuTab").show().tab("show");
+        checkStatusManager("Active");
+
         $("#btnCheckType").text("Guest");
         $("#btnCheckStatus").text("Active");
         BindEvents();
@@ -66,7 +70,6 @@ $(function () {
     $("#menuTab").click(function () {
         $(this).tab("show");
         $(".check").find(".tab-pane").html("");
-
         showMenus();
     });
 
@@ -79,37 +82,18 @@ $(function () {
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         $("#btnCheckStatus").text(status);
         $("#btnCheckType").text(type);
-    });
-
-    $("#printTab").click(function () {
-        $(this).tab("show");
-
-        var tabs = $(".check").find(".tab-pane");
-        $(tabs).html("");
-
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
-
-        $(".chosen-select").val(checkId).trigger("chosen:updated");
 
         showCheckPrint();
-    });
 
-    $("#propertiesTab").click(function () {
-        $(this).tab("show");
-
-        var tabs = $(".check").find(".tab-pane");
-        $(tabs).html("");
-
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
-
-        $(".check").find(".tab-pane").html("");
-        $(".chosen-select").val(checkId).trigger("chosen:updated");
-
-        showMenus(checkId);
+        if (!able2Print) {
+            $("#btnPrintChecks").hide();
+        }
+        else {
+            $("#btnPrintChecks").show();
+        }
     });
 
     $("#menuTab").tab("show");
-    $("#propertiesTab").tab("show");
 
     $("#Menus li a").click(function () {
         $("#btnMenus").text($(this).text());
@@ -239,7 +223,12 @@ function showOrder(tableId) {
 
                 $(".chosen-select").val($(active).attr("data-value")).trigger("chosen:updated");
                 checkStatusManager($(active).attr("data-status"));
-                showMenus($(active).attr("data-value"));
+                if ($("#actionsTab").parent().hasClass("active")) {
+                    showCheckPrint();
+                }
+                else {
+                    showMenus($(active).attr("data-value"));
+                }
             }
         })
         .fail(function () {
@@ -459,7 +448,7 @@ function BindEvents() {
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
         if (html == "") {
-            if ($("#printTab").parent().hasClass("active")) {
+            if ($("#actionsTab").parent().hasClass("active")) {
                 showCheckPrint();
             }
             else {
@@ -476,26 +465,34 @@ function checkStatusManager(status) {
 
     switch (status) {
         case "Active": {
+            $("#checkStatus li[data-value='Active']").addClass("disabled");
             break;
         }
         case "Ordered": {
             $("#checkStatus li[data-value='Active']").addClass("disabled");
+            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
             break;
         }
         case "Ready": {
             $("#checkStatus li[data-value='Active']").addClass("disabled");
-            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            // Can be returned to  Ordered, if some stuff is added or commets were made
+            //$("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            $("#checkStatus li[data-value='Ready']").addClass("disabled");
             break;
         }
         case "Paid": {
             $("#checkStatus li[data-value='Active']").addClass("disabled");
             $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            $("#checkStatus li[data-value='Ready']").addClass("disabled");
+            $("#checkStatus li[data-value='Paid']").addClass("disabled");
             break;
         }
         case "Cancelled": {
             $("#checkStatus li[data-value='Active']").addClass("disabled");
             $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            $("#checkStatus li[data-value='Ready']").addClass("disabled");
             $("#checkStatus li[data-value='Paid']").addClass("disabled");
+            $("#checkStatus li[data-value='Cancelled']").addClass("disabled");
             break;
         }
     }

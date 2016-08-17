@@ -37,11 +37,6 @@
             <tr style="border-top: 1px dotted black; text-decoration:@lineThrough;">
                 <td>@item.Description</td>
             </tr>
-            if (item.Comments != String.Empty) {
-            <tr style="text-decoration:@lineThrough;">
-                <td style="margin-left: 5px; font-size: 0.94em">Comments: @item.Comments</td>
-            </tr>
-            }
             foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
                 lineThrough = "none";
                 if (item.Ordered) {
@@ -51,6 +46,12 @@
                 <td style="margin-left: 10px;">@subItem.Description</td>
             </tr>
             }
+            if (item.Comments != String.Empty) {
+            <tr style="text-decoration:@lineThrough;">
+                <td style="margin-left: 5px; font-size: 0.94em">Comments: @item.Comments</td>
+            </tr>
+            }
+
         }
     </table>
     <div style="border-bottom: 1px dotted black; width: 100%; margin-top: 15px;">

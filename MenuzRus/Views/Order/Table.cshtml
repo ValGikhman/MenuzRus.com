@@ -21,6 +21,8 @@
                 }
                 <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@currentStatus.ToString()</button>
                 <ul id="tableStatus" class="dropdown-menu alert-warning" role="menu">
+                    <li class="dropdown-header">Table Status:</li>
+                    <li role="separator" class="divider"></li>
                     @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
                         Int32 value = (Int32)status;
                         String disabled = String.Empty;
@@ -36,6 +38,8 @@
             </div>
             <button id="btnMenus" type="button" class="btn alert-warning btn-lg shadow pull-right" data-toggle="dropdown">@Model.Menu.Name</button>
             <ul id="Menus" class="dropdown-menu alert-warning pull-right" role="menu" style="right: 2%; top: 90%;">
+                <li class="dropdown-header">Menu:</li>
+                <li role="separator" class="divider"></li>
                 @foreach (Services.Menus menu in Model.Menu.Menus) {
                     <li><a href="#" data-value="@menu.id">@menu.Name</a></li>
                 }
@@ -47,10 +51,36 @@
     <div class="layout" style="margin-top: 15px;">
         <div class="shadow menu">
             <ul class="nav nav-pills menu-tab btn-default">
-                <li><a id="menuTab" href="#menu-tab" data-toggle="pill">Menu
+                <li><a id="menuTab" href="#menu-tab" data-toggle="pill">
+                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                    &nbsp;Menu
                 </a></li>
-                <li><a id="actionsTab" href="#actions-tab" data-toggle="pill">Actions
+                <li><a id="actionsTab" href="#actions-tab" data-toggle="pill">
+                    <i class="glyphicon glyphicon-print"></i>
+                    &nbsp;Actions
                 </a></li>
+                <li style="float: right;">
+                    <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
+                    <ul id="checkType" class="dropdown-menu alert-warning" role="menu">
+                        <li class="dropdown-header">Check Type:</li>
+                        <li role="separator" class="divider"></li>
+                        @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
+                            <li><a href="#">@type</a></li>
+                        }
+                    </ul>
+                </li>
+                <li style="float: right;">
+                    <button id="btnCheckStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
+                    <ul id="checkStatus" class="dropdown-menu alert-warning" role="menu">
+                        <li class="dropdown-header">Check Status:</li>
+                        <li role="separator" class="divider"></li>
+                        @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
+                            if (status != Common.CheckStatus.Ready) {
+                            <li data-value="@status"><a href="#">@status</a></li>
+                            }
+                        }
+                    </ul>
+                </li>
             </ul>
             <div class="tab-content order-tabs">
                 <div id="menu-tab" class="tab-pane fade in menuItems">

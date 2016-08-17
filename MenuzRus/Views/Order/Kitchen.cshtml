@@ -35,17 +35,24 @@
     function updateCheckStatus() {
         var activeTab = $(".orderedChecks li.active");
         var active = $(".check").find(".tab-pane.active");
+
         var checkId = $(active).attr("data-value");
         var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": checkId, "status": "Ready", "adjustment": 0, "split": 0, "type": "Guest" }, "json")
                 .done(function (result) {
+                    var tabs = $(".orderedChecks li");
+
                     $(activeTab).fadeOut("slow", function () {
                         activeTab.remove();
-                    });
-                    $(active).fadeOut("slow", function () {
                         active.remove();
+
+                        if (tabs.length > 0) {
+                            $(".orderedChecks li:first a").tab("show");
+                        }
+                        else {
+                            $("#btnCancelKitchenDetails").click();
+                        }
                     });
 
-                    $(".orderedChecks li:first a").tab("show");
                     message("Status changed", "success", "topCenter");
                 })
             .fail(function () {

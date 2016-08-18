@@ -94,10 +94,20 @@ function message(text, type, position) {
             easing: 'swing',
             speed: 500 // opening & closing animation speed
         },
+        callback: {
+            onShow: function ($noty) {
+                buzz();
+            }
+        }
     });
 }
 
-function buzz(title, message) {
+function buzz() {
+    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+    navigator.vibrate(1000);
+}
+
+function alert(title, message, image) {
     noty({
         text: title,
         layout: "topRight",
@@ -134,7 +144,6 @@ function buzz(title, message) {
                     $noty.close();
                 }
             }
-
         ]
     });
 }
@@ -185,7 +194,13 @@ function getStatusColor(status) {
 }
 
 function refreshActions() {
+    var selector = $(".alertsCount");
+    var countOld = parseInt($(selector).html());
     getAlertsCount();
+    var countNew = parseInt($(selector).html());
+    if (countNew > countOld) {
+        buzz();
+    }
 };
 
 function printKitchenOrders() {
@@ -240,8 +255,9 @@ function getAlerts() {
             var alerts = result.alerts;
             $.each(alerts, function (i, e) {
                 var title = $.validator.format("<strong>Table#{0} - Check#{1}</strong>", e.Table, e.CheckId);
+                var image = $.validator.format("<img src='{0}' class='preview img-thumbnail shadow'/>", e.Url);
                 var message = $.validator.format("<div id='{0}' style='display:inline; float:right'>{1} is ready.</div>", e.id, e.Item);
-                buzz(title, message);
+                alert(title, message, image);
             });
         })
         .fail(function () {
@@ -252,12 +268,13 @@ function getAlerts() {
 };
 
 function refreshMessageBadge(count) {
+    var object = $(".alertsCount");
     if (count == 0) {
-        $(".alertsCount").hide();
+        $(object).hide();
     }
     else {
-        $(".alertsCount").show();
-        $(".alertsCount").html(count);
+        $(object).show();
+        $(object).html(count);
     }
 };
 

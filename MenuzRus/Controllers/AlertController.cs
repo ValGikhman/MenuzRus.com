@@ -27,9 +27,10 @@ namespace MenuzRus {
                 var retVal = new {
                     alerts = from var in items
                              let item = _alertService.GetAlertItem(var.id)
+                             let url = Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", SessionData.customer.id.ToString(), item.ImageUrl, Guid.NewGuid().ToString("N")))
                              let check = _alertService.GetAlertCheck(var.id)
                              let table = _alertService.GetAlertTable(check.TableOrder.TableId)
-                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = item.ImageUrl, Table = table.Name }
+                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = url, Table = table.Name }
                 };
                 return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

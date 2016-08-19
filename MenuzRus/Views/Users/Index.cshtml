@@ -24,10 +24,10 @@
                     <th style="width: 2%"></th>
                     <th style="width: 15%">First Name</th>
                     <th style="width: 15%">Last Name</th>
-                    <th style="width: 15%">Email</th>
+                    <th style="width: 23%">Email</th>
                     <th style="width: 15%">Mobile #</th>
                     <th style="width: 15%">Work #</th>
-                    <th style="width: 23%">Actions</th>
+                    <th style="width: 15%">Actions</th>
                 </tr>
             </thead>
         </table>
@@ -49,16 +49,16 @@
                             <td style="width: 15%">
                                 @user.LastName
                             </td>
-                            <td style="width: 15%">
+                            <td style="width: 23%">
                                 @user.Email
                             </td>
                             <td style="width: 15%">
                                 @user.MobilePhone
                             </td>
-                            <td style="width: 17%">
+                            <td style="width: 15%">
                                 @user.WorkPhone
                             </td>
-                            <td style="width: 23%">
+                            <td style="width: 15%">
                                 <span class="glyphicon glyphicon-cog pointer" onclick="javascript:showUserMenu(@user.id, this)"></span>
                                 <div class="btn-group" data-value="@user.id">
                                     <button id="cancelUserMenu" type="button" class="btn btn-default" onclick="javascript:  $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>

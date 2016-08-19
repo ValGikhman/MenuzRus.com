@@ -11,6 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title menuTitle">Menu editor</h4>
             </div>
+                
             <div id="menuEditForm" class="modal-body">
                 <div class="container">
                     @Html.HiddenFor(m => m.id)
@@ -25,7 +26,6 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCancelMenu" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                <button id="btnSaveMenu" type="button" class="btn btn-success btn-lg">Save</button>
             </div>
         </div>
     </div>
@@ -34,6 +34,11 @@
 <div class="well container container-designer shadow">
     <div class="modal-header main-header">
         <h2>Menu Designer</h2>
+            <div class="clearfix">
+                <div class="pull-right" style="margin-top: -50px;">
+                    <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right shadow">Save changes</button>
+                </div>
+            </div>
     </div>
     <br />
     <div class="default pull-left" style="width: 100%">
@@ -51,7 +56,6 @@
             <button id="btnNewMenu" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal">New Menu</button>
             <button id="btnEditMenu" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal">Edit menu</button>
             <button id="btnDeleteMenu" type="button" class="btn btn-danger btn-lg shadow" data-toggle="modal">Delete menu</button>
-            <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right shadow">Save changes</button>
         </div>
         <div style="margin-top: 25px;">
             <select data-placeholder="Click to add menu assosiation" class="chosen-select" multiple>

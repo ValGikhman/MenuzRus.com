@@ -52,17 +52,13 @@
             return true;
         });
 
-        $("#form").submit(function (e) {
+        $("#btnSave").on("click", function () {
             if ($("#Password").val() != $("#ConfirmPassword").val()) {
                 $("#passwordsError").show();
                 $("#ConfirmPassword").focus();
                 return false;
             }
-        });
-
-        $("#btnSave").on("click", function () {
-            $(".modalEditForm").modal("hide");
-            $("#form").submit();
+            $("#form-user").submit();
         });
 
         $("#btnCancel").on("click", function () {

@@ -96,8 +96,7 @@ namespace MenuzRus {
                     return RedirectToAction("Index", "Login");
                 }
                 else {
-                    //return RedirectToAction("Index", "User", new { id = user.id });
-                    return View("Index", GetModel(user.id));
+                    return RedirectToAction("Index", "Users", new { id = user.CustomerId });
                 }
             }
             catch (Exception ex) {

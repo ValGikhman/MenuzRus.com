@@ -27,10 +27,6 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult AssociateItemProduct(Int32 id) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             DesignerModel model = new DesignerModel();
             try {
                 SessionData.item = _itemService.GetItem(id);

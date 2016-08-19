@@ -27,7 +27,10 @@ $(function () {
         var adjustment = parseInt($("#adjustmentSplit").val());
         var text = $(this).text();
         $("#btnCheckStatus").text(text);
-        var selected = $(".chosen-select")[0].selectedOptions;
+
+        var selector = $(".chosen-select")[0];
+        var selected = selector.selectedOptions;
+
         $.each($(selected), function (index, item) {
             $($.validator.format(".check .tab-pane[data-value={0}]", $(item).val())).attr("data-status", text);
             $($.validator.format(".checks li a[data-value={0}]", $(item).val())).attr("data-status", text);
@@ -56,9 +59,9 @@ $(function () {
         // Always default to Menu
         $("#menuTab").show().tab("show");
         checkStatusManager("Active");
-
         $("#btnCheckType").text("Guest");
         $("#btnCheckStatus").text("Active");
+
         BindEvents();
     });
 
@@ -184,8 +187,8 @@ function orderMenuItem(id) {
             var type = $("#btnCheckType").text();
             var chosen = $(".chosen-select");
 
-            if ($(".chosen-select").find($.validator.format("option[value={0}]", result.checkId)).length == 0) {
-                $(chosen).append($.validator.format("<option value='{0}'>#{0}</option>", result.checkId)).trigger("chosen:updated");
+            if ($(chosen).find($.validator.format("option[value={0}]", result.checkId)).length == 0) {
+                $(chosen).append($.validator.format("<option value='{0}'>#{0}</option>", result.checkId)).val(result.checkId).trigger("chosen:updated");
                 toggleObjects(status);
             }
 

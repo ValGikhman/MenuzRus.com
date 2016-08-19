@@ -24,10 +24,6 @@ namespace MenuzRus {
 
         [HttpGet]
         public ActionResult AssociateInventory(Int32 id) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             InventoryAssosiationModel model = new InventoryAssosiationModel();
             try {
                 SessionData.item = _itemService.GetItem(id);

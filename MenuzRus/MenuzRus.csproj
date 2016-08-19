@@ -692,7 +692,6 @@
     <Content Include="Scripts\ListNav\scss\listnav.scss" />
     <Content Include="Views\MenuDesigner\Designer.cshtml" />
     <Content Include="Views\Shared\_ItemProductAssociatePartial.cshtml" />
-    <Content Include="Views\Shared\_SessionEnd.cshtml" />
     <Content Include="Views\Shared\_InventoryAssociatePartial.cshtml" />
     <Content Include="Views\Shared\_InventoryPartial.cshtml" />
     <Content Include="Views\Designer\Menu.cshtml" />

@@ -42,10 +42,6 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult EditItem(Int32? id, Common.CategoryType type) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             try {
                 return PartialView("_ItemPartial", GetModel(id, type));
             }

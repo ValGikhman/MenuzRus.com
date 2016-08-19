@@ -142,10 +142,6 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult KitchenDetails(Int32 TableId) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             KitchenOrderModel model;
 
             try {
@@ -186,10 +182,6 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult KitchenRefresh() {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             try {
                 return PartialView("_KitchenPartial", GetKitchenModel());
             }
@@ -209,10 +201,6 @@ namespace MenuzRus.Controllers {
 
         [HttpGet]
         public ActionResult MonitorRefresh(Int32? id) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             try {
                 return PartialView("_MonitorPartial", GetMonitorModel(id));
             }

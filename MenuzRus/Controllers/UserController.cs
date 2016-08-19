@@ -36,10 +36,6 @@ namespace MenuzRus {
 
         [HttpGet]
         public ActionResult Edituser(Int32? id) {
-            if (SessionData.user == null) {
-                return PartialView("_SessionEnd");
-            }
-
             try {
                 return PartialView("_UserPartial", GetModel(id));
             }

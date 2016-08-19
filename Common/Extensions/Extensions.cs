@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Extensions {
@@ -30,6 +32,16 @@ namespace Extensions {
             var es = new EntitySet<T>();
             es.AddRange(source);
             return es;
+        }
+
+        public static String ToHash256(this String word) {
+            SHA256 shaAlgorithm = new SHA256Managed();
+            return BitConverter.ToString(shaAlgorithm.ComputeHash(ASCIIEncoding.ASCII.GetBytes(word)));
+        }
+
+        public static String ToHashMD5(this String word) {
+            MD5 m = MD5.Create();
+            return BitConverter.ToString(m.ComputeHash(System.Text.Encoding.ASCII.GetBytes(word)));
         }
     }
 }

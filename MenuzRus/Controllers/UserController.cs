@@ -62,7 +62,7 @@ namespace MenuzRus {
                 user.WorkPhone = model.WorkPhone.FormatPhone();
                 user.MobilePhone = model.MobilePhone.FormatPhone();
                 user.Password = model.Password;
-                user.Hash = String.Empty;
+                user.Hash = model.LastName.ToHashMD5();
                 user.Active = (model.Active == Common.Status.Active);
                 user.Type = (Int32)model.Type;
                 user.Email = model.Email;
@@ -92,10 +92,13 @@ namespace MenuzRus {
                     model.Image.SaveAs(path);
                 }
 
-                if (model.Referer == "Form")
+                if (model.Referer == "Form") {
                     return RedirectToAction("Index", "Login");
-                else
-                    return RedirectToAction("Index", "User", new { id = user.id });
+                }
+                else {
+                    //return RedirectToAction("Index", "User", new { id = user.id });
+                    return View("Index", GetModel(user.id));
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -129,7 +132,7 @@ namespace MenuzRus {
                         model.MobilePhone = user.MobilePhone;
                         model.Email = user.Email;
                         model.Password = user.Password;
-                        model.Active = Common.Status.Active;
+                        model.Active = user.Active ? Common.Status.Active : Common.Status.NotActive;
                         model.Type = (Common.UserType)user.Type;
                         model.Hash = user.Hash;
                         model.ImageUrl = user.ImageUrl;

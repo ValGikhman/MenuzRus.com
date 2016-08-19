@@ -7,13 +7,21 @@
 
 <div class="well container container-users shadow">
     <div class="modal-header">
-        <h2>Users Form</h2>
+        <h2>Users</h2>
     </div>
+
+    
+    <div class="clearfix">
+        <div class="pull-right" style="margin-top: -65px; margin-right: 5px;">
+            <button id="addUser" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal"  onclick="ajavascript:editUser(0)"><span class="glyphicon glyphicon-plus"></span> New user </button>
+        </div>
+    </div>
+
     <div id="panel" class="shadow">
         <table class="table navbar-inverse" style="margin-bottom: -1px; border-radius: 6px;">
             <thead style="color: #fff">
                 <tr>
-                    <th style="width: 2%"><span class="glyphicon glyphicon-picture"></span></th>
+                    <th style="width: 2%"></th>
                     <th style="width: 15%">First Name</th>
                     <th style="width: 15%">Last Name</th>
                     <th style="width: 15%">Email</th>
@@ -55,7 +63,6 @@
                                 <div class="btn-group" data-value="@user.id">
                                     <button id="cancelUserMenu" type="button" class="btn btn-default" onclick="javascript:  $(this).parent().css('display', 'none'); $('.glyphicon-cog').show();"><span class="glyphicon glyphicon-remove"></span></button>
                                     <button id="editUser" type="button" class="btn btn-info" onclick="javascript:editUser(@user.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button id="addUser" type="button" class="btn btn-primary" onclick="ajavascript:editUser(0)"><span class="glyphicon glyphicon-plus"></span></button>
                                     <button id="deleteUser" type="button" class="btn btn-danger" onclick="javascript:deleteUser(@user.id)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </div>
                             </td>

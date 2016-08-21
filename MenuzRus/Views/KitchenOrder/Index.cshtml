@@ -12,10 +12,10 @@
         <h2>Kitchen Order Monitor</h2>
     </div>
     <br />
-    <div class="input-group date col-md-3 col-lg-3" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy">
-        <div class="input-group-addon shadow leiba">Date more than</div>
-        <input id="dateRequested" class="add-on form-control input-sm shadow" type="text" value="@DateTime.Now.ToShortDateString()" readonly />
-        <span class="input-group-addon shadow  add-on glyphicon glyphicon-calendar"></span>
+    <div class="input-group date shadow" id="date" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 300px">
+        <div class="input-group-addon leiba">Date more than</div>
+        <input id="dateRequested" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly />
+        <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top:0px! important"></span>
     </div>
     <br />
     <table id="jqGrid"></table>
@@ -37,8 +37,7 @@
         });
 
         $(window).on("resize", function () {
-            var width = $(".container-designer").width();
-            $("#jqGrid").setGridWidth(width);
+            setGridWidth();
         });
 
         $("#jqGrid").jqGrid({
@@ -56,7 +55,7 @@
             sortable: false,
             sortname: "id",
             sortorder: "asc",
-            height: "auto",
+            height: "500",
             width: null,
             shrinkToFit: true,
             autowidth: true,
@@ -76,10 +75,12 @@
                     var categoryId = $(e).next().find("td:first").text();
                     $(e).children().attr("data-value", categoryId);
                 });
+                setGridWidth();
 
             },
-        });
-        $("#gbox_jqGrid").css("min-height", "500px");
+        }).css("min-height", "500px");
+
+        $(".ui-jqgrid-bdiv").children().css("overflow", "auto")
 
         $("#jqGrid").click(function (e) {
             var $target = $(e.target),
@@ -97,6 +98,16 @@
                 }
             }
         });
+
+        function setGridWidth() {
+            var width = parseInt($(".container-designer").width());
+            $("#jqGrid").setGridWidth(width);
+
+            $(".ui-jqgrid-hdiv").width(width - 20);
+            $(".ui-jqgrid-view").width(width - 20);
+            $(".ui-jqgrid-bdiv").width(width - 20);
+            $(".ui-widget-content").width(width - 20);
+        }
 
     });
 </script>

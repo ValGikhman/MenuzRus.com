@@ -12,10 +12,10 @@ using Services;
 
 namespace MenuzRus.Controllers {
 
-    public class KitchenOrderController : BaseController {
+    public class ReportsController : BaseController {
         private IOrderService _orderService;
 
-        public KitchenOrderController(ISessionData sessionData, IOrderService orderService)
+        public ReportsController(ISessionData sessionData, IOrderService orderService)
             : base(sessionData) {
             _orderService = orderService;
         }

@@ -127,9 +127,9 @@ namespace MenuzRus {
             return db.Printouts.FirstOrDefault(m => m.id == id);
         }
 
-        public List<Printout> GetPrintouts(DateTime date) {
+        public List<Printout> GetPrintouts(DateTime dateFrom, DateTime dateTo) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            return db.Printouts.Where(m => m.DateCreated >= date.ToUniversalTime()).ToList();
+            return db.Printouts.Where(m => m.DateCreated >= dateFrom.ToUniversalTime() && m.DateCreated <= dateTo.ToUniversalTime()).ToList();
         }
 
         public List<ChecksMenuProduct> GetProducts(Int32 menuId) {

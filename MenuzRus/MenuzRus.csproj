@@ -146,6 +146,7 @@
     <Compile Include="Controllers\ConfirmationsController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\KitchenOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -227,6 +228,7 @@
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
     <Content Include="Content\comments.css" />
+    <Content Include="Content\reports.css" />
     <Content Include="Content\kitchenOrder.css" />
     <Content Include="Content\kitchen.css" />
     <Content Include="Content\monitor.css" />
@@ -610,6 +612,7 @@
     </Content>
     <Content Include="Scripts\JQuery\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.min.map" />
+    <Content Include="Views\KitchenOrder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -668,7 +671,7 @@
     <Content Include="Views\Confirmations\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_MenuDesignerPartial.cshtml" />
     <Content Include="Views\Designer\Index.cshtml" />
-    <Content Include="Views\KitchenOrder\Index.cshtml" />
+    <Content Include="Views\Reports\Template.cshtml" />
     <Content Include="Scripts\Datepicker\less\datepicker.less" />
     <Content Include="Views\Shared\Printouts\_SendChecks2PrinterPartial.cshtml" />
     <Content Include="Views\Shared\Printouts\_SendKitchenOrder2PrinterPartial.cshtml" />

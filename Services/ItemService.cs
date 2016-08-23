@@ -91,7 +91,8 @@ namespace MenuzRus {
         public List<ItemPrice> GetItemPrices(Int32 id) {
             List<ItemPrice> items;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).ToList();
+            // 20 last price changes
+            items = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).Take(20).ToList();
             return items;
         }
 
@@ -125,6 +126,13 @@ namespace MenuzRus {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             items = db.Items.Where(m => m.CategoryId == id).OrderBy(m => m.Name).ToList();
             return items;
+        }
+
+        public ItemPrice GetLastItemPrice(Int32 id) {
+            ItemPrice item;
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            item = db.ItemPrices.Where(m => m.ItemId == id).OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
+            return item;
         }
 
         public Int32 SaveItem(Item item) {

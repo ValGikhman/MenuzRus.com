@@ -89,19 +89,24 @@ namespace MenuzRus.Controllers {
                     model.Image.SaveAs(path);
                 }
 
-                model.ItemPrices = _itemService.GetItemPrices(model.id);
-                if (model.Price2Add != model.ItemPrices[0].Price) {
+                ItemPrice price = _itemService.GetLastItemPrice(model.id);
+                if (price != null) {
+                    if (model.Price2Add != price.Price) {
+                        AddItemPrice(result, model.Price2Add);
+                    }
+                }
+                else {
                     AddItemPrice(result, model.Price2Add);
                 }
 
+                // No needs to add qty 0 records
                 if (model.Quantity > 0) {
                     if (model.InventoryType == Common.InventoryType.Out) {
                         // Out is always negative
                         model.Quantity = Math.Abs(model.Quantity) * -1;
                     }
+                    AddItemRegistry(result, model.Quantity, model.InventoryType, model.InventoryComment);
                 }
-
-                AddItemRegistry(result, model.Quantity, model.InventoryType, model.InventoryComment);
 
                 // Default menuDesigner
                 return RedirectToAction("Index", "Designer", new { id = (Common.CategoryType)model.CategoryType });
@@ -163,7 +168,7 @@ namespace MenuzRus.Controllers {
                         model.InventoryRegistries = item.InventoryRegistries.Where(m => m.DateCreated > DateTime.Now.AddDays(-7)).ToList();
                         model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
                         model.UOM = (Common.UOM)item.UOM;
-                        model.Price2Add = model.ItemPrices[0].Price;
+                        model.Price2Add = (model.ItemPrices.Any() ? model.ItemPrices[0].Price : 0);
                     }
                 }
                 return model;

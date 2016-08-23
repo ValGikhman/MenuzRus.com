@@ -30,6 +30,8 @@ namespace MenuzRus {
 
         List<Item> GetItems(Int32 id);
 
+        ItemPrice GetLastItemPrice(Int32 id);
+
         Int32 SaveItem(Item item);
 
         //Int32 SaveMenuItem(Int32 id);

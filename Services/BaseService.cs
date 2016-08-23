@@ -21,7 +21,7 @@ namespace Services {
                 this.connectionString = Services.Properties.Settings.Default.menuzrusPROD;
             }
             // TODO: Remove
-            //this.connectionString = Services.Properties.Settings.Default.menuzrusPROD;
+            this.connectionString = Services.Properties.Settings.Default.menuzrusPROD;
         }
 
         public String connectionString {

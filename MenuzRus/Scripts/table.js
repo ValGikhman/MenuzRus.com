@@ -104,6 +104,15 @@ $(function () {
     });
 
     showOrder(tableId);
+
+    $("div#popover").popover({
+        animation: false,
+        placement: "bottom",
+        html: true,
+        trigger: "hover",
+        title: "Description",
+        template: "<div class='popover shadow' role='tooltip'><div class='popover-arrow'></div><h3 class='popover-title alert-info'></h3><div class='popover-content'></div></div>"
+    });
 })
 
 function addStatusSign(text) {

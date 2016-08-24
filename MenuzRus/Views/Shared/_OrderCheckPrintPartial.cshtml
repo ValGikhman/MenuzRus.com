@@ -64,8 +64,10 @@
                     <td class="mainItem">@item.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="mainItem pull-right">@item.Price.ToString("C2")
-                    </td>
+                    @{
+                String price = item.Price > 0 ? item.Price.ToString("C2") : String.Empty;
+                        <td class="mainItem pull-right">@price</td>
+                    }
                 </tr>
                 foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
                 <tr>
@@ -73,8 +75,10 @@
                         @subItem.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="subItem pull-right">@subItem.Price.ToString("C2")
-                    </td>
+                    @{
+                    price = subItem.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
+                        <td class="subItem pull-right">@price</td>
+                    }
                 </tr>
                 }
             }
@@ -144,7 +148,7 @@
                         @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
                     </div>
                     <div>
-                        @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1)) 
+                        @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
                     </div>
                 </td>
             </tr>

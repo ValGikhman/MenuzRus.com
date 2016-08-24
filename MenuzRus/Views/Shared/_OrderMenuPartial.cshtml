@@ -8,10 +8,13 @@
         </div>
     </div>
     <div id="category-@category.id" style="display:none">
-        @foreach (Services.Item item in category.Items.Where(m => m.Status != (Int32)Common.Status.NotActive)) {
+        @foreach (Services.Item item in category.Items.Where(m => m.Status == (Int32)Common.Status.Active)) {
             Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
             <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
-                <div class="tableNameStatus label alert-warning shadow">@item.Name.Ellipsis(20)</div>
+                @{
+            String description = String.IsNullOrEmpty(item.Description) ? item.Description : "No description";
+                    <div id="popover" class="tableNameStatus label alert-warning shadow" data-toggle="popover" data-content="@description">@item.Name.Ellipsis(20)</div>
+                }
 
                 @if (!String.IsNullOrEmpty(@item.ImageUrl)) {
                     <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, item.ImageUrl, Guid.NewGuid().ToString("N")))" class="img-thumbnail" />

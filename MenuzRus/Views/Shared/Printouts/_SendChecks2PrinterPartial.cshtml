@@ -63,12 +63,19 @@
         @foreach (MenuzRus.Models.LineItem item in Model.Items) {
             <tr>
                 <td>@item.Description</td>
-                <td style="text-align: right">@item.Price.ToString("C2")</td>
+                @{
+            String price = item.Price > 0 ? item.Price.ToString("C2") : String.Empty;
+                    <td style="text-align: right">@price</td>
+                }
             </tr>
             foreach (MenuzRus.Models.LineItem subItem in item.SubItems) {
             <tr style="font-style: italic;">
                 <td style="padding-left: 5px;">@subItem.Description</td>
-                <td style="text-align: right">@subItem.Price.ToString("C2")</td>
+                @{
+                price = item.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
+                    <td style="text-align: right">@price</td>
+                }
+                <td style="text-align: right">@price</td>
             </tr>
             }
         }

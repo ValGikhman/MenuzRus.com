@@ -47,7 +47,15 @@
 
 <script>
     $(function () {
-        var expandedEmpGroups = [];
+
+        var cookies = readCookie("expandedEmpGroups");
+        if (cookies) {
+            var expandedEmpGroups = cookies.split(",");
+        }
+        if (!expandedEmpGroups) {
+            var expandedEmpGroups = [];
+        }
+
         var urlSelector;
 
         $(window).on("resize", function () {
@@ -151,6 +159,8 @@
                     //Grouphid.splice(i, 1);
                     expandedEmpGroups.splice($.inArray(hid, expandedEmpGroups), 1);
                 }
+
+                createCookie("expandedEmpGroups", expandedEmpGroups, 0);
             }
         });
 
@@ -176,7 +186,7 @@
 
     function editButtons(cellvalue, options, rowObject) {
         var type = $("#btnCategoryType").text();
-        var buttons = "<div class='btn-group' role='group' style='margin-left: 20px !important; width: 545px;'>";
+        var buttons = "<div class='btn-group' role='group' style='margin-left: 32px !important; width: 545px;'>";
         buttons += $.validator.format("<button id='editItem' type='button' class='btn btn-info' onclick='javascript:editItem({0})'><span class='glyphicon glyphicon-pencil'></span></button>", rowObject.itemId);
         if (type != "Inventory") {
             if (type != "Product") {

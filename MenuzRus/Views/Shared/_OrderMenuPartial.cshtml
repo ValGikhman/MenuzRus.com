@@ -10,9 +10,9 @@
     <div id="category-@category.id" style="display:none">
         @foreach (Services.Item item in category.Items.Where(m => m.Status == (Int32)Common.Status.Active)) {
             Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
-            <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" onclick="javascript:orderMenuItem(@item.id)">
+            <div id="item.@item.id" class="btn btn-default knopaMenu" data-value="@item.id" ondblclick="javascript:orderMenuItem(@item.id)">
                 @{
-            String description = String.IsNullOrEmpty(item.Description) ? item.Description : "No description";
+            String description = !String.IsNullOrEmpty(item.Description) ? item.Description : "No description";
                     <div id="popover" class="tableNameStatus label alert-warning shadow" data-toggle="popover" data-content="@description">@item.Name.Ellipsis(20)</div>
                 }
 

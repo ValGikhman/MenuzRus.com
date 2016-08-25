@@ -58,10 +58,20 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    @*Alerts*@
                     <li class="alerts dropdown user-dropdown" style="padding: 5px 0; cursor: pointer;" onclick="javascript:getAlerts();">
                         <img id="bellImage" src="@Url.Content("~/Images/Web/bell.png")" />
                         <span class="alertsCount badge pull-right alert-warning">0</span>
                     </li>
+                    @*Reports*@
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Content("~/Reports/Sales")">Sales</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @*Navigation*@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -88,6 +98,7 @@
                         @*                            <li class="divider desktopOnly"></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/MenuDesigner")">Menu designer</a></li>*@
                     </li>
+                    @*Dude*@
                     <li>
                         @{
                             String picture = String.Empty;
@@ -107,6 +118,7 @@
                             }
                         }
                     </li>
+                    @*Dude menu*@
                     <li class="dropdown user-dropdown" style="float: left">
                         @{
                             String contact = "Unknown";

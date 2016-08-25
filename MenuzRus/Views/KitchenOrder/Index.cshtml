@@ -13,12 +13,12 @@
     <div style="width: 450px;">
         <div class="input-group date shadow" id="divDateFrom" data-date="@DateTime.Now.AddDays(-1).ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
             <div class="input-group-addon leiba">From</div>
-            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@DateTime.Now.AddDays(-1).ToShortDateString()" readonly />
+            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@DateTime.Now.AddDays(-1).ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
         <div class="input-group date shadow" id="divDateTo" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
             <div class="input-group-addon leiba">To</div>
-            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly />
+            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
     </div>

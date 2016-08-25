@@ -13,33 +13,23 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ReportsController : BaseController {
-        private IOrderService _orderService;
+        private IReportsService _reportsService;
 
-        public ReportsController(ISessionData sessionData, IOrderService orderService)
+        public ReportsController(ISessionData sessionData, IReportsService reportsService)
             : base(sessionData) {
-            _orderService = orderService;
-        }
-
-        [CheckUserSession]
-        public ActionResult Index() {
-            return View("Index", GetModel(DateTime.Now.AddDays(-1), DateTime.Now));
+            _reportsService = reportsService;
         }
 
         [HttpGet]
-        public JsonResult LoadData(DateTime dateFrom, DateTime dateTo) {
+        public JsonResult LoadSalesData(DateTime dateFrom, DateTime dateTo) {
             try {
-                KitchenOrderPrintModel model = GetModel(dateFrom, dateTo);
+                SalesReportModel model = GetSalesModel(dateFrom, dateTo);
                 var jsonData = new {
-                    total = (Int32)Math.Ceiling((float)model.Printouts.Count),
-                    records = model.Printouts.Count,
+                    total = (Int32)Math.Ceiling((float)model.Records.Count),
+                    records = model.Records.Count,
                     rows = (
-                         from order in model.Printouts
-                         select new {
-                             id = order.id,
-                             CheckId = order.CheckId,
-                             DateCreated = order.DateCreated.ToLocalTime().ToString(),
-                             Status = ((Common.PrintStatus)order.Status).ToString()
-                         }
+                         from record in model.Records
+                         select record
                     ).ToArray()
                 };
                 return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -53,14 +43,21 @@ namespace MenuzRus.Controllers {
             return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        [CheckUserSession]
+        public ActionResult Sales() {
+            return View("Sales", GetSalesModel(DateTime.Now.AddDays(-1), DateTime.Now));
+        }
+
         #region private
 
-        private KitchenOrderPrintModel GetModel(DateTime dateFrom, DateTime dateTo) {
-            KitchenOrderPrintModel model = null;
+        private SalesReportModel GetSalesModel(DateTime dateFrom, DateTime dateTo) {
+            SalesReportModel model = null;
 
             try {
-                model = new KitchenOrderPrintModel();
-                model.Printouts = _orderService.GetPrintouts(dateFrom, dateTo);
+                model = new SalesReportModel();
+                model.From = dateFrom;
+                model.To = dateTo;
+                model.Records = _reportsService.SalesDataSet(dateFrom, dateTo);
                 return model;
             }
             catch (Exception ex) {

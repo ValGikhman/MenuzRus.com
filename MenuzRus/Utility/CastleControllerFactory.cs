@@ -29,6 +29,7 @@ namespace MenuzRus {
             this.Container.Register(Component.For<ISessionData>().LifeStyle.PerWebRequest.ImplementedBy(typeof(SessionData)));
 
             //Services
+            this.Container.Register(Component.For<Services.IAlertService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(Services.AlertService)));
             this.Container.Register(Component.For<MenuzRus.ICategoryService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.CategoryService)));
             this.Container.Register(Component.For<MenuzRus.ICommentService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.CommentService)));
             this.Container.Register(Component.For<MenuzRus.IConfirmationService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ConfirmationService)));
@@ -37,14 +38,13 @@ namespace MenuzRus {
             this.Container.Register(Component.For<MenuzRus.IInventoryService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.InventoryService)));
             this.Container.Register(Component.For<MenuzRus.IItemService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ItemService)));
             this.Container.Register(Component.For<MenuzRus.IItemProductService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.ItemProductService)));
+            this.Container.Register(Component.For<Services.ILogService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(Services.ILogService)));
             this.Container.Register(Component.For<MenuzRus.ILoginService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.LoginService)));
             this.Container.Register(Component.For<MenuzRus.IMenuService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.MenuService)));
             this.Container.Register(Component.For<MenuzRus.IOrderService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.OrderService)));
+            this.Container.Register(Component.For<Services.IReportsService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(Services.ReportsService)));
             this.Container.Register(Component.For<MenuzRus.ISettingsService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.SettingsService)));
             this.Container.Register(Component.For<MenuzRus.IUserService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(MenuzRus.UserService)));
-
-            this.Container.Register(Component.For<Services.IAlertService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(Services.AlertService)));
-            this.Container.Register(Component.For<Services.ILogService>().LifeStyle.PerWebRequest.ImplementedBy(typeof(Services.ILogService)));
         }
 
         #endregion Constructors

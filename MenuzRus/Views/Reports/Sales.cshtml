@@ -1,0 +1,162 @@
+﻿<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/Datepicker/css/datepicker.css")" rel="stylesheet" />
+
+<script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
+<script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
+<script src="@Url.Content("~/Scripts/Datepicker/js/bootstrap-datepicker.js")"></script>
+<div class="well container container-report shadow" style="width: 52vw;">
+    <div class="modal-header main-header">
+        <h2>Sales Report</h2>
+    </div>
+    <br />
+    <div style="width: 450px;">
+        <div class="input-group date shadow" id="divDateFrom" data-date="@DateTime.Now.AddDays(-1).ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
+            <div class="input-group-addon leiba">From</div>
+            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@DateTime.Now.AddDays(-1).ToShortDateString()" readonly style="cursor: pointer" />
+            <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
+        </div>
+        <div class="input-group date shadow" id="divDateTo" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
+            <div class="input-group-addon leiba">To</div>
+            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly style="cursor: pointer" />
+            <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
+        </div>
+    </div>
+    <br />
+    <br />
+    <table id="jqGrid"></table>
+</div>
+
+<script>
+    $(function () {
+        var dateFrom = $("#divDateFrom").datepicker({ autoclose: true }).on("changeDate", function (ev) {
+            $(".datepicker").hide();
+            $("#jqGrid").setGridParam({
+                url: getUrl()
+            }).trigger("reloadGrid");
+        });
+
+        var dateTo = $("#divDateTo").datepicker({ autoclose: true }).on("changeDate", function (ev) {
+            $(".datepicker").hide();
+            $("#jqGrid").setGridParam({
+                url: getUrl()
+            }).trigger("reloadGrid");
+        });
+
+        $(window).on("resize", function () {
+            setGridWidth();
+        });
+
+        $("#jqGrid").jqGrid({
+            caption: "Sales",
+            colNames: ["Check#", "Price", "Tax", "Adjustment", "Total", "Date"],
+            colModel: [
+                { name: "Check", align: "right", summaryType: "max", summaryTpl: "Subtotal:" },
+                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Tax", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Adjustment", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Total", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "DateModified", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y H:i" } },
+            ],
+            hidegrid: false,
+            rowNum: 50,
+            rowList: [10, 20, 50, 100],
+            sortable: true,
+            sortname: "id",
+            sortorder: "asc",
+            height: "500",
+            width: null,
+            shrinkToFit: false,
+            autowidth: false,
+            datatype: "json",
+            caption: "",
+            loadonce: false,
+            viewrecords: true,
+            mtype: "GET",
+            jsonReader: {
+                repeatitems: false,
+                id: "id"
+            },
+            url: getUrl(),
+            footerrow: true,
+            userDataOnFooter: true,
+            grouping: true,
+            groupingView: {
+                groupField: ["DateModified"],
+                groupColumnShow: [false],
+                groupText: ["<b style='margin-left:25px;'>{0}: {1} check(s)</b>"],
+                groupCollapse: true,
+                groupOrder: ['asc'],
+                groupSummary: [true],
+                showSummaryOnHide: false,
+                groupSummaryPos: ["footer"],
+                groupDataSorted: true,
+                plusicon: "ui-icon-plus",
+                minusicon: "ui-icon-minus"
+            },
+            loadComplete: function (data) {
+                var groups = $("tr.jqgroup");
+                groups.each(function (i, e) {
+                    var categoryId = $(e).next().find("td:first").text();
+                    $(e).children().attr("data-value", categoryId);
+                });
+                setGridWidth();
+                $(".ui-jqgrid-bdiv").children().css("overflow-x", "hidden");
+
+                var priceSum = $(this).jqGrid("getCol", "Price", false, "sum");
+                var taxSum = $(this).jqGrid("getCol", "Tax", false, "sum");
+                var totalSum = $(this).jqGrid("getCol", "Total", false, "sum");
+
+                $(this).jqGrid('footerData', 'set', {
+                    Check: "Total:",
+                    Price: priceSum,
+                    Tax: taxSum,
+                    Total: totalSum
+                });
+            },
+        }).css("min-height", "500px");
+
+        $($("#jqGrid")).click(function (e) {
+            var $target = $(e.target),
+                $groupHeader = $target.closest("tr.jqgroup");
+
+            if ($groupHeader.length > 0) {
+                if (e.target.nodeName.toLowerCase() !== "span" ||
+                        (!$target.hasClass("ui-icon-plus") && !$target.hasClass("ui-icon-minus"))) {
+                    $(this).jqGrid("groupingToggle", $groupHeader.attr("id"));
+                    return false;
+                }
+            }
+        });
+
+        function summaryFormat(val, name, record) {
+            return parseFloat(val || 0) + parseFloat((record[name] || 0));
+        }
+
+        function setGridWidth() {
+            var width = parseInt($(".container-report").width());
+            //$("#jqGrid").setGridWidth(width);
+
+            //$(".ui-jqgrid-hdiv").width(width - 20);
+            //$(".ui-jqgrid-view").width(width - 20);
+            //$(".ui-jqgrid-bdiv").width(width - 20);
+            //$(".ui-widget-content").width(width - 20);
+
+            //$(".ui-jqgrid-ftable").width(width - 20);
+            //$(".ui-jqgrid-sdiv").width(width - 20);
+
+            //$("td[aria-describedby='jqGrid_Check']").css("padding-right", 10);
+            $("td[aria-describedby='jqGrid_Price']").css("padding-right", 10);
+            $("td[aria-describedby='jqGrid_Tax']").css("padding-right", 10);
+            $("td[aria-describedby='jqGrid_Adjustment']").css("padding-right", 10);
+            $("td[aria-describedby='jqGrid_Total']").css("padding-right", 10);
+
+            $(".ui-icon ").css("margin-top", 2).css("margin-left", 8)
+        }
+
+        function getUrl() {
+            return $.validator.format("{0}Reports/LoadSalesData?dateFrom={1}&dateTo={2}", root, $("#dateFrom").val(), $("#dateTo").val());
+        }
+
+    });
+</script>

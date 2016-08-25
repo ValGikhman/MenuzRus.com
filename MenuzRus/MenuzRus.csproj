@@ -171,6 +171,7 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CommentsModel.cs" />
+    <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\KitchenOrderModel.cs" />
@@ -613,6 +614,7 @@
     <Content Include="Scripts\JQuery\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.min.map" />
     <Content Include="Views\KitchenOrder\Index.cshtml" />
+    <Content Include="Views\Reports\Sales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -671,7 +673,6 @@
     <Content Include="Views\Confirmations\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_MenuDesignerPartial.cshtml" />
     <Content Include="Views\Designer\Index.cshtml" />
-    <Content Include="Views\Reports\Template.cshtml" />
     <Content Include="Scripts\Datepicker\less\datepicker.less" />
     <Content Include="Views\Shared\Printouts\_SendChecks2PrinterPartial.cshtml" />
     <Content Include="Views\Shared\Printouts\_SendKitchenOrder2PrinterPartial.cshtml" />

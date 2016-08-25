@@ -109,11 +109,19 @@ $(function () {
         animation: false,
         placement: "bottom",
         html: true,
-        trigger: "hover",
-        title: "Description",
-        template: "<div class='popover shadow' role='tooltip'><div class='popover-arrow'></div><h3 class='popover-title alert-info'></h3><div class='popover-content'></div></div>"
+        trigger: "click",
+        title: "<h5 class='custom-title' style='margin: 0px;'><span class='glyphicon glyphicon-info-sign'></span> Description </h5>",
+        template: "<div class='popover' role='tooltip'><div class='popover-arrow'></div><div class='popover-title alert-info'></div><div class='popover-content'></div></div>"
+    });
+
+    $("[data-toggle='popover']").on("shown.bs.popover", function () {
+        $(".popover").css("top", 6);
     });
 })
+
+function hidePopover() {
+    $("div#popover").popover("hide");
+}
 
 function addStatusSign(text) {
     var retVal = "";

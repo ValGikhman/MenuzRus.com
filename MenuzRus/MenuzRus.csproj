@@ -224,6 +224,7 @@
     <Content Include="Content\base\jquery-ui.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-toggle.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
@@ -331,6 +332,7 @@
     <Content Include="Images\Web\tv.jpg" />
     <Content Include="Images\Web\valid.png" />
     <Content Include="Scripts\bootstrap\bootstrap-multiselect.js" />
+    <Content Include="Scripts\bootstrap\bootstrap-toggle.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Content\oasis-menu_style-1080.css" />

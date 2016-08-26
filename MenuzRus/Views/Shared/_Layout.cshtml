@@ -66,7 +66,7 @@
                     @*Reports*@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Reports<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="width: auto! important;">
                             <li><a href="@Url.Content("~/Reports/Sales")">Sales</a>
                             </li>
                         </ul>
@@ -74,7 +74,7 @@
                     @*Navigation*@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="width: auto! important;">
                             <li role="presentation" class="dropdown-header">Services</li>
                             <li class="divider"></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/Floor")">Floor</a>
@@ -142,7 +142,7 @@
                             @contact
                             <b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="width: auto! important;">
                             <li class="desktopOnly"><a href="@Url.Content("~/User/Index/")@contactId">My Profile</a></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/Customer/Index/")@customerId">My Company</a></li>
                             <li class="divider desktopOnly"></li>

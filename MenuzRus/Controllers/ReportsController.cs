@@ -27,9 +27,16 @@ namespace MenuzRus.Controllers {
                 var jsonData = new {
                     total = (Int32)Math.Ceiling((float)model.Records.Count),
                     records = model.Records.Count,
-                    rows = (
-                         from record in model.Records
-                         select record
+                    rows = model.Records.ToArray(),
+                    graph = (
+                        from record in model.Records
+                        let date = Convert.ToDateTime(record.DateModified).Date
+                        let total = record.Total
+                        group new { DateModified = date, Total = total } by date into g
+                        select new {
+                            Date = g.Key.ToShortDateString(),
+                            Sale = g.Sum(p => p.Total).ToString()
+                        }
                     ).ToArray()
                 };
                 return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };

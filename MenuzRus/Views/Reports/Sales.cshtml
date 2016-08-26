@@ -1,13 +1,22 @@
 ﻿<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/Datepicker/css/datepicker.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap-toggle.min.css")" rel="stylesheet" />
 
 <script src="@Url.Content("~/Scripts/JQGrid/js/i18n/grid.locale-en.js")"></script>
 <script src="@Url.Content("~/Scripts/JQGrid/js/jquery.jqGrid.src.js")"></script>
 <script src="@Url.Content("~/Scripts/Datepicker/js/bootstrap-datepicker.js")"></script>
+<script src="@Url.Content("~/Scripts/bootstrap/bootstrap-toggle.min.js")"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <div class="well container container-report shadow" style="width: 52vw;">
     <div class="modal-header main-header">
-        <h2>Sales Report</h2>
+        <h2>Sales</h2>
+    </div>
+    <div class="clearfix">
+        <div class="pull-right" style="margin-top: -50px;">
+            <input id="graphSwitch" checked type="checkbox" data-on="Graph" data-off="Report" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
+        </div>
     </div>
     <br />
     <div style="width: 450px;">
@@ -25,10 +34,26 @@
     <br />
     <br />
     <table id="jqGrid"></table>
+    <div id="chart">
+    </div>
 </div>
 
 <script>
     $(function () {
+        //activate chart
+        google.charts.load("current", { "packages": ["bar"] });
+
+        $("#graphSwitch").bootstrapToggle().change(function () {
+            if ($(this).prop("checked")) {
+                $("#chart").show();
+                $("#gbox_jqGrid").hide();
+            }
+            else {
+                $("#chart").hide();
+                $("#gbox_jqGrid").show();
+            }
+        })
+
         var dateFrom = $("#divDateFrom").datepicker({ autoclose: true }).on("changeDate", function (ev) {
             $(".datepicker").hide();
             $("#jqGrid").setGridParam({
@@ -56,14 +81,14 @@
                 { name: "Tax", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "Adjustment", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "Total", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
-                { name: "DateModified", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y H:i" } },
+                { name: "DateModified", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y" } },
             ],
             hidegrid: false,
             rowNum: 50,
             rowList: [10, 20, 50, 100],
-            sortable: true,
-            sortname: "id",
-            sortorder: "asc",
+            sortable: false,
+            sortname: "",
+            sortorder: "",
             height: "500",
             width: null,
             shrinkToFit: false,
@@ -107,12 +132,16 @@
                 var taxSum = $(this).jqGrid("getCol", "Tax", false, "sum");
                 var totalSum = $(this).jqGrid("getCol", "Total", false, "sum");
 
-                $(this).jqGrid('footerData', 'set', {
+                $(this).jqGrid("footerData", "set", {
                     Check: "Total:",
                     Price: priceSum,
                     Tax: taxSum,
                     Total: totalSum
                 });
+
+                $("#gbox_jqGrid").hide();
+
+                drawStuff(data.graph);
             },
         }).css("min-height", "500px");
 
@@ -133,19 +162,19 @@
             return parseFloat(val || 0) + parseFloat((record[name] || 0));
         }
 
+        function toggleGraph() {
+            if ($("#graphSwitch").prop("checked")) {
+                $("#chart").show();
+                $("#gbox_jqGrid").hide();
+            }
+            else {
+                $("#chart").hide();
+                $("#gbox_jqGrid").show();
+            }
+        }
+
         function setGridWidth() {
             var width = parseInt($(".container-report").width());
-            //$("#jqGrid").setGridWidth(width);
-
-            //$(".ui-jqgrid-hdiv").width(width - 20);
-            //$(".ui-jqgrid-view").width(width - 20);
-            //$(".ui-jqgrid-bdiv").width(width - 20);
-            //$(".ui-widget-content").width(width - 20);
-
-            //$(".ui-jqgrid-ftable").width(width - 20);
-            //$(".ui-jqgrid-sdiv").width(width - 20);
-
-            //$("td[aria-describedby='jqGrid_Check']").css("padding-right", 10);
             $("td[aria-describedby='jqGrid_Price']").css("padding-right", 10);
             $("td[aria-describedby='jqGrid_Tax']").css("padding-right", 10);
             $("td[aria-describedby='jqGrid_Adjustment']").css("padding-right", 10);
@@ -157,6 +186,33 @@
         function getUrl() {
             return $.validator.format("{0}Reports/LoadSalesData?dateFrom={1}&dateTo={2}", root, $("#dateFrom").val(), $("#dateTo").val());
         }
+
+        function drawStuff(graph) {
+            var graphArray = [];
+            graphArray.push(new Array("Date", "Sale"));
+            $.each(graph, function (key, value) {
+                graphArray.push(new Array(value.Date, parseFloat(value.Sale)));
+            });
+
+            var data = new google.visualization.arrayToDataTable(graphArray);
+
+            var options = {
+                title: "",
+                width: "52vw",
+                height: 300,
+                legend: { position: "none" },
+                chart: { subtitle: "" },
+                axes: {
+                    x: {
+                        0: { side: "top", label: "Daily chart" } // Top x-axis.
+                    }
+                },
+                bar: { groupWidth: "90%" }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById("chart"));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
 
     });
 </script>

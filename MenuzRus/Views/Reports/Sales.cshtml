@@ -9,7 +9,7 @@
 <script src="@Url.Content("~/Scripts/bootstrap/bootstrap-toggle.min.js")"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<div class="well container container-report shadow" style="width: 52vw;">
+<div class="well container container-report shadow" style="width: 665px;">
     <div class="modal-header main-header">
         <h2>Sales</h2>
     </div>
@@ -31,27 +31,22 @@
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
     </div>
-    <br />
-    <br />
-    <table id="jqGrid"></table>
-    <div id="chart">
+    <div style="margin-top: 55px;">
+        <table id="jqGrid"></table>
+        <div id="chart"></div>
     </div>
 </div>
 
 <script>
+    var graphArray = [];
+
     $(function () {
         //activate chart
         google.charts.load("current", { "packages": ["bar"] });
+        //google.charts.setOnLoadCallback(drawStuff);
 
         $("#graphSwitch").bootstrapToggle().change(function () {
-            if ($(this).prop("checked")) {
-                $("#chart").show();
-                $("#gbox_jqGrid").hide();
-            }
-            else {
-                $("#chart").hide();
-                $("#gbox_jqGrid").show();
-            }
+            drawStuff();
         })
 
         var dateFrom = $("#divDateFrom").datepicker({ autoclose: true }).on("changeDate", function (ev) {
@@ -66,10 +61,6 @@
             $("#jqGrid").setGridParam({
                 url: getUrl()
             }).trigger("reloadGrid");
-        });
-
-        $(window).on("resize", function () {
-            setGridWidth();
         });
 
         $("#jqGrid").jqGrid({
@@ -89,10 +80,10 @@
             sortable: false,
             sortname: "",
             sortorder: "",
-            height: "500",
+            height: 500,
             width: null,
-            shrinkToFit: false,
-            autowidth: false,
+            shrinkToFit: true,
+            autowidth: true,
             datatype: "json",
             caption: "",
             loadonce: false,
@@ -141,7 +132,10 @@
 
                 $("#gbox_jqGrid").hide();
 
-                drawStuff(data.graph);
+                // Save graph data
+                graphArray = prepareArrayForGraph(data.graph);
+
+                drawStuff();
             },
         }).css("min-height", "500px");
 
@@ -187,18 +181,12 @@
             return $.validator.format("{0}Reports/LoadSalesData?dateFrom={1}&dateTo={2}", root, $("#dateFrom").val(), $("#dateTo").val());
         }
 
-        function drawStuff(graph) {
-            var graphArray = [];
-            graphArray.push(new Array("Date", "Sale"));
-            $.each(graph, function (key, value) {
-                graphArray.push(new Array(value.Date, parseFloat(value.Sale)));
-            });
-
+        function drawStuff() {
             var data = new google.visualization.arrayToDataTable(graphArray);
 
             var options = {
                 title: "",
-                width: "52vw",
+                width: 600,
                 height: 300,
                 legend: { position: "none" },
                 chart: { subtitle: "" },
@@ -212,7 +200,18 @@
 
             var chart = new google.charts.Bar(document.getElementById("chart"));
             chart.draw(data, google.charts.Bar.convertOptions(options));
+
+            toggleGraph();
         };
+
+        function prepareArrayForGraph(graph) {
+            var arr = [];
+            arr.push(new Array("Date", "Sale"));
+            $.each(graph, function (key, value) {
+                arr.push(new Array(value.Date, parseFloat(value.Sale)));
+            });
+            return arr;
+        }
 
     });
 </script>

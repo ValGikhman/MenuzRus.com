@@ -17,4 +17,9 @@ namespace MenuzRus.Models {
     public class SalesReportModel : ReportModel {
         public List<ReportsService.SalesRecord> Records { get; set; }
     }
+
+    // Inventory
+    public class InventoryReportModel : ReportModel {
+        public List<ReportsService.InventoryRecord> Records { get; set; }
+    }
 }

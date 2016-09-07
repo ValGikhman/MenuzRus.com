@@ -4,7 +4,7 @@
 <style>
     td {
         font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif;
-        font-size: small;
+        font-size: medium;
     }
 </style>
 
@@ -12,16 +12,14 @@
     @*    <table align="center">
         <tr>
             <td>
-                <img width="130" src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
+                <img width="130" src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" />
             </td>
         </tr>
     </table>*@
     <table align="center" width="100%">
-        @*        @if (Model.MyCompany.ImageUrl.IsEmpty()) {
-            *@<tr>
-                <td style="font-weight: bold;" align="center">@Model.MyCompany.Name.ToUpper()</td>
-            </tr>
-        @*        }*@
+        <tr>
+            <td style="font-weight: bold;" align="center">@Model.MyCompany.Name.ToUpper()</td>
+        </tr>
         <tr>
             <td align="center">@Model.MyCompany.Address.ToUpper()</td>
         </tr>
@@ -122,5 +120,4 @@
             }
         }
     </table>
-    <hr style="padding-bottom: 60px;" />
 </div>

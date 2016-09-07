@@ -94,9 +94,10 @@ namespace MenuzRus {
                     ItemInventoryAssociation itemInventoryAssociation = new ItemInventoryAssociation();
                     foreach (String value in values) {
                         Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
+                        itemInventoryAssociation.id = Int32.Parse(vars.GetValue(0).ToString()); ;
+                        itemInventoryAssociation.AssociatedItemId = Int32.Parse(vars.GetValue(1).ToString());
+                        itemInventoryAssociation.Quantity = Decimal.Parse(vars.GetValue(2).ToString());
                         itemInventoryAssociation.ItemInventoryId = SessionData.item.id;
-                        itemInventoryAssociation.AssociatedItemId = Int32.Parse(vars.GetValue(0).ToString());
-                        itemInventoryAssociation.Quantity = Decimal.Parse(vars.GetValue(1).ToString());
                     }
                     inventoryModel.ItemInventoryAssociations.Add(itemInventoryAssociation);
                 }

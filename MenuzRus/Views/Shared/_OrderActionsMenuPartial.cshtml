@@ -15,21 +15,21 @@
     <div style="margin-top: 35px; width: 305px;">
         <div class="form-group">
             <div class="input-group">
-                <div class="input-group-addon shadow leiba" style="width:100px;">Split for :</div>
-                <input id="slideSplit" name="slideSplit" type="text" class="form-control shadow" style="width:100px;" value="1" />
+                <div class="input-group-addon shadow leiba" style="width: 100px;">Split for :</div>
+                <input id="slideSplit" name="slideSplit" type="text" class="form-control shadow" style="width: 100px;" value="1" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-group">
-                <div class="input-group-addon shadow leiba"style="width:100px;">Adjustment :</div>
-                <input id="adjustmentSplit" name="adjustmentSplit" type="text" class="form-control shadow" style="width:100px;" value="0" />
+                <div class="input-group-addon shadow leiba" style="width: 100px;">Adjustment :</div>
+                <input id="adjustmentSplit" name="adjustmentSplit" type="text" class="form-control shadow" style="width: 100px;" value="0" />
             </div>
         </div>
     </div>
-    <div style="clear:left">
+    <div style="clear: left">
     </div>
-    
+
     <button id="btnPrintChecks" class="btn btn-primary btn-lg shadow pull-right"><i class="glyphicon glyphicon-print"></i>&nbsp;Print</button>
 </div>
 <script type="text/javascript">
@@ -56,8 +56,11 @@
             $.each($(selected), function (index, item) {
                 ids.push(parseInt(item.value));
             });
-            if (able2Print) {
+            if (webSocket != null) {
                 checksPrint(ids);
+            }
+            else {
+                message("::Printing:: Failed.", "error", "topCenter");
             }
         });
 

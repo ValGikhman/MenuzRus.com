@@ -33,7 +33,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query.Quantity = qty;
                     query.Type = (Int32)type;
-                    query.AssociatedtemId = id;
+                    query.AssociatedItemId = id;
                     query.Comment = comment;
                     db.InventoryRegistries.InsertOnSubmit(query);
                     db.SubmitChanges();

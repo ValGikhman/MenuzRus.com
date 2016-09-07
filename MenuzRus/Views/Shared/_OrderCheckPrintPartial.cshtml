@@ -6,7 +6,7 @@
             <tr>
                 <td>
                     <div class="centered">
-                        <img src="@String.Format("http://{0}/{1}", Request.Url.Host, Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N"))))" />
+                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" />
                     </div>
                 </td>
             </tr>
@@ -27,11 +27,9 @@
                     </div>
                 </td>
             </tr>
-            @if (Model.MyCompany.ImageUrl.IsEmpty()) {
-                <tr>
-                    <td align="center">@Model.MyCompany.Name.ToUpper()</td>
-                </tr>
-            }
+            <tr>
+                <td align="center">@Model.MyCompany.Name.ToUpper()</td>
+            </tr>
             <tr>
                 <td>
                     <div class="addressItem centered">@Model.MyCompany.Address.ToUpper()</div>

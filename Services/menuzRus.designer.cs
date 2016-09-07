@@ -105,10 +105,13 @@ namespace Services
     partial void InsertFloor(Floor instance);
     partial void UpdateFloor(Floor instance);
     partial void DeleteFloor(Floor instance);
+    partial void InsertInventoryBalance(InventoryBalance instance);
+    partial void UpdateInventoryBalance(InventoryBalance instance);
+    partial void DeleteInventoryBalance(InventoryBalance instance);
     #endregion
 		
 		public menuzRusDataContext() : 
-				base(global::Services.Properties.Settings.Default.menuzrusDEV, mappingSource)
+				base(global::Services.Properties.Settings.Default.menuzrusPROD, mappingSource)
 		{
 			OnCreated();
 		}
@@ -334,6 +337,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<Floor>();
+			}
+		}
+		
+		public System.Data.Linq.Table<InventoryBalance> InventoryBalances
+		{
+			get
+			{
+				return this.GetTable<InventoryBalance>();
 			}
 		}
 	}
@@ -4934,6 +4945,8 @@ namespace Services
 		
 		private EntityRef<MenuItem> _MenuItem;
 		
+		private EntityRef<InventoryBalance> _InventoryBalance;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4966,6 +4979,7 @@ namespace Services
 			this._InventoryRegistries = new EntitySet<InventoryRegistry>(new Action<InventoryRegistry>(this.attach_InventoryRegistries), new Action<InventoryRegistry>(this.detach_InventoryRegistries));
 			this._Category = default(EntityRef<Category>);
 			this._MenuItem = default(EntityRef<MenuItem>);
+			this._InventoryBalance = default(EntityRef<InventoryBalance>);
 			OnCreated();
 		}
 		
@@ -4980,7 +4994,7 @@ namespace Services
 			{
 				if ((this._id != value))
 				{
-					if (this._MenuItem.HasLoadedOrAssignedValue)
+					if ((this._MenuItem.HasLoadedOrAssignedValue || this._InventoryBalance.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -5196,7 +5210,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_InventoryRegistry", Storage="_InventoryRegistries", ThisKey="id", OtherKey="AssociatedtemId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_InventoryRegistry", Storage="_InventoryRegistries", ThisKey="id", OtherKey="AssociatedItemId")]
 		public EntitySet<InventoryRegistry> InventoryRegistries
 		{
 			get
@@ -5273,6 +5287,40 @@ namespace Services
 						this._id = default(int);
 					}
 					this.SendPropertyChanged("MenuItem");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryBalance_Item", Storage="_InventoryBalance", ThisKey="id", OtherKey="AssociatedItemId", IsForeignKey=true)]
+		public InventoryBalance InventoryBalance
+		{
+			get
+			{
+				return this._InventoryBalance.Entity;
+			}
+			set
+			{
+				InventoryBalance previousValue = this._InventoryBalance.Entity;
+				if (((previousValue != value) 
+							|| (this._InventoryBalance.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._InventoryBalance.Entity = null;
+						previousValue.Items.Remove(this);
+					}
+					this._InventoryBalance.Entity = value;
+					if ((value != null))
+					{
+						value.Items.Add(this);
+						this._id = value.AssociatedItemId;
+					}
+					else
+					{
+						this._id = default(int);
+					}
+					this.SendPropertyChanged("InventoryBalance");
 				}
 			}
 		}
@@ -5573,8 +5621,8 @@ namespace Services
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnAssociatedtemIdChanging(int value);
-    partial void OnAssociatedtemIdChanged();
+    partial void OnAssociatedItemIdChanging(int value);
+    partial void OnAssociatedItemIdChanged();
     partial void OnQuantityChanging(decimal value);
     partial void OnQuantityChanged();
     partial void OnTypeChanging(int value);
@@ -5613,7 +5661,7 @@ namespace Services
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssociatedtemId", DbType="Int NOT NULL")]
-		public int AssociatedtemId
+		public int AssociatedItemId
 		{
 			get
 			{
@@ -5627,11 +5675,11 @@ namespace Services
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnAssociatedtemIdChanging(value);
+					this.OnAssociatedItemIdChanging(value);
 					this.SendPropertyChanging();
 					this._AssociatedtemId = value;
-					this.SendPropertyChanged("AssociatedtemId");
-					this.OnAssociatedtemIdChanged();
+					this.SendPropertyChanged("AssociatedItemId");
+					this.OnAssociatedItemIdChanged();
 				}
 			}
 		}
@@ -5729,7 +5777,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_InventoryRegistry", Storage="_Item", ThisKey="AssociatedtemId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_InventoryRegistry", Storage="_Item", ThisKey="AssociatedItemId", OtherKey="id", IsForeignKey=true)]
 		public Item Item
 		{
 			get
@@ -6721,6 +6769,264 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.Floor = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.InventoryBalance")]
+	public partial class InventoryBalance : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.DateTime _Date;
+		
+		private int _AssociatedItemId;
+		
+		private decimal _Start;
+		
+		private decimal _In;
+		
+		private decimal _Out;
+		
+		private System.Nullable<decimal> _Saldo;
+		
+		private System.DateTime _DateCreated;
+		
+		private EntitySet<Item> _Items;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnAssociatedItemIdChanging(int value);
+    partial void OnAssociatedItemIdChanged();
+    partial void OnStartChanging(decimal value);
+    partial void OnStartChanged();
+    partial void OnInChanging(decimal value);
+    partial void OnInChanged();
+    partial void OnOutChanging(decimal value);
+    partial void OnOutChanged();
+    partial void OnSaldoChanging(System.Nullable<decimal> value);
+    partial void OnSaldoChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public InventoryBalance()
+		{
+			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Date NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssociatedItemId", DbType="Int NOT NULL")]
+		public int AssociatedItemId
+		{
+			get
+			{
+				return this._AssociatedItemId;
+			}
+			set
+			{
+				if ((this._AssociatedItemId != value))
+				{
+					this.OnAssociatedItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._AssociatedItemId = value;
+					this.SendPropertyChanged("AssociatedItemId");
+					this.OnAssociatedItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Start", DbType="Decimal(8,2) NOT NULL")]
+		public decimal Start
+		{
+			get
+			{
+				return this._Start;
+			}
+			set
+			{
+				if ((this._Start != value))
+				{
+					this.OnStartChanging(value);
+					this.SendPropertyChanging();
+					this._Start = value;
+					this.SendPropertyChanged("Start");
+					this.OnStartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[In]", Storage="_In", DbType="Decimal(8,2) NOT NULL")]
+		public decimal In
+		{
+			get
+			{
+				return this._In;
+			}
+			set
+			{
+				if ((this._In != value))
+				{
+					this.OnInChanging(value);
+					this.SendPropertyChanging();
+					this._In = value;
+					this.SendPropertyChanged("In");
+					this.OnInChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Out", DbType="Decimal(8,2) NOT NULL")]
+		public decimal Out
+		{
+			get
+			{
+				return this._Out;
+			}
+			set
+			{
+				if ((this._Out != value))
+				{
+					this.OnOutChanging(value);
+					this.SendPropertyChanging();
+					this._Out = value;
+					this.SendPropertyChanged("Out");
+					this.OnOutChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Saldo", AutoSync=AutoSync.Always, DbType="Decimal(10,2)", IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<decimal> Saldo
+		{
+			get
+			{
+				return this._Saldo;
+			}
+			set
+			{
+				if ((this._Saldo != value))
+				{
+					this.OnSaldoChanging(value);
+					this.SendPropertyChanging();
+					this._Saldo = value;
+					this.SendPropertyChanged("Saldo");
+					this.OnSaldoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryBalance_Item", Storage="_Items", ThisKey="AssociatedItemId", OtherKey="id")]
+		public EntitySet<Item> Items
+		{
+			get
+			{
+				return this._Items;
+			}
+			set
+			{
+				this._Items.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.InventoryBalance = this;
+		}
+		
+		private void detach_Items(Item entity)
+		{
+			this.SendPropertyChanging();
+			entity.InventoryBalance = null;
 		}
 	}
 }

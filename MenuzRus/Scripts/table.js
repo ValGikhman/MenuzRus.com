@@ -88,7 +88,7 @@ $(function () {
 
         showCheckPrint();
 
-        if (!able2Print) {
+        if (webSocket == null) {
             $("#btnPrintChecks").hide();
         }
         else {

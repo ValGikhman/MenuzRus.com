@@ -38,7 +38,8 @@ function saveInventoryItems() {
     var model = [];
     $(".items:not(.template)").each(function (i, e) {
         var values = "";
-        values += $.validator.format("{0}:{1},", $(e).find("select").val(), $(e).find("#Quantity").val());
+        // id, Inventory, Qty
+        values += $.validator.format("{0}:{1}:{2},", $(e).find("select").attr("data-value"), $(e).find("select").val(), $(e).find("#Quantity").val());
 
         if (values != "")
             model.push(values);

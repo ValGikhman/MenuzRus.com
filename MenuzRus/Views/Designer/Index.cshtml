@@ -73,7 +73,6 @@
 
         urlSelector = $.validator.format("#categoryType li[data-text='{0}']", $("#CategoryType").val());
         $("#jqGrid").jqGrid({
-            caption: "Gryd",
             colNames: ["CategoryId", "Category", "itemId", "", "Name", "Description", "Price", "Active"],
             colModel: [
                 { name: "categoryId", hidden: true },

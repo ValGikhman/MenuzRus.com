@@ -15,5 +15,11 @@ namespace Services {
         List<Services.ReportsService.SalesRecord> SalesDataSet(DateTime dateFrom, DateTime dateTo);
 
         #endregion Sales
+
+        #region Inventory
+
+        List<Services.ReportsService.InventoryRecord> InventoryDataSet(DateTime dateFrom, DateTime dateTo);
+
+        #endregion Inventory
     }
 }

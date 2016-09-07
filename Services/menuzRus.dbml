@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="menuzrus" Class="menuzRusDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=VALS-PC;Initial Catalog=menuzrus;Integrated Security=True" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusDEV" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=184.168.47.19;Initial Catalog=menuzrus;Persist Security Info=True;User ID=menuzrus" SettingsObjectName="Services.Properties.Settings" SettingsPropertyName="menuzrusPROD" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Settings" Member="Settings">
     <Type Name="Setting">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -237,9 +237,10 @@
       <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Item_ItemInventoryAssociation" Member="ItemInventoryAssociations" ThisKey="id" OtherKey="ItemInventoryId" Type="ItemInventoryAssociation" />
-      <Association Name="Item_InventoryRegistry" Member="InventoryRegistries" ThisKey="id" OtherKey="AssociatedtemId" Type="InventoryRegistry" />
+      <Association Name="Item_InventoryRegistry" Member="InventoryRegistries" ThisKey="id" OtherKey="AssociatedItemId" Type="InventoryRegistry" />
       <Association Name="Category_Item" Member="Category" ThisKey="CategoryId" OtherKey="id" Type="Category" IsForeignKey="true" />
       <Association Name="MenuItem_Item" Member="MenuItem" ThisKey="id" OtherKey="ItemId" Type="MenuItem" IsForeignKey="true" />
+      <Association Name="InventoryBalance_Item" Member="InventoryBalance" ThisKey="id" OtherKey="AssociatedItemId" Type="InventoryBalance" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ItemInventoryAssociation" Member="ItemInventoryAssociations">
@@ -255,13 +256,13 @@
   <Table Name="dbo.InventoryRegistry" Member="InventoryRegistries">
     <Type Name="InventoryRegistry">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="AssociatedtemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AssociatedItemId" Storage="_AssociatedtemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Comment" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegestryCheckMenu" />
-      <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedtemId" OtherKey="id" Type="Item" IsForeignKey="true" />
+      <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus">
@@ -307,6 +308,19 @@
       <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Floor_Table" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Table" />
       <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InventoryBalance" Member="InventoryBalances">
+    <Type Name="InventoryBalance">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="AssociatedItemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Start" Type="System.Decimal" DbType="Decimal(8,2) NOT NULL" CanBeNull="false" />
+      <Column Name="[In]" Member="In" Type="System.Decimal" DbType="Decimal(8,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Out" Type="System.Decimal" DbType="Decimal(8,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Saldo" Type="System.Decimal" DbType="Decimal(10,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="InventoryBalance_Item" Member="Items" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" />
     </Type>
   </Table>
 </Database>

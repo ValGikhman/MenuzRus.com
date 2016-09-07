@@ -35,7 +35,7 @@ namespace MenuzRus {
                 item = new InventoryRegistry();
                 item.Comment = String.Format("Taken [{0}] of [{1}] from: [{2}]. Check# {3}", association.Quantity, itemAssociated.Name, association.Item.Name, checkMenu.CheckId);
                 item.Quantity = Math.Abs(association.Quantity) * -1;
-                item.AssociatedtemId = association.AssociatedItemId;
+                item.AssociatedItemId = association.AssociatedItemId;
                 item.Type = (Int32)Common.InventoryType.Out;
 
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -75,7 +75,7 @@ namespace MenuzRus {
                 item = new InventoryRegistry();
                 item.Comment = String.Format("Added [{0}] of [{1}] for: [{2}]. Check# {3}", association.Quantity, itemAssociated.Name, association.Item.Name, checkMenu.CheckId);
                 item.Quantity = Math.Abs(association.Quantity);
-                item.AssociatedtemId = association.AssociatedItemId;
+                item.AssociatedItemId = association.AssociatedItemId;
                 item.Type = (Int32)Common.InventoryType.In;
 
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {

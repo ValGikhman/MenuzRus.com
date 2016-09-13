@@ -3,10 +3,14 @@
     text-shadow: 2px 2px 3px #8D8484;
 }
 
-.container-designer {
+
+.container-report {
     background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
     border-radius: 15px;
     width: 95vw;
+    min-height: 500px;
+    min-width: 700px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -32,6 +36,15 @@
 }
 
 .ui-jqgrid .ui-jqgrid-view {
-    font-size: medium !important;
+    font-size:  12px !important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+.modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.modal-dialog {
+    margin: 150px auto;
 }

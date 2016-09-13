@@ -1,5 +1,6 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
+
 <div class="print-view-container">
     <table id="tableAddress" class="center">
         <tbody>
@@ -11,24 +12,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <div class="checkItem centered">CHECK #@Model.Check.id</div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="companyNameItem centered">@String.Format("Table#{0}", Model.Check.TableOrder.TableId)
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="companyNameItem centered">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">@Model.MyCompany.Name.ToUpper()</td>
+                <td class="companyNameItem" align="center">@Model.MyCompany.Name.ToUpper()</td>
             </tr>
             <tr>
                 <td>
@@ -52,13 +36,18 @@
                     <div class="phoneItem centered">@Model.MyCompany.Phone.FormatPhone()</div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="companyNameItem centered">@String.Format("Table#{1} Check #{0} - {2}", Model.Check.id, Model.Check.TableOrder.TableId, ((Common.CheckType)Model.Check.Type)).ToUpper()</div>
+                </td>
+            </tr>
         </tbody>
     </table>
 
     <table id="tableItems" class="center">
         <tbody>
             @foreach (MenuzRus.Models.LineItem item in Model.Items) {
-                <tr>
+                 <tr>
                     <td class="mainItem">@item.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
@@ -143,9 +132,9 @@
             <tr>
                 <td style="font-size: x-small;">
                     <div>
+                        <br/>
                         @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
-                    </div>
-                    <div>
+                        <br/>
                         @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
                     </div>
                 </td>

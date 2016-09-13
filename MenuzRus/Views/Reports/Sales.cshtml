@@ -1,4 +1,6 @@
-﻿<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
+﻿@model MenuzRus.Models.SalesReportModel
+<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/order.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/Datepicker/css/datepicker.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-toggle.min.css")" rel="stylesheet" />
@@ -9,7 +11,25 @@
 <script src="@Url.Content("~/Scripts/bootstrap/bootstrap-toggle.min.js")"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<div class="well container container-report shadow" style="width: 665px;">
+<div class="modal checkViewForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-new">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title menuTitle">Check view</h4>
+            </div>
+
+            <div id="checkViewForm" class="modal-body" style="height:450px; overflow: auto;">
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelCheck" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                <button id="btnPrintCheck" type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="well container container-report shadow">
     <div class="modal-header main-header">
         <h2>Sales</h2>
     </div>
@@ -20,14 +40,14 @@
     </div>
     <br />
     <div style="width: 450px;">
-        <div class="input-group date shadow" id="divDateFrom" data-date="@DateTime.Now.AddDays(-1).ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
+        <div class="input-group date shadow" id="divDateFrom" data-date="@Model.From.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
             <div class="input-group-addon leiba">From</div>
-            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@DateTime.Now.AddDays(-1).ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@Model.From.ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
-        <div class="input-group date shadow" id="divDateTo" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
+        <div class="input-group date shadow" id="divDateTo" data-date="@Model.To.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
             <div class="input-group-addon leiba">To</div>
-            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@Model.To.ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
     </div>
@@ -66,7 +86,12 @@
         $("#jqGrid").jqGrid({
             colNames: ["Check#", "Price", "Tax", "Adjustment", "Total", "Date"],
             colModel: [
-                { name: "Check", align: "right", summaryType: "max", summaryTpl: "Subtotal:" },
+                {
+                    name: "Check", align: "right", summaryType: "max", summaryTpl: "Subtotal:",
+                    formatter: function (cellvalue, options, rowObject) {
+                        return $.validator.format("<a href='javascript: showCheck({0})'>{1}</a>", cellvalue.replace("#", ""), cellvalue);
+                    }
+                },
                 { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "Tax", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "Adjustment", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
@@ -176,20 +201,22 @@
         }
 
         function drawStuff() {
+            if (graphArray.length == 0) {
+                return;
+            }
+
             var data = new google.visualization.arrayToDataTable(graphArray);
 
             var options = {
-                title: "",
                 width: 600,
                 height: 300,
                 legend: { position: "none" },
-                chart: { subtitle: "" },
                 axes: {
                     x: {
-                        0: { side: "top", label: "Daily chart" } // Top x-axis.
+                        0: { side: "bottom", label: "Daily chart" } // Top x-axis.
                     }
                 },
-                bar: { groupWidth: "90%" }
+                vAxis: { minValue: 0, format: "decimal", title: "Sales $" },
             };
 
             var chart = new google.charts.Bar(document.getElementById("chart"));
@@ -199,13 +226,33 @@
         };
 
         function prepareArrayForGraph(graph) {
-            var arr = [];
-            arr.push(new Array("Date", "Sale"));
-            $.each(graph, function (key, value) {
-                arr.push(new Array(value.Date, parseFloat(value.Sale)));
-            });
-            return arr;
+            var sales = [];
+
+            if (graph.length > 0) {
+                sales.push(new Array("Date", "Sale"));
+                $.each(graph, function (key, value) {
+                    sales.push(new Array(value.Date, parseFloat(value.Sale)));
+                });
+            }
+
+            return sales;
         }
 
     });
+
+    function showCheck(checkId) {
+        var container = $(".container-report");
+        $(container).block();
+        var jqxhr = $.get($.validator.format("{0}Order/ShowCheck", root), { "checkId": checkId }, "json")
+         .done(function (result) {
+             $("#checkViewForm").html(result);
+             $(".checkViewForm").modal("show");
+         })
+         .fail(function () {
+             message("::showCheckPrint:: Failed.", "error", "topCenter");
+         })
+         .always(function () {
+             $(container).unblock();
+         });
+    }
 </script>

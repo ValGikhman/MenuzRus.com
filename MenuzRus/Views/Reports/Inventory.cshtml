@@ -1,4 +1,5 @@
-﻿<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
+﻿@model MenuzRus.Models.InventoryReportModel
+<link href="@Url.Content("~/Content/reports.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/JQGrid/css/ui.jqgrid.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/Datepicker/css/datepicker.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-toggle.min.css")" rel="stylesheet" />
@@ -20,14 +21,14 @@
     </div>
     <br />
     <div style="width: 450px;">
-        <div class="input-group date shadow" id="divDateFrom" data-date="@DateTime.Now.AddDays(-1).ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
+        <div class="input-group date shadow" id="divDateFrom" data-date="@Model.From.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
             <div class="input-group-addon leiba">From</div>
-            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@DateTime.Now.AddDays(-1).ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@Model.From.ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
-        <div class="input-group date shadow" id="divDateTo" data-date="@DateTime.Now.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
+        <div class="input-group date shadow" id="divDateTo" data-date="@Model.To.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
             <div class="input-group-addon leiba">To</div>
-            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@DateTime.Now.ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@Model.To.ToShortDateString()" readonly style="cursor: pointer" />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
     </div>
@@ -67,8 +68,8 @@
             colNames: ["Date", "Item", "Price", "Start", "$", "In", "$", "Out", "$", "Total", "$"],
             colModel: [
                 { name: "Date", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y" }, summaryTpl: "Subtotal:" },
-                { name: "Item", align: "left", width: "350px"},
-                { name: "Price", width: "100px", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }},
+                { name: "Item", align: "left", width: "350px" },
+                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," } },
                 { name: "Start", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "StartTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "In", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
@@ -143,14 +144,15 @@
                     OutTotal: outTotalSum,
                     Total: totalSum,
                     TotalTotal: totalTotalSum
-            });
+                });
 
                 $("#gbox_jqGrid").hide();
 
                 // Save graph data
-                graphArray = prepareArrayForGraph(data.graph);
+                graphArray = prepareArrayForGraph(data.headers, data.graph);
 
                 drawStuff();
+
             },
         });
 
@@ -198,20 +200,21 @@
         }
 
         function drawStuff() {
+            if (graphArray.length == 0) {
+                return;
+            }
+
             var data = new google.visualization.arrayToDataTable(graphArray);
 
             var options = {
-                title: "",
-                width: 600,
-                height: 300,
-                legend: { position: "none" },
-                chart: { subtitle: "" },
-                axes: {
-                    x: {
-                        0: { side: "top", label: "Daily report" } // Top x-axis.
-                    }
-                },
-                bar: { groupWidth: "90%" }
+                width: 900,
+                height: 600,
+                legend: { position: "top", maxLines: 20 },
+                bar: { groupWidth: "75%" },
+                isStacked: true,
+                is3D: true,
+                vAxis: { minValue: 0, format: "decimal", title: "Sales $" },
+                hAxis: { title: "Days" }
             };
 
             var chart = new google.charts.Bar(document.getElementById("chart"));
@@ -220,13 +223,22 @@
             toggleGraph();
         };
 
-        function prepareArrayForGraph(graph) {
-            var arr = [];
-            arr.push(new Array("Date", "Sale"));
-            $.each(graph, function (key, value) {
-                arr.push(new Array(value.Date, parseFloat(value.Sale)));
-            });
-            return arr;
+        function prepareArrayForGraph(header, graph) {
+            var inventory = [];
+
+            if (graph.length > 0) {
+                header.unshift("Inventory");
+                header.push({ role: "annotation" })
+
+                inventory.push(header);
+                $.each(graph, function (key, value) {
+                    value.Sales.unshift(value.Date);
+                    value.Sales.push("");
+                    inventory.push(value.Sales);
+                });
+            }
+
+            return inventory;
         }
 
     });

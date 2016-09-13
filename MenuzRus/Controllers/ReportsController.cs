@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Extensions;
 using MenuzRus.Models;
 using Newtonsoft.Json;
 using Services;
@@ -58,17 +59,15 @@ namespace MenuzRus.Controllers {
                     total = (Int32)Math.Ceiling((float)model.Records.Count),
                     records = model.Records.Count,
                     rows = model.Records.ToArray(),
-                    graph = (
-                        from record in model.Records
-                        let date = Convert.ToDateTime(record.Date).Date
-                        let total = record.TotalTotal
-                        group new { DateModified = date, Total = total } by date into g
-                        select new {
-                            Date = g.Key.ToShortDateString(),
-                            Sale = g.Sum(p => p.Total).ToString()
-                        }
-                    ).ToArray()
+                    headers = model.Records.OrderBy(m => m.TotalTotal).Select(m => m.Item).Distinct().ToArray(),
+                    graph = model.Records.GroupBy(n => n.Date).Select(g =>
+                            new {
+                                Date = g.Key,
+                                Sales = g.Select(p => p.TotalTotal)
+                            }
+                ).ToList()
                 };
+
                 return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex) {
@@ -84,14 +83,12 @@ namespace MenuzRus.Controllers {
 
         [CheckUserSession]
         public ActionResult Sales() {
-            //return View("Sales", GetSalesModel(DateTime.Now.AddDays(-1), DateTime.Now));
-            return View("Sales");
+            return View("Sales", GetSalesModel(DateTime.Now.AddDays(-1), DateTime.Now));
         }
 
         [CheckUserSession]
         public ActionResult Inventory() {
-            //return View("Inventory", GetInventoryModel(DateTime.Now.AddDays(-1), DateTime.Now));
-            return View("Inventory");
+            return View("Inventory", GetInventoryModel(DateTime.Now.AddDays(-1), DateTime.Now));
         }
 
         #endregion Reports

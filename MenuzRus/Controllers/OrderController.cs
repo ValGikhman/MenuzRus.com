@@ -274,6 +274,11 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
+        public String ShowCheck(Int32 checkId) {
+            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckModel(checkId));
+        }
+
+        [HttpGet]
         public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
             return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
         }
@@ -481,6 +486,66 @@ namespace MenuzRus.Controllers {
         #endregion order
 
         #region private
+
+        private CheckPrint GetCheckModel(Int32 checkId) {
+            Services.Item item, itemMenu;
+            CheckPrint model;
+            Decimal tax = SessionData.customer.Tax.HasValue ? (Decimal)SessionData.customer.Tax / 100 : 0;
+            Decimal price = 0, menuPrice = 0;
+            List<LineItem> subItems;
+            try {
+                model = new CheckPrint();
+                model.Items = new List<LineItem>();
+                model.Check = _orderService.GetCheck(checkId);
+                model.CreatedDate = model.Check.DateCreated;
+
+                // If no printers - webSocket not running, or no connection to webSocket
+                if (SessionData.printers != null) {
+                    model.PrinterPOSWidth = SessionData.printerPOSWidth;
+                }
+
+                List<Services.ChecksMenu> menus = _orderService.GetMenuItems(checkId);
+                List<ChecksMenuProduct> products;
+                model.Summary = 0;
+                model.Split = 0;
+                foreach (Services.ChecksMenu menuItem in menus) {
+                    itemMenu = _itemService.GetItem(menuItem.MenuId);
+                    menuPrice = (Decimal)itemMenu.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                    model.Summary += menuPrice;
+                    products = _orderService.GetProducts(menuItem.id);
+                    subItems = new List<LineItem>();
+                    foreach (Services.ChecksMenuProduct productItem in products) {
+                        foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
+                            item = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                            if (item != null) {
+                                price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
+                                model.Summary += price;
+                                subItems.Add(new LineItem() { Description = item.Name, Price = price, id = item.id });
+                            }
+                        }
+                    }
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Price = menuPrice, id = itemMenu.id, SubItems = subItems });
+                }
+
+                model.TaxPercent = 0;
+                if ((Common.CheckType)model.Check.Type == Common.CheckType.Guest) {
+                    model.TaxPercent = tax;
+                }
+                model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
+
+                model.AdjustmentPercent = model.Check.Type / 100;
+                model.Adjustment = Math.Round(model.Summary * model.AdjustmentPercent, 2);
+                model.Subtotal = model.Summary + model.Adjustment;
+                model.Total = Math.Round(model.Summary + model.Tax + model.Adjustment, 2);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return null;
+            }
+            finally {
+            }
+            return model;
+        }
 
         private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
             Services.Item item, itemMenu;

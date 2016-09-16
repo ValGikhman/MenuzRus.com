@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Web.UI.WebControls;
-using Extensions;
 using MenuzRus.Models;
-using Newtonsoft.Json;
 using Services;
 
 namespace MenuzRus.Controllers {
@@ -17,7 +12,6 @@ namespace MenuzRus.Controllers {
         private ICategoryService _categoryService;
         private ICommentService _commentService;
         private IFloorService _floorService;
-        private IInventoryService _inventoryService;
         private IItemService _itemService;
         private IMenuService _menuService;
         private IOrderService _orderService;
@@ -28,7 +22,6 @@ namespace MenuzRus.Controllers {
                 , ICommentService commentService
                 , IFloorService floorService
                 , ICategoryService categoryService
-                , IInventoryService inventoryService
                 , IMenuService menuService
             )
             : base(sessionData) {
@@ -37,7 +30,6 @@ namespace MenuzRus.Controllers {
             _commentService = commentService;
             _floorService = floorService;
             _categoryService = categoryService;
-            _inventoryService = inventoryService;
             _menuService = menuService;
         }
 
@@ -99,13 +91,6 @@ namespace MenuzRus.Controllers {
                 checkMenu = _orderService.GetMenuItem(id);
                 item = _itemService.GetItem(checkMenu.MenuId);
                 _orderService.DeleteMenu(id);
-
-                if (item.ItemInventoryAssociations.Any()) {
-                    foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
-                        item = _itemService.GetItem(association.AssociatedItemId);
-                        _inventoryService.DeleteInventoryRegistry(association, checkMenu, item);
-                    }
-                }
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -229,13 +214,6 @@ namespace MenuzRus.Controllers {
                         checkId = menu.CheckId
                     };
 
-                    if (item.ItemInventoryAssociations.Any()) {
-                        foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
-                            item = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.AddInventoryRegistry(association, menu, item);
-                        }
-                    }
-
                     return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
             }
@@ -258,9 +236,9 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
+        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type, Int32 oldKnopaId) {
             try {
-                _orderService.SaveItem(productId, knopaId, type);
+                _orderService.SaveItem(productId, knopaId, type, oldKnopaId);
             }
             catch (Exception ex) {
                 base.Log(ex);

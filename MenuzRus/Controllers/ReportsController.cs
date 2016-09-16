@@ -63,7 +63,7 @@ namespace MenuzRus.Controllers {
                     graph = model.Records.GroupBy(n => n.Date).Select(g =>
                             new {
                                 Date = g.Key,
-                                Sales = g.Select(p => p.TotalTotal)
+                                Sales = g.Select(p => p.TotalTotal).Take(3)
                             }
                 ).ToList()
                 };

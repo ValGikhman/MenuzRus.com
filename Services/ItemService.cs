@@ -27,24 +27,6 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
-            InventoryRegistry query = new InventoryRegistry();
-            try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    query.Quantity = qty;
-                    query.Type = (Int32)type;
-                    query.AssociatedItemId = id;
-                    query.Comment = comment;
-                    db.InventoryRegistries.InsertOnSubmit(query);
-                    db.SubmitChanges();
-                }
-            }
-            catch (Exception ex) {
-                return false;
-            }
-            return true;
-        }
-
         public Boolean DeleteItem(Int32? id) {
             Item query;
             id = id.HasValue ? id : 0;

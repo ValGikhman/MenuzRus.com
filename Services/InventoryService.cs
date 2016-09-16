@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
-using MenuzRus;
 using Services;
 
 namespace MenuzRus {
 
     public class InventoryService : BaseService, IInventoryService {
 
-        public Boolean AddInventoryRegestryCheckMenu(InventoryRegistry registry, ChecksMenu checkMenu) {
+        public Boolean AddInventoryRegestryCheckMenu(Int32 registryId, Int32 checkMenuId) {
             InventoryRegestryCheckMenu item;
             try {
                 item = new InventoryRegestryCheckMenu();
-                item.ChecksMenuId = checkMenu.id;
-                item.InventoryRegistryId = registry.id;
+                item.ChecksMenuId = checkMenuId;
+                item.InventoryRegistryId = registryId;
 
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     db.InventoryRegestryCheckMenus.InsertOnSubmit(item);
@@ -29,21 +24,37 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, Item itemAssociated) {
-            InventoryRegistry item;
+        public Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
+            InventoryRegistry query = new InventoryRegistry();
             try {
-                item = new InventoryRegistry();
-                item.Comment = String.Format("Taken [{0}] of [{1}] from: [{2}]. Check# {3}", association.Quantity, itemAssociated.Name, association.Item.Name, checkMenu.CheckId);
-                item.Quantity = Math.Abs(association.Quantity) * -1;
-                item.AssociatedItemId = association.AssociatedItemId;
-                item.Type = (Int32)Common.InventoryType.Out;
-
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    db.InventoryRegistries.InsertOnSubmit(item);
+                    query.Quantity = qty;
+                    query.Type = (Int32)type;
+                    query.AssociatedItemId = id;
+                    query.Comment = comment;
+                    db.InventoryRegistries.InsertOnSubmit(query);
                     db.SubmitChanges();
                 }
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
 
-                AddInventoryRegestryCheckMenu(item, checkMenu);
+        public Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name) {
+            String comment;
+            Int32 associatedItemId;
+            Common.InventoryType type;
+            Decimal quantity;
+            try {
+                comment = String.Format("Taken [{0}] of [{1}] from: [{2}]. Check# {3}", association.Quantity, name, association.Item.Name, checkMenu.CheckId);
+                associatedItemId = association.AssociatedItemId;
+                type = Common.InventoryType.Out; ;
+                quantity = Math.Abs(association.Quantity) * -1;
+
+                AddItemRegistry(associatedItemId, quantity, type, comment);
+                AddInventoryRegestryCheckMenu(associatedItemId, checkMenu.id);
             }
             catch (Exception ex) {
                 return false;
@@ -68,22 +79,20 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, Item itemAssociated) {
-            InventoryRegistry item;
+        public Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name) {
+            String comment;
+            Int32 associatedItemId;
+            Common.InventoryType type;
+            Decimal quantity;
 
             try {
-                item = new InventoryRegistry();
-                item.Comment = String.Format("Added [{0}] of [{1}] for: [{2}]. Check# {3}", association.Quantity, itemAssociated.Name, association.Item.Name, checkMenu.CheckId);
-                item.Quantity = Math.Abs(association.Quantity);
-                item.AssociatedItemId = association.AssociatedItemId;
-                item.Type = (Int32)Common.InventoryType.In;
+                comment = String.Format("Added [{0}] of [{1}] for: [{2}]. Check# {3}", association.Quantity, name, association.Item.Name, checkMenu.CheckId);
+                associatedItemId = association.AssociatedItemId;
+                type = Common.InventoryType.In; ;
+                quantity = Math.Abs(association.Quantity);
 
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    db.InventoryRegistries.InsertOnSubmit(item);
-                    db.SubmitChanges();
-                }
-
-                AddInventoryRegestryCheckMenu(item, checkMenu);
+                AddItemRegistry(associatedItemId, quantity, type, comment);
+                AddInventoryRegestryCheckMenu(associatedItemId, checkMenu.id);
             }
             catch (Exception ex) {
                 return false;

@@ -66,6 +66,9 @@ namespace MenuzRus {
         }
 
         public Boolean DeleteMenu(Int32 id) {
+            ItemService _itemService = new ItemService();
+            InventoryService _inventoryService = new InventoryService();
+
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     ChecksMenu menuItem = db.ChecksMenus.FirstOrDefault(m => m.id == id);
@@ -81,6 +84,15 @@ namespace MenuzRus {
                         }
                     }
                     db.SubmitChanges();
+
+                    // Inventory Delete
+                    Item item = _itemService.GetItem(menuItem.MenuId);
+                    if (item.ItemInventoryAssociations.Any()) {
+                        foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
+                            item = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.DeleteInventoryRegistry(association, menuItem, item.Name);
+                        }
+                    }
                 }
             }
             catch (Exception ex) {
@@ -222,8 +234,11 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
-            ChecksMenuProductItem query;
+        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type, Int32 oldKnopaId) {
+            ItemService _itemService = new ItemService();
+            InventoryService _inventoryService = new InventoryService();
+
+            ChecksMenuProductItem query = null;
             if (productId != 0 && knopaId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (type == Common.ProductType.Alternatives) {
@@ -245,11 +260,35 @@ namespace MenuzRus {
                         }
                     }
                     db.SubmitChanges();
+
+                    ItemProductAssociation ipaNew = db.ItemProductAssociations.Where(m => m.id == knopaId).FirstOrDefault();
+                    ItemProductAssociation ipaOld = db.ItemProductAssociations.Where(m => m.id == oldKnopaId).FirstOrDefault();
+
+                    ChecksMenu checkMenu = db.ChecksMenus.Where(m => m.id == query.ChecksMenuProduct.CheckMenuId).FirstOrDefault();
+
+                    Item itemOld = _itemService.GetItem(ipaOld.ItemId);
+                    if (itemOld.ItemInventoryAssociations.Any()) {
+                        foreach (ItemInventoryAssociation association in itemOld.ItemInventoryAssociations) {
+                            Item it = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.DeleteInventoryRegistry(association, checkMenu, it.Name);
+                        }
+                    }
+
+                    Item itemNew = _itemService.GetItem(ipaNew.ItemId);
+                    if (itemNew.ItemInventoryAssociations.Any()) {
+                        foreach (ItemInventoryAssociation association in itemNew.ItemInventoryAssociations) {
+                            Item it = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.AddInventoryRegistry(association, checkMenu, it.Name);
+                        }
+                    }
                 }
             }
         }
 
         public ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId) {
+            ItemService _itemService = new ItemService();
+            InventoryService _inventoryService = new InventoryService();
+
             ChecksMenu orderCheckMenu;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -281,6 +320,14 @@ namespace MenuzRus {
                     db.ChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
+                    // Inventory for main Menu Item
+                    if (menuItem.ItemInventoryAssociations.Any()) {
+                        foreach (ItemInventoryAssociation association in menuItem.ItemInventoryAssociations) {
+                            Item item = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.AddInventoryRegistry(association, orderCheckMenu, item.Name);
+                        }
+                    }
+
                     foreach (ItemProduct itemProduct in menuItem.ItemProducts) {
                         ChecksMenuProduct product = new ChecksMenuProduct();
                         product.CheckMenuId = orderCheckMenu.id;
@@ -293,6 +340,16 @@ namespace MenuzRus {
                             item.ItemId = itemProduct.ItemProductAssociations[0].id;
                             db.ChecksMenuProductItems.InsertOnSubmit(item);
                             db.SubmitChanges();
+
+                            // Inventory for Product Items
+                            Item itemInventoryAssociations = _itemService.GetItem(itemProduct.ItemProductAssociations[0].ItemId); // Get default ItemProductAssosiation
+                            if (itemInventoryAssociations.ItemInventoryAssociations.Any()) {
+                                Item itemInv;
+                                foreach (ItemInventoryAssociation association in itemInventoryAssociations.ItemInventoryAssociations) {
+                                    itemInv = _itemService.GetItem(association.AssociatedItemId);
+                                    _inventoryService.AddInventoryRegistry(association, orderCheckMenu, itemInv.Name);
+                                }
+                            }
                         }
                     }
                 }

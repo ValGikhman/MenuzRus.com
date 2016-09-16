@@ -69,7 +69,7 @@
             colModel: [
                 { name: "Date", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y" }, summaryTpl: "Subtotal:" },
                 { name: "Item", align: "left", width: "350px" },
-                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," } },
+                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryTpl: "SSSS:" },
                 { name: "Start", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "StartTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
                 { name: "In", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
@@ -225,13 +225,22 @@
 
         function prepareArrayForGraph(header, graph) {
             var inventory = [];
-
+            var multitude;
             if (graph.length > 0) {
+                multitude = header.length;
+
                 header.unshift("Inventory");
                 header.push({ role: "annotation" })
 
                 inventory.push(header);
                 $.each(graph, function (key, value) {
+                    if (value.Sales.length < multitude) {
+                        var sparseArr = new Array(multitude - value.Sales.length);
+                        var denseArr = Array.apply(null, sparseArr).map(function (e) {
+                            return e === undefined ? 0 : e;
+                        });
+                        value.Sales = value.Sales.concat(denseArr);
+                    }
                     value.Sales.unshift(value.Date);
                     value.Sales.push("");
                     inventory.push(value.Sales);

@@ -14,11 +14,13 @@ namespace MenuzRus.Controllers {
     public class ItemController : BaseController {
         private ICategoryService _categoryService;
         private IItemService _itemService;
+        private IInventoryService _inventoryService;
 
-        public ItemController(ISessionData sessionData, IItemService itemService, ICategoryService categoryService)
+        public ItemController(ISessionData sessionData, IItemService itemService, InventoryService inventoryService, ICategoryService categoryService)
             : base(sessionData) {
             _itemService = itemService;
             _categoryService = categoryService;
+            _inventoryService = inventoryService;
         }
 
         #region item
@@ -136,7 +138,7 @@ namespace MenuzRus.Controllers {
 
         private void AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
             try {
-                _itemService.AddItemRegistry(id, qty, type, comment);
+                _inventoryService.AddItemRegistry(id, qty, type, comment);
             }
             catch (Exception ex) {
                 base.Log(ex);

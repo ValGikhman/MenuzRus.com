@@ -265,11 +265,12 @@ function saveItem(element) {
     var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     var productId = $(element).parent().attr("data-value");
     var knopaId = $(object).attr("data-value");
+    var oldKnopaId = $(element).parent().find(".active").find("input").attr("data-value");
     var type = $(object).attr("data-type");
 
     var container = $(".order");
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "checkId": checkId, "productId": productId, "knopaId": knopaId, "type": type }, "json")
+    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "checkId": checkId, "productId": productId, "knopaId": knopaId, "type": type, "oldKnopaId": oldKnopaId }, "json")
         .done(function (result) {
         })
         .fail(function () {

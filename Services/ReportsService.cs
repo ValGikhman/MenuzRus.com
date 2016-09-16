@@ -60,11 +60,11 @@ namespace Services {
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
                 List<Services.ReportsService.InventoryRecord> retVal = null;
                 retVal = (from ib in db.InventoryBalances
-                          where ib.DateCreated.Date >= dateFrom.Date && ib.DateCreated.Date <= dateTo.Date
+                          where ib.Date >= dateFrom.Date && ib.Date <= dateTo.Date
                           let item = ib.Items.Where(m => m.id == ib.AssociatedItemId).FirstOrDefault()
                           let price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault()
                           select new InventoryRecord {
-                              Date = ib.DateCreated.ToShortDateString(),
+                              Date = ib.Date.ToShortDateString(),
                               Item = item.Name,
                               Price = price,
                               UOM = item.UOM.ToString(),

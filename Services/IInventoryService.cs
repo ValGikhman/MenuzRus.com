@@ -11,13 +11,15 @@ namespace MenuzRus {
 
     public interface IInventoryService {
 
-        Boolean AddInventoryRegestryCheckMenu(InventoryRegistry registry, ChecksMenu checkMenu);
+        Boolean AddInventoryRegestryCheckMenu(Int32 registryId, Int32 checkMenuId);
 
-        Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, Item itemAssociated);
+        Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name);
+
+        Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment);
 
         Boolean DeleteInventoryAssociation(Int32 id);
 
-        Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, Item itemAssociated);
+        Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name);
 
         Boolean SaveInventoryAssociation(ItemInventoryAssociation item);
     }

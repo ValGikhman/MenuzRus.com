@@ -69,14 +69,14 @@
             colModel: [
                 { name: "Date", align: "center", formatter: 'date', formatoptions: { "srcformat": "m-d-Y H:i:s", "newformat": "m/d/Y" }, summaryTpl: "Subtotal:" },
                 { name: "Item", align: "left", width: "350px" },
-                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryTpl: "SSSS:" },
-                { name: "Start", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," } },
+                { name: "Start", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," } },
                 { name: "StartTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
-                { name: "In", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "In", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," } },
                 { name: "InTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
-                { name: "Out", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Out", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," } },
                 { name: "OutTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
-                { name: "Total", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
+                { name: "Total", align: "right", formatter: "currency", formatoptions: { prefix: "", suffix: "", thousandsSeparator: "," } },
                 { name: "TotalTotal", align: "right", formatter: "currency", formatoptions: { prefix: "$", suffix: "", thousandsSeparator: "," }, summaryType: "sum" }
             ],
             hidegrid: false,
@@ -125,24 +125,16 @@
 
                 $(".ui-jqgrid-bdiv").children().css("overflow-x", "hidden");
 
-                var startSum = $(this).jqGrid("getCol", "Start", false, "sum");
                 var startTotalSum = $(this).jqGrid("getCol", "StartTotal", false, "sum");
-                var inSum = $(this).jqGrid("getCol", "In", false, "sum");
                 var inTotalSum = $(this).jqGrid("getCol", "InTotal", false, "sum");
-                var outSum = $(this).jqGrid("getCol", "Out", false, "sum");
                 var outTotalSum = $(this).jqGrid("getCol", "OutTotal", false, "sum");
-                var totalSum = $(this).jqGrid("getCol", "Total", false, "sum");
                 var totalTotalSum = $(this).jqGrid("getCol", "TotalTotal", false, "sum");
 
                 $(this).jqGrid("footerData", "set", {
                     Item: "Total:",
-                    Start: startSum,
                     StartTotal: startTotalSum,
-                    In: inSum,
                     InTotal: inTotalSum,
-                    Out: outSum,
                     OutTotal: outTotalSum,
-                    Total: totalSum,
                     TotalTotal: totalTotalSum
                 });
 

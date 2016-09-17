@@ -9,12 +9,19 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class OrderController : BaseController {
+
+        #region Private Fields
+
         private ICategoryService _categoryService;
         private ICommentService _commentService;
         private IFloorService _floorService;
         private IItemService _itemService;
         private IMenuService _menuService;
         private IOrderService _orderService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public OrderController(ISessionData sessionData
                 , IOrderService orderService
@@ -32,6 +39,8 @@ namespace MenuzRus.Controllers {
             _categoryService = categoryService;
             _menuService = menuService;
         }
+
+        #endregion Public Constructors
 
         #region order
 

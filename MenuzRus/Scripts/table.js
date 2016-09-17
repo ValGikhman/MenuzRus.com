@@ -393,6 +393,9 @@ function updateTableStatus(tableOrderId, status) {
 }
 
 function updateCheckType(id, type) {
+    var container = $(".layout");
+    container.block();
+
     var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckType", root), { "checkId": id, "type": type }, "json")
         .done(function (result) {
             message("Type changed", "success", "topCenter");
@@ -401,10 +404,14 @@ function updateCheckType(id, type) {
             message("::updateCheckType:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            container.unblock();
         });
 }
 
 function updateCheckStatus(id, status, adjustment, split) {
+    var container = $(".layout");
+    container.block();
+
     var type = $(".check").find(".tab-pane.active").attr("data-type");
     var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status, "adjustment": adjustment, "split": split, "type": type }, "json")
         .done(function (result) {
@@ -414,6 +421,7 @@ function updateCheckStatus(id, status, adjustment, split) {
             message("::updateCheckStatus:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            container.unblock();
         });
 }
 
@@ -496,7 +504,7 @@ function checkStatusManager(status) {
         }
         case "Ready": {
             $("#checkStatus li[data-value='Active']").addClass("disabled");
-            // Can be returned to  Ordered, if some stuff is added or commets were made
+            // Can be returned to  Ordered, if some stuff is added or comments were made
             //$("#checkStatus li[data-value='Ordered']").addClass("disabled");
             $("#checkStatus li[data-value='Ready']").addClass("disabled");
             break;

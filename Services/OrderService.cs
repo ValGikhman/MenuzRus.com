@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using Extensions;
-using Newtonsoft.Json;
 using Services;
 
 namespace MenuzRus {
 
     public class OrderService : BaseService, IOrderService {
+
+        #region Public Methods
 
         public Int32 AddNewTableOrder(Int32 tableId) {
             Int32 retVal = 0;
@@ -84,15 +82,6 @@ namespace MenuzRus {
                         }
                     }
                     db.SubmitChanges();
-
-                    // Inventory Delete
-                    Item item = _itemService.GetItem(menuItem.MenuId);
-                    if (item.ItemInventoryAssociations.Any()) {
-                        foreach (ItemInventoryAssociation association in item.ItemInventoryAssociations) {
-                            item = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.DeleteInventoryRegistry(association, menuItem, item.Name);
-                        }
-                    }
                 }
             }
             catch (Exception ex) {
@@ -260,27 +249,6 @@ namespace MenuzRus {
                         }
                     }
                     db.SubmitChanges();
-
-                    ItemProductAssociation ipaNew = db.ItemProductAssociations.Where(m => m.id == knopaId).FirstOrDefault();
-                    ItemProductAssociation ipaOld = db.ItemProductAssociations.Where(m => m.id == oldKnopaId).FirstOrDefault();
-
-                    ChecksMenu checkMenu = db.ChecksMenus.Where(m => m.id == query.ChecksMenuProduct.CheckMenuId).FirstOrDefault();
-
-                    Item itemOld = _itemService.GetItem(ipaOld.ItemId);
-                    if (itemOld.ItemInventoryAssociations.Any()) {
-                        foreach (ItemInventoryAssociation association in itemOld.ItemInventoryAssociations) {
-                            Item it = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.DeleteInventoryRegistry(association, checkMenu, it.Name);
-                        }
-                    }
-
-                    Item itemNew = _itemService.GetItem(ipaNew.ItemId);
-                    if (itemNew.ItemInventoryAssociations.Any()) {
-                        foreach (ItemInventoryAssociation association in itemNew.ItemInventoryAssociations) {
-                            Item it = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.AddInventoryRegistry(association, checkMenu, it.Name);
-                        }
-                    }
                 }
             }
         }
@@ -320,14 +288,6 @@ namespace MenuzRus {
                     db.ChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
-                    // Inventory for main Menu Item
-                    if (menuItem.ItemInventoryAssociations.Any()) {
-                        foreach (ItemInventoryAssociation association in menuItem.ItemInventoryAssociations) {
-                            Item item = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.AddInventoryRegistry(association, orderCheckMenu, item.Name);
-                        }
-                    }
-
                     foreach (ItemProduct itemProduct in menuItem.ItemProducts) {
                         ChecksMenuProduct product = new ChecksMenuProduct();
                         product.CheckMenuId = orderCheckMenu.id;
@@ -340,16 +300,6 @@ namespace MenuzRus {
                             item.ItemId = itemProduct.ItemProductAssociations[0].id;
                             db.ChecksMenuProductItems.InsertOnSubmit(item);
                             db.SubmitChanges();
-
-                            // Inventory for Product Items
-                            Item itemInventoryAssociations = _itemService.GetItem(itemProduct.ItemProductAssociations[0].ItemId); // Get default ItemProductAssosiation
-                            if (itemInventoryAssociations.ItemInventoryAssociations.Any()) {
-                                Item itemInv;
-                                foreach (ItemInventoryAssociation association in itemInventoryAssociations.ItemInventoryAssociations) {
-                                    itemInv = _itemService.GetItem(association.AssociatedItemId);
-                                    _inventoryService.AddInventoryRegistry(association, orderCheckMenu, itemInv.Name);
-                                }
-                            }
                         }
                     }
                 }
@@ -381,6 +331,8 @@ namespace MenuzRus {
                             }
                         }
                         db.SubmitChanges();
+                        // Run Inventory
+                        UpdateInventory(checkId);
                         return true;
                     }
                 }
@@ -419,6 +371,46 @@ namespace MenuzRus {
                 }
             }
             return false;
+        }
+
+        public Boolean UpdateInventory(Int32 checkId) {
+            List<Services.ChecksMenu> menus;
+            List<ChecksMenuProduct> products;
+            ItemService _itemService = new ItemService();
+            InventoryService _inventoryService = new InventoryService();
+
+            try {
+                menus = GetMenuItems(checkId);
+
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    Check check = db.Checks.Where(m => m.id == checkId).FirstOrDefault();
+                    foreach (Services.ChecksMenu menuItem in menus) {
+                        Item itemMenu = _itemService.GetItem(menuItem.MenuId);
+                        foreach (ItemInventoryAssociation association in itemMenu.ItemInventoryAssociations) {
+                            Item item = _itemService.GetItem(association.AssociatedItemId);
+                            _inventoryService.AddInventoryRegistry(association, menuItem, item.Name);
+                        }
+
+                        products = GetProducts(menuItem.id);
+                        if (products.Any()) {
+                            foreach (Services.ChecksMenuProduct productItem in products) {
+                                foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
+                                    Item prodItem = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                                    foreach (ItemInventoryAssociation association in prodItem.ItemInventoryAssociations) {
+                                        Item item = _itemService.GetItem(association.AssociatedItemId);
+                                        _inventoryService.AddInventoryRegistry(association, menuItem, item.Name);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
 
         public Boolean UpdateKitchenOrderPrintStatus(Int32 id) {
@@ -467,5 +459,7 @@ namespace MenuzRus {
 
             return false;
         }
+
+        #endregion Public Methods
     }
 }

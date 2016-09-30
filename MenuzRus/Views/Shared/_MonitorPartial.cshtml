@@ -6,10 +6,15 @@
             <div class="tableNameStatus label shadow">@table.TableName</div>
             <div id="checks-container">
                 @foreach (Services.Check check in table.Order.Checks) {
-                    <div class="label label-success shadow" data-status="@check.Status">#@check.id</div>
+                    <div class="checksBadges label colorBlack shadow" data-status="@check.Status">#@check.id</div>
                 }
             </div>
             <div class="timer label shadow"></div>
         </div>
     }
 </div>
+<script>
+    $(function () {
+        setCheckStatus();
+    })
+</script>

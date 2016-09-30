@@ -76,7 +76,7 @@ function getChecks(checks) {
             value = element.split(':');
             id = value[0];
             status = value[1];
-            html += $.validator.format("<div class='checksBadges label alert-{2} shadow' data-status='{1}'>#{0}</div>", id, status, getStatusColor(parseInt(status)));
+            html += $.validator.format("<div class='checksBadges label label-{2} colorBlack shadow' data-status='{1}'>#{0}</div>", id, status, getStatusColor(parseInt(status)));
         }
     })
     html += "</div>";

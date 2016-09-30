@@ -93,9 +93,9 @@ namespace Services
     partial void InsertInventoryRegistry(InventoryRegistry instance);
     partial void UpdateInventoryRegistry(InventoryRegistry instance);
     partial void DeleteInventoryRegistry(InventoryRegistry instance);
-    partial void InsertInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
-    partial void UpdateInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
-    partial void DeleteInventoryRegestryCheckMenu(InventoryRegestryCheckMenu instance);
+    partial void InsertInventoryRegistryCheckMenu(InventoryRegistryCheckMenu instance);
+    partial void UpdateInventoryRegistryCheckMenu(InventoryRegistryCheckMenu instance);
+    partial void DeleteInventoryRegistryCheckMenu(InventoryRegistryCheckMenu instance);
     partial void InsertMenuItem(MenuItem instance);
     partial void UpdateMenuItem(MenuItem instance);
     partial void DeleteMenuItem(MenuItem instance);
@@ -308,11 +308,11 @@ namespace Services
 			}
 		}
 		
-		public System.Data.Linq.Table<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		public System.Data.Linq.Table<InventoryRegistryCheckMenu> InventoryRegistryCheckMenus
 		{
 			get
 			{
-				return this.GetTable<InventoryRegestryCheckMenu>();
+				return this.GetTable<InventoryRegistryCheckMenu>();
 			}
 		}
 		
@@ -3484,7 +3484,7 @@ namespace Services
 		
 		private EntitySet<Alert> _Alerts;
 		
-		private EntitySet<InventoryRegestryCheckMenu> _InventoryRegestryCheckMenus;
+		private EntitySet<InventoryRegistryCheckMenu> _InventoryRegestryCheckMenus;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3505,7 +3505,7 @@ namespace Services
 		public ChecksMenu()
 		{
 			this._Alerts = new EntitySet<Alert>(new Action<Alert>(this.attach_Alerts), new Action<Alert>(this.detach_Alerts));
-			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegestryCheckMenu>(new Action<InventoryRegestryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegestryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
+			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegistryCheckMenu>(new Action<InventoryRegistryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegistryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
 			OnCreated();
 		}
 		
@@ -3623,7 +3623,7 @@ namespace Services
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="ChecksMenuId")]
-		public EntitySet<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		public EntitySet<InventoryRegistryCheckMenu> InventoryRegistryCheckMenus
 		{
 			get
 			{
@@ -3667,13 +3667,13 @@ namespace Services
 			entity.ChecksMenu = null;
 		}
 		
-		private void attach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		private void attach_InventoryRegestryCheckMenus(InventoryRegistryCheckMenu entity)
 		{
 			this.SendPropertyChanging();
 			entity.ChecksMenu = this;
 		}
 		
-		private void detach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		private void detach_InventoryRegestryCheckMenus(InventoryRegistryCheckMenu entity)
 		{
 			this.SendPropertyChanging();
 			entity.ChecksMenu = null;
@@ -5611,7 +5611,7 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<InventoryRegestryCheckMenu> _InventoryRegestryCheckMenus;
+		private EntitySet<InventoryRegistryCheckMenu> _InventoryRegestryCheckMenus;
 		
 		private EntityRef<Item> _Item;
 		
@@ -5635,7 +5635,7 @@ namespace Services
 		
 		public InventoryRegistry()
 		{
-			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegestryCheckMenu>(new Action<InventoryRegestryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegestryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
+			this._InventoryRegestryCheckMenus = new EntitySet<InventoryRegistryCheckMenu>(new Action<InventoryRegistryCheckMenu>(this.attach_InventoryRegestryCheckMenus), new Action<InventoryRegistryCheckMenu>(this.detach_InventoryRegestryCheckMenus));
 			this._Item = default(EntityRef<Item>);
 			OnCreated();
 		}
@@ -5765,7 +5765,7 @@ namespace Services
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="InventoryRegistryId")]
-		public EntitySet<InventoryRegestryCheckMenu> InventoryRegestryCheckMenus
+		public EntitySet<InventoryRegistryCheckMenu> InventoryRegistryCheckMenus
 		{
 			get
 			{
@@ -5831,13 +5831,13 @@ namespace Services
 			}
 		}
 		
-		private void attach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		private void attach_InventoryRegestryCheckMenus(InventoryRegistryCheckMenu entity)
 		{
 			this.SendPropertyChanging();
 			entity.InventoryRegistry = this;
 		}
 		
-		private void detach_InventoryRegestryCheckMenus(InventoryRegestryCheckMenu entity)
+		private void detach_InventoryRegestryCheckMenus(InventoryRegistryCheckMenu entity)
 		{
 			this.SendPropertyChanging();
 			entity.InventoryRegistry = null;
@@ -5845,7 +5845,7 @@ namespace Services
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.InventoryRegestryCheckMenu")]
-	public partial class InventoryRegestryCheckMenu : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class InventoryRegistryCheckMenu : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5876,7 +5876,7 @@ namespace Services
     partial void OnDateCreatedChanged();
     #endregion
 		
-		public InventoryRegestryCheckMenu()
+		public InventoryRegistryCheckMenu()
 		{
 			this._InventoryRegistry = default(EntityRef<InventoryRegistry>);
 			this._ChecksMenu = default(EntityRef<ChecksMenu>);
@@ -5988,12 +5988,12 @@ namespace Services
 					if ((previousValue != null))
 					{
 						this._InventoryRegistry.Entity = null;
-						previousValue.InventoryRegestryCheckMenus.Remove(this);
+						previousValue.InventoryRegistryCheckMenus.Remove(this);
 					}
 					this._InventoryRegistry.Entity = value;
 					if ((value != null))
 					{
-						value.InventoryRegestryCheckMenus.Add(this);
+						value.InventoryRegistryCheckMenus.Add(this);
 						this._InventoryRegistryId = value.id;
 					}
 					else
@@ -6022,12 +6022,12 @@ namespace Services
 					if ((previousValue != null))
 					{
 						this._ChecksMenu.Entity = null;
-						previousValue.InventoryRegestryCheckMenus.Remove(this);
+						previousValue.InventoryRegistryCheckMenus.Remove(this);
 					}
 					this._ChecksMenu.Entity = value;
 					if ((value != null))
 					{
-						value.InventoryRegestryCheckMenus.Add(this);
+						value.InventoryRegistryCheckMenus.Add(this);
 						this._ChecksMenuId = value.id;
 					}
 					else

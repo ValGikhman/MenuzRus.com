@@ -48,10 +48,6 @@ var WSPrint = {
     },
 
     printHTML: function (html, printer) {
-        if (webSocket == null) {
-            return;
-        }
-
         webSocket.printHtml(html, printer);
     }
 }

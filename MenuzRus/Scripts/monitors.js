@@ -17,9 +17,9 @@ function setTableStatus() {
 }
 
 function setCheckStatus() {
-    $(".checks").each(function () {
+    $(".checksBadges").each(function () {
         var statusColor = getStatusColor(parseInt($(this).attr("data-status")));
-        $(this).addClass($.validator.format("alert-{0}", statusColor));
+        $(this).addClass($.validator.format("label-{0}", statusColor));
     });
 }
 

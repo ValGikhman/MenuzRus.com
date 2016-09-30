@@ -634,7 +634,11 @@ namespace MenuzRus.Controllers {
                 model.id = order.id;
                 model.CreatedDate = model.Check.DateCreated;
                 model.Comments = _commentService.GetItemComment(order.CheckId, Common.CommentType.Check, SessionData.customer.id);
-                model.PrinterKitchenWidth = SessionData.printerKitchenWidth;
+
+                // If no printers - webSocket not running, or no connection to webSocket
+                if (SessionData.printers != null) {
+                    model.PrinterKitchenWidth = SessionData.printerKitchenWidth;
+                }
 
                 List<Services.ChecksMenu> menus = _orderService.GetMenuItems(order.CheckId);
                 List<ChecksMenuProduct> products;

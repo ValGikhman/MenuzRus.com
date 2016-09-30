@@ -6,33 +6,17 @@ namespace MenuzRus {
 
     public class InventoryService : BaseService, IInventoryService {
 
+        #region Public Methods
+
         public Boolean AddInventoryRegestryCheckMenu(Int32 registryId, Int32 checkMenuId) {
-            InventoryRegestryCheckMenu item;
+            InventoryRegistryCheckMenu item;
             try {
-                item = new InventoryRegestryCheckMenu();
+                item = new InventoryRegistryCheckMenu();
                 item.ChecksMenuId = checkMenuId;
                 item.InventoryRegistryId = registryId;
 
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    db.InventoryRegestryCheckMenus.InsertOnSubmit(item);
-                    db.SubmitChanges();
-                }
-            }
-            catch (Exception ex) {
-                return false;
-            }
-            return true;
-        }
-
-        public Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
-            InventoryRegistry query = new InventoryRegistry();
-            try {
-                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    query.Quantity = qty;
-                    query.Type = (Int32)type;
-                    query.AssociatedItemId = id;
-                    query.Comment = comment;
-                    db.InventoryRegistries.InsertOnSubmit(query);
+                    db.InventoryRegistryCheckMenus.InsertOnSubmit(item);
                     db.SubmitChanges();
                 }
             }
@@ -55,6 +39,24 @@ namespace MenuzRus {
 
                 AddItemRegistry(associatedItemId, quantity, type, comment);
                 AddInventoryRegestryCheckMenu(associatedItemId, checkMenu.id);
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
+
+        public Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
+            InventoryRegistry query = new InventoryRegistry();
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    query.Quantity = qty;
+                    query.Type = (Int32)type;
+                    query.AssociatedItemId = id;
+                    query.Comment = comment;
+                    db.InventoryRegistries.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                }
             }
             catch (Exception ex) {
                 return false;
@@ -123,5 +125,7 @@ namespace MenuzRus {
             }
             return true;
         }
+
+        #endregion Public Methods
     }
 }

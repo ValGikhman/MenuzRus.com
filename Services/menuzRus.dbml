@@ -159,7 +159,7 @@
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="ChecksMenu_Alert" Member="Alerts" ThisKey="id" OtherKey="CheckMenuId" Type="Alert" />
-      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus" ThisKey="id" OtherKey="ChecksMenuId" Type="InventoryRegestryCheckMenu" />
+      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="ChecksMenuId" Type="InventoryRegistryCheckMenu" />
     </Type>
   </Table>
   <Table Name="dbo.Alerts" Member="Alerts">
@@ -261,12 +261,12 @@
       <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Comment" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegestryCheckMenu" />
+      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegistryCheckMenu" />
       <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.InventoryRegestryCheckMenu" Member="InventoryRegestryCheckMenus">
-    <Type Name="InventoryRegestryCheckMenu">
+  <Table Name="dbo.InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus">
+    <Type Name="InventoryRegistryCheckMenu">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="InventoryRegistryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ChecksMenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />

@@ -178,16 +178,19 @@ function getStatusName(status) {
 
 function getStatusColor(status) {
     switch (status) {
-        case 1:
+        case 1:     // Active
             return "info";
             break;
-        case 2:
+        case 2:     // Ordered
             return "warning";
             break;
-        case 3:
+        case 3:     // Closed
             return "success";
             break;
-        case 4:
+        case 4: // Paid
+            return "default";
+            break;
+        case 5: // Cancel
             return "danger";
             break;
     }

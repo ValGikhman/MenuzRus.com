@@ -488,40 +488,38 @@ function BindEvents() {
 }
 
 function checkStatusManager(status) {
-    $("#checkStatus li").each(function () {
-        $(this).removeClass("disabled");
-    });
+    $("#checkStatus li").show();
 
     switch (status) {
         case "Active": {
-            $("#checkStatus li[data-value='Active']").addClass("disabled");
+            $("#checkStatus li[data-value='Active']").hide();
             break;
         }
         case "Ordered": {
-            $("#checkStatus li[data-value='Active']").addClass("disabled");
-            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
+            $("#checkStatus li[data-value='Active']").hide();
+            $("#checkStatus li[data-value='Ordered']").hide();
             break;
         }
         case "Ready": {
-            $("#checkStatus li[data-value='Active']").addClass("disabled");
             // Can be returned to  Ordered, if some stuff is added or comments were made
             //$("#checkStatus li[data-value='Ordered']").addClass("disabled");
-            $("#checkStatus li[data-value='Ready']").addClass("disabled");
+            $("#checkStatus li[data-value='Active']").hide();
+            $("#checkStatus li[data-value='Ready']").hide();
             break;
         }
         case "Paid": {
-            $("#checkStatus li[data-value='Active']").addClass("disabled");
-            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
-            $("#checkStatus li[data-value='Ready']").addClass("disabled");
-            $("#checkStatus li[data-value='Paid']").addClass("disabled");
+            $("#checkStatus li[data-value='Active']").hide();
+            $("#checkStatus li[data-value='Ordered']").hide();
+            $("#checkStatus li[data-value='Ready']").hide();
+            $("#checkStatus li[data-value='Paid']").hide();
             break;
         }
         case "Cancelled": {
-            $("#checkStatus li[data-value='Active']").addClass("disabled");
-            $("#checkStatus li[data-value='Ordered']").addClass("disabled");
-            $("#checkStatus li[data-value='Ready']").addClass("disabled");
-            $("#checkStatus li[data-value='Paid']").addClass("disabled");
-            $("#checkStatus li[data-value='Cancelled']").addClass("disabled");
+            $("#checkStatus li[data-value='Active']").hide();
+            $("#checkStatus li[data-value='Ordered']").hide();
+            $("#checkStatus li[data-value='Ready']").hide();
+            $("#checkStatus li[data-value='Paid']").hide();
+            $("#checkStatus li[data-value='Cancelled']").hide();
             break;
         }
     }

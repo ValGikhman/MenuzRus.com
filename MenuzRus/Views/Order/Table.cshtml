@@ -27,7 +27,7 @@
                         Int32 value = (Int32)status;
                         String disabled = String.Empty;
                         if (Model.TableOrder != null && value <= Model.TableOrder.Status) {
-                            disabled = "disabled";
+                            disabled = "hide";
                             if (currentStatus == Common.TableOrderStatus.Closed && value == (Int32)Common.TableOrderStatus.Open) {
                                 disabled = String.Empty;
                             }

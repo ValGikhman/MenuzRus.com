@@ -301,6 +301,16 @@ body {
     color: #1F5E94;
 }
 
+.colorGrey {
+    text-shadow: none !important;
+    color: grey;
+}
+
+.colorBlack {
+    text-shadow: none !important;
+    color: black;
+}
+
 .ui-state-highlight {
     border: 1px solid #363636 !important;
     /*background-image: -ms-linear-gradient(top, #428bca 0%, #CBDFF5 45%, #CBDFF5 55%, #428bca 100%)!important;

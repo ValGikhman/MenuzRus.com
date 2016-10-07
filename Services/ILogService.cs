@@ -12,9 +12,13 @@ namespace Services {
 
         #region public
 
-        void Log(Common.LogType logType, String messsage, params Object[] data);
+        void Log(Exception exception, Int32 userId, String sessionId);
 
-        void Log(Common.LogType logType, String messsage, String trace, params Object[] data);
+        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, params Object[] data);
+
+        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, params Object[] data);
+
+        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, String route, params Object[] data);
 
         #endregion public
     }

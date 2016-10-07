@@ -1,7 +1,7 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
 
-<div class="print-view-container">
+<div class="print-view-container" style="margin-top: 20px;">
     <table id="tableAddress" class="center">
         <tbody>
             <tr>
@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="companyNameItem centered">@String.Format("Table#{1} Check #{0} - {2}", Model.Check.id, Model.Check.TableOrder.TableId, ((Common.CheckType)Model.Check.Type)).ToUpper()</div>
+                    <div class="companyNameItem centered">@String.Format("Check #{0} - {1}", Model.Check.id, ((Common.CheckType)Model.Check.Type)).ToUpper()</div>
                 </td>
             </tr>
         </tbody>

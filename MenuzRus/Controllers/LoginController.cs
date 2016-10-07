@@ -20,6 +20,8 @@ namespace MenuzRus {
 
         #endregion Constructors
 
+        #region Public Methods
+
         public ActionResult Index() {
             try {
                 SessionData.SetSession(Constants.SESSION_PRODUCTION, _loginService.GetProduction());
@@ -57,7 +59,7 @@ namespace MenuzRus {
                     pathToNavigate = Request.UrlReferrer.Query.Replace("?", String.Empty);
                 }
 
-                base.Log(Common.LogType.LogIn, "Logged in", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
+                base.Log(Common.LogType.LogIn);
                 return Redirect(pathToNavigate);
             }
             catch (Exception ex) {
@@ -67,5 +69,7 @@ namespace MenuzRus {
             }
             return View(model);
         }
+
+        #endregion Public Methods
     }
 }

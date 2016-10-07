@@ -4,18 +4,18 @@
 <style>
     td {
         font-family: Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif;
-        font-size: medium;
+        font-size: small;
     }
 </style>
 
 <div id="checkPrint" style="padding: 0px; margin: 0px; width: @String.Format("{0}px", Model.PrinterPOSWidth);">
-    @*    <table align="center">
+    <table align="center">
         <tr>
             <td>
                 <img width="130" src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" />
             </td>
         </tr>
-    </table>*@
+    </table>
     <table align="center" width="100%">
         <tr>
             <td style="font-weight: bold;" align="center">@Model.MyCompany.Name.ToUpper()</td>
@@ -36,24 +36,7 @@
         </tr>
         <tr>
             <td style="font-weight: bold;" align="center">
-                @String.Format("CHECK #{0}", Model.Check.id)</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;" align="center">
-                @String.Format("Table#{0}", Model.Check.TableOrder.TableId)
-            </td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;" align="center">@String.Format("{0}", ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
-        </tr>
-
-        <tr>
-            <td align="center">@String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bold;" align="center">
-                @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
-            </td>
+                @String.Format("CHECK #{0} - {1}", Model.Check.id, ((Common.CheckType)Model.Check.Type)).ToUpper()</td>
         </tr>
     </table>
     <br />
@@ -70,10 +53,9 @@
             <tr style="font-style: italic;">
                 <td style="padding-left: 5px;">@subItem.Description</td>
                 @{
-                price = item.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
+                price = subItem.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
                     <td style="text-align: right">@price</td>
                 }
-                <td style="text-align: right">@price</td>
             </tr>
             }
         }
@@ -119,5 +101,13 @@
                 i++;
             }
         }
+        <tr>
+            <td style="font-size: x-small;">
+                <div>
+                    <br />
+                    @String.Format("{0}, {1} {2} {3} {4}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString(), Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
+                </div>
+            </td>
+        </tr>
     </table>
 </div>

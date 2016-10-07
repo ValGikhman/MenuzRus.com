@@ -12,16 +12,20 @@ namespace Services {
 
         #region public
 
-        public void Log(Exception exception) {
-            Log(Common.LogType.Exception, exception.Message, exception.StackTrace, exception.StackTrace);
+        public void Log(Exception exception, Int32 userId, String sessionId) {
+            Log(Common.LogType.Exception, userId, sessionId, exception.Message, exception.StackTrace);
         }
 
-        public void Log(Common.LogType logType, String messsage, params Object[] data) {
-            SendToLogger(logType, messsage, null, 0, null, null, data);
+        public void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, params Object[] data) {
+            SendToLogger(logType, userId, sessionId, messsage, null, null, data);
         }
 
-        public void Log(Common.LogType logType, String messsage, String trace, params Object[] data) {
-            SendToLogger(logType, messsage, trace, 0, null, null, data);
+        public void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, params Object[] data) {
+            SendToLogger(logType, userId, sessionId, messsage, trace, null, data);
+        }
+
+        public void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, String route, params Object[] data) {
+            SendToLogger(logType, userId, sessionId, messsage, trace, route, data);
         }
 
         #endregion public
@@ -49,12 +53,13 @@ namespace Services {
                     }
                 }
                 catch (Exception ex) {
+                    throw ex;
                 }
             }
             return parameter;
         }
 
-        private void SendToLogger(Common.LogType type, String message, String trace, Int32 userId, String sessionId, String route, params Object[] data) {
+        private void SendToLogger(Common.LogType type, Int32 userId, String sessionId, String message, String trace, String route, params Object[] data) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Log log = new Log();
@@ -70,7 +75,7 @@ namespace Services {
                 }
             }
             catch (Exception ex) {
-                return;
+                throw ex;
             }
         }
 

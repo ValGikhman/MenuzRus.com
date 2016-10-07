@@ -12,31 +12,45 @@ using Services;
 namespace MenuzRus {
 
     public class AlertController : BaseController {
+
+        #region Private Fields
+
         private IAlertService _alertService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public AlertController(ISessionData sessionData, IAlertService alertService)
             : base(sessionData) {
             _alertService = alertService;
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [HttpGet]
         public JsonResult GetAlerts() {
             List<Alert> items = new List<Alert>();
             try {
-                items = _alertService.GetAlerts(SessionData.user.id);
-                var retVal = new {
-                    alerts = from var in items
-                             let item = _alertService.GetAlertItem(var.id)
-                             let url = Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", SessionData.customer.id.ToString(), item.ImageUrl, Guid.NewGuid().ToString("N")))
-                             let check = _alertService.GetAlertCheck(var.id)
-                             let table = _alertService.GetAlertTable(check.TableOrder.TableId)
-                             select new { id = var.id, CheckId = check.id, Item = item.Name, Url = url, Table = table.Name }
-                };
-                return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                if (SessionData.user != null) {
+                    items = _alertService.GetAlerts(SessionData.user.id);
+                    var retVal = new {
+                        alerts = from var in items
+                                 let item = _alertService.GetAlertItem(var.id)
+                                 let url = Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", SessionData.customer.id.ToString(), item.ImageUrl, Guid.NewGuid().ToString("N")))
+                                 let check = _alertService.GetAlertCheck(var.id)
+                                 let table = _alertService.GetAlertTable(check.TableOrder.TableId)
+                                 select new { id = var.id, CheckId = check.id, Item = item.Name, Url = url, Table = table.Name }
+                    };
+                    return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
             }
+
             return null;
         }
 
@@ -44,7 +58,9 @@ namespace MenuzRus {
         public Int32 GetAlertsCount() {
             Int32 retVal = 0;
             try {
-                retVal = _alertService.GetAlertsCount(SessionData.user.id);
+                if (SessionData.user != null) {
+                    retVal = _alertService.GetAlertsCount(SessionData.user.id);
+                }
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -86,5 +102,7 @@ namespace MenuzRus {
                 base.Log(ex);
             }
         }
+
+        #endregion Public Methods
     }
 }

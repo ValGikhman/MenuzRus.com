@@ -319,6 +319,9 @@ namespace MenuzRus {
                     if (query != default(Check)) {
                         query.Status = (Int32)status;
                         if (status == Common.CheckStatus.Ordered) {
+                            // Run Inventory
+                            UpdateInventory(checkId);
+
                             kitchenOrder = db.Printouts.FirstOrDefault(m => m.CheckId == checkId);
                             if (kitchenOrder == default(Printout)) {
                                 kitchenOrder = new Printout();
@@ -331,8 +334,6 @@ namespace MenuzRus {
                             }
                         }
                         db.SubmitChanges();
-                        // Run Inventory
-                        UpdateInventory(checkId);
                         return true;
                     }
                 }

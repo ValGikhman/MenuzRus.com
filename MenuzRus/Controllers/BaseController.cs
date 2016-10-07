@@ -14,7 +14,7 @@ namespace MenuzRus.Controllers {
 
         #region Properties
 
-        public LogService _LogService { set; get; }
+        public ILogService _LogService { set; get; }
 
         public Boolean IsLoggedIn { set; get; }
 
@@ -26,6 +26,7 @@ namespace MenuzRus.Controllers {
 
         public BaseController(ISessionData sessionData) {
             this.SessionData = sessionData;
+            _LogService = new LogService();
         }
 
         #endregion Construtors
@@ -67,7 +68,7 @@ namespace MenuzRus.Controllers {
                 }
             }
             catch (Exception ex) {
-                throw;
+                throw ex;
             }
         }
 
@@ -76,7 +77,7 @@ namespace MenuzRus.Controllers {
                 base.OnAuthorization(filterContext);
             }
             catch (Exception ex) {
-                throw;
+                throw ex;
             }
         }
 
@@ -84,8 +85,12 @@ namespace MenuzRus.Controllers {
 
         #region public
 
-        public void Log(Common.LogType logType, String message, params Object[] data) {
-            LogData(logType, message, null, data);
+        public void Log(Common.LogType logType) {
+            LogData(logType);
+        }
+
+        public void Log(Common.LogType logType, String message) {
+            LogData(logType, message);
         }
 
         public void Log(Exception exception) {
@@ -93,13 +98,17 @@ namespace MenuzRus.Controllers {
         }
 
         public void Log(String message, Exception exceptionToLog) {
-            LogData(Common.LogType.Exception, message, exceptionToLog);
+            LogData(Common.LogType.Exception, exceptionToLog);
+        }
+
+        public void Log(Common.LogType type, String message, String trace, String route) {
+            LogData(type, message, trace, route);
         }
 
         private String BuildRoute() {
             String retValue = String.Empty;
             if (RouteData.Values["controller"] != null)
-                retValue = String.Format("{0}/", RouteData.Values["controller"].ToString());
+                retValue = RouteData.Values["controller"].ToString();
 
             if (RouteData.Values["action"] != null)
                 retValue = String.Format("{0}/{1}", retValue, RouteData.Values["action"].ToString());
@@ -111,29 +120,52 @@ namespace MenuzRus.Controllers {
         }
 
         private void LogAcvitity(ActionExecutingContext filterContext) {
-            var actionDescriptor = filterContext.ActionDescriptor;
-            Log(Common.LogType.Activity, "Navigating", "User Name", String.Format("{0} {1} [2]", SessionData.user.FirstName, SessionData.user.LastName, SessionData.user.id), String.Format("Route: {0}/{1}/", actionDescriptor.ControllerDescriptor.ControllerName, actionDescriptor.ActionName));
+            Log(Common.LogType.Activity
+                , "Navigating"
+                , BuildRoute()
+                , SessionData.route
+            );
         }
 
-        private void LogData(Common.LogType logType, String message, params Object[] data) {
+        private void LogData(Common.LogType logType) {
             try {
-                _LogService.Log(logType, message, data);
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, EnumHelper<Common.LogType>.Parse(logType.ToString()).ToString());
             }
-            catch {
-                //Ignore
+            catch (Exception ex) {
+                throw ex;
             }
         }
 
-        private void LogData(Common.LogType logType, Exception exception, params Object[] data) {
+        private void LogData(Common.LogType logType, String message) {
             try {
-                _LogService.Log(logType, exception.Message, exception.StackTrace, data);
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, message);
             }
-            catch {
-                //Ignore
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        private void LogData(Common.LogType logType, Exception exception) {
+            try {
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, exception.Message, exception.StackTrace);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        private void LogData(Common.LogType logType, String message, String trace, String route) {
+            try {
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, message, trace, route);
+            }
+            catch (Exception ex) {
+                throw ex;
             }
         }
 
         #endregion public
+
+        #region Public Methods
 
         public static string RenderViewToString(ControllerContext context, string viewName) {
             return RenderViewToString(context, viewName, null);
@@ -153,5 +185,7 @@ namespace MenuzRus.Controllers {
                 return sw.GetStringBuilder().ToString();
             }
         }
+
+        #endregion Public Methods
     }
 }

@@ -39,13 +39,13 @@
         <classShapeMoniker Id="08476c1b-bfad-4228-80af-2d354b9078c5" />
       </nodes>
     </associationConnector>
-    <classShape Id="51113cdc-e009-4ee8-926f-f2e90f9823aa" absoluteBounds="11, 0.5, 2, 2.5401025390625">
+    <classShape Id="51113cdc-e009-4ee8-926f-f2e90f9823aa" absoluteBounds="11, 0.5, 2, 2.3478011067708335">
       <DataClassMoniker Name="/menuzRusDataContext/Log" />
       <nestedChildShapes>
-        <elementListCompartment Id="bd29beba-b529-431b-85ae-d32ddfe2267d" absoluteBounds="11.015, 0.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bd29beba-b529-431b-85ae-d32ddfe2267d" absoluteBounds="11.015, 0.96, 1.9700000000000002, 1.7878011067708333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(10.5 : 1.77005126953125); (11 : 1.77005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(10.5 : 1.67390055338542); (11 : 1.67390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/menuzRusDataContext/User/User_Log" />
       <nodes>
         <classShapeMoniker Id="9b6f9d3b-70ed-4bb6-8210-3e3d81ae5de7" />
@@ -232,20 +232,6 @@
         <elementListCompartment Id="959a57a7-162d-4ccf-ba50-bbcabf8cb832" absoluteBounds="8.39, 7.2100000000000009, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(9.4375 : 6.3381982421875); (9.4375 : 6.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/menuzRusDataContext/InventoryRegistry/InventoryRegistry_InventoryRegestryCheckMenu" />
-      <nodes>
-        <classShapeMoniker Id="934dfd78-5871-4f87-bd99-65066c41bd67" />
-        <classShapeMoniker Id="1724a310-cb20-42c2-9082-5cb6037f4de9" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(4.875 : 11.75); (4.875 : 11.4848453776042); (6.15625 : 11.4848453776042); (6.15625 : 9.56093587239583); (7.4375 : 9.56093587239583); (7.4375 : 8.01157190755208); (8.375 : 8.01157190755208)]" manuallyRouted="true" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/menuzRusDataContext/ChecksMenu/ChecksMenu_InventoryRegestryCheckMenu" />
-      <nodes>
-        <classShapeMoniker Id="41ab9a99-599a-45a6-b203-eeabd2417690" />
-        <classShapeMoniker Id="1724a310-cb20-42c2-9082-5cb6037f4de9" />
-      </nodes>
-    </associationConnector>
     <classShape Id="e96dca27-d004-4c96-8d06-6187967f81f0" absoluteBounds="0.5, 8.5, 2, 1.5785953776041666">
       <DataClassMoniker Name="/menuzRusDataContext/MenuItem" />
       <nestedChildShapes>
@@ -303,6 +289,20 @@
       <nodes>
         <classShapeMoniker Id="a27c2948-70cc-4c97-84cd-4cb7c9c361b7" />
         <classShapeMoniker Id="4ec6d4e1-b030-48c8-9569-a58566107f1a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.4375 : 6.3381982421875); (9.4375 : 6.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/menuzRusDataContext/InventoryRegistry/InventoryRegistry_InventoryRegistryCheckMenu" />
+      <nodes>
+        <classShapeMoniker Id="934dfd78-5871-4f87-bd99-65066c41bd67" />
+        <classShapeMoniker Id="1724a310-cb20-42c2-9082-5cb6037f4de9" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.875 : 11.75); (4.875 : 11.3910953776042); (6.0625 : 11.3910953776042); (6.0625 : 9.3526025390625); (7.4375 : 9.3526025390625); (7.4375 : 7.8546901656901); (8.375 : 7.8546901656901)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/menuzRusDataContext/ChecksMenu/ChecksMenu_InventoryRegistryCheckMenu" />
+      <nodes>
+        <classShapeMoniker Id="41ab9a99-599a-45a6-b203-eeabd2417690" />
+        <classShapeMoniker Id="1724a310-cb20-42c2-9082-5cb6037f4de9" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

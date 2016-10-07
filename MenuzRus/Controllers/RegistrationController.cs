@@ -10,14 +10,25 @@ using Services;
 namespace MenuzRus {
 
     public class RegistrationController : BaseController {
+
+        #region Private Fields
+
         private ICustomerService _customerService;
         private IUserService _userService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public RegistrationController(ISessionData sessionData, ICustomerService customerService, IUserService userService)
             : base(sessionData) {
             _customerService = customerService;
             _userService = userService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         [HttpGet]
         public String GetRegistrationForm(Int32? id) {
@@ -85,7 +96,7 @@ namespace MenuzRus {
 
                 result = _userService.SaveUser(user);
                 SessionData.user = user;
-                base.Log(Common.LogType.Activity, "Registering", "User", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
+                base.Log(Common.LogType.Activity, "Registering", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
 
                 EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
                 return RedirectToAction("Index", "Login");
@@ -98,5 +109,7 @@ namespace MenuzRus {
 
             return null;
         }
+
+        #endregion Public Methods
     }
 }

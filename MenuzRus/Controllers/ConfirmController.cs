@@ -8,12 +8,23 @@ using Services;
 namespace MenuzRus {
 
     public class ConfirmController : BaseController {
+
+        #region Private Fields
+
         private IConfirmationService _confirmationService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ConfirmController(ISessionData sessionData, IConfirmationService confirmationService)
             : base(sessionData) {
             _confirmationService = confirmationService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public ActionResult ByHash(String id) {
             User model;
@@ -21,10 +32,10 @@ namespace MenuzRus {
             try {
                 model = _confirmationService.Confirm(id);
                 if (model != null) {
-                    base.Log(Common.LogType.Activity, "Email confirmation successful", "User", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.FirstName, model.LastName, model.WorkPhone, model.MobilePhone));
+                    base.Log(Common.LogType.Activity, "Email confirmation successful", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.FirstName, model.LastName, model.WorkPhone, model.MobilePhone));
                 }
                 else {
-                    base.Log(Common.LogType.Activity, "Email confirmation failed", "Hash", id);
+                    base.Log(Common.LogType.Activity, "Email confirmation failed. Hash", id);
                 }
             }
             catch (Exception ex) {
@@ -32,5 +43,7 @@ namespace MenuzRus {
             }
             return RedirectToAction("EmailConfirmation", "Confirmations", new { hash = id });
         }
+
+        #endregion Public Methods
     }
 }

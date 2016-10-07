@@ -14,11 +14,11 @@ namespace Services {
 
         void Log(Exception exception, Int32 userId, String sessionId);
 
-        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, params Object[] data);
+        void Log(Common.LogType logType, Int32 userId, String sessionId, params Object[] data);
 
-        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, params Object[] data);
+        void Log(Common.LogType logType, Int32 userId, String sessionId, String trace, params Object[] data);
 
-        void Log(Common.LogType logType, Int32 userId, String sessionId, String messsage, String trace, String route, params Object[] data);
+        void Log(Common.LogType logType, Int32 userId, String sessionId, String trace, String route, params Object[] data);
 
         #endregion public
     }

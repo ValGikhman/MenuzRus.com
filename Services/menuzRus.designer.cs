@@ -1654,8 +1654,6 @@ namespace Services
 		
 		private int _LogType;
 		
-		private string _Message;
-		
 		private string _Trace;
 		
 		private string _IP;
@@ -1678,8 +1676,6 @@ namespace Services
     partial void OnSessionIdChanged();
     partial void OnLogTypeChanging(int value);
     partial void OnLogTypeChanged();
-    partial void OnMessageChanging(string value);
-    partial void OnMessageChanged();
     partial void OnTraceChanging(string value);
     partial void OnTraceChanged();
     partial void OnIPChanging(string value);
@@ -1776,26 +1772,6 @@ namespace Services
 					this._LogType = value;
 					this.SendPropertyChanged("LogType");
 					this.OnLogTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Message", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Message
-		{
-			get
-			{
-				return this._Message;
-			}
-			set
-			{
-				if ((this._Message != value))
-				{
-					this.OnMessageChanging(value);
-					this.SendPropertyChanging();
-					this._Message = value;
-					this.SendPropertyChanged("Message");
-					this.OnMessageChanged();
 				}
 			}
 		}
@@ -3622,7 +3598,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="ChecksMenuId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegistryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="ChecksMenuId")]
 		public EntitySet<InventoryRegistryCheckMenu> InventoryRegistryCheckMenus
 		{
 			get
@@ -5764,7 +5740,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegestryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="InventoryRegistryId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegistryCheckMenu", Storage="_InventoryRegestryCheckMenus", ThisKey="id", OtherKey="InventoryRegistryId")]
 		public EntitySet<InventoryRegistryCheckMenu> InventoryRegistryCheckMenus
 		{
 			get
@@ -5971,7 +5947,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegestryCheckMenu", Storage="_InventoryRegistry", ThisKey="InventoryRegistryId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="InventoryRegistry_InventoryRegistryCheckMenu", Storage="_InventoryRegistry", ThisKey="InventoryRegistryId", OtherKey="id", IsForeignKey=true)]
 		public InventoryRegistry InventoryRegistry
 		{
 			get
@@ -6005,7 +5981,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegestryCheckMenu", Storage="_ChecksMenu", ThisKey="ChecksMenuId", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChecksMenu_InventoryRegistryCheckMenu", Storage="_ChecksMenu", ThisKey="ChecksMenuId", OtherKey="id", IsForeignKey=true)]
 		public ChecksMenu ChecksMenu
 		{
 			get

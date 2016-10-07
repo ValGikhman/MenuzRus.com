@@ -68,7 +68,6 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SessionId" Type="System.String" DbType="Char(24) NOT NULL" CanBeNull="false" />
       <Column Name="LogType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Message" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Trace" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="IP" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Route" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
@@ -159,7 +158,7 @@
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="ChecksMenu_Alert" Member="Alerts" ThisKey="id" OtherKey="CheckMenuId" Type="Alert" />
-      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="ChecksMenuId" Type="InventoryRegistryCheckMenu" />
+      <Association Name="ChecksMenu_InventoryRegistryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="ChecksMenuId" Type="InventoryRegistryCheckMenu" />
     </Type>
   </Table>
   <Table Name="dbo.Alerts" Member="Alerts">
@@ -261,7 +260,7 @@
       <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Comment" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegistryCheckMenu" />
+      <Association Name="InventoryRegistry_InventoryRegistryCheckMenu" Member="InventoryRegistryCheckMenus" Storage="_InventoryRegestryCheckMenus" ThisKey="id" OtherKey="InventoryRegistryId" Type="InventoryRegistryCheckMenu" />
       <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
@@ -271,8 +270,8 @@
       <Column Name="InventoryRegistryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ChecksMenuId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="InventoryRegistry_InventoryRegestryCheckMenu" Member="InventoryRegistry" ThisKey="InventoryRegistryId" OtherKey="id" Type="InventoryRegistry" IsForeignKey="true" />
-      <Association Name="ChecksMenu_InventoryRegestryCheckMenu" Member="ChecksMenu" ThisKey="ChecksMenuId" OtherKey="id" Type="ChecksMenu" IsForeignKey="true" />
+      <Association Name="InventoryRegistry_InventoryRegistryCheckMenu" Member="InventoryRegistry" ThisKey="InventoryRegistryId" OtherKey="id" Type="InventoryRegistry" IsForeignKey="true" />
+      <Association Name="ChecksMenu_InventoryRegistryCheckMenu" Member="ChecksMenu" ThisKey="ChecksMenuId" OtherKey="id" Type="ChecksMenu" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MenuItems" Member="MenuItems">

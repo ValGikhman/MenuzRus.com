@@ -9,15 +9,23 @@ namespace MenuzRus {
 
     public class LogoutController : BaseController {
 
+        #region Public Constructors
+
         public LogoutController(ISessionData sessionData)
             : base(sessionData) {
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [CheckUserSession]
         public ActionResult Index() {
-            base.Log(Common.LogType.LogOut, "Logging out", "User", String.Format("{0} {1}", SessionData.user.FirstName, SessionData.user.LastName));
+            base.Log(Common.LogType.LogOut);
             Session.Abandon();
             return RedirectToAction("Index", "Login");
         }
+
+        #endregion Public Methods
     }
 }

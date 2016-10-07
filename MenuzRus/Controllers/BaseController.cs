@@ -46,7 +46,8 @@ namespace MenuzRus.Controllers {
             Services.User user = SessionData.GetSession<Services.User>(Constants.SESSION_USER);
 
             this.IsLoggedIn = (SessionData.user != null);
-            SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
+            //SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
+            SessionData.route = this.BuildRoute();
 
             try {
                 // Get the route
@@ -89,20 +90,16 @@ namespace MenuzRus.Controllers {
             LogData(logType);
         }
 
-        public void Log(Common.LogType logType, String message) {
-            LogData(logType, message);
+        public void Log(Common.LogType logType, String trace) {
+            LogData(logType, trace);
         }
 
         public void Log(Exception exception) {
-            LogData(Common.LogType.Exception, exception);
+            LogData(exception);
         }
 
-        public void Log(String message, Exception exceptionToLog) {
-            LogData(Common.LogType.Exception, exceptionToLog);
-        }
-
-        public void Log(Common.LogType type, String message, String trace, String route) {
-            LogData(type, message, trace, route);
+        public void Log(Common.LogType type, String trace, String route) {
+            LogData(type, trace, route);
         }
 
         private String BuildRoute() {
@@ -122,7 +119,6 @@ namespace MenuzRus.Controllers {
         private void LogAcvitity(ActionExecutingContext filterContext) {
             Log(Common.LogType.Activity
                 , "Navigating"
-                , BuildRoute()
                 , SessionData.route
             );
         }
@@ -136,27 +132,27 @@ namespace MenuzRus.Controllers {
             }
         }
 
-        private void LogData(Common.LogType logType, String message) {
+        private void LogData(Common.LogType logType, String trace) {
             try {
-                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, message);
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, trace);
             }
             catch (Exception ex) {
                 throw ex;
             }
         }
 
-        private void LogData(Common.LogType logType, Exception exception) {
+        private void LogData(Exception exception) {
             try {
-                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, exception.Message, exception.StackTrace);
+                _LogService.Log(Common.LogType.Exception, SessionData.user.id, SessionData.sessionId);
             }
             catch (Exception ex) {
                 throw ex;
             }
         }
 
-        private void LogData(Common.LogType logType, String message, String trace, String route) {
+        private void LogData(Common.LogType logType, String trace, String route) {
             try {
-                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, message, trace, route);
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, trace, route);
             }
             catch (Exception ex) {
                 throw ex;

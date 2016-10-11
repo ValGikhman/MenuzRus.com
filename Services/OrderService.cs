@@ -223,7 +223,7 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type, Int32 oldKnopaId) {
+        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
             ItemService _itemService = new ItemService();
             InventoryService _inventoryService = new InventoryService();
 
@@ -386,20 +386,21 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Check check = db.Checks.Where(m => m.id == checkId).FirstOrDefault();
                     foreach (Services.ChecksMenu menuItem in menus) {
-                        Item itemMenu = _itemService.GetItem(menuItem.MenuId);
-                        foreach (ItemInventoryAssociation association in itemMenu.ItemInventoryAssociations) {
-                            Item item = _itemService.GetItem(association.AssociatedItemId);
-                            _inventoryService.AddInventoryRegistry(association, menuItem, item.Name);
-                        }
+                        /// We need to make sure that we are not double logging inventory
+                        if (!db.InventoryRegistryCheckMenus.Any(m => m.ChecksMenuId == menuItem.id)) {
+                            Item itemMenu = _itemService.GetItem(menuItem.MenuId);
+                            foreach (ItemInventoryAssociation association in itemMenu.ItemInventoryAssociations) {
+                                _inventoryService.AddInventoryRegistry(association, menuItem);
+                            }
 
-                        products = GetProducts(menuItem.id);
-                        if (products.Any()) {
-                            foreach (Services.ChecksMenuProduct productItem in products) {
-                                foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
-                                    Item prodItem = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
-                                    foreach (ItemInventoryAssociation association in prodItem.ItemInventoryAssociations) {
-                                        Item item = _itemService.GetItem(association.AssociatedItemId);
-                                        _inventoryService.AddInventoryRegistry(association, menuItem, item.Name);
+                            products = GetProducts(menuItem.id);
+                            if (products.Any()) {
+                                foreach (Services.ChecksMenuProduct productItem in products) {
+                                    foreach (Services.ChecksMenuProductItem associatedItem in productItem.ChecksMenuProductItems) {
+                                        Item prodItem = _itemService.GetItemProductAssosiationsById(associatedItem.ItemId);
+                                        foreach (ItemInventoryAssociation association in prodItem.ItemInventoryAssociations) {
+                                            _inventoryService.AddInventoryRegistry(association, menuItem);
+                                        }
                                     }
                                 }
                             }

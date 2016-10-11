@@ -1,6 +1,8 @@
 ﻿var tableId;
 
 $(function () {
+    setMenu();
+
     tableId = $("#Table_id").val();
 
     if ($("#btnTableStatus").text() == "Closed") {
@@ -38,7 +40,6 @@ $(function () {
         });
 
         toggleObjects(text);
-        checkStatusManager(text);
     });
 
     $("#tableStatus li a").click(function () {
@@ -101,6 +102,8 @@ $(function () {
     $("#Menus li a").click(function () {
         $("#btnMenus").text($(this).text());
         getCurrentMenu($(this).attr("data-value"));
+        var cookie = $.validator.format("{0}:{1}", $(this).attr("data-value"), $(this).text());
+        createCookie("currentMenu", cookie, 0);
     });
 
     showOrder(tableId);
@@ -265,12 +268,11 @@ function saveItem(element) {
     var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     var productId = $(element).parent().attr("data-value");
     var knopaId = $(object).attr("data-value");
-    var oldKnopaId = $(element).parent().find(".active").find("input").attr("data-value");
     var type = $(object).attr("data-type");
 
     var container = $(".order");
     container.block();
-    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "checkId": checkId, "productId": productId, "knopaId": knopaId, "type": type, "oldKnopaId": oldKnopaId }, "json")
+    var jqxhr = $.post($.validator.format("{0}Order/SaveItem", root), { "checkId": checkId, "productId": productId, "knopaId": knopaId, "type": type }, "json")
         .done(function (result) {
         })
         .fail(function () {
@@ -415,6 +417,7 @@ function updateCheckStatus(id, status, adjustment, split) {
     var type = $(".check").find(".tab-pane.active").attr("data-type");
     var jqxhr = $.post($.validator.format("{0}Order/UpdateCheckStatus", root), { "checkId": id, "status": status, "adjustment": adjustment, "split": split, "type": type }, "json")
         .done(function (result) {
+            checkStatusManager(status);
             message("Status changed", "success", "topCenter");
         })
         .fail(function () {
@@ -539,4 +542,13 @@ function getCurrentMenu(id) {
         .always(function () {
             container.unblock();
         });
+}
+
+function setMenu() {
+    var cookies = readCookie("currentMenu");
+    if (cookies) {
+        var array = cookies.split(':');
+        getCurrentMenu(array[0]);
+        $("#btnMenus").text(array[1]);
+    }
 }

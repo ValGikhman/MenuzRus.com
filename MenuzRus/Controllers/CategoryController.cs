@@ -12,12 +12,23 @@ using Services;
 namespace MenuzRus {
 
     public class CategoryController : BaseController {
+
+        #region Private Fields
+
         private ICategoryService _categoryService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public CategoryController(ISessionData sessionData, ICategoryService categoryService)
             : base(sessionData) {
             _categoryService = categoryService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         [HttpPost]
         public ActionResult DeleteCategory(Int32? id) {
@@ -59,7 +70,8 @@ namespace MenuzRus {
                 category.id = model.id;
                 category.Name = model.Name;
                 category.Description = model.Description;
-                category.Status = (Int32)Common.Status.Active;
+                //category.Status = (Int32)Common.Status.Active;
+                category.Status = (Int32)model.Status;
                 category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
                 category.CustomerId = SessionData.customer.id;
@@ -91,6 +103,8 @@ namespace MenuzRus {
             // Default menuDesigner
             return RedirectToAction("Index", "Designer", new { id = (Int32)model.Type });
         }
+
+        #endregion Public Methods
 
         #region private
 

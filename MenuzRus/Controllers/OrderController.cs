@@ -245,9 +245,9 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type, Int32 oldKnopaId) {
+        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
             try {
-                _orderService.SaveItem(productId, knopaId, type, oldKnopaId);
+                _orderService.SaveItem(productId, knopaId, type);
             }
             catch (Exception ex) {
                 base.Log(ex);

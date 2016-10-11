@@ -5820,7 +5820,7 @@ namespace Services
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.InventoryRegestryCheckMenu")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.InventoryRegistryCheckMenu")]
 	public partial class InventoryRegistryCheckMenu : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		

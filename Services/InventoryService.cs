@@ -8,7 +8,27 @@ namespace MenuzRus {
 
         #region Public Methods
 
-        public Boolean AddInventoryRegestryCheckMenu(Int32 registryId, Int32 checkMenuId) {
+        public Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu) {
+            String comment;
+            Int32 associatedItemId;
+            Common.InventoryType type;
+            Decimal quantity;
+            try {
+                comment = String.Format("Taken [{0}] from: [{1}]. Check# {2}", association.Quantity, association.Item.Name, checkMenu.CheckId);
+                associatedItemId = association.AssociatedItemId;
+                type = Common.InventoryType.Out; ;
+                quantity = Math.Abs(association.Quantity) * -1;
+
+                AddItemRegistry(associatedItemId, quantity, type, comment);
+                AddInventoryRegistryCheckMenu(associatedItemId, checkMenu.id);
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
+
+        public Boolean AddInventoryRegistryCheckMenu(Int32 registryId, Int32 checkMenuId) {
             InventoryRegistryCheckMenu item;
             try {
                 item = new InventoryRegistryCheckMenu();
@@ -19,26 +39,6 @@ namespace MenuzRus {
                     db.InventoryRegistryCheckMenus.InsertOnSubmit(item);
                     db.SubmitChanges();
                 }
-            }
-            catch (Exception ex) {
-                return false;
-            }
-            return true;
-        }
-
-        public Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name) {
-            String comment;
-            Int32 associatedItemId;
-            Common.InventoryType type;
-            Decimal quantity;
-            try {
-                comment = String.Format("Taken [{0}] of [{1}] from: [{2}]. Check# {3}", association.Quantity, name, association.Item.Name, checkMenu.CheckId);
-                associatedItemId = association.AssociatedItemId;
-                type = Common.InventoryType.Out; ;
-                quantity = Math.Abs(association.Quantity) * -1;
-
-                AddItemRegistry(associatedItemId, quantity, type, comment);
-                AddInventoryRegestryCheckMenu(associatedItemId, checkMenu.id);
             }
             catch (Exception ex) {
                 return false;
@@ -94,7 +94,7 @@ namespace MenuzRus {
                 quantity = Math.Abs(association.Quantity);
 
                 AddItemRegistry(associatedItemId, quantity, type, comment);
-                AddInventoryRegestryCheckMenu(associatedItemId, checkMenu.id);
+                AddInventoryRegistryCheckMenu(associatedItemId, checkMenu.id);
             }
             catch (Exception ex) {
                 return false;

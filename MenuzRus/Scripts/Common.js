@@ -318,3 +318,30 @@ function readCookie(name) {
 function eraseCookie(name) {
     createCookie(name, "", -1);
 }
+
+function checksPrint(checksIds) {
+    var container = $(".menuActions-container");
+    container.block();
+
+    var split = parseInt($("#slideSplit").val());
+    if (!split) {
+        split = 1;
+    }
+    var adjustment = parseInt($("#adjustmentSplit").val());
+    if (!adjustment) {
+        adjustment = 0;
+    }
+
+    var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
+        .done(function (result) {
+            if (printerPOS != "") {
+                printData(result, printerPOS);
+            }
+        })
+        .fail(function () {
+            message("::checksPrint:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            container.unblock();
+        });
+}

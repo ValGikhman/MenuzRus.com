@@ -10,6 +10,8 @@ namespace MenuzRus {
 
     public interface IOrderService {
 
+        #region Public Methods
+
         Int32 AddNewTableOrder(Int32 tableId);
 
         Boolean DeleteCheck(Int32 id);
@@ -42,7 +44,7 @@ namespace MenuzRus {
 
         List<TableOrder> GetTableOrdersByFloorId(Int32 floorId);
 
-        void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type, Int32 oldKnopaId);
+        void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
 
         ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId);
 
@@ -57,5 +59,7 @@ namespace MenuzRus {
         void UpdateMenuItemStatus(Int32 id, Common.MenuItemStatus status);
 
         Boolean UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status);
+
+        #endregion Public Methods
     }
 }

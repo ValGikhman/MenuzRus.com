@@ -19,7 +19,7 @@
                 <h4 class="modal-title menuTitle">Check view</h4>
             </div>
 
-            <div id="checkViewForm" class="modal-body" style="height:450px; overflow: auto;">
+            <div id="checkViewForm" class="modal-body" style="height: 450px; overflow: auto;">
             </div>
             <div class="modal-footer">
                 <button id="btnCancelCheck" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
@@ -56,11 +56,18 @@
         <div id="chart"></div>
     </div>
 </div>
-
+@Html.Hidden("hdCheckId")
 <script>
     var graphArray = [];
 
     $(function () {
+        if (webSocket == null) {
+            $("#btnPrintCheck").hide();
+        }
+        else {
+            $("#btnPrintCheck").show();
+        }
+
         //activate chart
         google.charts.load("current", { "packages": ["bar"] });
         //google.charts.setOnLoadCallback(drawStuff);
@@ -175,6 +182,17 @@
             }
         });
 
+        $("#btnPrintCheck").on("click", function () {
+            if (webSocket != null) {
+                var ids = new Array();
+                ids.push(parseInt($("#hdCheckId").val()));
+                checksPrint(ids);
+            }
+            else {
+                message("::Printing:: Failed.", "error", "topCenter");
+            }
+        });
+
         function toggleGraph() {
             if ($("#graphSwitch").prop("checked")) {
                 $("#chart").show();
@@ -241,6 +259,7 @@
     });
 
     function showCheck(checkId) {
+        $("#hdCheckId").val(checkId);
         var container = $(".container-report");
         $(container).block();
         var jqxhr = $.get($.validator.format("{0}Order/ShowCheck", root), { "checkId": checkId }, "json")

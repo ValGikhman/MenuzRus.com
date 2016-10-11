@@ -12,16 +12,25 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ItemController : BaseController {
-        private ICategoryService _categoryService;
-        private IItemService _itemService;
-        private IInventoryService _inventoryService;
 
-        public ItemController(ISessionData sessionData, IItemService itemService, InventoryService inventoryService, ICategoryService categoryService)
+        #region Private Fields
+
+        private ICategoryService _categoryService;
+        private IInventoryService _inventoryService;
+        private IItemService _itemService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public ItemController(ISessionData sessionData, IItemService itemService, IInventoryService inventoryService, ICategoryService categoryService)
             : base(sessionData) {
             _itemService = itemService;
             _categoryService = categoryService;
             _inventoryService = inventoryService;
         }
+
+        #endregion Public Constructors
 
         #region item
 
@@ -64,7 +73,8 @@ namespace MenuzRus.Controllers {
                 item.Name = model.Name;
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
-                item.Status = (Int32)Common.Status.Active;
+                //item.Status = (Int32)Common.Status.Active;
+                item.Status = (Int32)model.Status;
                 item.UOM = (Int32)model.UOM;
 
                 if (model.Image != null) {

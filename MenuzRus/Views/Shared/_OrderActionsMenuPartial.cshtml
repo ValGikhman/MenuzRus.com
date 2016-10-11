@@ -71,27 +71,6 @@
 
     });
 
-    function checksPrint(checksIds) {
-        var container = $(".menuActions-container");
-        container.block();
-
-        var split = parseInt($("#slideSplit").val());
-        var adjustment = parseInt($("#adjustmentSplit").val());
-
-        var jqxhr = $.get($.validator.format("{0}Order/ChecksPrint", root), { "checksIds": JSON.stringify(checksIds), "split": split, "adjustment": adjustment }, "json")
-            .done(function (result) {
-                if (printerPOS != "") {
-                    printData(result, printerPOS);
-                }
-            })
-            .fail(function () {
-                message("::checksPrint:: Failed.", "error", "topCenter");
-            })
-            .always(function () {
-                container.unblock();
-            });
-    }
-
     function selectAll() {
         $(".chosen-select option").prop("selected", true);
         $(".chosen-select").trigger("chosen:updated");

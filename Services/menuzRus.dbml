@@ -264,7 +264,7 @@
       <Association Name="Item_InventoryRegistry" Member="Item" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.InventoryRegestryCheckMenu" Member="InventoryRegistryCheckMenus">
+  <Table Name="dbo.InventoryRegistryCheckMenu" Member="InventoryRegistryCheckMenus">
     <Type Name="InventoryRegistryCheckMenu">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="InventoryRegistryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />

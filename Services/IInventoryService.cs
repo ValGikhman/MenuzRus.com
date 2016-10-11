@@ -11,9 +11,11 @@ namespace MenuzRus {
 
     public interface IInventoryService {
 
-        Boolean AddInventoryRegestryCheckMenu(Int32 registryId, Int32 checkMenuId);
+        #region Public Methods
 
-        Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name);
+        Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu);
+
+        Boolean AddInventoryRegistryCheckMenu(Int32 registryId, Int32 checkMenuId);
 
         Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment);
 
@@ -22,5 +24,7 @@ namespace MenuzRus {
         Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name);
 
         Boolean SaveInventoryAssociation(ItemInventoryAssociation item);
+
+        #endregion Public Methods
     }
 }

@@ -45,7 +45,7 @@
         <elementListCompartment Id="bd29beba-b529-431b-85ae-d32ddfe2267d" absoluteBounds="11.015, 0.96, 1.9700000000000002, 1.7878011067708333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(10.5 : 1.67390055338542); (11 : 1.67390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(10.5 : 1.67390055338542); (11 : 1.67390055338542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/User/User_Log" />
       <nodes>
         <classShapeMoniker Id="9b6f9d3b-70ed-4bb6-8210-3e3d81ae5de7" />
@@ -76,7 +76,7 @@
         <elementListCompartment Id="8c80a9f4-d6fb-4821-b8fa-886e8abc9fe0" absoluteBounds="0.51500000000000057, 3.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 3.27005126953125); (7.69791666666667 : 3.27005126953125 : JumpStart); (7.86458333333333 : 3.27005126953125 : JumpEnd); (8.5 : 3.27005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.5 : 3.27005126953125); (8.5 : 3.27005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_User" />
       <nodes>
         <classShapeMoniker Id="bda41c76-428e-45e7-b656-d85856b0553c" />
@@ -291,14 +291,14 @@
         <classShapeMoniker Id="4ec6d4e1-b030-48c8-9569-a58566107f1a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(9.4375 : 6.3381982421875); (9.4375 : 6.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(9.4375 : 6.3381982421875); (9.4375 : 6.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/InventoryRegistry/InventoryRegistry_InventoryRegistryCheckMenu" />
       <nodes>
         <classShapeMoniker Id="934dfd78-5871-4f87-bd99-65066c41bd67" />
         <classShapeMoniker Id="1724a310-cb20-42c2-9082-5cb6037f4de9" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.875 : 11.75); (4.875 : 11.3910953776042); (6.0625 : 11.3910953776042); (6.0625 : 9.3526025390625); (7.4375 : 9.3526025390625); (7.4375 : 7.8546901656901); (8.375 : 7.8546901656901)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.875 : 11.75); (4.875 : 11.3910953776042); (6.0625 : 11.3910953776042); (6.0625 : 9.3526025390625); (7.4375 : 9.3526025390625); (7.4375 : 7.8546901656901); (8.375 : 7.8546901656901)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/ChecksMenu/ChecksMenu_InventoryRegistryCheckMenu" />
       <nodes>
         <classShapeMoniker Id="41ab9a99-599a-45a6-b203-eeabd2417690" />

@@ -17,12 +17,33 @@ namespace MenuzRus {
             return db.Customers.Where(m => m.id == id).FirstOrDefault();
         }
 
+        public List<Module> GetModulesAll() {
+            try {
+                menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+                return db.Modules.ToList();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public List<Module> GetModulesByCustomer(Int32 id) {
+            menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+            return (from cm in db.CustomerModules
+                    join mp in db.ModulePrices on cm.ModulePriceId equals mp.id
+                    join m in db.Modules on mp.ModuleId equals m.id
+                    where cm.CustomerId == id
+                    select m).ToList();
+        }
+
         public Int32 SaveCustomer(Customer customer) {
             Customer query = new Customer();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    if (customer.id != 0)
+                    if (customer.id != 0) {
                         query = db.Customers.Where(m => m.id == customer.id).FirstOrDefault();
+                    }
+
                     if (query != default(Customer)) {
                         query.Name = customer.Name;
                         query.Address = customer.Address;
@@ -36,16 +57,16 @@ namespace MenuzRus {
                     }
 
                     if (customer.id == 0) {
-                        db.Customers.InsertOnSubmit(customer);
+                        db.Customers.InsertOnSubmit(query);
                     }
                     db.SubmitChanges();
-                    // Update ImageName for new category
+                    // Update ImageName for a new category
                     if (customer.id == 0 && query.ImageUrl != null) {
                         query.ImageUrl = String.Format("{0}{1}", query.id, customer.ImageUrl);
                         db.SubmitChanges();
                     }
 
-                    // Create infostructure
+                    // Create infrastructure
                     String path = String.Format("{0}//Images/Menus/{1}", AppDomain.CurrentDomain.BaseDirectory, customer.id);
                     if (!Directory.Exists(path)) {
                         DirectoryInfo di = Directory.CreateDirectory(path);
@@ -69,9 +90,26 @@ namespace MenuzRus {
                 }
             }
             catch (Exception ex) {
-                return 0;
+                throw ex;
             }
             return query.id;
+        }
+
+        public void SaveModulesByCustomer(Int32 id, Int32[] modulesIds) {
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    CustomerModule customerModule = new CustomerModule();
+                    customerModule.CustomerId = id;
+                    foreach (Int32 priceId in modulesIds) {
+                        customerModule.ModulePriceId = priceId;
+                        db.CustomerModules.InsertOnSubmit(customerModule);
+                    }
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         #endregion customer

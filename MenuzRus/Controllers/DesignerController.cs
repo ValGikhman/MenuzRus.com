@@ -13,14 +13,25 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class DesignerController : BaseController {
+
+        #region Public Fields
+
         public ICategoryService _categoryService;
         public IMenuService _menuService;
+
+        #endregion Public Fields
+
+        #region Public Constructors
 
         public DesignerController(ISessionData sessionData, ICategoryService categoryService, IMenuService menuService)
             : base(sessionData) {
             _categoryService = categoryService;
             _menuService = menuService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         [HttpPost]
         public ActionResult DeleteMenu(Int32 id) {
@@ -48,20 +59,20 @@ namespace MenuzRus.Controllers {
             else {
                 categoryType = EnumHelper<Common.CategoryType>.Parse(id);
             }
-            model = GetModel(categoryType);
+            model = GetModel(categoryType, null);
 
             return View("Index", model);
         }
 
         [HttpGet]
-        public JsonResult LoadData(String type) {
+        public JsonResult LoadData(String type, String search) {
             DesignerModel model;
             Int32 categoryType = Int32.Parse(type);
             List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>> gridData;
 
             try {
                 gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
-                model = GetModel((Common.CategoryType)categoryType);
+                model = GetModel((Common.CategoryType)categoryType, search);
 
                 Tuple<Int32, String, Int32, String, String, Decimal, Boolean> gridRow;
                 foreach (Services.Category category in model.Categories) {
@@ -196,14 +207,18 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        #endregion Public Methods
+
         #region private
 
-        private DesignerModel GetModel(Common.CategoryType type) {
+        private DesignerModel GetModel(Common.CategoryType type, String search) {
             DesignerModel model = new DesignerModel();
 
             try {
+                search = String.IsNullOrEmpty(search) ? search : search.ToUpper();
+
                 model.CategoryType = type;
-                model.Categories = _categoryService.GetCategories(SessionData.customer.id, type);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, type, search);
                 model.ItemProducts = null;
                 if (SessionData.item != null) {
                     model.ItemProducts = SessionData.item.ItemProducts;

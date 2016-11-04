@@ -11,6 +11,8 @@ namespace Extensions {
 
     public static class Extensions {
 
+        #region Public Methods
+
         public static String CleanPhone(this String phone) {
             Regex digitsOnly = new Regex(@"[^\d]");
             return digitsOnly.Replace(phone, "");
@@ -45,5 +47,21 @@ namespace Extensions {
             MD5 m = MD5.Create();
             return BitConverter.ToString(m.ComputeHash(System.Text.Encoding.ASCII.GetBytes(word)));
         }
+
+        public static String toLower(this String text) {
+            if (String.IsNullOrEmpty(text)) {
+                return String.Empty;
+            }
+            return text.ToLower();
+        }
+
+        public static String toUpper(this String text) {
+            if (String.IsNullOrEmpty(text)) {
+                return String.Empty;
+            }
+            return text.ToUpper();
+        }
+
+        #endregion Public Methods
     }
 }

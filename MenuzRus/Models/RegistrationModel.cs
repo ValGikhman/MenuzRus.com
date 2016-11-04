@@ -10,8 +10,14 @@ namespace MenuzRus.Models {
 
     public class RegistrationModel : BaseModel {
 
+        #region Public Properties
+
         public CustomerModel Customer { get; set; }
 
+        public String Modules { get; set; }
+
         public UserModel User { get; set; }
+
+        #endregion Public Properties
     }
 }

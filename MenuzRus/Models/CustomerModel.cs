@@ -10,6 +10,8 @@ namespace MenuzRus.Models {
 
     public class CustomerModel : BaseModel {
 
+        #region Public Properties
+
         [DisplayName("Address")]
         [Required]
         public String Address { get; set; }
@@ -28,6 +30,8 @@ namespace MenuzRus.Models {
 
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
+
+        public List<Services.Module> Modules { get; set; }
 
         [DisplayName("Business Name")]
         [Required]
@@ -69,5 +73,7 @@ namespace MenuzRus.Models {
         [DisplayName("Zip")]
         [Required]
         public String Zip { get; set; }
+
+        #endregion Public Properties
     }
 }

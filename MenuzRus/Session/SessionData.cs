@@ -10,11 +10,20 @@ using Services;
 namespace MenuzRus {
 
     public class SessionData : ISessionData {
+
+        #region Private Fields
+
         private readonly IHttpContextProvider _httpContext;
         private Customer _customer = null;
         private Exception _exception = null;
         private Services.Floor _floor = null;
         private Services.Item _item = null;
+
+        private Boolean _moduleInventory;
+
+        private Boolean _modulePrint;
+
+        private Boolean _moduleReports;
 
         //private Services.Menu _menu;
         private Int32 _printerKitchenWidth = 0;
@@ -25,9 +34,17 @@ namespace MenuzRus {
         private String _route = null;
         private Services.User _user = null;
 
+        #endregion Private Fields
+
+        #region Public Constructors
+
         public SessionData(IHttpContextProvider httpContext) {
             _httpContext = httpContext;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         public Customer customer {
             get {
@@ -62,6 +79,33 @@ namespace MenuzRus {
             }
             set {
                 SetSession(Constants.SESSION_ITEM, value);
+            }
+        }
+
+        public Boolean moduleInventory {
+            get {
+                return GetSession<Boolean>(Constants.SESSION_MODULE_INVENTORY, _moduleInventory);
+            }
+            set {
+                SetSession(Constants.SESSION_MODULE_INVENTORY, value);
+            }
+        }
+
+        public Boolean modulePrint {
+            get {
+                return GetSession<Boolean>(Constants.SESSION_MODULE_PRINT, _modulePrint);
+            }
+            set {
+                SetSession(Constants.SESSION_MODULE_PRINT, value);
+            }
+        }
+
+        public Boolean moduleReports {
+            get {
+                return GetSession<Boolean>(Constants.SESSION_MODULE_REPORTS, _moduleReports);
+            }
+            set {
+                SetSession(Constants.SESSION_MODULE_REPORTS, value);
             }
         }
 
@@ -136,6 +180,10 @@ namespace MenuzRus {
             }
         }
 
+        #endregion Public Properties
+
+        #region Public Methods
+
         public T GetSession<T>(String key) {
             return GetSession<T>(key, default(T));
         }
@@ -154,5 +202,7 @@ namespace MenuzRus {
         public void SetSession(String key, Object data) {
             _httpContext.Current.Session[key] = data;
         }
+
+        #endregion Public Methods
     }
 }

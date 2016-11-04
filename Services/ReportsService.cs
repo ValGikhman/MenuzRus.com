@@ -41,12 +41,17 @@ namespace Services {
         }
 
         public class SalesRecord {
+
+            #region Public Properties
+
             public Decimal? Adjustment { get; set; }
             public String Check { get; set; }
             public String DateModified { get; set; }
             public Decimal? Price { get; set; }
             public Decimal? Tax { get; set; }
             public Decimal? Total { get; set; }
+
+            #endregion Public Properties
         }
 
         #endregion Sales Report
@@ -55,8 +60,6 @@ namespace Services {
 
         public List<Services.ReportsService.InventoryRecord> InventoryDataSet(DateTime dateFrom, DateTime dateTo) {
             try {
-                String aaaa = EnumHelper<Common.UOM>.Parse(2.ToString()).ToString();
-
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
                 List<Services.ReportsService.InventoryRecord> retVal = null;
                 retVal = (from ib in db.InventoryBalances
@@ -91,18 +94,23 @@ namespace Services {
         }
 
         public class InventoryRecord {
+
+            #region Public Properties
+
             public String Date { get; set; }
+            public Decimal In { get; set; }
+            public Decimal InTotal { get; set; }
             public String Item { get; set; }
-            public String UOM { get; set; }
+            public Decimal Out { get; set; }
+            public Decimal OutTotal { get; set; }
             public Decimal Price { get; set; }
             public Decimal Start { get; set; }
             public Decimal StartTotal { get; set; }
-            public Decimal In { get; set; }
-            public Decimal InTotal { get; set; }
-            public Decimal Out { get; set; }
-            public Decimal OutTotal { get; set; }
             public Decimal? Total { get; set; }
             public Decimal? TotalTotal { get; set; }
+            public String UOM { get; set; }
+
+            #endregion Public Properties
         }
 
         #endregion Inventory Report

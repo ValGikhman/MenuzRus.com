@@ -371,6 +371,10 @@ function showMenus(checkId) {
     var jqxhr = $.get($.validator.format("{0}Order/ShowMenus", root), { "checkId": checkId }, "json")
         .done(function (result) {
             $(".check").find(".tab-pane.active").html(result.html);
+            var active = $(".checks li:last a");
+            if ($(active).length > 0) {
+                toggleObjects($(active).attr("data-status"));
+            }
         })
         .fail(function () {
             message("::showMenus:: Failed.", "error", "topCenter");

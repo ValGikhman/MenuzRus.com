@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
+using System.Linq;
 using System.Web.Mvc;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
@@ -40,7 +42,7 @@ namespace MenuzRus {
         [HttpPost]
         public ActionResult Index(LoginModel model) {
             String pathToNavigate = "~/Order/Tables";
-            Tuple<Services.User, Services.Customer> data;
+            Tuple<Services.User, Services.Customer, List<String>> data;
 
             try {
                 data = _loginService.Login(model.Email, model.Password);
@@ -51,6 +53,10 @@ namespace MenuzRus {
 
                 SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
+
+                SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(Common.Modules.Inventory.ToString()));
+                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()));
+                SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(Common.Modules.Reports.ToString()));
 
                 IsLoggedIn = true;
                 model.Success = true;

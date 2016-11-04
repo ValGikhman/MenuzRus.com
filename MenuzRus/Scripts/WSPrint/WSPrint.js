@@ -1,5 +1,4 @@
-﻿var webSocket;
-var WSPrint = {
+﻿var WSPrint = {
     open: function () {
         if (!webSocket) {
             webSocket = new WS(
@@ -16,6 +15,7 @@ var WSPrint = {
                     var j = JSON.parse(m)
                     if (j.status == "OK=getPrinters") {
                         printers = JSON.parse(j.message);
+                        printers.splice(0, 0, "None")
                         WSPrint.sendPrinters();
                     }
                 }

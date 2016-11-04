@@ -10,8 +10,12 @@ namespace MenuzRus {
 
     public interface ILoginService {
 
+        #region Public Methods
+
         Boolean GetProduction();
 
-        Tuple<User, Customer> Login(String email, String password);
+        Tuple<User, Customer, List<String>> Login(String email, String password);
+
+        #endregion Public Methods
     }
 }

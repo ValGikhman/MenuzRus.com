@@ -365,6 +365,7 @@
     <Content Include="Scripts\JQuery\jquery-3.1.0.slim.js" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.slim.min.js" />
     <None Include="Scripts\JQuery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\JQuery\jquery.mask.js" />
     <Content Include="Scripts\JQuery\jquery.validate.js" />
     <Content Include="Scripts\JQuery\jquery.validate.min.js" />
     <Content Include="Scripts\kitchenOrder.js" />
@@ -601,7 +602,7 @@
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\Ajax\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\designer.js" />
-    <Content Include="Scripts\WSPrint\WSPrint-assembly-1.0.jar" />
+    <Content Include="Scripts\WSPrint\WSPrint.jar" />
     <Content Include="Scripts\WSPrint\WSPrint.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -618,6 +619,8 @@
     <Content Include="Views\KitchenOrder\Index.cshtml" />
     <Content Include="Views\Reports\Sales.cshtml" />
     <Content Include="Views\Reports\Inventory.cshtml" />
+    <Content Include="Views\Shared\_PayPalPartial.cshtml" />
+    <Content Include="Views\Registration\PayPal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

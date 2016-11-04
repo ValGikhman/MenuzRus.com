@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 public static class Common {
 
+    #region Public Enums
+
     public enum Alert {
 
         [Display(Name = "The dish is ready")]
@@ -120,6 +122,12 @@ public static class Common {
     public enum MenuItemStatus {
         Active = 1,
         Ordered = 2
+    }
+
+    public enum Modules {
+        Print,
+        Inventory,
+        Reports
     }
 
     public enum PrinterWidth {
@@ -260,6 +268,10 @@ public static class Common {
         Waiter = 4
     }
 
+    #endregion Public Enums
+
+    #region Public Methods
+
     public static String GetIP() {
         String strHostName = "";
         strHostName = System.Net.Dns.GetHostName();
@@ -267,9 +279,13 @@ public static class Common {
         IPAddress[] addr = ipEntry.AddressList;
         return addr[addr.Length - 2].ToString();
     }
+
+    #endregion Public Methods
 }
 
 public static class EnumHelper<T> {
+
+    #region Public Methods
 
     public static string GetDisplayValue(T value) {
         var fieldInfo = value.GetType().GetField(value.ToString());
@@ -301,4 +317,6 @@ public static class EnumHelper<T> {
     public static T Parse(String value) {
         return (T)Enum.Parse(typeof(T), value, true);
     }
+
+    #endregion Public Methods
 }

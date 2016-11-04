@@ -28,7 +28,6 @@
       <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="User_Log" Member="Logs" ThisKey="id" OtherKey="UserId" Type="Log" />
       <Association Name="Customer_User" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
@@ -72,7 +71,6 @@
       <Column Name="IP" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Route" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="User_Log" Member="User" ThisKey="UserId" OtherKey="id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.TableOrder" Member="TableOrders">
@@ -81,7 +79,7 @@
       <Column Name="TableId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="TableOrder_Check" Member="Checks" Storage="_OrderChecks" ThisKey="id" OtherKey="TableOrderId" Type="Check" />
     </Type>
   </Table>
@@ -121,6 +119,7 @@
       <Association Name="Customer_User" Member="Users" ThisKey="id" OtherKey="CustomerId" Type="User" />
       <Association Name="Customer_Category" Member="Categories" ThisKey="id" OtherKey="CustomerId" Type="Category" />
       <Association Name="Customer_Floor" Member="Floors" ThisKey="id" OtherKey="CustomerId" Type="Floor" />
+      <Association Name="Customer_CustomerModule" Member="CustomerModules" ThisKey="id" OtherKey="CustomerId" Type="CustomerModule" />
     </Type>
   </Table>
   <Table Name="dbo.Printouts" Member="Printouts">
@@ -231,8 +230,8 @@
       <Column Name="ImageUrl" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UOM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime" IsDbGenerated="true" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" IsDbGenerated="true" CanBeNull="true" />
       <Association Name="Item_ItemPrice" Member="ItemPrices" ThisKey="id" OtherKey="ItemId" Type="ItemPrice" />
       <Association Name="Item_ItemProduct" Member="ItemProducts" ThisKey="id" OtherKey="ItemId" Type="ItemProduct" />
       <Association Name="Item_ItemInventoryAssociation" Member="ItemInventoryAssociations" ThisKey="id" OtherKey="ItemInventoryId" Type="ItemInventoryAssociation" />
@@ -291,7 +290,7 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Menus_MenuItem" Member="MenuItems" ThisKey="id" OtherKey="MenuId" Type="MenuItem" />
     </Type>
   </Table>
@@ -304,7 +303,7 @@
       <Column Name="Height" Type="System.Int32" DbType="Int" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DateModified" AutoSync="OnUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Floor_Table" Member="Tables" ThisKey="id" OtherKey="FloorId" Type="Table" />
       <Association Name="Customer_Floor" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
@@ -318,8 +317,37 @@
       <Column Name="[In]" Member="In" Type="System.Decimal" DbType="Decimal(8,2) NOT NULL" CanBeNull="false" />
       <Column Name="Out" Type="System.Decimal" DbType="Decimal(8,2) NOT NULL" CanBeNull="false" />
       <Column Name="Saldo" Type="System.Decimal" DbType="Decimal(10,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="InventoryBalance_Item" Member="Items" ThisKey="AssociatedItemId" OtherKey="id" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ModulePrice" Member="ModulePrices">
+    <Type Name="ModulePrice">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ModuleId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" AutoSync="OnInsert" Type="System.DateTime" DbType="DateTime NOT NULL" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Module_ModulePrice" Member="Module" ThisKey="ModuleId" OtherKey="id" Type="Module" IsForeignKey="true" />
+      <Association Name="CustomerModule_ModulePrice" Member="CustomerModule" ThisKey="id" OtherKey="ModulePriceId" Type="CustomerModule" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Modules" Member="Modules">
+    <Type Name="Module">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Module_ModulePrice" Member="ModulePrices" ThisKey="id" OtherKey="ModuleId" Type="ModulePrice" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CustomerModules" Member="CustomerModules">
+    <Type Name="CustomerModule">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ModulePriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="CustomerModule_ModulePrice" Member="ModulePrices" ThisKey="ModulePriceId" OtherKey="id" Type="ModulePrice" />
+      <Association Name="Customer_CustomerModule" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -11,6 +11,8 @@ namespace MenuzRus {
 
     public class CategoryService : BaseService, ICategoryService {
 
+        #region Public Methods
+
         public Boolean DeleteCategory(Int32? id) {
             Category query = new Category();
             id = id.HasValue ? id : 0;
@@ -30,8 +32,27 @@ namespace MenuzRus {
         }
 
         public List<Category> GetCategories(Int32 customerId, Common.CategoryType type) {
+            return GetCategories(customerId, type, null);
+        }
+
+        public List<Category> GetCategories(Int32 customerId, Common.CategoryType type, String search) {
+            List<Category> retVal;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            return db.Categories.Where(m => m.CustomerId == customerId && m.Status == (Int32)Common.Status.Active && m.Type == (Int32)type).ToList();
+            try {
+                retVal = db.Categories.Where(m => m.CustomerId == customerId && m.Status == (Int32)Common.Status.Active && m.Type == (Int32)type).ToList();
+
+                if (!String.IsNullOrEmpty(search)) {
+                    retVal = (from c in retVal
+                              where c.Name.ToUpper().Contains(search)
+                                    || (c.Items.Where(m => m.Name.ToUpper().Contains(search) || m.Description.toUpper().Contains(search)).Any())
+                              select c).ToList();
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+
+            return retVal;
         }
 
         public Category GetCategory(Int32 id) {
@@ -100,6 +121,8 @@ namespace MenuzRus {
             }
             return query.id;
         }
+
+        #endregion Public Methods
     }
 
     internal class CategoryView : Category { };

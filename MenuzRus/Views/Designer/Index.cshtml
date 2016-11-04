@@ -40,12 +40,18 @@
             <button id="btnNewCategory" type="button" class="btn btn-primary btn-lg shadow" data-toggle="modal" onclick="javascript:editCategory(0)">New category</button>
         </div>
     </div>
-
+    <br />
+    <div class="form-group" style="width: 250px;">
+        <input id="Search" type="text" class="form-control shadow" placeholder="Search" />
+    </div>
     <table id="jqGrid"></table>
 </div>
 @Html.HiddenFor(m => m.CategoryType)
 
 <script>
+    var delay = 1000; //1 second
+    var urlSelector = $.validator.format("#categoryType li[data-text='{0}']", $("#CategoryType").val());
+
     $(function () {
 
         var cookies = readCookie("expandedEmpGroups");
@@ -56,22 +62,28 @@
             var expandedEmpGroups = [];
         }
 
-        var urlSelector;
-
         $(window).on("resize", function () {
             var width = $(".container-designer").width();
             $("#jqGrid").setGridWidth(width);
         });
 
-        $("#categoryType li a").click(function () {
+        $("#categoryType li a").on("click", function () {
             $("#btnCategoryType").text($(this).text());
             $("#CategoryType").val($(this).parent().attr("data-value"));
             $("#jqGrid").setGridParam({
-                url: $.validator.format("{0}Designer/LoadData?type={1}", root, $(this).parent().attr("data-value"))
+                url: $.validator.format("{0}Designer/LoadData?type={1}&search={2}", root, $(this).parent().attr("data-value"), $("#Search").val())
             }).trigger("reloadGrid");
         });
 
-        urlSelector = $.validator.format("#categoryType li[data-text='{0}']", $("#CategoryType").val());
+        $("#Search").on("keyup", function () {
+            var len = $(this).val().length;
+            if ( len > 2 || len == 0) {
+                setTimeout(function () {
+                    search();
+                }, delay);
+            }
+        });
+
         $("#jqGrid").jqGrid({
             colNames: ["CategoryId", "Category", "itemId", "", "Name", "Description", "Price", "Active"],
             colModel: [
@@ -162,7 +174,6 @@
                 createCookie("expandedEmpGroups", expandedEmpGroups, 0);
             }
         });
-
         $("#gbox_jqGrid").css("min-height", "500px");
 
         $("#jqGrid").click(function (e) {
@@ -214,5 +225,11 @@
     function editItemHelper(object) {
         var id = $(object).attr("data-value");
         editItem(0, id);
+    }
+
+    function search() {
+        $("#jqGrid").setGridParam({
+            url: $.validator.format("{0}Designer/LoadData?type={1}&search={2}", root, $(urlSelector).attr("data-value"), $("#Search").val())
+        }).trigger("reloadGrid");
     }
 </script>

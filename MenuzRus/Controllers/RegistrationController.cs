@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using Extensions;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
 using Services;
@@ -30,30 +31,14 @@ namespace MenuzRus {
 
         #region Public Methods
 
-        [HttpGet]
-        public String GetRegistrationForm(Int32? id) {
-            RegistrationModel model = new RegistrationModel();
-            try {
-                model.Customer = new CustomerModel();
-                model.User = new UserModel();
-                model.Customer.States = Utility.States.ToSelectListItems();
-                model.Customer.State = "OH";
-                return RenderViewToString(this.ControllerContext, "_RegistrationPartial", model);
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-            }
-            finally {
-            }
-            return null;
-        }
-
         public ActionResult Index(Int32? id) {
             RegistrationModel model = new RegistrationModel();
             model.Customer = new CustomerModel();
             model.Customer.States = Utility.States.ToSelectListItems();
             model.Customer.State = "OH";
+            model.Customer.Modules = _customerService.GetModulesAll();
             model.User = new UserModel();
+            model.Modules = "N/A";
             return View(model);
         }
 
@@ -79,6 +64,9 @@ namespace MenuzRus {
                 customer.ImageUrl = model.Customer.ImageUrl;
 
                 Int32 result = _customerService.SaveCustomer(customer);
+                // Save registered modules
+                _customerService.SaveModulesByCustomer(result, model.Modules.Split(',').Select(Int32.Parse).ToArray());
+
                 SessionData.customer = customer;
 
                 // Save user personal info
@@ -86,12 +74,12 @@ namespace MenuzRus {
                 user.CustomerId = SessionData.customer.id;
                 user.FirstName = model.User.FirstName;
                 user.LastName = model.User.LastName;
-                user.WorkPhone = model.User.WorkPhone;
-                user.MobilePhone = model.User.MobilePhone;
+                user.WorkPhone = model.User.WorkPhone.CleanPhone();
+                user.MobilePhone = model.User.MobilePhone.CleanPhone();
                 user.Password = model.User.Password;
                 user.Email = model.User.Email;
                 user.Active = false;
-                user.Hash = Utility.GetNewConfirmationNumber(); ;
+                user.Hash = Utility.GetNewConfirmationNumber();
                 user.Type = (Int32)Common.UserType.Administrator;
 
                 result = _userService.SaveUser(user);

@@ -1,24 +1,21 @@
 ﻿@model MenuzRus.Models.RegistrationModel
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/registration.css")" rel="stylesheet" />
+
 <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery-ui.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
-<div id="bowlG" style="display: none;">
-    <div id="bowl_ringG">
-        <div class="ball_holderG">
-            <div class="ballG">
-            </div>
-        </div>
-    </div>
-</div>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.mask.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
 
 @using (Html.BeginForm("Index", "Registration", FormMethod.Post, new { @id = "form-registration", @class = "form-registration", role = "form", enctype = "multipart/form-data" })) {
     <div class="well container container-registration shadow">
         <div class="modal-header">
             <h2>Registration Form</h2>
         </div>
-        <div class="row">
+        <div class="row page">
             <div class="col-lg-1 col-md-1">
             </div>
             <div class="col-lg-4 col-md-4 customer">
@@ -54,6 +51,12 @@
                 @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
                 @Html.TextBoxFor(model => model.User.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
                 @Html.TextBoxFor(model => model.User.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
+                <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
+                    @foreach (Services.Module module in Model.Customer.Modules) {
+                        Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
+                        <option value="@modulePrice.id" data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
+                    }
+                </select>
                 <div id="passwordsError" class="hide alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     Password does not match confirmation password. Please revise.
@@ -62,14 +65,51 @@
             <div class="col-lg-1 col-md-1">
             </div>
         </div>
+        <div id="lastPage" class="row page noshow">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="E92KTQR5ED8CU">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="on0" value="Payment type">Payment type
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="os0">
+                                <option value="Trial">Trial : $0.00 USD - monthly</option>
+                                <option value="Monthly">Monthly : $0.01 USD - monthly</option>
+                                <option value="Yearly">Yearly : $0.02 USD - yearly</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <input type="hidden" name="currency_code" value="USD">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+
+                @Html.HiddenFor(m => m.Modules);
+            </form>
+        </div>
         <div class="modal-footer">
             <button id="btnCancel" type="button" class="btn btn-default btn-lg">Cancel</button>
-            <button type="submit" class="btn btn-success btn-lg">Save changes</button>
+            <button id="btnSave" type="submit" class="btn btn-success btn-lg">Save changes</button>
         </div>
     </div>
 }
+
 <script type="text/javascript">
     $(function () {
+        $(".chosen-select").chosen({ width: "310px", display_disabled_options: false }).change(function (event) {
+            var all2Pay = 0;
+            $.each(this.selectedOptions, function (i, e) {
+                all2Pay += parseInt($(e).attr("data-value"));
+            });
+        });
+
+        $(".chosen-container-multi").addClass("shadow")
+
         $("#User_ConfirmPassword").focusout(function (e) {
             $("#passwordsError").addClass("hide");
             if ($("#User_Password").val() != $("#User_ConfirmPassword").val()) {
@@ -79,6 +119,11 @@
             }
             return true;
         });
+
+        $("#Customer_Zip").mask("00000");
+        $("#Customer_Phone").mask("(000) 000-0000");
+        $("#User_WorkPhone").mask("(000) 000-0000");
+        $("#User_MobilePhone").mask("(000) 000-0000");
 
         $("#Customer_Tax").TouchSpin({
             min: 0,
@@ -96,12 +141,15 @@
             window.location = $.validator.format("{0}login/", root);
         })
 
-        $("#form").submit(function (e) {
+        $("#form-registration").submit(function (e) {
             if ($("#Password").val() != $("#ConfirmPassword").val()) {
                 $("#passwordsError").show();
                 $("#ConfirmPassword").focus();
                 return false;
             }
+
+            $("#Modules").val($("#modules").val());
+
             return true;
         });
     });

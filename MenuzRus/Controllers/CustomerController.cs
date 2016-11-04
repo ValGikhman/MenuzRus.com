@@ -12,8 +12,15 @@ using Services;
 namespace MenuzRus {
 
     public class CustomerController : BaseController {
+
+        #region Private Fields
+
         private ICustomerService _customerService;
         private ISettingsService _settingsService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public CustomerController(ISessionData sessionData, ICustomerService customerService, ISettingsService settingsService)
             : base(sessionData) {
@@ -21,15 +28,15 @@ namespace MenuzRus {
             _settingsService = settingsService;
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [CheckUserSession]
         public ActionResult Index(Int32? id) {
             CustomerModel model;
-            String pathToNavigate = "~/Order/Tables";
             try {
                 model = GetModel(id);
-                if (model == null) {
-                    return Redirect(pathToNavigate);
-                }
                 return View(model);
             }
             catch (Exception ex) {
@@ -92,6 +99,8 @@ namespace MenuzRus {
             return null;
         }
 
+        #endregion Public Methods
+
         #region private
 
         private CustomerModel GetModel(Int32? id) {
@@ -101,7 +110,7 @@ namespace MenuzRus {
                 model = new CustomerModel();
                 model.States = Utility.States.ToSelectListItems();
                 if (SessionData.printers == null) {
-                    return null;
+                    SessionData.printers = new String[] { "None" };
                 }
 
                 model.Printers = SessionData.printers.Select(r => new SelectListItem { Text = r, Value = r });

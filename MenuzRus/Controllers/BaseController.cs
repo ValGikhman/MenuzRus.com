@@ -46,7 +46,6 @@ namespace MenuzRus.Controllers {
             Services.User user = SessionData.GetSession<Services.User>(Constants.SESSION_USER);
 
             this.IsLoggedIn = (SessionData.user != null);
-            //SessionData.SetSession(Constants.SESSION_ROUTE, this.BuildRoute());
             SessionData.route = this.BuildRoute();
 
             try {
@@ -57,11 +56,6 @@ namespace MenuzRus.Controllers {
                     if (handler.RequestContext.RouteData.Values != null && handler.RequestContext.RouteData.Route != null) {
                         route = handler.RequestContext.RouteData.Route.GetVirtualPath(handler.RequestContext, handler.RequestContext.RouteData.Values).VirtualPath;
                     }
-                }
-
-                filterContext.Controller.ViewData["Layout"] = "_Layout";
-                if (!this.IsLoggedIn) {
-                    filterContext.Controller.ViewData["Layout"] = "_Login";
                 }
 
                 if (user != null) {

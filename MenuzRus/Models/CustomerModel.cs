@@ -23,6 +23,8 @@ namespace MenuzRus.Models {
         [Required]
         public String City { get; set; }
 
+        public Int32[] CustomerModules { get; set; }
+
         public Int32 id { get; set; }
 
         [DisplayName("Image")]
@@ -57,8 +59,8 @@ namespace MenuzRus.Models {
         public String PrinterPOSWidth { get; set; }
 
         public IEnumerable<SelectListItem> Printers { get; set; }
-
         public IEnumerable<SelectListItem> PrinterWidth { get; set; }
+        public String SelectedModules { get; set; }
 
         [DisplayName("State")]
         [Required]

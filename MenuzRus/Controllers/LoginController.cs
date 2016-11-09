@@ -41,7 +41,8 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Index(LoginModel model) {
-            String pathToNavigate = "~/Order/Tables";
+            //String pathToNavigate = "~/Order/Tables";
+            String pathToNavigate = "~/Home/Dashboard";
             Tuple<Services.User, Services.Customer, List<String>> data;
 
             try {
@@ -51,11 +52,16 @@ namespace MenuzRus {
                     return View(model);
                 }
 
+                // Check if printers defined
+                // If printers not defined or equals NONE by any reason, set up this way or WSPrint is not running - no needs to show buttons
+                Boolean posPrinter = (data.Item2.Settings.Where(m => m.Type == Common.Settings.PrinterPOS.ToString()).FirstOrDefault().Value != "None");
+                Boolean kitchenPrinter = (data.Item2.Settings.Where(m => m.Type == Common.Settings.PrinterKitchen.ToString()).FirstOrDefault().Value != "None");
+
                 SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
 
                 SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(Common.Modules.Inventory.ToString()));
-                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()));
+                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && posPrinter && kitchenPrinter);
                 SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(Common.Modules.Reports.ToString()));
 
                 IsLoggedIn = true;

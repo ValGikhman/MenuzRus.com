@@ -12,6 +12,22 @@ namespace MenuzRus {
 
         #region customer
 
+        public Boolean DeleteModulesByCustomer(Int32 id) {
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    var query = db.CustomerModules.Where(m => m.CustomerId == id);
+                    if (query != default(CustomerModule)) {
+                        db.CustomerModules.DeleteAllOnSubmit(query);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
+
         public Customer GetCustomer(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Customers.Where(m => m.id == id).FirstOrDefault();
@@ -97,9 +113,12 @@ namespace MenuzRus {
 
         public void SaveModulesByCustomer(Int32 id, Int32[] modulesIds) {
             try {
+                DeleteModulesByCustomer(id);
+
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     CustomerModule customerModule = new CustomerModule();
                     customerModule.CustomerId = id;
+
                     foreach (Int32 priceId in modulesIds) {
                         customerModule.ModulePriceId = priceId;
                         db.CustomerModules.InsertOnSubmit(customerModule);
@@ -110,6 +129,35 @@ namespace MenuzRus {
             catch (Exception ex) {
                 throw ex;
             }
+        }
+
+        public void UpdateModules(Int32 id, Int32 moduleId) {
+            CustomerModule query;
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    // Negative - deletes
+                    if (moduleId < 0) {
+                        query = db.CustomerModules.Where(m => m.CustomerId == id && m.ModulePriceId == Math.Abs(moduleId)).FirstOrDefault();
+                        if (query != default(CustomerModule)) {
+                            db.CustomerModules.DeleteOnSubmit(query);
+                        }
+                    }
+                    // Positive - inserts
+                    else if (moduleId > 0) {
+                        query = new CustomerModule();
+                        query.CustomerId = id;
+                        query.ModulePriceId = moduleId;
+                        db.CustomerModules.InsertOnSubmit(query);
+                    }
+                    else if (moduleId == 0) { }
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+
+            return;
         }
 
         #endregion customer

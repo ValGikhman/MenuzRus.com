@@ -7459,7 +7459,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDate", DbType="Date NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDate", AutoSync=AutoSync.OnInsert, DbType="Date NOT NULL", IsDbGenerated=true)]
 		public System.DateTime StartDate
 		{
 			get

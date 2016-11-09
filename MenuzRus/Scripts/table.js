@@ -88,13 +88,6 @@ $(function () {
         $("#btnCheckType").text(type);
 
         showCheckPrint();
-
-        if (webSocket == null) {
-            $("#btnPrintChecks").hide();
-        }
-        else {
-            $("#btnPrintChecks").show();
-        }
     });
 
     $("#menuTab").tab("show");

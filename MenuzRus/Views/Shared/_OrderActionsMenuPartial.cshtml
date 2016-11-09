@@ -3,8 +3,9 @@
 
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:selectAll();"><i class="glyphicon glyphicon-plus"></i></button>
 <button class="btn btn-primary btn-lg shadow" onclick="javascript:removeAll();"><i class="glyphicon glyphicon-minus"></i></button>
-<button class="btn btn-primary btn-lg shadow" id="btnPrintChecks"><i class="glyphicon glyphicon-print"></i></button>
-
+ @if ((Boolean)Session[Constants.SESSION_MODULE_PRINT]) {
+    <button class="btn btn-primary btn-lg shadow" id="btnPrintChecks"><i class="glyphicon glyphicon-print"></i></button>
+ }
 <button id="btnDeleteSelectedChecks" class="btn btn-danger btn-lg pull-right shadow" style="margin-left: 10px;" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
 <button type="button" class="btn btn-warning btn-lg pull-right shadow" onclick="javascript:getComments('check')"><span class="glyphicon glyphicon-edit"></span></button>
 <div class="menuActions-container">
@@ -56,12 +57,7 @@
             $.each($(selected), function (index, item) {
                 ids.push(parseInt(item.value));
             });
-            if (webSocket != null) {
-                checksPrint(ids);
-            }
-            else {
-                message("::Printing:: Failed.", "error", "topCenter");
-            }
+            checksPrint(ids);
         });
 
         var checkId = $(".check").find(".tab-pane.active").attr("data-value");

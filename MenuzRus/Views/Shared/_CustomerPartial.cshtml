@@ -1,5 +1,6 @@
 ﻿@model MenuzRus.Models.CustomerModel
 @using Extensions
+<link href="@Url.Content("~/Scripts/chosen/chosen.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/customer.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.css")" rel="stylesheet" />
 
@@ -9,6 +10,7 @@
 <script src="@Url.Content("~/Scripts/JQuery/jquery.blockUI.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/TouchSpin/jquery.bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/noty/packaged/jquery.noty.packaged.min.js")"></script>
+<script src="@Url.Content("~/Scripts/chosen/chosen.jquery.js")"></script>
 
 <div id="bowlG" style="display: none;">
     <div id="bowl_ringG">
@@ -112,6 +114,16 @@
                         </div>
                     </div>
                 </div>
+                <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
+                    @foreach (Services.Module module in Model.Modules) {
+                        Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
+                        String select = String.Empty;
+                        if (Model.CustomerModules.Any(m => m.Equals(modulePrice.id))) {
+                            select = "selected";
+                        }
+                        <option value="@modulePrice.id" @select data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
+                    }
+                </select>
             </div>
         </div>
 
@@ -120,10 +132,22 @@
             <button type="submit" class="btn btn-success btn-lg">Save changes</button>
         </div>
     </div>
+    @Html.HiddenFor(m => m.SelectedModules);
 }
 <script type="text/javascript">
     $(function () {
+
         initImageUpload($(".container-user"));
+
+        $(".chosen-select").chosen({ width: "310px", display_disabled_options: false }).change(function (event, params) {
+            var all2Pay = 0;
+            $.each(this.selectedOptions, function (i, e) {
+                all2Pay += parseInt($(e).attr("data-value"));
+            });
+            updateModules(params);
+        });
+
+        $(".chosen-container-multi").addClass("shadow")
 
         $("#btnCancel").click(function () {
             window.history.go(-1);
@@ -140,5 +164,36 @@
         });
 
         $(".bootstrap-touchspin-down, .bootstrap-touchspin-up, .bootstrap-touchspin-postfix").addClass("shadow");
+
+        $("#form-customer").submit(function (e) {
+            $("#SelectedModules").val($("#modules").val());
+            return true;
+        });
     });
+
+    function updateModules(params) {
+        // Customer Id
+        var id = $("#id").val();
+        var moduleId;
+        if (params.selected) {
+            moduleId = parseInt(params.selected);
+        }
+        else if (params.deselected) {
+            moduleId = -1 * parseInt(params.deselected);
+        }
+
+        var container = $("#modules");
+        container.block();
+
+        var jqxhr = $.post($.validator.format("{0}Customer/UpdateModules", root), { "id": id, "moduleId": moduleId }, "json")
+                      .done(function (result) {
+                          message("Updated.", "success", "topCenter");
+                      })
+        .fail(function () {
+            message("Update modules failed.", "error", "topCenter");
+        })
+        .always(function () {
+            container.unblock();
+        });
+    }
 </script>

@@ -63,6 +63,8 @@ namespace MenuzRus {
                 customer.Tax = model.Tax;
                 customer.Phone = model.Phone;
                 customer.ImageUrl = model.ImageUrl;
+
+                // Image
                 if (model.Image != null) {
                     if (customer.id == 0)
                         customer.ImageUrl = Path.GetExtension(model.Image.FileName);
@@ -99,6 +101,12 @@ namespace MenuzRus {
             return null;
         }
 
+        [HttpPost]
+        public void UpdateModules(Int32 id, Int32 moduleId) {
+            _customerService.UpdateModules(id, moduleId);
+            return;
+        }
+
         #endregion Public Methods
 
         #region private
@@ -131,6 +139,8 @@ namespace MenuzRus {
                     model.PrinterPOS = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS);
                     model.PrinterKitchenWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth))).ToString();
                     model.PrinterPOSWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth))).ToString();
+                    model.Modules = _customerService.GetModulesAll();
+                    model.CustomerModules = customer.CustomerModules.Select(m => m.ModulePriceId).ToArray();
                 }
                 return model;
             }

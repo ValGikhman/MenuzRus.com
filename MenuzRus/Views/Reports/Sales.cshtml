@@ -23,7 +23,9 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCancelCheck" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                <button id="btnPrintCheck" type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Print</button>
+                 @if ((Boolean)Session[Constants.SESSION_MODULE_PRINT]) {
+                    <button id="btnPrintCheck" type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Print</button>
+                 }
             </div>
         </div>
     </div>
@@ -61,13 +63,6 @@
     var graphArray = [];
 
     $(function () {
-        if (webSocket == null) {
-            $("#btnPrintCheck").hide();
-        }
-        else {
-            $("#btnPrintCheck").show();
-        }
-
         //activate chart
         google.charts.load("current", { "packages": ["bar"] });
         //google.charts.setOnLoadCallback(drawStuff);
@@ -183,14 +178,9 @@
         });
 
         $("#btnPrintCheck").on("click", function () {
-            if (webSocket != null) {
-                var ids = new Array();
-                ids.push(parseInt($("#hdCheckId").val()));
-                checksPrint(ids);
-            }
-            else {
-                message("::Printing:: Failed.", "error", "topCenter");
-            }
+            var ids = new Array();
+            ids.push(parseInt($("#hdCheckId").val()));
+            checksPrint(ids);
         });
 
         function toggleGraph() {

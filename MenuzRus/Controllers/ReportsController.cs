@@ -14,11 +14,50 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ReportsController : BaseController {
+
+        #region Private Fields
+
         private IReportsService _reportsService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ReportsController(ISessionData sessionData, IReportsService reportsService)
             : base(sessionData) {
             _reportsService = reportsService;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
+
+        [HttpGet]
+        public JsonResult LoadInventoryData(DateTime dateFrom, DateTime dateTo) {
+            try {
+                InventoryReportModel model = GetInventoryModel(dateFrom, dateTo);
+                var jsonData = new {
+                    total = (Int32)Math.Ceiling((float)model.Records.Count),
+                    records = model.Records.Count,
+                    rows = model.Records.ToArray(),
+                    headers = model.Records.OrderBy(m => m.TotalTotal).Select(m => m.Item).Distinct().ToArray(),
+                    graph = model.Records.GroupBy(n => n.Date).Select(g =>
+                            new {
+                                Date = g.Key,
+                                Sales = g.Select(p => p.TotalTotal).Take(3)
+                            }
+                ).ToList()
+                };
+
+                return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+            }
+            finally {
+            }
+
+            return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]
@@ -51,58 +90,32 @@ namespace MenuzRus.Controllers {
             return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        [HttpGet]
-        public JsonResult LoadInventoryData(DateTime dateFrom, DateTime dateTo) {
-            try {
-                InventoryReportModel model = GetInventoryModel(dateFrom, dateTo);
-                var jsonData = new {
-                    total = (Int32)Math.Ceiling((float)model.Records.Count),
-                    records = model.Records.Count,
-                    rows = model.Records.ToArray(),
-                    headers = model.Records.OrderBy(m => m.TotalTotal).Select(m => m.Item).Distinct().ToArray(),
-                    graph = model.Records.GroupBy(n => n.Date).Select(g =>
-                            new {
-                                Date = g.Key,
-                                Sales = g.Select(p => p.TotalTotal).Take(3)
-                            }
-                ).ToList()
-                };
-
-                return new JsonResult() { Data = jsonData, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-            }
-            catch (Exception ex) {
-                base.Log(ex);
-            }
-            finally {
-            }
-
-            return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        #endregion Public Methods
 
         #region Reports
-
-        [CheckUserSession]
-        public ActionResult Sales() {
-            return View("Sales", GetSalesModel(DateTime.Now.AddDays(-1), DateTime.Now));
-        }
 
         [CheckUserSession]
         public ActionResult Inventory() {
             return View("Inventory", GetInventoryModel(DateTime.Now.AddDays(-1), DateTime.Now));
         }
 
+        [CheckUserSession]
+        public ActionResult Sales() {
+            return View("Sales", GetSalesModel(DateTime.Now.AddDays(-1), DateTime.Now));
+        }
+
         #endregion Reports
 
         #region private
 
-        private SalesReportModel GetSalesModel(DateTime dateFrom, DateTime dateTo) {
-            SalesReportModel model = null;
+        private InventoryReportModel GetInventoryModel(DateTime dateFrom, DateTime dateTo) {
+            InventoryReportModel model = null;
 
             try {
-                model = new SalesReportModel();
+                model = new InventoryReportModel();
                 model.From = dateFrom;
                 model.To = dateTo;
-                model.Records = _reportsService.SalesDataSet(dateFrom, dateTo);
+                model.Records = _reportsService.InventoryDataSet(dateFrom, dateTo);
                 return model;
             }
             catch (Exception ex) {
@@ -113,14 +126,14 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
-        private InventoryReportModel GetInventoryModel(DateTime dateFrom, DateTime dateTo) {
-            InventoryReportModel model = null;
+        private SalesReportModel GetSalesModel(DateTime dateFrom, DateTime dateTo) {
+            SalesReportModel model = null;
 
             try {
-                model = new InventoryReportModel();
+                model = new SalesReportModel();
                 model.From = dateFrom;
                 model.To = dateTo;
-                model.Records = _reportsService.InventoryDataSet(dateFrom, dateTo);
+                model.Records = _reportsService.SalesDataSet(dateFrom, dateTo);
                 return model;
             }
             catch (Exception ex) {

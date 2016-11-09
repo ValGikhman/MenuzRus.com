@@ -9,6 +9,8 @@ namespace MenuzRus {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckUserSessionAttribute : ActionFilterAttribute {
 
+        #region Public Methods
+
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             HttpSessionStateBase session = filterContext.HttpContext.Session;
 
@@ -35,5 +37,7 @@ namespace MenuzRus {
             filterContext.HttpContext.Response.Redirect(loginUrl, false);
             filterContext.Result = new EmptyResult();
         }
+
+        #endregion Public Methods
     }
 }

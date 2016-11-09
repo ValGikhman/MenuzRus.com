@@ -344,7 +344,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ModulePriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StartDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="StartDate" AutoSync="OnInsert" Type="System.DateTime" DbType="Date NOT NULL" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Association Name="CustomerModule_ModulePrice" Member="ModulePrices" ThisKey="ModulePriceId" OtherKey="id" Type="ModulePrice" />
       <Association Name="Customer_CustomerModule" Member="Customer" ThisKey="CustomerId" OtherKey="id" Type="Customer" IsForeignKey="true" />

@@ -24,8 +24,6 @@ namespace MenuzRus {
             Customer customer;
             List<String> modules = new List<String>();
 
-            //Menu menu;
-
             user = db.Users.Where(m => m.Email == email && m.Password == password && m.Active && m.EmailConfirmed).FirstOrDefault();
             if (user != null) {
                 customer = db.Customers.Where(m => m.id == user.CustomerId).FirstOrDefault();

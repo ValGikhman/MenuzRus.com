@@ -60,3 +60,16 @@ h2, h5 {
 .row {
     margin-top: 20px;
 }
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    height: 35px;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice {
+    height: 30px;
+    line-height: unset;
+}
+
+    .chosen-container-multi .chosen-choices li.search-choice span {
+        margin-top: 5px;
+    }

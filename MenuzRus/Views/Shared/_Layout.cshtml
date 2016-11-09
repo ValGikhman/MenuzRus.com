@@ -64,15 +64,19 @@
                         <span class="alertsCount badge pull-right alert-warning">0</span>
                     </li>
                     @*Reports*@
-                    <li class="dropdown user-dropdown desktopOnly">
-                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Reports<b class="caret"></b></a>
-                        <ul class="dropdown-menu" style="width: auto! important;">
-                            <li><a href="@Url.Content("~/Reports/Sales")">Sales</a>
+                        @if ((Boolean)Session[Constants.SESSION_MODULE_REPORTS]) {
+                            <li class="dropdown user-dropdown desktopOnly">
+                                <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                                <ul class="dropdown-menu" style="width: auto! important;">
+                                    <li><a href="@Url.Content("~/Reports/Sales")">Sales</a>
+                                    </li>
+                                    @if ((Boolean)Session[Constants.SESSION_MODULE_INVENTORY]) {
+                                        <li><a href="@Url.Content("~/Reports/Inventory")">Inventory</a>
+                                        </li>
+                                    }
+                                </ul>
                             </li>
-                            <li><a href="@Url.Content("~/Reports/Inventory")">Inventory</a>
-                            </li>
-                        </ul>
-                    </li>
+                        }
                     @*Navigation*@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
@@ -97,7 +101,7 @@
                             <li class="desktopOnly"><a href="@Url.Content("~/KitchenOrder")">Order</a>
                             </li>
                         </ul>
-                        @*                            <li class="divider desktopOnly"></li>
+                        @*<li class="divider desktopOnly"></li>
                             <li class="desktopOnly"><a href="@Url.Content("~/MenuDesigner")">Menu designer</a></li>*@
                     </li>
                     @*Dude*@

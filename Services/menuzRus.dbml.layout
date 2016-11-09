@@ -69,7 +69,7 @@
         <elementListCompartment Id="8c80a9f4-d6fb-4821-b8fa-886e8abc9fe0" absoluteBounds="0.51500000000000057, 3.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 3.27005126953125); (7.66822916666667 : 3.27005126953125 : JumpStart); (7.83489583333333 : 3.27005126953125 : JumpEnd); (8.5 : 3.27005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.5 : 3.27005126953125); (8.5 : 3.27005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_User" />
       <nodes>
         <classShapeMoniker Id="bda41c76-428e-45e7-b656-d85856b0553c" />
@@ -205,7 +205,7 @@
         <elementListCompartment Id="161a9f5b-01df-47cb-b124-f9508b40379b" absoluteBounds="8.39, 6.3350000000000009, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.34375 : 8.625); (5.34375 : 7.16270182291667); (7.66822916666667 : 7.16270182291667 : JumpStart); (7.83489583333333 : 7.16270182291667 : JumpEnd); (8.375 : 7.16270182291667)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.34375 : 8.625); (5.34375 : 7.16270182291667); (8.375 : 7.16270182291667)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Item/Item_InventoryRegistry" />
       <nodes>
         <classShapeMoniker Id="4ec6d4e1-b030-48c8-9569-a58566107f1a" />
@@ -323,7 +323,7 @@
         <classShapeMoniker Id="d9da8d1c-a321-465b-8d99-4c69ef11da8a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.5 : 5.7420068359375); (1.5 : 6.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.5 : 5.7420068359375); (1.5 : 6.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/menuzRusDataContext/Customer/Customer_CustomerModule" />
       <nodes>
         <classShapeMoniker Id="bda41c76-428e-45e7-b656-d85856b0553c" />

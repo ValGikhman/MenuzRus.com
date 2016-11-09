@@ -171,6 +171,7 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CommentsModel.cs" />
+    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
@@ -621,6 +622,7 @@
     <Content Include="Views\Reports\Inventory.cshtml" />
     <Content Include="Views\Shared\_PayPalPartial.cshtml" />
     <Content Include="Views\Registration\PayPal.cshtml" />
+    <Content Include="Views\Login\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -640,7 +642,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Shared\_CustomerPartial.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_ItemPartial.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Oasis\_ViewStart.cshtml" />
@@ -651,7 +653,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Oasis\Index.cshtml" />
     <Content Include="Views\Menu\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Login\_Login.cshtml" />
     <Content Include="Views\Shared\_CategoryPartial.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Shared\_RegistrationPartial.cshtml" />

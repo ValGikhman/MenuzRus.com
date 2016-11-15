@@ -33,6 +33,9 @@
             <li>
                 <a href="#Settings" data-toggle="pill">Settings</a>
             </li>
+            <li>
+                <a href="#Modules" data-toggle="pill">Modules</a>
+            </li>
         </ul>
 
         <div class="tab-content">
@@ -113,17 +116,32 @@
                             @Html.DropDownListFor(m => m.PrinterKitchenWidth, Model.PrinterWidth, new { @class = "form-control shadow" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Language</div>
+                            @Html.DropDownListFor(m => m.SelectedLanguage, Model.Languages, new { @class = "form-control shadow" })
+                        </div>
+                    </div>
                 </div>
-                <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
-                    @foreach (Services.Module module in Model.Modules) {
-                        Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
-                        String select = String.Empty;
-                        if (Model.CustomerModules.Any(m => m.Equals(modulePrice.id))) {
-                            select = "selected";
-                        }
-                        <option value="@modulePrice.id" @select data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
-                    }
-                </select>
+            </div>
+            <div id="Modules" class="row tab-pane fade in">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon shadow leiba">Modules</div>
+                            <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
+                                @foreach (Services.Module module in Model.Modules) {
+                                    Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
+                                    String select = String.Empty;
+                                    if (Model.CustomerModules.Any(m => m.Equals(modulePrice.id))) {
+                                        select = "selected";
+                                    }
+                                    <option value="@modulePrice.id" @select data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

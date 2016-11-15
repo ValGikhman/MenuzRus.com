@@ -66,12 +66,12 @@
                     @*Reports*@
                         @if ((Boolean)Session[Constants.SESSION_MODULE_REPORTS]) {
                             <li class="dropdown user-dropdown desktopOnly">
-                                <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@Resources.Resource.MENU_REPORTS <b class="caret"></b></a>
                                 <ul class="dropdown-menu" style="width: auto! important;">
-                                    <li><a href="@Url.Content("~/Reports/Sales")">Sales</a>
+                                    <li><a href="@Url.Content("~/Reports/Sales")">@Resources.Resource.MENU_REPORTS_SALES</a>
                                     </li>
                                     @if ((Boolean)Session[Constants.SESSION_MODULE_INVENTORY]) {
-                                        <li><a href="@Url.Content("~/Reports/Inventory")">Inventory</a>
+                                        <li><a href="@Url.Content("~/Reports/Inventory")">@Resources.Resource.MENU_REPORTS_INVENTORY</a>
                                         </li>
                                     }
                                 </ul>
@@ -79,26 +79,26 @@
                         }
                     @*Navigation*@
                     <li class="dropdown user-dropdown">
-                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">Navigate to <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle gradient" data-toggle="dropdown">@Resources.Resource.MENU_NAVIGATE_TO <b class="caret"></b></a>
                         <ul class="dropdown-menu" style="width: auto! important;">
-                            <li role="presentation" class="dropdown-header">Services</li>
+                            <li role="presentation" class="dropdown-header">@Resources.Resource.MENU_NAVIGATE_TO_SERVICES</li>
                             <li class="divider"></li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/Floor")">Floor</a>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Floor")">@Resources.Resource.MENU_NAVIGATE_TO_FLOORS</a>
                             </li>
-                            <li><a href="@Url.Content("~/Designer/Menu")">Menu</a>
+                            <li><a href="@Url.Content("~/Designer/Menu")">@Resources.Resource.MENU_NAVIGATE_TO_MENUS</a>
                             </li>
-                            <li><a href="@Url.Content("~/Designer/Index")">Items</a>
+                            <li><a href="@Url.Content("~/Designer/Index")">@Resources.Resource.MENU_NAVIGATE_TO_ITEMS</a>
                             </li>
-                            <li><a href="@Url.Content("~/Order/Tables")">Order</a>
+                            <li><a href="@Url.Content("~/Order/Tables")">@Resources.Resource.MENU_NAVIGATE_TO_ORDERS</a>
                             </li>
                             <li class="divider desktopOnly"></li>
-                            <li role="presentation" class="dropdown-header desktopOnly">Monitors</li>
+                            <li role="presentation" class="dropdown-header desktopOnly">@Resources.Resource.MENU_NAVIGATE_TO_MONITORS</li>
                             <li class="divider desktopOnly"></li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Monitor")">Floor</a>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Monitor")">@Resources.Resource.MENU_NAVIGATE_TO_FLOOR</a>
                             </li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Kitchen")">Kitchen</a>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Order/Kitchen")">@Resources.Resource.MENU_NAVIGATE_TO_KITCHEN</a>
                             </li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/KitchenOrder")">Order</a>
+                            <li class="desktopOnly"><a href="@Url.Content("~/KitchenOrder")">@Resources.Resource.MENU_NAVIGATE_TO_ORDER</a>
                             </li>
                         </ul>
                         @*<li class="divider desktopOnly"></li>
@@ -149,12 +149,12 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" style="width: auto! important;">
-                            <li class="desktopOnly"><a href="@Url.Content("~/User/Index/")@contactId">My Profile</a></li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/Customer/Index/")@customerId">My Company</a></li>
+                            <li class="desktopOnly"><a href="@Url.Content("~/User/Index/")@contactId">@Resources.Resource.MENU_PROFILE</a></li>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Customer/Index/")@customerId">@Resources.Resource.MENU_COMPANY</a></li>
                             <li class="divider desktopOnly"></li>
-                            <li class="desktopOnly"><a href="@Url.Content("~/Users/Index/")@customerId">My Users</a></li>
+                            <li class="desktopOnly"><a href="@Url.Content("~/Users/Index/")@customerId">@Resources.Resource.MENU_USERS</a></li>
                             <li class="divider desktopOnly "></li>
-                            <li><a href="@Url.Content("~/Logout/")">Log Out</a></li>
+                            <li><a href="@Url.Content("~/Logout/")">@Resources.Resource.MENU_LOG_OUT</a></li>
                         </ul>
                     </li>
                 </ul>

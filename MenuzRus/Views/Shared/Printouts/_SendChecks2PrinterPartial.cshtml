@@ -1,5 +1,8 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
+@{
+    System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.CurrentUICulture;
+}
 
 <style>
     td {
@@ -45,7 +48,7 @@
             <tr>
                 <td>@item.Description</td>
                 @{
-            String price = item.Price > 0 ? item.Price.ToString("C2") : String.Empty;
+            String price = item.Price > 0 ? item.Price.ToString("C2", culture) : String.Empty;
                     <td style="text-align: right">@price</td>
                 }
             </tr>
@@ -53,7 +56,7 @@
             <tr style="font-style: italic;">
                 <td style="padding-left: 5px;">@subItem.Description</td>
                 @{
-                price = subItem.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
+                price = subItem.Price > 0 ? subItem.Price.ToString("C2", culture) : String.Empty;
                     <td style="text-align: right">@price</td>
                 }
             </tr>
@@ -64,32 +67,32 @@
     <table width="100%">
         <tr style="font-weight: bold;">
             <td>Summary:</td>
-            <td style="text-align: right">@Model.Summary.ToString("C2")</td>
+            <td style="text-align: right">@Model.Summary.ToString("C2", culture)</td>
         </tr>
         @if (Model.AdjustmentPercent != 0) {
             <tr>
                 <td>Adjustment: @Model.AdjustmentPercent.ToString("P0")</td>
-                <td style="text-align: right">@Model.Adjustment.ToString("C2")</td>
+                <td style="text-align: right">@Model.Adjustment.ToString("C2", culture)</td>
             </tr>
             <tr>
                 <td>Subtotal:</td>
-                <td style="text-align: right">@Model.Subtotal.ToString("C2")</td>
+                <td style="text-align: right">@Model.Subtotal.ToString("C2", culture)</td>
             </tr>
         }
         <tr>
             <td>Tax: @Model.TaxPercent.ToString("P")</td>
-            <td style="text-align: right">@Model.Tax.ToString("C2")</td>
+            <td style="text-align: right">@Model.Tax.ToString("C2", culture)</td>
         </tr>
         <tr style="font-weight: bold;">
             <td>Total:</td>
-            <td style="text-align: right">@Model.Total.ToString("C2")</td>
+            <td style="text-align: right">@Model.Total.ToString("C2", culture)</td>
         </tr>
     </table>
     <br />
     <table align="center" width="100%">
         @if (Model.Split > 1) {
             <tr style="border-top: 1px dotted black;">
-                <td>Split: @Model.Total.ToString("C2")/@Model.Split</td>
+                <td>Split: @Model.Total.ToString("C2", culture)/@Model.Split</td>
                 <td style="text-align: right"></td>
             </tr>
             Int32 i = 1;

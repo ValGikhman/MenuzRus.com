@@ -76,3 +76,9 @@
     width: 200px;
     z-index: 1001;
 }
+
+.graph {
+    position: absolute;
+    right: 0px;
+    top: 140px;
+}

@@ -4,11 +4,11 @@
 <div class="container">
     @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @id = "loginForm", @name = "loginForm", @class = "form-signin", role = "form" })) {
         <div id="panel" class="panel panel-primary shadow">
-            <div class="navbar-inverse header">Please sign in</div>
+            <div class="navbar-inverse header">@Resources.Resource.LOGIN_TITLE</div>
             <div class="panel-body">
                 <div class="row">
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-lg shadow", placeholder = "Email address", required = "", type = "email", autofocus = "" })
-                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg shadow", placeholder = "Password", required = "", type = "password" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-lg shadow", placeholder = Resources.Resource.LOGIN_TEXTBOX_EMAIL_PLACEHOLDER, required = "", type = "email", autofocus = "" })
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg shadow", placeholder = Resources.Resource.LOGIN_TEXTBOX_PASSWORD_PLACEHOLDER, required = "", type = "password" })
                 </div>
 
                 @{String showRow = "none";
@@ -20,17 +20,17 @@
                       showAlert = "block";
                   }}
                 <div id="lastRow" class="row col-sm-8 col-md-8 col-lg-8 centered" style="display: @showRow;">
-                    <button id="register" class="btn btn-lg btn-default shadow" type="button">Register</button>
-                    <button class="shadow btn btn-success btn-lg" type="submit">Sign in</button>
+                    <button id="register" class="btn btn-lg btn-default shadow" type="button">@Resources.Resource.LOGIN_BUTTON_REGISTER</button>
+                    <button class="shadow btn btn-success btn-lg" type="submit">@Resources.Resource.LOGIN_BUTTON_SIGN_IN</button>
                 </div>
 
                 <div class="alert alert-danger fade in" role="alert" style="display: @showAlert;">
-                    <button id="btnCloseXError" type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4>Log in failed</h4>
-                    <p>Please check you credentials and try again. Close this window to continue.</p>
+                    <button id="btnCloseXError" type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">@Resources.Resource.LOGIN_BUTTON_CLOSE</span></button>
+                    <h4>@Resources.Resource.LOGIN_MESSAGE_LOGIN_FAILED</h4>
+                    <p>@Resources.Resource.LOGIN_TEXT_LOGIN_FAILED</p>
                     <p>
-                        <button id="btnCloseError" type="button" class="btn btn-danger">Close</button>
-                        <button type="submit" class="btn btn-default">Try again</button>
+                        <button id="btnCloseError" type="button" class="btn btn-danger">@Resources.Resource.LOGIN_BUTTON_CLOSE</button>
+                        <button type="submit" class="btn btn-default">@Resources.Resource.LOGIN_BUTTON_TRY_AGAIN</button>
                     </p>
                 </div>
             </div>

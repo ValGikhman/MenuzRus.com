@@ -1,6 +1,8 @@
 ﻿@model MenuzRus.Models.CheckPrint
 @using Extensions;
-
+@{
+    System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.CurrentUICulture;
+}
 <div class="print-view-container" style="margin-top: 20px;">
     <table id="tableAddress" class="center">
         <tbody>
@@ -47,12 +49,12 @@
     <table id="tableItems" class="center">
         <tbody>
             @foreach (MenuzRus.Models.LineItem item in Model.Items) {
-                 <tr>
+                <tr>
                     <td class="mainItem">@item.Description
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
                     @{
-                String price = item.Price > 0 ? item.Price.ToString("C2") : String.Empty;
+                String price = item.Price > 0 ? item.Price.ToString("C2", culture) : String.Empty;
                         <td class="mainItem pull-right">@price</td>
                     }
                 </tr>
@@ -63,21 +65,22 @@
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
                     @{
-                    price = subItem.Price > 0 ? subItem.Price.ToString("C2") : String.Empty;
+                    price = subItem.Price > 0 ? subItem.Price.ToString("C2", culture) : String.Empty;
                         <td class="subItem pull-right">@price</td>
                     }
                 </tr>
                 }
             }
             <tr>
-                <td colspan="3">&nbsp;
+                <td colspan="3">
+                &nbsp;
                 <td>
             </tr>
             <tr>
                 <td class="summaryItem">Summary:
                 </td>
                 <td class="summaryItem col-md-2 col-sm-2"></td>
-                <td class="summaryItem pull-right">@Model.Summary.ToString("C2")
+                <td class="summaryItem pull-right">@Model.Summary.ToString("C2", culture)
                 </td>
             </tr>
             @if (Model.AdjustmentPercent != 0) {
@@ -85,14 +88,14 @@
                     <td class="ajustmentItem">Adjustment: @Model.AdjustmentPercent.ToString("P")
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="ajustmentItem pull-right">@Model.Adjustment.ToString("C2")
+                    <td class="ajustmentItem pull-right">@Model.Adjustment.ToString("C2", culture)
                     </td>
                 </tr>
                 <tr>
                     <td class="summaryItem">Subtotal:
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="summaryItem pull-right">@Model.Subtotal.ToString("C2")
+                    <td class="summaryItem pull-right">@Model.Subtotal.ToString("C2", culture)
                     </td>
                 </tr>
             }
@@ -100,14 +103,14 @@
                 <td class="taxItem">Tax: @Model.TaxPercent.ToString("P")
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
-                <td class="taxItem pull-right">@Model.Tax.ToString("C2")
+                <td class="taxItem pull-right">@Model.Tax.ToString("C2", culture)
                 </td>
             </tr>
             <tr>
                 <td class="totalItem">Total:
                 </td>
                 <td class="col-md-2 col-sm-2"></td>
-                <td id="total" class="totalItem pull-right">@Model.Total.ToString("C2")
+                <td id="total" class="totalItem pull-right">@Model.Total.ToString("C2", culture)
                 </td>
             </tr>
             @if (Model.Split > 1) {
@@ -115,7 +118,7 @@
                     <td class="totalItem" style="vertical-align: top; padding-top: 25px;">Split:
                     </td>
                     <td class="col-md-2 col-sm-2"></td>
-                    <td class="totalItem pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2")/@Model.Split
+                    <td class="totalItem pull-right" style="padding-top: 25px;">@Model.Total.ToString("C2", culture)/@Model.Split
                     </td>
                 </tr>
                 Int32 i = 1;
@@ -123,7 +126,7 @@
                 <tr>
                     <td class="totalItem"></td>
                     <td></td>
-                    <td class="totalItem pull-right">@String.Format("{0}: {1}", i, split.ToString("C2"))
+                    <td class="totalItem pull-right">@String.Format("{0}: {1}", i, split.ToString("C2", culture))
                     </td>
                 </tr>
                     i++;
@@ -132,9 +135,9 @@
             <tr>
                 <td style="font-size: x-small;">
                     <div>
-                        <br/>
+                        <br />
                         @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
-                        <br/>
+                        <br />
                         @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
                     </div>
                 </td>

@@ -19,6 +19,7 @@ public static class Constants {
     public const String SESSION_EXCEPTION = "SessionException";
     public const String SESSION_FLOOR = "SessionFloor";
     public const String SESSION_ITEM = "SessionDataItem";
+    public const String SESSION_LANGUAGE = "SessionLanguage";
     public const String SESSION_MENU = "SessionMenu";
     public const String SESSION_MODULE_INVENTORY = "SessionModuleInventory";
     public const String SESSION_MODULE_PRINT = "SessionModulePrint";

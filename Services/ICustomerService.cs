@@ -12,8 +12,6 @@ namespace MenuzRus {
 
         #region Public Methods
 
-        Boolean DeleteModulesByCustomer(Int32 id);
-
         Customer GetCustomer(Int32 id);
 
         List<Module> GetModulesAll();

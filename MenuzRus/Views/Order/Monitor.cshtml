@@ -8,10 +8,11 @@
 <script src="@Url.Content("~/Scripts/countdown/jquery.countdown.js")"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.json-2.4.min.js")"></script>
 <script src="@Url.Content("~/Scripts/monitors.js")"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
-        <h2>Floor monitor</h2>
+        <h2>Monitor</h2>
     </div>
 
     <div class="floor dropdown">
@@ -25,6 +26,10 @@
             }
         </ul>
     </div>
+    <div class="graph">
+        <div id="chart"></div>
+    </div>
+
 
     <div class="floorArea shadow">
         @Html.Partial("_MonitorPartial", Model)
@@ -36,6 +41,10 @@
 
 <script>
     $(function () {
+        //activate chart
+        google.charts.load("current", { "packages": ["gauge"] });
+        google.charts.setOnLoadCallback(drawStuff);
+
         $("#floor li a").click(function () {
             $("#btnFloor").text($(this).text());
             window.location = $.validator.format("{0}Order/Monitor/{1}", root, $(this).attr("data-value"));
@@ -63,6 +72,27 @@
         }, 60 * 1000);
 
     })
+
+    function drawStuff() {
+        var data = google.visualization.arrayToDataTable([
+          ["Label", "Value"],
+          ["Sales", 80],
+          ["Inventory", 55]
+        ]);
+
+        var options = {
+            width: 400
+            , height: 120
+            , redFrom: 0
+            , redTo: 10
+            , yellowFrom: 10
+            , yellowTo: 20
+            , minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById("chart"));
+        chart.draw(data, options);
+    };
 
     function refreshTotal() {
         $(".tables.badge").html($(".table").length);

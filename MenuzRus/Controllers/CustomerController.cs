@@ -87,6 +87,7 @@ namespace MenuzRus {
                 else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
+                SaveSetting(Common.Settings.Language, model.SelectedLanguage);
                 SaveSetting(Common.Settings.PrinterPOS, model.PrinterPOS);
                 SaveSetting(Common.Settings.PrinterKitchen, model.PrinterKitchen);
                 SaveSetting(Common.Settings.PrinterPOSWidth, ((Int32)(Common.PrinterWidth)Enum.Parse(typeof(Common.PrinterWidth), model.PrinterPOSWidth)).ToString());
@@ -123,6 +124,7 @@ namespace MenuzRus {
 
                 model.Printers = SessionData.printers.Select(r => new SelectListItem { Text = r, Value = r });
                 model.PrinterWidth = Enum.GetValues(typeof(Common.PrinterWidth)).Cast<Common.PrinterWidth>().Select(r => new SelectListItem { Text = EnumHelper<Common.PrinterWidth>.GetDisplayValue(r), Value = r.ToString() });
+                model.Languages = Enum.GetValues(typeof(Common.Languages)).Cast<Common.Languages>().Select(r => new SelectListItem { Value = ((Int32)r).ToString(), Text = r.ToString() });
                 if (id != null && id.HasValue) {
                     Customer customer = _customerService.GetCustomer(id.Value);
                     model.id = customer.id;
@@ -140,7 +142,8 @@ namespace MenuzRus {
                     model.PrinterKitchenWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth))).ToString();
                     model.PrinterPOSWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth))).ToString();
                     model.Modules = _customerService.GetModulesAll();
-                    model.CustomerModules = customer.CustomerModules.Select(m => m.ModulePriceId).ToArray();
+                    model.SelectedLanguage = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.Language);
+                    model.CustomerModules = customer.CustomerModules.Where(cm => cm.EndDate == null).Select(m => m.ModulePriceId).ToArray();
                 }
                 return model;
             }

@@ -59,6 +59,18 @@ public static class Common {
         Out = 4,
     }
 
+    public enum Languages {
+
+        [Display(Name = "EN")]
+        English = 1,
+
+        [Display(Name = "UK")]
+        Ukrainian = 2,
+
+        [Display(Name = "RU")]
+        Russain = 3
+    }
+
     public enum LogType {
 
         [Display(Name = "Exception")]
@@ -210,7 +222,10 @@ public static class Common {
         PrinterKitchenWidth = 16,
 
         [Display(Name = "POS Printer Width")]
-        PrinterPOSWidth = 17
+        PrinterPOSWidth = 17,
+
+        [Display(Name = "Language")]
+        Language = 18
     }
 
     public enum SettingsItems {

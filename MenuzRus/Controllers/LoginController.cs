@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq;
-using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using MenuzRus.Controllers;
 using MenuzRus.Models;
@@ -14,10 +13,12 @@ namespace MenuzRus {
         #region Constructors
 
         private ILoginService _loginService;
+        private ISettingsService _settingsService;
 
-        public LoginController(ISessionData sessionData, ILoginService loginService)
+        public LoginController(ISessionData sessionData, ILoginService loginService, ISettingsService settingsService)
             : base(sessionData) {
             _loginService = loginService;
+            _settingsService = settingsService;
         }
 
         #endregion Constructors
@@ -41,8 +42,7 @@ namespace MenuzRus {
 
         [HttpPost]
         public ActionResult Index(LoginModel model) {
-            //String pathToNavigate = "~/Order/Tables";
-            String pathToNavigate = "~/Home/Dashboard";
+            String pathToNavigate = "~/Order/Monitor";
             Tuple<Services.User, Services.Customer, List<String>> data;
 
             try {
@@ -51,18 +51,20 @@ namespace MenuzRus {
                     model.Success = false;
                     return View(model);
                 }
-
-                // Check if printers defined
-                // If printers not defined or equals NONE by any reason, set up this way or WSPrint is not running - no needs to show buttons
-                Boolean posPrinter = (data.Item2.Settings.Where(m => m.Type == Common.Settings.PrinterPOS.ToString()).FirstOrDefault().Value != "None");
-                Boolean kitchenPrinter = (data.Item2.Settings.Where(m => m.Type == Common.Settings.PrinterKitchen.ToString()).FirstOrDefault().Value != "None");
-
                 SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
 
                 SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(Common.Modules.Inventory.ToString()));
-                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && posPrinter && kitchenPrinter);
+                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && SessionData.printers != null);
                 SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(Common.Modules.Reports.ToString()));
+
+                SessionData.SetSession(Constants.SESSION_LANGUAGE, _settingsService.GetSettings(SessionData.customer.id, Common.Settings.Language));
+                // Cook it as well. Will need for login view
+                HttpCookie cook = new HttpCookie("language");
+
+                cook.Value = EnumHelper<Common.Languages>.GetDisplayValue((Common.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                cook.Expires = DateTime.MaxValue;
+                Response.Cookies.Add(cook);
 
                 IsLoggedIn = true;
                 model.Success = true;

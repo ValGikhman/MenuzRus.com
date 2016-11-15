@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -40,6 +42,7 @@ namespace MenuzRus.Controllers {
         protected override void OnActionExecuting(ActionExecutingContext filterContext) {
             MvcHandler handler;
             String route = null;
+            String culture = null;
 
             base.OnActionExecuting(filterContext);
 
@@ -60,6 +63,16 @@ namespace MenuzRus.Controllers {
 
                 if (user != null) {
                     this.LogAcvitity(filterContext);
+                }
+
+                if (Request.Cookies["language"] != null) {
+                    culture = Server.HtmlEncode(Request.Cookies["language"].Value);
+                }
+                if (SessionData.customer != null) {
+                    culture = EnumHelper<Common.Languages>.GetDisplayValue((Common.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                }
+                if (!String.IsNullOrEmpty(culture)) {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
                 }
             }
             catch (Exception ex) {

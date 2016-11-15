@@ -33,6 +33,9 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
+        [DisplayName("Language")]
+        public IEnumerable<SelectListItem> Languages { get; set; }
+
         public List<Services.Module> Modules { get; set; }
 
         [DisplayName("Business Name")]
@@ -59,7 +62,10 @@ namespace MenuzRus.Models {
         public String PrinterPOSWidth { get; set; }
 
         public IEnumerable<SelectListItem> Printers { get; set; }
+
         public IEnumerable<SelectListItem> PrinterWidth { get; set; }
+
+        public String SelectedLanguage { get; set; }
         public String SelectedModules { get; set; }
 
         [DisplayName("State")]

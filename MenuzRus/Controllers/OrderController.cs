@@ -128,6 +128,22 @@ namespace MenuzRus.Controllers {
             return null;
         }
 
+        [HttpGet]
+        public JsonResult GraphRefresh() {
+            try {
+                var retVal = new {
+                    inventory = _orderService.LatestInventory(),
+                    sales = _orderService.LatestSale()
+                };
+                return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex) {
+            }
+            finally {
+            }
+            return null;
+        }
+
         [CheckUserSession]
         [HttpGet]
         public ActionResult Kitchen() {
@@ -781,6 +797,8 @@ namespace MenuzRus.Controllers {
                         }
                     }
                     model.Floor.Tables = tables;
+                    model.Inventory = _orderService.LatestInventory();
+                    model.Sales = _orderService.LatestSale();
                 }
                 return model;
             }

@@ -44,6 +44,10 @@ namespace MenuzRus {
 
         List<TableOrder> GetTableOrdersByFloorId(Int32 floorId);
 
+        Decimal LatestInventory();
+
+        Decimal LatestSale();
+
         void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
 
         ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId);

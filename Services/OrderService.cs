@@ -223,6 +223,26 @@ namespace MenuzRus {
             return retVal;
         }
 
+        public Decimal LatestInventory() {
+            Decimal? saldo;
+            DateTime maxDate;
+
+            using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                maxDate = db.InventoryBalances.Max(m => m.Date);
+                saldo = db.InventoryBalances.Where(m => m.Date == maxDate.Date).Select(m => m.Saldo).FirstOrDefault();
+            }
+            return saldo.HasValue ? saldo.Value : 0;
+        }
+
+        public Decimal LatestSale() {
+            Decimal? price;
+
+            using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                price = db.Checks.Where(m => m.DateCreated.Date == DateTime.Now.Date).Sum(m => m.Price + m.Tax);
+            }
+            return price.HasValue ? price.Value : 0;
+        }
+
         public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
             ItemService _itemService = new ItemService();
             InventoryService _inventoryService = new InventoryService();

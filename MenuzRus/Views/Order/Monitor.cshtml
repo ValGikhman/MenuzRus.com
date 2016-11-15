@@ -30,7 +30,6 @@
         <div id="chart"></div>
     </div>
 
-
     <div class="floorArea shadow">
         @Html.Partial("_MonitorPartial", Model)
     </div>
@@ -38,8 +37,22 @@
 </div>
 @Html.HiddenFor(m => m.Floor.id)
 @Html.HiddenFor(m => m.Floor.Name)
+@Html.HiddenFor(m => m.Sales)
+@Html.HiddenFor(m => m.Inventory)
 
-<script>
+<script type="text/javascript">
+    var options = {
+        width: 400
+        , height: 120
+        , redFrom: 0
+        , redTo: 10
+        , yellowFrom: 10
+        , yellowTo: 20
+        , minorTicks: 10
+    };
+
+    var chart;
+
     $(function () {
         //activate chart
         google.charts.load("current", { "packages": ["gauge"] });
@@ -62,6 +75,7 @@
                     addTimers();
                     setTableStatus();
                     setCheckStatus();
+                    refreshGraph();
                 })
             .fail(function () {
                 message("::setInterval:: Failed.", "error", "topCenter");
@@ -74,28 +88,40 @@
     })
 
     function drawStuff() {
+        var sales = parseFloat($("#Sales").val());
+        var inventory = parseFloat($("#Inventory").val());
+
         var data = google.visualization.arrayToDataTable([
           ["Label", "Value"],
-          ["Sales", 80],
-          ["Inventory", 55]
+          ["Sales", sales],
+          ["Inventory", inventory]
         ]);
 
-        var options = {
-            width: 400
-            , height: 120
-            , redFrom: 0
-            , redTo: 10
-            , yellowFrom: 10
-            , yellowTo: 20
-            , minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById("chart"));
+        chart = new google.visualization.Gauge(document.getElementById("chart"));
         chart.draw(data, options);
     };
 
     function refreshTotal() {
         $(".tables.badge").html($(".table").length);
+    }
+
+    function refreshGraph() {
+        var jqxhr = $.get($.validator.format("{0}Order/GraphRefresh/", root))
+            .done(function (result) {
+                var data = google.visualization.arrayToDataTable([
+                  ["Label", "Value"],
+                  ["Sales", result.sales],
+                  ["Inventory", result.inventory]
+                ]);
+                chart = new google.visualization.Gauge(document.getElementById("chart"));
+                chart.draw(data, options);
+            })
+        .fail(function () {
+            message("::setInterval:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+            message("Refreshed", "success", "topCenter");
+        });
     }
 
     function viewTable(id) {

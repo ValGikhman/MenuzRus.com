@@ -19,23 +19,23 @@
             <div class="col-lg-1 col-md-1">
             </div>
             <div class="col-lg-4 col-md-4 customer">
-                <h5>Enter your business information</h5>
-                @Html.TextBoxFor(model => model.Customer.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter your business name", required = "" })
-                @Html.TextBoxFor(model => model.Customer.Address, new { @class = "form-control input-sm shadow", placeholder = "Enter your business address", required = "" })
-                @Html.TextBoxFor(model => model.Customer.Address2, new { @class = "form-control input-sm shadow", placeholder = "Business address if needed" })
-                @Html.TextBoxFor(model => model.Customer.City, new { @class = "form-control input-sm shadow", placeholder = "Enter city", required = "" })
+                <h5>@Resources.Resource.REGISTRATION_BUSINESS_INFORMATION</h5>
+                @Html.TextBoxFor(model => model.Customer.Name, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_NAME, required = "" })
+                @Html.TextBoxFor(model => model.Customer.Address, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_ADDRESS1, required = "" })
+                @Html.TextBoxFor(model => model.Customer.Address2, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_ADDRESS2 })
+                @Html.TextBoxFor(model => model.Customer.City, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_CITY, required = "" })
                 <div class="form-group">
                     <div class="input-group">
-                        <div class="input-group-addon shadow leiba">State</div>
+                        <div class="input-group-addon shadow leiba">@Resources.Resource.REGISTRATION_BUSINESS_STATE</div>
                         @Html.DropDownListFor(model => model.Customer.State, Model.Customer.States, new { @class = "form-control input-sm shadow" })
                     </div>
                 </div>
 
-                @Html.TextBoxFor(model => model.Customer.Zip, new { @class = "form-control input-sm shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
-                @Html.TextBoxFor(model => model.Customer.Phone, new { @class = "form-control input-sm shadow", placeholder = "Enter phone number" })
+                @Html.TextBoxFor(model => model.Customer.Zip, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_ZIP, required = "", pattern = "(^\\d{5}$)" })
+                @Html.TextBoxFor(model => model.Customer.Phone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_BUSINESS_PHONE })
                 <div class="form-group">
                     <div class="input-group">
-                        <div class="input-group-addon shadow leiba">Tax</div>
+                        <div class="input-group-addon shadow leiba">@Resources.Resource.REGISTRATION_TAX</div>
                         @Html.TextBoxFor(model => model.Customer.Tax, new { @class = "form-control shadow" })
                     </div>
                 </div>
@@ -43,7 +43,7 @@
             <div class="col-lg-2 col-md-2">
             </div>
             <div class="col-lg-4 col-md-4 personal">
-                <h5>Enter your personal information</h5>
+                <h5>@Resources.Resource.REGISTRATION_PERSONAL_INFORMATION</h5>
                 @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control input-sm shadow", placeholder = "Enter your first name", required = "" })
                 @Html.TextBoxFor(model => model.User.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
                 @Html.TextBoxFor(model => model.User.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })

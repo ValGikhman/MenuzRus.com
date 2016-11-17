@@ -28,9 +28,9 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCancelCheck" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                 @if ((Boolean)Session[Constants.SESSION_MODULE_PRINT]) {
+                @if ((Boolean)Session[Constants.SESSION_PRINTABLE]) {
                     <button id="btnPrintCheck" type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Print</button>
-                 }
+                }
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
     </div>
     <div class="clearfix">
         <div class="pull-right" style="margin-top: -50px;">
-            <input id="graphSwitch" checked type="checkbox" data-on="Graph" data-off="Report" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
+            <input id="graphSwitch" type="checkbox" data-on="Graph" data-off="Report" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
         </div>
     </div>
     <br />
@@ -67,10 +67,24 @@
 <script>
     var graphArray = [];
     var sign = "@sign";
+
+    var data;
+    var options = {
+        width: 600,
+        height: 300,
+        legend: { position: "none" },
+        axes: {
+            x: {
+                0: { side: "bottom", label: "Daily chart" } // Top x-axis.
+            }
+        },
+        vAxis: { minValue: 0, format: "decimal", title: "Sales @sign" },
+    };
+
     $(function () {
         //activate chart
         google.charts.load("current", { "packages": ["bar"] });
-        //google.charts.setOnLoadCallback(drawStuff);
+        google.charts.setOnLoadCallback(drawStuff);
 
         $("#graphSwitch").bootstrapToggle().change(function () {
             drawStuff();
@@ -141,6 +155,9 @@
                 minusicon: "ui-icon-minus"
             },
             loadComplete: function (data) {
+                // Save graph data
+                graphArray = prepareArrayForGraph(data.graph);
+
                 var groups = $("tr.jqgroup");
                 groups.each(function (i, e) {
                     var categoryId = $(e).next().find("td:first").text();
@@ -160,12 +177,8 @@
                     Total: totalSum
                 });
 
-                $("#gbox_jqGrid").hide();
-
-                // Save graph data
-                graphArray = prepareArrayForGraph(data.graph);
-
-                drawStuff();
+                $("#chart").hide();
+                $("#gbox_jqGrid").show();
             },
         });
 
@@ -218,20 +231,7 @@
                 return;
             }
 
-            var data = new google.visualization.arrayToDataTable(graphArray);
-
-            var options = {
-                width: 600,
-                height: 300,
-                legend: { position: "none" },
-                axes: {
-                    x: {
-                        0: { side: "bottom", label: "Daily chart" } // Top x-axis.
-                    }
-                },
-                vAxis: { minValue: 0, format: "decimal", title: "Sales $" },
-            };
-
+            data = google.visualization.arrayToDataTable(graphArray);
             var chart = new google.charts.Bar(document.getElementById("chart"));
             chart.draw(data, google.charts.Bar.convertOptions(options));
 

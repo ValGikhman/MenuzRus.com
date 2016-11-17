@@ -12,15 +12,15 @@
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
-        <h2>Monitor</h2>
+        <h2>@Resources.Resource.MONITOR_TITLE</h2>
     </div>
 
     <div class="floor dropdown">
         <button id="btnFloor" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Model.Floor.Name</button>
         <ul id="floor" class="dropdown-menu alert-warning" role="menu">
-            <li class="dropdown-header">Floors:</li>
+            <li class="dropdown-header">@Resources.Resource.MENU_NAVIGATE_TO_FLOORS:</li>
             <li role="separator" class="divider"></li>
-            <li><a href="#" data-value="0">All</a></li>
+            <li><a href="#" data-value="0">@Resources.Resource.COMMON_ALL</a></li>
             @foreach (Floor floor in Model.Floors) {
                 <li><a href="#" data-value="@floor.id">@floor.Name</a></li>
             }
@@ -33,7 +33,7 @@
     <div class="floorArea shadow">
         @Html.Partial("_MonitorPartial", Model)
     </div>
-    <a href="#">Tables <span class="tables badge"></span></a>
+    <a href="#">@Resources.Resource.COMMON_TABLES <span class="tables badge"></span></a>
 </div>
 @Html.HiddenFor(m => m.Floor.id)
 @Html.HiddenFor(m => m.Floor.Name)
@@ -93,8 +93,8 @@
 
         var data = google.visualization.arrayToDataTable([
           ["Label", "Value"],
-          ["Sales", sales],
-          ["Inventory", inventory]
+          ["@Resources.Resource.MENU_REPORTS_SALES", sales],
+          ["@Resources.Resource.MENU_REPORTS_INVENTORY", inventory]
         ]);
 
         chart = new google.visualization.Gauge(document.getElementById("chart"));

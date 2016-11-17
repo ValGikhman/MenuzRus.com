@@ -19,19 +19,24 @@ namespace MenuzRus {
         private Services.Floor _floor = null;
         private Services.Item _item = null;
 
-        private Boolean _moduleInventory;
+        private Boolean _moduleInventory = false;
 
-        private Boolean _modulePrint;
+        private Boolean _modulePrint = false;
 
-        private Boolean _moduleReports;
+        private Boolean _moduleReports = false;
+
+        private Boolean _printable = false;
 
         //private Services.Menu _menu;
         private Int32 _printerKitchenWidth = 0;
 
         private Int32 _printerPOSWidth = 0;
+
         private String[] _printers = null;
         private Boolean _production = false;
+
         private String _route = null;
+
         private Services.User _user = null;
 
         #endregion Private Fields
@@ -106,6 +111,15 @@ namespace MenuzRus {
             }
             set {
                 SetSession(Constants.SESSION_MODULE_REPORTS, value);
+            }
+        }
+
+        public Boolean printable {
+            get {
+                return GetSession<Boolean>(Constants.SESSION_PRINTABLE, _printable);
+            }
+            set {
+                SetSession(Constants.SESSION_PRINTABLE, value);
             }
         }
 

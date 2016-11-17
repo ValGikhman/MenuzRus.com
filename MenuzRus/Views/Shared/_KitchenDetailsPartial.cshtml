@@ -1,13 +1,13 @@
 ﻿@model MenuzRus.Models.KitchenOrderModel
 @using Services
-<div class="modal kithenDetailsForm" role="dialog">
+<div class="modal kithenDetailsForm" role="dialog" style="min-height:500px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-new">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title floorTitle">Table @Model.Table.Name</h4>
             </div>
-            <div id="kithenDetailsForm" class="modal-body" style="padding: 2px;">
+            <div id="kithenDetailsForm" class="modal-body" style="padding: 2px; min-height: 450px;">
                 <ul class="nav nav-pills btn-default  nav-justified orderedChecks">
                     @if (Model.Checks != null) {
                         foreach (MenuzRus.Models.CheckPrint check in Model.Checks) {

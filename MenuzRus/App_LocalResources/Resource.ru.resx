@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LOGIN_BUTTON_CLOSE" xml:space="preserve">
+  <data name="COMMON_ALL" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="COMMON_CLOSE" xml:space="preserve">
     <value>Закрыть</value>
+  </data>
+  <data name="COMMON_TABLES" xml:space="preserve">
+    <value>Столов</value>
   </data>
   <data name="LOGIN_BUTTON_REGISTER" xml:space="preserve">
     <value>Регистрация</value>
@@ -194,5 +200,38 @@
   </data>
   <data name="MENU_USERS" xml:space="preserve">
     <value>Пользователи</value>
+  </data>
+  <data name="MONITOR_TITLE" xml:space="preserve">
+    <value>Мониторинг</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_ADDRESS1" xml:space="preserve">
+    <value>Введите адресс компании</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_ADDRESS2" xml:space="preserve">
+    <value>Дополнительный адресс если нужно</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_CITY" xml:space="preserve">
+    <value>Введите город</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_INFORMATION" xml:space="preserve">
+    <value>Введите информацию о компании</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_NAME" xml:space="preserve">
+    <value>Введите имя компании</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_PHONE" xml:space="preserve">
+    <value>Введите телефонный номер</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_STATE" xml:space="preserve">
+    <value>Область</value>
+  </data>
+  <data name="REGISTRATION_BUSINESS_ZIP" xml:space="preserve">
+    <value>Индекс</value>
+  </data>
+  <data name="REGISTRATION_PERSONAL_INFORMATION" xml:space="preserve">
+    <value>Введите персональную информацию</value>
+  </data>
+  <data name="REGISTRATION_TAX" xml:space="preserve">
+    <value>Налог</value>
   </data>
 </root>

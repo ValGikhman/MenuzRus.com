@@ -55,9 +55,9 @@ namespace MenuzRus {
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
 
                 SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(Common.Modules.Inventory.ToString()));
-                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && SessionData.printers != null);
                 SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(Common.Modules.Reports.ToString()));
-
+                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()));
+                SessionData.SetSession(Constants.SESSION_PRINTABLE, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && SessionData.printers != null);
                 SessionData.SetSession(Constants.SESSION_LANGUAGE, _settingsService.GetSettings(SessionData.customer.id, Common.Settings.Language));
                 // Cook it as well. Will need for login view
                 HttpCookie cook = new HttpCookie("language");

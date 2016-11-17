@@ -29,12 +29,12 @@ namespace MenuzRus {
 
         //Services.Menu menu { get; set; }
 
+        Boolean printable { get; set; }
         Int32 printerKitchenWidth { get; set; }
 
         Int32 printerPOSWidth { get; set; }
 
         String[] printers { get; set; }
-
         Boolean production { get; set; }
 
         String route { get; set; }

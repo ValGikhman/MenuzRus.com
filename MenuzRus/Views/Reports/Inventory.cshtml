@@ -21,7 +21,7 @@
     </div>
     <div class="clearfix">
         <div class="pull-right" style="margin-top: -50px;">
-            <input id="graphSwitch" checked type="checkbox" data-on="Graph" data-off="Report" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
+            <input id="graphSwitch" type="checkbox" data-on="Graph" data-off="Report" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
         </div>
     </div>
     <br />
@@ -46,11 +46,23 @@
 <script>
     var graphArray = [];
     var sign = "@sign";
+    var data;
+
+    var options = {
+        width: 900,
+        height: 600,
+        legend: { position: "top", maxLines: 20 },
+        bar: { groupWidth: "75%" },
+        isStacked: true,
+        is3D: true,
+        vAxis: { minValue: 0, format: "decimal", title: "Sales $" },
+        hAxis: { title: "Days" }
+    };
 
     $(function () {
         //activate chart
         google.charts.load("current", { "packages": ["bar"] });
-        //google.charts.setOnLoadCallback(drawStuff);
+        google.charts.setOnLoadCallback(drawStuff);
 
         $("#graphSwitch").bootstrapToggle().change(function () {
             drawStuff();
@@ -121,6 +133,9 @@
                 minusicon: "ui-icon-minus"
             },
             loadComplete: function (data) {
+                // Save graph data
+                graphArray = prepareArrayForGraph(data.headers, data.graph);
+
                 var groups = $("tr.jqgroup");
                 groups.each(function (i, e) {
                     var categoryId = $(e).next().find("td:first").text();
@@ -144,13 +159,7 @@
                     TotalTotal: totalTotalSum
                 });
 
-                $("#gbox_jqGrid").hide();
-
-                // Save graph data
-                graphArray = prepareArrayForGraph(data.headers, data.graph);
-
-                drawStuff();
-
+                $("#gbox_jqGrid").show();
             },
         });
 
@@ -202,19 +211,7 @@
                 return;
             }
 
-            var data = new google.visualization.arrayToDataTable(graphArray);
-
-            var options = {
-                width: 900,
-                height: 600,
-                legend: { position: "top", maxLines: 20 },
-                bar: { groupWidth: "75%" },
-                isStacked: true,
-                is3D: true,
-                vAxis: { minValue: 0, format: "decimal", title: "Sales $" },
-                hAxis: { title: "Days" }
-            };
-
+            data = new google.visualization.arrayToDataTable(graphArray);
             var chart = new google.charts.Bar(document.getElementById("chart"));
             chart.draw(data, google.charts.Bar.convertOptions(options));
 

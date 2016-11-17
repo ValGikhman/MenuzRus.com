@@ -639,6 +639,8 @@
     <Content Include="Views\Shared\_PayPalPartial.cshtml" />
     <Content Include="Views\Registration\PayPal.cshtml" />
     <Content Include="Views\Login\_ViewStart.cshtml" />
+    <Content Include="Views\Registration\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Empty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -669,7 +671,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Oasis\Index.cshtml" />
     <Content Include="Views\Menu\_ViewStart.cshtml" />
-    <Content Include="Views\Login\_Login.cshtml" />
     <Content Include="Views\Shared\_CategoryPartial.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Shared\_RegistrationPartial.cshtml" />

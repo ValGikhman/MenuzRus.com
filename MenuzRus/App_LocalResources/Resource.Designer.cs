@@ -61,11 +61,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string COMMON_ALL {
+            get {
+                return ResourceManager.GetString("COMMON_ALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string LOGIN_BUTTON_CLOSE {
+        public static string COMMON_CLOSE {
             get {
-                return ResourceManager.GetString("LOGIN_BUTTON_CLOSE", resourceCulture);
+                return ResourceManager.GetString("COMMON_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tables.
+        /// </summary>
+        public static string COMMON_TABLES {
+            get {
+                return ResourceManager.GetString("COMMON_TABLES", resourceCulture);
             }
         }
         
@@ -291,6 +309,105 @@ namespace Resources {
         public static string MENU_USERS {
             get {
                 return ResourceManager.GetString("MENU_USERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitor.
+        /// </summary>
+        public static string MONITOR_TITLE {
+            get {
+                return ResourceManager.GetString("MONITOR_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business address.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_ADDRESS1 {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_ADDRESS1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business address if needed.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_ADDRESS2 {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_ADDRESS2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter city.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_CITY {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_CITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business information.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_INFORMATION {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_INFORMATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business name.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_NAME {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter phone number.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_PHONE {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_STATE {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_STATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter zip.
+        /// </summary>
+        public static string REGISTRATION_BUSINESS_ZIP {
+            get {
+                return ResourceManager.GetString("REGISTRATION_BUSINESS_ZIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your personal information.
+        /// </summary>
+        public static string REGISTRATION_PERSONAL_INFORMATION {
+            get {
+                return ResourceManager.GetString("REGISTRATION_PERSONAL_INFORMATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tax.
+        /// </summary>
+        public static string REGISTRATION_TAX {
+            get {
+                return ResourceManager.GetString("REGISTRATION_TAX", resourceCulture);
             }
         }
     }

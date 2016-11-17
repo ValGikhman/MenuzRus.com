@@ -7,7 +7,15 @@
                         $("#printerImage").show();
                     }
                     else {
-                        $("#printerImage").hide();
+                        var jqxhr = $.get($.validator.format("{0}Home/NoPrinters", root), "json")
+                            .done(function (result) {
+                            })
+                            .fail(function () {
+                                message("::noPrinters:: Failed.", "error", "topCenter");
+                            })
+                            .always(function () {
+                                $("#printerImage").hide();
+                            });
                     }
                 },
 

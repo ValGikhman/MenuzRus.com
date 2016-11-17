@@ -48,7 +48,8 @@
                         if (tabs.length > 0) {
                             $(".orderedChecks li:first a").tab("show");
                         }
-                        else {
+
+                        if ($(".tab-content.check").html().trim() == "") {
                             $("#btnCancelKitchenDetails").click();
                         }
                     });

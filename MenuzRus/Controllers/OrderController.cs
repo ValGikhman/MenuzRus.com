@@ -748,7 +748,7 @@ namespace MenuzRus.Controllers {
             Models.Menu model = new Models.Menu();
 
             model.Menus = _menuService.GetMenus(SessionData.customer.id);
-            model.Menus.Insert(0, new Menus() { id = 0, CustomerId = SessionData.customer.id, Name = "All", Description = "" });
+            model.Menus.Insert(0, new Menus() { id = 0, CustomerId = SessionData.customer.id, Name = Resources.Resource.COMMON_ALL, Description = "" });
             menu = model.Menus.Take(1).FirstOrDefault();
 
             if (menu != null) {
@@ -773,7 +773,7 @@ namespace MenuzRus.Controllers {
                 if (id == 0) {
                     floor = new Services.Floor();
                     floor.id = 0;
-                    floor.Name = "All";
+                    floor.Name = Resources.Resource.COMMON_ALL;
                 }
                 else {
                     floor = _floorService.GetFloor(id.Value);

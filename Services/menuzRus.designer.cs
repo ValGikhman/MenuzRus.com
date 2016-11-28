@@ -117,6 +117,9 @@ namespace Services
     partial void InsertCustomerModule(CustomerModule instance);
     partial void UpdateCustomerModule(CustomerModule instance);
     partial void DeleteCustomerModule(CustomerModule instance);
+    partial void InsertPayment(Payment instance);
+    partial void UpdatePayment(Payment instance);
+    partial void DeletePayment(Payment instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -378,6 +381,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<CustomerModule>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Payment> Payments
+		{
+			get
+			{
+				return this.GetTable<Payment>();
 			}
 		}
 	}
@@ -2882,8 +2893,6 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntityRef<Check> _OrderCheck;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2904,7 +2913,6 @@ namespace Services
 		
 		public Printout()
 		{
-			this._OrderCheck = default(EntityRef<Check>);
 			OnCreated();
 		}
 		
@@ -2939,10 +2947,6 @@ namespace Services
 			{
 				if ((this._CheckId != value))
 				{
-					if (this._OrderCheck.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnCheckIdChanging(value);
 					this.SendPropertyChanging();
 					this._CheckId = value;
@@ -3032,40 +3036,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Check_Printout", Storage="_OrderCheck", ThisKey="CheckId", OtherKey="id", IsForeignKey=true)]
-		public Check Check
-		{
-			get
-			{
-				return this._OrderCheck.Entity;
-			}
-			set
-			{
-				Check previousValue = this._OrderCheck.Entity;
-				if (((previousValue != value) 
-							|| (this._OrderCheck.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._OrderCheck.Entity = null;
-						previousValue.Printouts.Remove(this);
-					}
-					this._OrderCheck.Entity = value;
-					if ((value != null))
-					{
-						value.Printouts.Add(this);
-						this._CheckId = value.id;
-					}
-					else
-					{
-						this._CheckId = default(int);
-					}
-					this.SendPropertyChanged("Check");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3113,8 +3083,6 @@ namespace Services
 		
 		private System.DateTime _DateCreated;
 		
-		private EntitySet<Printout> _Printouts;
-		
 		private EntityRef<TableOrder> _TableOrder;
 		
     #region Extensibility Method Definitions
@@ -3145,7 +3113,6 @@ namespace Services
 		
 		public Check()
 		{
-			this._Printouts = new EntitySet<Printout>(new Action<Printout>(this.attach_Printouts), new Action<Printout>(this.detach_Printouts));
 			this._TableOrder = default(EntityRef<TableOrder>);
 			OnCreated();
 		}
@@ -3354,19 +3321,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Check_Printout", Storage="_Printouts", ThisKey="id", OtherKey="CheckId")]
-		public EntitySet<Printout> Printouts
-		{
-			get
-			{
-				return this._Printouts;
-			}
-			set
-			{
-				this._Printouts.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TableOrder_Check", Storage="_TableOrder", ThisKey="TableOrderId", OtherKey="id", IsForeignKey=true)]
 		public TableOrder TableOrder
 		{
@@ -3419,18 +3373,6 @@ namespace Services
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Printouts(Printout entity)
-		{
-			this.SendPropertyChanging();
-			entity.Check = this;
-		}
-		
-		private void detach_Printouts(Printout entity)
-		{
-			this.SendPropertyChanging();
-			entity.Check = null;
 		}
 	}
 	
@@ -7576,6 +7518,308 @@ namespace Services
 		{
 			this.SendPropertyChanging();
 			entity.CustomerModule = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Payment")]
+	public partial class Payment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _CheckId;
+		
+		private string _FirstName;
+		
+		private string _LastName;
+		
+		private int _Type;
+		
+		private string _Number;
+		
+		private int _ExpiresMonth;
+		
+		private int _ExpiresYear;
+		
+		private decimal _Amount;
+		
+		private int _UserId;
+		
+		private System.DateTime _DateCreated;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnCheckIdChanging(int value);
+    partial void OnCheckIdChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnNumberChanging(string value);
+    partial void OnNumberChanged();
+    partial void OnExpiresMonthChanging(int value);
+    partial void OnExpiresMonthChanged();
+    partial void OnExpiresYearChanging(int value);
+    partial void OnExpiresYearChanged();
+    partial void OnAmountChanging(decimal value);
+    partial void OnAmountChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    #endregion
+		
+		public Payment()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckId", DbType="Int NOT NULL")]
+		public int CheckId
+		{
+			get
+			{
+				return this._CheckId;
+			}
+			set
+			{
+				if ((this._CheckId != value))
+				{
+					this.OnCheckIdChanging(value);
+					this.SendPropertyChanging();
+					this._CheckId = value;
+					this.SendPropertyChanged("CheckId");
+					this.OnCheckIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiresMonth", DbType="Int NOT NULL")]
+		public int ExpiresMonth
+		{
+			get
+			{
+				return this._ExpiresMonth;
+			}
+			set
+			{
+				if ((this._ExpiresMonth != value))
+				{
+					this.OnExpiresMonthChanging(value);
+					this.SendPropertyChanging();
+					this._ExpiresMonth = value;
+					this.SendPropertyChanged("ExpiresMonth");
+					this.OnExpiresMonthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiresYear", DbType="Int NOT NULL")]
+		public int ExpiresYear
+		{
+			get
+			{
+				return this._ExpiresYear;
+			}
+			set
+			{
+				if ((this._ExpiresYear != value))
+				{
+					this.OnExpiresYearChanging(value);
+					this.SendPropertyChanging();
+					this._ExpiresYear = value;
+					this.SendPropertyChanged("ExpiresYear");
+					this.OnExpiresYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Amount", DbType="Decimal(8,2) NOT NULL")]
+		public decimal Amount
+		{
+			get
+			{
+				return this._Amount;
+			}
+			set
+			{
+				if ((this._Amount != value))
+				{
+					this.OnAmountChanging(value);
+					this.SendPropertyChanging();
+					this._Amount = value;
+					this.SendPropertyChanged("Amount");
+					this.OnAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

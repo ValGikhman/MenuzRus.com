@@ -9,7 +9,7 @@
             <tr>
                 <td>
                     <div class="centered">
-                        <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" />
+                        <img src="data:image/gif;base64,@Model.CompanyImageBase64" />
                     </div>
                 </td>
             </tr>
@@ -136,9 +136,7 @@
                 <td style="font-size: x-small;">
                     <div>
                         <br />
-                        @String.Format("{0}, {1} {2}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString())
-                        <br />
-                        @String.Format("Server: {0}{1}", Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
+                        @String.Format("{0}, {1} {2} {3} {4}", Model.CreatedDate.DayOfWeek.ToString().Substring(0, 3), Model.CreatedDate.ToShortDateString(), Model.CreatedDate.ToShortTimeString(), Model.Me.FirstName, Model.Me.LastName.Substring(0, 1))
                     </div>
                 </td>
             </tr>

@@ -208,6 +208,7 @@
     <Compile Include="Session\HttpContextProvider.cs" />
     <Compile Include="Session\IHttpContextProvider.cs" />
     <Compile Include="Session\SessionData.cs" />
+    <Compile Include="Utility\CardReader.cs" />
     <Compile Include="Utility\CastleControllerFactory.cs" />
     <Compile Include="Utility\CheckUserSessionAttribute.cs" />
     <Compile Include="Utility\EmailHelper.cs" />
@@ -377,6 +378,8 @@
     <Content Include="packages.config" />
     <Content Include="menuzrus.pfx" />
     <None Include="Scripts\JQuery\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\JQuery\jquery.cardswipe.js" />
+    <Content Include="Scripts\JQuery\jquery.cardswipe.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.js" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.1.0.slim.js" />
@@ -641,6 +644,7 @@
     <Content Include="Views\Login\_ViewStart.cshtml" />
     <Content Include="Views\Registration\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Empty.cshtml" />
+    <Content Include="Views\Shared\_CardSwipePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

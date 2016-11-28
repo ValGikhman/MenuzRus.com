@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -398,6 +399,14 @@ namespace MenuzRus.Controllers {
             }
 
             return RenderViewToString(this.ControllerContext, "_OrderPartial", model);
+        }
+
+        [HttpGet]
+        public PartialViewResult ShowPayments(String checkId) {
+            Int32 Id = new JavaScriptSerializer().Deserialize<Int32>(checkId);
+            PaymentModel model;
+            model = GetPaymentModel(Id);
+            return PartialView("_CardSwipePartial", model);
         }
 
         [CheckUserSession]
@@ -822,6 +831,24 @@ namespace MenuzRus.Controllers {
             }
 
             return null;
+        }
+
+        private PaymentModel GetPaymentModel(Int32 checkId) {
+            Payment payment;
+            PaymentModel model = new PaymentModel();
+            model.Payments = _orderService.GetPayment(checkId);
+            payment = model.Payments.Take(1).FirstOrDefault();
+            if (payment != null) {
+                model.Amount = payment.Amount;
+                model.CheckId = payment.CheckId;
+                model.FirstName = payment.FirstName;
+                model.LastName = payment.LastName;
+                model.Type = (Common.Payments)payment.Type;
+                model.UserId = payment.UserId;
+                model.ExpiredMonth = payment.ExpiresMonth;
+                model.ExpiredYear = payment.ExpiresYear;
+            }
+            return model;
         }
 
         private OrderModel GetTableModel(Int32 tableId) {

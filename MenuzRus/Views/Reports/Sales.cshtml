@@ -47,14 +47,14 @@
     </div>
     <br />
     <div style="width: 450px;">
-        <div class="input-group date shadow" id="divDateFrom" data-date="@Model.From.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left;">
+        <div class="input-group date shadow" id="divDateFrom" data-date="@Model.From.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: left; cursor: pointer">
             <div class="input-group-addon leiba">From</div>
-            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@Model.From.ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateFrom" class="add-on form-control input-sm" type="text" value="@Model.From.ToShortDateString()" readonly />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
-        <div class="input-group date shadow" id="divDateTo" data-date="@Model.To.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right;">
+        <div class="input-group date shadow" id="divDateTo" data-date="@Model.To.ToShortDateString()" data-date-format="mm/dd/yyyy" style="width: 200px; float: right; cursor: pointer">
             <div class="input-group-addon leiba">To</div>
-            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@Model.To.ToShortDateString()" readonly style="cursor: pointer" />
+            <input id="dateTo" class="add-on form-control input-sm" type="text" value="@Model.To.ToShortDateString()" readonly />
             <span class="input-group-addon add-on glyphicon glyphicon-calendar" style="top: 0px! important"></span>
         </div>
     </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,8 @@ using Services;
 namespace MenuzRus {
 
     public static class Utility {
+
+        #region Public Fields
 
         public static readonly IDictionary<String, String> States = new Dictionary<String, String> {
             { "AL", "Alabama" },
@@ -64,9 +67,23 @@ namespace MenuzRus {
             { "WY", "Wyoming" }
         };
 
+        #endregion Public Fields
+
+        #region Public Methods
+
         public static String GetNewConfirmationNumber() {
             byte[] buffer = Guid.NewGuid().ToByteArray();
             return BitConverter.ToUInt32(buffer, 8).ToString();
+        }
+
+        public static byte[] ReadImageFile(String imageLocation) {
+            byte[] imageData = null;
+            FileInfo fileInfo = new FileInfo(imageLocation);
+            long imageFileLength = fileInfo.Length;
+            FileStream fs = new FileStream(imageLocation, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            imageData = br.ReadBytes((int)imageFileLength);
+            return imageData;
         }
 
         public static IEnumerable<Decimal> SplitAmount(Decimal value, int count) {
@@ -102,5 +119,7 @@ namespace MenuzRus {
         public static IEnumerable<SelectListItem> ToSelectListItems<T, R>(this IDictionary<T, R> dic) {
             return dic.Select(x => new SelectListItem() { Text = x.Value.ToString(), Value = x.Key.ToString() });
         }
+
+        #endregion Public Methods
     }
 }

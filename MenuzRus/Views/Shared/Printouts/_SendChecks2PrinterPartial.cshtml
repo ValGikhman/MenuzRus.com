@@ -15,7 +15,7 @@
     <table align="center">
         <tr>
             <td>
-                <img width="130" src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.MyCompany.id, Model.MyCompany.ImageUrl, Guid.NewGuid().ToString("N")))" />
+                <img  width="130" src="data:image/gif;base64,@Model.CompanyImageBase64" />
             </td>
         </tr>
     </table>

@@ -36,10 +36,20 @@ public static class Common {
     }
 
     public enum CheckStatus {
+
+        [Display(Name = "Active")]
         Active = 1,
+
+        [Display(Name = "Ordered")]
         Ordered = 2,
+
+        [Display(Name = "Ready")]
         Ready = 3,
+
+        [Display(Name = "Paid")]
         Paid = 4,
+
+        [Display(Name = "Cancelled")]
         Cancelled = 5
     }
 
@@ -140,6 +150,14 @@ public static class Common {
         Print,
         Inventory,
         Reports
+    }
+
+    public enum Payments {
+        Cash = 0,
+        MasterCard = 2,
+        Visa = 4,
+        Dicscover = 8,
+        Generic = 16
     }
 
     public enum PrinterWidth {
@@ -256,8 +274,14 @@ public static class Common {
     }
 
     public enum TableOrderStatus {
+
+        [Display(Name = "Open")]
         Open = 1,
+
+        [Display(Name = "Served")]
         Served = 2,
+
+        [Display(Name = "Closed")]
         Closed = 3
     }
 

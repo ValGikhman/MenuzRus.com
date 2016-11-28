@@ -26,6 +26,8 @@ namespace MenuzRus {
 
         List<ChecksMenu> GetMenuItems(Int32 checkId);
 
+        List<Payment> GetPayment(Int32 checkId);
+
         Printout GetPrintKitchenOrder(Int32 id);
 
         List<Printout> GetPrintouts(DateTime dateFrom, DateTime dateTo);

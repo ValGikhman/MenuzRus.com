@@ -8,7 +8,7 @@
                     }
                     else {
                         var jqxhr = $.get($.validator.format("{0}Home/NoPrinters", root), "json")
-                            .done(function (result) {
+                            .done(function () {
                             })
                             .fail(function () {
                                 message("::noPrinters:: Failed.", "error", "topCenter");

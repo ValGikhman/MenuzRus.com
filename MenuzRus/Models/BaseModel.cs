@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +18,14 @@ namespace MenuzRus.Models {
             Me = (Services.User)HttpContext.Current.Session[Constants.SESSION_USER];
             MyCompany = (Services.Customer)HttpContext.Current.Session[Constants.SESSION_CUSTOMER];
 
+            if (MyCompany != null && Me != null) {
+                if (!String.IsNullOrEmpty(MyCompany.ImageUrl)) {
+                    String img = Path.Combine(HttpContext.Current.Server.MapPath("~/Images/Menus/"), Me.id.ToString(), "Customers", MyCompany.ImageUrl);
+                    byte[] buffer = Utility.ReadImageFile(img);
+                    CompanyImageBase64 = Convert.ToBase64String(buffer);
+                }
+            }
+
             if (HttpContext.Current.Session[Constants.SESSION_MODULE_INVENTORY] != null) {
                 isModuleInventory = (Boolean)HttpContext.Current.Session[Constants.SESSION_MODULE_INVENTORY];
             }
@@ -31,6 +40,8 @@ namespace MenuzRus.Models {
         #endregion Public Constructors
 
         #region Public Properties
+
+        public String CompanyImageBase64 { get; set; }
 
         public Boolean isModuleInventory { get; set; }
 

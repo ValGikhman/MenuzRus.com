@@ -3,28 +3,28 @@
 
 @using (Html.BeginForm("SaveUser", "User", FormMethod.Post, new { @id = "form-user", @class = "form-user", role = "form", enctype = "multipart/form-data" })) {
     <div class="modal-header">
-        <h2>User Form</h2>
+        <h2>@Resources.Resource.USER_FORM_TITLE</h2>
     </div>
     <div class="row">
         <div class="col-lg-8 col-md-8">
-            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control input-sm shadow", placeholder = "Enter your first name", required = "" })
-            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
-            @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-            @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work mobile number", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_FIRST_NAME, required = "" })
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_LAST_NAME, required = "" })
+            @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_WORK_PHONE, required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+            @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_MOBILE_PHONE, pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
             @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(Common.UserType))), new { @class = "form-control input-sm shadow" })
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
-            @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
-            @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_EMAIL, required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
+            @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_PASSWORD, required = "", type = "password" })
+            @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_CONFIRM_PASSWORD, required = "", type = "password" })
             <div id="passwordsError" class="hide alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                Password does not match confirmation password. Please revise.
+                @Resources.Resource.REGISTRATION_PASSWORD_FAILED
             </div>
         </div>
         <div class="imagerow col-lg-4 col-md-4">
             <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Users/{1}?{2}", Model.CustomerId, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
             <input type="file" id="Image" name="Image" />
-            <div class="col-md-1 col-lg-1">
-                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+            <div>
+                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">@Resources.Resource.COMMON_DELETE_IMAGE</a>
             </div>
         </div>
         @Html.HiddenFor(m => m.Active)
@@ -34,8 +34,8 @@
         @Html.HiddenFor(m => m.Referer)
     </div>
     <div class="modal-footer">
-        <button id="btnCancel" type="button" class="btn btn-default btn-lg">Cancel</button>
-        <button id="btnSave" type="button" class="btn btn-success btn-lg">Save changes</button>
+        <button id="btnCancel" type="button" class="btn btn-default btn-lg">@Resources.Resource.COMMON_CANCEL</button>
+        <button id="btnSave" type="button" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
     </div>
 }
 <script type="text/javascript">

@@ -123,6 +123,17 @@ namespace MenuzRus {
             return null;
         }
 
+        public List<Payment> GetPayment(Int32 checkId) {
+            if (checkId != 0) {
+                menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
+                List<Payment> query = db.Payments.Where(m => m.CheckId == checkId).ToList();
+                if (query != default(List<Payment>)) {
+                    return query;
+                }
+            }
+            return null;
+        }
+
         public Printout GetPrintKitchenOrder(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Printouts.FirstOrDefault(m => m.id == id);

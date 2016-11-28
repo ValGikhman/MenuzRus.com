@@ -70,11 +70,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string COMMON_CANCEL {
+            get {
+                return ResourceManager.GetString("COMMON_CANCEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string COMMON_CLOSE {
             get {
                 return ResourceManager.GetString("COMMON_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete image.
+        /// </summary>
+        public static string COMMON_DELETE_IMAGE {
+            get {
+                return ResourceManager.GetString("COMMON_DELETE_IMAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save changes.
+        /// </summary>
+        public static string COMMON_SAVE_CHANGES {
+            get {
+                return ResourceManager.GetString("COMMON_SAVE_CHANGES", resourceCulture);
             }
         }
         
@@ -322,6 +349,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click to add application modules.
+        /// </summary>
+        public static string REGISTRATION_APPLICATION_MODULES {
+            get {
+                return ResourceManager.GetString("REGISTRATION_APPLICATION_MODULES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your business address.
         /// </summary>
         public static string REGISTRATION_BUSINESS_ADDRESS1 {
@@ -394,6 +430,69 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter your password one more time.
+        /// </summary>
+        public static string REGISTRATION_CONFIRM_PASSWORD {
+            get {
+                return ResourceManager.GetString("REGISTRATION_CONFIRM_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter  your email address.
+        /// </summary>
+        public static string REGISTRATION_EMAIL {
+            get {
+                return ResourceManager.GetString("REGISTRATION_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your first name.
+        /// </summary>
+        public static string REGISTRATION_FIRST_NAME {
+            get {
+                return ResourceManager.GetString("REGISTRATION_FIRST_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your last name.
+        /// </summary>
+        public static string REGISTRATION_LAST_NAME {
+            get {
+                return ResourceManager.GetString("REGISTRATION_LAST_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your mobile phone.
+        /// </summary>
+        public static string REGISTRATION_MOBILE_PHONE {
+            get {
+                return ResourceManager.GetString("REGISTRATION_MOBILE_PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your password one more time.
+        /// </summary>
+        public static string REGISTRATION_PASSWORD {
+            get {
+                return ResourceManager.GetString("REGISTRATION_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password does not match confirmation password. Please revise..
+        /// </summary>
+        public static string REGISTRATION_PASSWORD_FAILED {
+            get {
+                return ResourceManager.GetString("REGISTRATION_PASSWORD_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your personal information.
         /// </summary>
         public static string REGISTRATION_PERSONAL_INFORMATION {
@@ -408,6 +507,24 @@ namespace Resources {
         public static string REGISTRATION_TAX {
             get {
                 return ResourceManager.GetString("REGISTRATION_TAX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your work phone.
+        /// </summary>
+        public static string REGISTRATION_WORK_PHONE {
+            get {
+                return ResourceManager.GetString("REGISTRATION_WORK_PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Form.
+        /// </summary>
+        public static string USER_FORM_TITLE {
+            get {
+                return ResourceManager.GetString("USER_FORM_TITLE", resourceCulture);
             }
         }
     }

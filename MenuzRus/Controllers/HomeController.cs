@@ -34,7 +34,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public JsonResult NoPrinters() {
+        public void NoPrinters() {
             try {
                 SessionData.SetSession(Constants.SESSION_PRINTABLE, false);
                 SessionData.SetSession(Constants.SESSION_PRINTERS, null);
@@ -44,7 +44,6 @@ namespace MenuzRus.Controllers {
             }
             finally {
             }
-            return new JsonResult() { Data = { }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]

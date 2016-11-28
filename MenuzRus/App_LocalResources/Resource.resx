@@ -120,8 +120,17 @@
   <data name="COMMON_ALL" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="COMMON_CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="COMMON_CLOSE" xml:space="preserve">
     <value>Close</value>
+  </data>
+  <data name="COMMON_DELETE_IMAGE" xml:space="preserve">
+    <value>Delete image</value>
+  </data>
+  <data name="COMMON_SAVE_CHANGES" xml:space="preserve">
+    <value>Save changes</value>
   </data>
   <data name="COMMON_TABLES" xml:space="preserve">
     <value>Tables</value>
@@ -204,6 +213,9 @@
   <data name="MONITOR_TITLE" xml:space="preserve">
     <value>Monitor</value>
   </data>
+  <data name="REGISTRATION_APPLICATION_MODULES" xml:space="preserve">
+    <value>Click to add application modules</value>
+  </data>
   <data name="REGISTRATION_BUSINESS_ADDRESS1" xml:space="preserve">
     <value>Enter your business address</value>
   </data>
@@ -228,10 +240,37 @@
   <data name="REGISTRATION_BUSINESS_ZIP" xml:space="preserve">
     <value>Enter zip</value>
   </data>
+  <data name="REGISTRATION_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Enter your password one more time</value>
+  </data>
+  <data name="REGISTRATION_EMAIL" xml:space="preserve">
+    <value>Enter  your email address</value>
+  </data>
+  <data name="REGISTRATION_FIRST_NAME" xml:space="preserve">
+    <value>Enter your first name</value>
+  </data>
+  <data name="REGISTRATION_LAST_NAME" xml:space="preserve">
+    <value>Enter your last name</value>
+  </data>
+  <data name="REGISTRATION_MOBILE_PHONE" xml:space="preserve">
+    <value>Enter your mobile phone</value>
+  </data>
+  <data name="REGISTRATION_PASSWORD" xml:space="preserve">
+    <value>Enter your password one more time</value>
+  </data>
+  <data name="REGISTRATION_PASSWORD_FAILED" xml:space="preserve">
+    <value>Password does not match confirmation password. Please revise.</value>
+  </data>
   <data name="REGISTRATION_PERSONAL_INFORMATION" xml:space="preserve">
     <value>Enter your personal information</value>
   </data>
   <data name="REGISTRATION_TAX" xml:space="preserve">
     <value>Tax</value>
+  </data>
+  <data name="REGISTRATION_WORK_PHONE" xml:space="preserve">
+    <value>Enter your work phone</value>
+  </data>
+  <data name="USER_FORM_TITLE" xml:space="preserve">
+    <value>User Form</value>
   </data>
 </root>

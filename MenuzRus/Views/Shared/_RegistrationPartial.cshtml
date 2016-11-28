@@ -44,14 +44,14 @@
             </div>
             <div class="col-lg-4 col-md-4 personal">
                 <h5>@Resources.Resource.REGISTRATION_PERSONAL_INFORMATION</h5>
-                @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control input-sm shadow", placeholder = "Enter your first name", required = "" })
-                @Html.TextBoxFor(model => model.User.LastName, new { @class = "form-control input-sm shadow", placeholder = "Enter your last name", required = "" })
-                @Html.TextBoxFor(model => model.User.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your work phone number", required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-                @Html.TextBoxFor(model => model.User.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = "Enter your mobile number", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-                @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control input-sm shadow", placeholder = "Enter your email address", required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
-                @Html.TextBoxFor(model => model.User.Password, new { @class = "form-control input-sm shadow", placeholder = "Enter your password", required = "", type = "password" })
-                @Html.TextBoxFor(model => model.User.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = "Enter your password one more time", required = "", type = "password" })
-                <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
+                @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_FIRST_NAME, required = "" })
+                @Html.TextBoxFor(model => model.User.LastName, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_LAST_NAME, required = "" })
+                @Html.TextBoxFor(model => model.User.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_WORK_PHONE, required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+                @Html.TextBoxFor(model => model.User.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_MOBILE_PHONE, pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
+                @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_EMAIL, required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
+                @Html.TextBoxFor(model => model.User.Password, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_PASSWORD, required = "", type = "password" })
+                @Html.TextBoxFor(model => model.User.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_CONFIRM_PASSWORD, required = "", type = "password" })
+                <select id="modules" data-placeholder=@Resources.Resource.REGISTRATION_APPLICATION_MODULES class="chosen-select" multiple>
                     @foreach (Services.Module module in Model.Customer.Modules) {
                         Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
                         <option value="@modulePrice.id" data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
@@ -93,8 +93,8 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button id="btnCancel" type="button" class="btn btn-default btn-lg">Cancel</button>
-            <button id="btnSave" type="submit" class="btn btn-success btn-lg">Save changes</button>
+            <button id="btnCancel" type="button" class="btn btn-default btn-lg">@Resources.Resource.COMMON_CANCEL</button>
+            <button id="btnSave" type="submit" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
         </div>
     </div>
 }

@@ -9,6 +9,8 @@ namespace MenuzRus.Models {
 
     public class UserModel : BaseModel {
 
+        #region Public Properties
+
         [DisplayName("Active")]
         public Common.Status Active { get; set; }
 
@@ -60,5 +62,7 @@ namespace MenuzRus.Models {
         [DataType(DataType.PhoneNumber)]
         [Required]
         public String WorkPhone { get; set; }
+
+        #endregion Public Properties
     }
 }

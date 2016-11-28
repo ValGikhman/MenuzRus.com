@@ -6,6 +6,7 @@
 @if ((Boolean)Session[Constants.SESSION_PRINTABLE]) {
     <button class="btn btn-primary btn-lg shadow" id="btnPrintChecks"><i class="glyphicon glyphicon-print"></i></button>
 }
+<button class="btn btn-primary btn-lg shadow" id="btnPayments" onclick="javascript:showPayments();"><i class="glyphicon glyphicon-subtitles"></i></button>
 <button id="btnDeleteSelectedChecks" class="btn btn-danger btn-lg pull-right shadow" style="margin-left: 10px;" onclick="javascript:deleteSelected();"><i class="glyphicon glyphicon-trash"></i></button>
 <button type="button" class="btn btn-warning btn-lg pull-right shadow" onclick="javascript:getComments('check')"><span class="glyphicon glyphicon-edit"></span></button>
 <div class="menuActions-container">
@@ -115,6 +116,22 @@
             })
             .always(function () {
                 window.location.reload();
+            });
+    }
+
+    function showPayments() {
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+
+        var jqxhr = $.get($.validator.format("{0}Order/ShowPayments", root), { "checkId": JSON.stringify(checkId) }, "json")
+            .done(function (result) {
+                $("#modalEditForm").html(result);
+                $(".modalEditForm").modal("show");
+                $(".modalEditForm").focus();
+            })
+            .fail(function () {
+                message("::swipeCard:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
             });
     }
 

@@ -120,8 +120,17 @@
   <data name="COMMON_ALL" xml:space="preserve">
     <value>Усі</value>
   </data>
+  <data name="COMMON_CANCEL" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
   <data name="COMMON_CLOSE" xml:space="preserve">
     <value>Закрити</value>
+  </data>
+  <data name="COMMON_DELETE_IMAGE" xml:space="preserve">
+    <value>Видалити зображення</value>
+  </data>
+  <data name="COMMON_SAVE_CHANGES" xml:space="preserve">
+    <value>Зберегти зміни</value>
   </data>
   <data name="COMMON_TABLES" xml:space="preserve">
     <value>Столів</value>
@@ -160,10 +169,10 @@
     <value>Перейти</value>
   </data>
   <data name="MENU_NAVIGATE_TO_FLOOR" xml:space="preserve">
-    <value>Пол</value>
+    <value>Зала</value>
   </data>
   <data name="MENU_NAVIGATE_TO_FLOORS" xml:space="preserve">
-    <value>Дізайн полу</value>
+    <value>Дізайн залу</value>
   </data>
   <data name="MENU_NAVIGATE_TO_ITEMS" xml:space="preserve">
     <value>Предмети</value>
@@ -204,6 +213,9 @@
   <data name="MONITOR_TITLE" xml:space="preserve">
     <value>Моніторинг</value>
   </data>
+  <data name="REGISTRATION_APPLICATION_MODULES" xml:space="preserve">
+    <value>Додати модулі додатків</value>
+  </data>
   <data name="REGISTRATION_BUSINESS_ADDRESS1" xml:space="preserve">
     <value>Введіть адресу компанії</value>
   </data>
@@ -228,10 +240,37 @@
   <data name="REGISTRATION_BUSINESS_ZIP" xml:space="preserve">
     <value>Iндекс</value>
   </data>
+  <data name="REGISTRATION_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Введіть пароль ще раз</value>
+  </data>
+  <data name="REGISTRATION_EMAIL" xml:space="preserve">
+    <value>Введіть адресу вашої електронної пошти</value>
+  </data>
+  <data name="REGISTRATION_FIRST_NAME" xml:space="preserve">
+    <value>Введіть своє ім'я</value>
+  </data>
+  <data name="REGISTRATION_LAST_NAME" xml:space="preserve">
+    <value>Введіть прізвище</value>
+  </data>
+  <data name="REGISTRATION_MOBILE_PHONE" xml:space="preserve">
+    <value>Введіть свій мобільний телефон</value>
+  </data>
+  <data name="REGISTRATION_PASSWORD" xml:space="preserve">
+    <value>Введіть пароль</value>
+  </data>
+  <data name="REGISTRATION_PASSWORD_FAILED" xml:space="preserve">
+    <value>Пароль не збігається з підтвердженням пароля. Будь ласка, переглянте.</value>
+  </data>
   <data name="REGISTRATION_PERSONAL_INFORMATION" xml:space="preserve">
     <value>Введіть вашу особисту інформацію</value>
   </data>
   <data name="REGISTRATION_TAX" xml:space="preserve">
     <value>Податок</value>
+  </data>
+  <data name="REGISTRATION_WORK_PHONE" xml:space="preserve">
+    <value>Введіть свій робочий телефон</value>
+  </data>
+  <data name="USER_FORM_TITLE" xml:space="preserve">
+    <value>Форма користувача</value>
   </data>
 </root>

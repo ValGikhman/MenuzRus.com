@@ -73,21 +73,33 @@ $(function () {
 
     $("#menuTab").click(function () {
         $(this).tab("show");
+
         $(".check").find(".tab-pane").html("");
         showMenus();
     });
 
     $("#actionsTab").click(function () {
         $(this).tab("show");
+
         var active = $(".check").find(".tab-pane.active");
         var checkId = $(active).attr("data-value");
         var type = $(active).attr("data-type");
         var status = $(active).attr("data-status");
+
         $(".chosen-select").val(checkId).trigger("chosen:updated");
         $("#btnCheckStatus").text(status);
         $("#btnCheckType").text(type);
 
         showCheckPrint();
+    });
+
+    $("#registerTab").click(function () {
+        $(this).tab("show");
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+
+        showCashier($("#total").html().replace(/[^\d.,-]/g, "").replace(",", "."));
+        showPayments(checkId);
+
     });
 
     $("#menuTab").tab("show");
@@ -323,6 +335,7 @@ function showCheckPrint() {
     var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": checkType, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(active).html(result);
+            $("#registerTab").show();
         })
         .fail(function () {
             message("::showCheckPrint:: Failed.", "error", "topCenter");
@@ -367,6 +380,7 @@ function showMenus(checkId) {
             var active = $(".checks li:last a");
             if ($(active).length > 0) {
                 toggleObjects($(active).attr("data-status"));
+                $("#registerTab").hide();
             }
         })
         .fail(function () {
@@ -548,4 +562,28 @@ function setMenu() {
         getCurrentMenu(array[0]);
         $("#btnMenus").text(array[1]);
     }
+}
+
+function showPayments(checkId) {
+    var jqxhr = $.get($.validator.format("{0}Order/ShowPayments", root), { "checkId": JSON.stringify(checkId) }, "json")
+        .done(function (result) {
+            $("#register-tab").html(result);
+        })
+        .fail(function () {
+            message("::showPayments:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
+}
+
+function showCashier(total) {
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCashier", root), { "total": JSON.stringify(total) }, "json")
+        .done(function (result) {
+            $(".check").find(".tab-pane.active").html(result);
+        })
+        .fail(function () {
+            message("::showCashier:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
 }

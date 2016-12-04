@@ -278,6 +278,12 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
+        public PartialViewResult ShowCashier(String total) {
+            Decimal summary = new JavaScriptSerializer().Deserialize<Decimal>(total);
+            return PartialView("_CashierPartial", summary);
+        }
+
+        [HttpGet]
         public String ShowCheck(Int32 checkId) {
             return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckModel(checkId));
         }
@@ -406,7 +412,7 @@ namespace MenuzRus.Controllers {
             Int32 Id = new JavaScriptSerializer().Deserialize<Int32>(checkId);
             PaymentModel model;
             model = GetPaymentModel(Id);
-            return PartialView("_CardSwipePartial", model);
+            return PartialView("_PaymentsPartial", model);
         }
 
         [CheckUserSession]

@@ -247,6 +247,7 @@
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\category.css" />
     <Content Include="Content\comments.css" />
+    <Content Include="Content\kassa.css" />
     <Content Include="Content\reports.css" />
     <Content Include="Content\kitchenOrder.css" />
     <Content Include="Content\kitchen.css" />
@@ -644,7 +645,8 @@
     <Content Include="Views\Login\_ViewStart.cshtml" />
     <Content Include="Views\Registration\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Empty.cshtml" />
-    <Content Include="Views\Shared\_CardSwipePartial.cshtml" />
+    <Content Include="Views\Shared\_CashierPartial.cshtml" />
+    <Content Include="Views\Shared\_PaymentsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

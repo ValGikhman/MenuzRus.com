@@ -1,0 +1,88 @@
+﻿@model MenuzRus.Models.PaymentModel
+<style>
+    .payItem {
+        line-height: 50px;
+        text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .cardItem {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/JQuery/jquery.cardswipe.js")" type="text/javascript"></script>
+
+<div class="modal-header">
+</div>
+
+<div id="target" style="height: 500px">
+</div>
+
+<div id="hidden-template" style="display: none;" class="clearfix">
+    <div id="cardType" class="cardItem col-md-1"></div>
+    <div id="name" class="payItem col-md-3"></div>
+    <div id="number" class="payItem col-md-3"></div>
+    <div id="expiration" class="payItem col-md-2"></div>
+    <div id="amountPay" class="payItem col-md-1"></div>
+    <div class="payItem col-md-2">
+        <button class="btn btn-danger btn-lg shadow pull-right" onclick="javascript: $(this).parent().parent().remove();"><i class="glyphicon glyphicon-trash"></i></button>
+    </div>
+</div>
+
+<div id="pagecontent" class="hide">
+    <span id="FirstName">@Model.FirstName</span>
+    <span id="LastName">@Model.LastName</span>
+    <div id="Number">@Model.Number</div>
+    <span id="ExpiredMonth">@Model.ExpiredMonth</span>/<span id="ExpiredYear">@Model.ExpiredYear</span>
+    <div id="Type">@Model.Type</div>
+</div>
+
+<div class="modal-footer">
+    <table style="width: 100%;">
+        <tr>
+            <td class="totalItem">Total:
+            </td>
+            <td class="col-md-2 col-sm-2"></td>
+            <td id="total" class="totalItem pull-right"></td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    var template;
+    var scanstart = function () {
+    };
+
+    var scanend = function () {
+    };
+
+    var success = function (event, data) {
+        if (data.type == "generic") {
+            return;
+        }
+
+        $(template).find("#cardType").addClass(data.type);
+        $(template).find("#name").text($.validator.format("{0} {1}", data.firstName, data.lastName));
+        $(template).find("#number").text(data.account);
+        $(template).find("#expiration").text($.validator.format("{0}/{1}", data.expMonth, data.expYear));
+    }
+
+    var failure = function () {
+    }
+
+    function activateSwipe() {
+        $(document)
+            .on("scanstart.cardswipe", scanstart)
+            .on("scanend.cardswipe", scanend)
+            .on("success.cardswipe", success)
+            .on("failure.cardswipe", failure);
+
+        $.cardswipe({
+            firstLineOnly: true,
+            parsers: ["visa", "amex", "mastercard", "discover", "generic"],
+            debug: true
+        });
+    }
+</script>

@@ -59,6 +59,10 @@
                     <i class="glyphicon glyphicon-print"></i>
                     &nbsp;Actions
                 </a></li>
+                <li><a id="registerTab" href="#register-tab" data-toggle="pill" style="display: none;">
+                    <i class="glyphicon glyphicon-usd"></i>
+                    &nbsp;Register
+                </a></li>
                 <li style="float: right;">
                     <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
                     <ul id="checkType" class="dropdown-menu alert-warning" role="menu">
@@ -92,6 +96,8 @@
                     @if (Model.Checks != null) {
                         @Html.Partial("_OrderActionsMenuPartial", Model.Checks)
                     }
+                </div>
+                <div id="register-tab" class="tab-pane fade in menuRegister">
                 </div>
             </div>
         </div>

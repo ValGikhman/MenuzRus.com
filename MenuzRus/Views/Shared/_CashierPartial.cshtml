@@ -1,0 +1,197 @@
+﻿@model Decimal
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap-toggle.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/bootstrap/bootstrap-toggle.min.js")"></script>
+
+<style>
+    .toggle-on, .toggle-off {
+        font-size: 30px !important;
+    }
+
+    .toggle {
+        width: 150px !important;
+        height: 60px !important;
+    }
+
+    .bat-ton {
+        border-radius: 15px;
+    }
+
+    .wide {
+        width: 154px !important;
+    }
+
+    .sign {
+        width: auto !important;
+    }
+    .calculator {
+        position: relative;
+        margin: 1em auto;
+        display: inline-block;
+        width: 100%;
+        border-radius: 25px;
+    }
+
+    .calc-row {
+        text-align: center;
+    }
+
+        .calc-row div.screen {
+            display: inline-block;
+            width: 325px;
+            text-align: right;
+            font-weight: bold;
+            font-size: xx-large;
+            height: 2.2em;
+            padding-right: 0.5em;
+            border: 2px groove #888;
+        }
+
+        .calc-row div {
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+            font-size: xx-large;
+            padding: 10px 0;
+            margin: 7px 5px;
+            width: 70px;
+            cursor: pointer;
+        }
+</style>
+<div class="modal-header">
+    <div class="calc-row">
+        <span class="sign"></span>
+        <div class="screen but-ton btn-default shadow">@Model.ToString()</div>
+    </div>
+    <div class="clearfix pull-right" style="margin-top: -70px;">
+        <input id="switch" type="checkbox" data-on="Cash" data-off="Credit" data-toggle="toggle" data-size="normal" data-onstyle="warning" data-offstyle="success" />
+    </div>
+</div>
+
+<div class="center">
+    <div class="calculator">
+        <div class="calc-row">
+            <div class="but-ton btn-default shadow wide">C</div>
+            <div id="add" class="btn-success shadow wide">ADD</div>
+        </div>
+
+        <div class="calc-row">
+            <div class="but-ton btn-default shadow">7</div>
+            <div class="but-ton btn-default shadow">8</div>
+            <div class="but-ton btn-default shadow">9</div>
+            <div class="but-ton btn-default shadow">/</div>
+        </div>
+
+        <div class="calc-row">
+            <div class="but-ton btn-default shadow">4</div>
+            <div class="but-ton btn-default shadow">5</div>
+            <div class="but-ton btn-default shadow">6</div>
+            <div class="but-ton btn-default shadow">*</div>
+        </div>
+
+        <div class="calc-row">
+            <div class="but-ton btn-default shadow">1</div>
+            <div class="but-ton btn-default shadow">2</div>
+            <div class="but-ton btn-default shadow">3</div>
+            <div class="but-ton btn-default shadow">-</div>
+        </div>
+
+        <div class="calc-row">
+            <div class="but-ton btn-default shadow">0</div>
+            <div class="but-ton btn-default shadow">+</div>
+            <div class="but-ton btn-success shadow wide">=</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var updateScreen = function (displayValue) {
+        var displayValue = displayValue.toString();
+        $(".screen").html(displayValue.substring(0, 10));
+    };
+
+    var isNumber = function (value) {
+        return !isNaN(value);
+    }
+
+    var isOperator = function (value) {
+        return value === "/" || value === "*" || value === "+" || value === "-";
+    };
+
+    var operate = function (a, b, operation) {
+        a = parseFloat(a);
+        b = parseFloat(b);
+        //console.log(a, b, operation);
+        if (operation === "+") return parseFloat(a + b).toFixed(2);
+        if (operation === "-") return parseFloat(a - b).toFixed(2);
+        if (operation === "*") return parseFloat(a * b).toFixed(2);
+        if (operation === "/") return parseFloat(a / b).toFixed(2);
+    }
+
+    $(function () {
+        var result = @Model;
+        var prevEntry = 0;
+        var operation = null;
+        var currentEntry = @Model.ToString();
+        updateScreen(result);
+
+        $("#add").on("click", function (e) {
+            template = $('#hidden-template').clone();
+            $(template).attr("id", "");
+            $(template).addClass("payments");
+            $(template).show();
+
+            if (!$("#switch").prop("checked")) {
+                $(template).find("#name").text("Swipe card please....");
+                // This in _PaymentsPartial
+                activateSwipe();
+            }
+            else {
+                $(template).find("#name").text("CASH PAYMENT");
+            }
+            $(template).find("#amountPay").text($(".screen").html());
+            $("#target").append(template);
+
+            $("#total").html($(".screen").html())
+        });
+
+        $(".but-ton").on("click", function (evt) {
+            var buttonPressed = $(this).html();
+
+            if (buttonPressed === "C") {
+                result = 0;
+                currentEntry = "0";
+            }
+            else if (buttonPressed === "+/-") {
+                currentEntry *= -1;
+            }
+            else if (isNumber(buttonPressed)) {
+                if (currentEntry === "0") {
+                    currentEntry = buttonPressed;
+                }
+                else {
+                    currentEntry = currentEntry + buttonPressed;
+                    currentEntry = currentEntry.replace(".", "");
+                    if (currentEntry.length == 3) {
+                        currentEntry = operate(currentEntry, 10, "/");
+                        currentEntry =  parseFloat(currentEntry).toFixed(1);
+                    }
+                    else if (currentEntry.length >= 4) {
+                        currentEntry = operate(currentEntry, 100, "/");
+                    }
+                }
+            }
+            else if (isOperator(buttonPressed)) {
+                prevEntry = parseFloat(currentEntry);
+                operation = buttonPressed;
+                currentEntry = "";
+                $(".sign").html(operation);
+            }
+            else if (buttonPressed === "=") {
+                currentEntry = operate(prevEntry, currentEntry, operation);
+                operation = null;
+            }
+
+            updateScreen(currentEntry);
+        })
+    });
+</script>

@@ -20,9 +20,6 @@
         width: 154px !important;
     }
 
-    .sign {
-        width: auto !important;
-    }
     .calculator {
         position: relative;
         margin: 1em auto;
@@ -59,7 +56,6 @@
 </style>
 <div class="modal-header">
     <div class="calc-row">
-        <span class="sign"></span>
         <div class="screen but-ton btn-default shadow">@Model.ToString()</div>
     </div>
     <div class="clearfix pull-right" style="margin-top: -70px;">
@@ -70,7 +66,8 @@
 <div class="center">
     <div class="calculator">
         <div class="calc-row">
-            <div class="but-ton btn-default shadow wide">C</div>
+            <div class="but-ton btn-default shadow">C</div>
+            <div class="but-ton btn-default shadow">BS</div>
             <div id="add" class="btn-success shadow wide">ADD</div>
         </div>
 
@@ -97,11 +94,13 @@
 
         <div class="calc-row">
             <div class="but-ton btn-default shadow">0</div>
+            <div class="but-ton btn-default shadow">.</div>
             <div class="but-ton btn-default shadow">+</div>
-            <div class="but-ton btn-success shadow wide">=</div>
+            <div class="but-ton btn-success shadow">=</div>
         </div>
     </div>
 </div>
+@Html.Hidden("CheckAmount", @Model);
 
 <script type="text/javascript">
     var updateScreen = function (displayValue) {
@@ -131,14 +130,17 @@
         var result = @Model;
         var prevEntry = 0;
         var operation = null;
-        var currentEntry = @Model.ToString();
+        var currentEntry = "@Model.ToString()";
         updateScreen(result);
 
         $("#add").on("click", function (e) {
-            template = $('#hidden-template').clone();
+            template = $("#hidden-template").clone();
             $(template).attr("id", "");
             $(template).addClass("payments");
             $(template).show();
+
+            currentEntry =  parseFloat($(".screen").html()).toFixed(2);
+            updateScreen(currentEntry);
 
             if (!$("#switch").prop("checked")) {
                 $(template).find("#name").text("Swipe card please....");
@@ -147,46 +149,57 @@
             }
             else {
                 $(template).find("#name").text("CASH PAYMENT");
+                $(template).find("#cardType").addClass("cash");
             }
-            $(template).find("#amountPay").text($(".screen").html());
+            $(template).find("#amountPay").text(currentEntry);
+
+            value =  parseFloat(parseFloat($("#checkTotal").html()) + parseFloat(currentEntry)).toFixed(2);
+            owe = parseFloat(parseFloat( $("#CheckAmount").val()) - value).toFixed(2);
+
+            $("#checkTotal").html(value);
+            $("#payAmount").html(owe);
+
             $("#target").append(template);
 
-            $("#total").html($(".screen").html())
         });
 
         $(".but-ton").on("click", function (evt) {
             var buttonPressed = $(this).html();
 
-            if (buttonPressed === "C") {
+            if (buttonPressed == "C") {
                 result = 0;
                 currentEntry = "0";
             }
-            else if (buttonPressed === "+/-") {
-                currentEntry *= -1;
+
+            else if (buttonPressed === "BS") {
+                currentEntry = currentEntry.substring(0, currentEntry.length-1);
             }
+
+            else if (buttonPressed == ".") {
+                if(currentEntry.indexOf(".") == 0 ) {
+                    currentEntry += '.';
+                }
+            }
+
             else if (isNumber(buttonPressed)) {
-                if (currentEntry === "0") {
+                if (currentEntry == "0") {
                     currentEntry = buttonPressed;
                 }
                 else {
+                    if(isOperator(currentEntry)) {
+                        currentEntry = "";
+                    }
                     currentEntry = currentEntry + buttonPressed;
-                    currentEntry = currentEntry.replace(".", "");
-                    if (currentEntry.length == 3) {
-                        currentEntry = operate(currentEntry, 10, "/");
-                        currentEntry =  parseFloat(currentEntry).toFixed(1);
-                    }
-                    else if (currentEntry.length >= 4) {
-                        currentEntry = operate(currentEntry, 100, "/");
-                    }
                 }
             }
+
             else if (isOperator(buttonPressed)) {
                 prevEntry = parseFloat(currentEntry);
                 operation = buttonPressed;
-                currentEntry = "";
-                $(".sign").html(operation);
+                currentEntry = operation;
             }
-            else if (buttonPressed === "=") {
+
+            else if (buttonPressed == "=") {
                 currentEntry = operate(prevEntry, currentEntry, operation);
                 operation = null;
             }

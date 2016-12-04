@@ -329,13 +329,17 @@ body {
 }
 
 .mc {
-    content: url(../images/Web/mc.jpg);
+    background: url(../images/Web/mc.jpg) -105px 8px no-repeat;
 }
 
 .amex {
-    content: url(../images/Web/amex.jpg);
+    background: url(../images/Web/amex.jpg) -157px 8px no-repeat;
 }
 
 .discover {
-    content: url(../images/Web/discover.jpg);
+    background: url(../images/Web/discover.jpg) -210px 8px no-repeat;
+}
+
+.cash {
+    background: url(../images/Web/cash.jpg) 5px 8px no-repeat;
 }

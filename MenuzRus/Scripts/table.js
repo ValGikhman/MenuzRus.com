@@ -565,6 +565,9 @@ function setMenu() {
 }
 
 function showPayments(checkId) {
+    var container = $(".menu");
+    container.block();
+
     var jqxhr = $.get($.validator.format("{0}Order/ShowPayments", root), { "checkId": JSON.stringify(checkId) }, "json")
         .done(function (result) {
             $("#register-tab").html(result);
@@ -573,10 +576,14 @@ function showPayments(checkId) {
             message("::showPayments:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            container.unblock();
         });
 }
 
 function showCashier(total) {
+    var container = $(".order");
+    container.block();
+
     var jqxhr = $.get($.validator.format("{0}Order/ShowCashier", root), { "total": JSON.stringify(total) }, "json")
         .done(function (result) {
             $(".check").find(".tab-pane.active").html(result);
@@ -585,5 +592,6 @@ function showCashier(total) {
             message("::showCashier:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            container.unblock();
         });
 }

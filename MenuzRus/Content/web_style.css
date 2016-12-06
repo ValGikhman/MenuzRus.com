@@ -295,6 +295,14 @@ body {
     text-align: center;
 }
 
+.pullRight {
+    text-align: right;
+}
+
+.pulLeft {
+    text-align: left;
+}
+
 .dropdown-header {
     font-size: inherit;
     padding: 3px 10px;

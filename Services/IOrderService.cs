@@ -18,6 +18,8 @@ namespace MenuzRus {
 
         Boolean DeleteMenu(Int32 id);
 
+        Boolean DeletePayment(Int32 id);
+
         Check GetCheck(Int32 checkId);
 
         List<TableOrder> GetKitchenOrders();
@@ -26,7 +28,7 @@ namespace MenuzRus {
 
         List<ChecksMenu> GetMenuItems(Int32 checkId);
 
-        List<Payment> GetPayment(Int32 checkId);
+        List<Payment> GetPayments(Int32 checkId);
 
         Printout GetPrintKitchenOrder(Int32 id);
 
@@ -53,6 +55,8 @@ namespace MenuzRus {
         void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
 
         ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId);
+
+        Int32 SavePayment(Payment payment, PaymentCC paymentCC, Int32 UserId);
 
         Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status);
 

@@ -128,27 +128,7 @@ namespace MenuzRus.Models {
 
         #region Public Properties
 
-        public Decimal Amount { set; get; }
-
-        public Int32 CheckId { set; get; }
-
-        public Int32 ExpiredMonth { set; get; }
-
-        public Int32 ExpiredYear { set; get; }
-
-        public String FirstName { set; get; }
-
-        public Int32 id { set; get; }
-
-        public String LastName { set; get; }
-
-        public String Number { set; get; }
-
         public List<Payment> Payments { set; get; }
-
-        public Common.Payments Type { set; get; }
-
-        public Int32 UserId { set; get; }
 
         #endregion Public Properties
     }

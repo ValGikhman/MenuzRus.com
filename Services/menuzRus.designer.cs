@@ -120,6 +120,9 @@ namespace Services
     partial void InsertPayment(Payment instance);
     partial void UpdatePayment(Payment instance);
     partial void DeletePayment(Payment instance);
+    partial void InsertPaymentCC(PaymentCC instance);
+    partial void UpdatePaymentCC(PaymentCC instance);
+    partial void DeletePaymentCC(PaymentCC instance);
     #endregion
 		
 		public menuzRusDataContext() : 
@@ -389,6 +392,14 @@ namespace Services
 			get
 			{
 				return this.GetTable<Payment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PaymentCC> PaymentCCs
+		{
+			get
+			{
+				return this.GetTable<PaymentCC>();
 			}
 		}
 	}
@@ -7531,23 +7542,15 @@ namespace Services
 		
 		private int _CheckId;
 		
-		private string _FirstName;
-		
-		private string _LastName;
-		
 		private int _Type;
-		
-		private string _Number;
-		
-		private int _ExpiresMonth;
-		
-		private int _ExpiresYear;
 		
 		private decimal _Amount;
 		
 		private int _UserId;
 		
 		private System.DateTime _DateCreated;
+		
+		private EntitySet<PaymentCC> _PaymentCCs;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -7557,18 +7560,8 @@ namespace Services
     partial void OnidChanged();
     partial void OnCheckIdChanging(int value);
     partial void OnCheckIdChanged();
-    partial void OnFirstNameChanging(string value);
-    partial void OnFirstNameChanged();
-    partial void OnLastNameChanging(string value);
-    partial void OnLastNameChanged();
     partial void OnTypeChanging(int value);
     partial void OnTypeChanged();
-    partial void OnNumberChanging(string value);
-    partial void OnNumberChanged();
-    partial void OnExpiresMonthChanging(int value);
-    partial void OnExpiresMonthChanged();
-    partial void OnExpiresYearChanging(int value);
-    partial void OnExpiresYearChanged();
     partial void OnAmountChanging(decimal value);
     partial void OnAmountChanged();
     partial void OnUserIdChanging(int value);
@@ -7579,10 +7572,11 @@ namespace Services
 		
 		public Payment()
 		{
+			this._PaymentCCs = new EntitySet<PaymentCC>(new Action<PaymentCC>(this.attach_PaymentCCs), new Action<PaymentCC>(this.detach_PaymentCCs));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -7622,46 +7616,6 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string FirstName
-		{
-			get
-			{
-				return this._FirstName;
-			}
-			set
-			{
-				if ((this._FirstName != value))
-				{
-					this.OnFirstNameChanging(value);
-					this.SendPropertyChanging();
-					this._FirstName = value;
-					this.SendPropertyChanged("FirstName");
-					this.OnFirstNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string LastName
-		{
-			get
-			{
-				return this._LastName;
-			}
-			set
-			{
-				if ((this._LastName != value))
-				{
-					this.OnLastNameChanging(value);
-					this.SendPropertyChanging();
-					this._LastName = value;
-					this.SendPropertyChanged("LastName");
-					this.OnLastNameChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
 		public int Type
 		{
@@ -7678,66 +7632,6 @@ namespace Services
 					this._Type = value;
 					this.SendPropertyChanged("Type");
 					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string Number
-		{
-			get
-			{
-				return this._Number;
-			}
-			set
-			{
-				if ((this._Number != value))
-				{
-					this.OnNumberChanging(value);
-					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiresMonth", DbType="Int NOT NULL")]
-		public int ExpiresMonth
-		{
-			get
-			{
-				return this._ExpiresMonth;
-			}
-			set
-			{
-				if ((this._ExpiresMonth != value))
-				{
-					this.OnExpiresMonthChanging(value);
-					this.SendPropertyChanging();
-					this._ExpiresMonth = value;
-					this.SendPropertyChanged("ExpiresMonth");
-					this.OnExpiresMonthChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiresYear", DbType="Int NOT NULL")]
-		public int ExpiresYear
-		{
-			get
-			{
-				return this._ExpiresYear;
-			}
-			set
-			{
-				if ((this._ExpiresYear != value))
-				{
-					this.OnExpiresYearChanging(value);
-					this.SendPropertyChanging();
-					this._ExpiresYear = value;
-					this.SendPropertyChanged("ExpiresYear");
-					this.OnExpiresYearChanged();
 				}
 			}
 		}
@@ -7782,7 +7676,7 @@ namespace Services
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", AutoSync=AutoSync.OnInsert, DbType="DateTime NOT NULL", IsDbGenerated=true)]
 		public System.DateTime DateCreated
 		{
 			get
@@ -7798,6 +7692,278 @@ namespace Services
 					this._DateCreated = value;
 					this.SendPropertyChanged("DateCreated");
 					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Payment_PaymentCC", Storage="_PaymentCCs", ThisKey="id", OtherKey="PaymentId")]
+		public EntitySet<PaymentCC> PaymentCCs
+		{
+			get
+			{
+				return this._PaymentCCs;
+			}
+			set
+			{
+				this._PaymentCCs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PaymentCCs(PaymentCC entity)
+		{
+			this.SendPropertyChanging();
+			entity.Payment = this;
+		}
+		
+		private void detach_PaymentCCs(PaymentCC entity)
+		{
+			this.SendPropertyChanging();
+			entity.Payment = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PaymentCC")]
+	public partial class PaymentCC : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _PaymentId;
+		
+		private string _FirstName;
+		
+		private string _LastName;
+		
+		private int _ExpiredMonth;
+		
+		private int _ExpiredYear;
+		
+		private string _Number;
+		
+		private EntityRef<Payment> _Payment;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnPaymentIdChanging(int value);
+    partial void OnPaymentIdChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnExpiredMonthChanging(int value);
+    partial void OnExpiredMonthChanged();
+    partial void OnExpiredYearChanging(int value);
+    partial void OnExpiredYearChanged();
+    partial void OnNumberChanging(string value);
+    partial void OnNumberChanged();
+    #endregion
+		
+		public PaymentCC()
+		{
+			this._Payment = default(EntityRef<Payment>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaymentId", DbType="Int NOT NULL")]
+		public int PaymentId
+		{
+			get
+			{
+				return this._PaymentId;
+			}
+			set
+			{
+				if ((this._PaymentId != value))
+				{
+					if (this._Payment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPaymentIdChanging(value);
+					this.SendPropertyChanging();
+					this._PaymentId = value;
+					this.SendPropertyChanged("PaymentId");
+					this.OnPaymentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiredMonth", DbType="Int NOT NULL")]
+		public int ExpiredMonth
+		{
+			get
+			{
+				return this._ExpiredMonth;
+			}
+			set
+			{
+				if ((this._ExpiredMonth != value))
+				{
+					this.OnExpiredMonthChanging(value);
+					this.SendPropertyChanging();
+					this._ExpiredMonth = value;
+					this.SendPropertyChanged("ExpiredMonth");
+					this.OnExpiredMonthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiredYear", DbType="Int NOT NULL")]
+		public int ExpiredYear
+		{
+			get
+			{
+				return this._ExpiredYear;
+			}
+			set
+			{
+				if ((this._ExpiredYear != value))
+				{
+					this.OnExpiredYearChanging(value);
+					this.SendPropertyChanging();
+					this._ExpiredYear = value;
+					this.SendPropertyChanged("ExpiredYear");
+					this.OnExpiredYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Payment_PaymentCC", Storage="_Payment", ThisKey="PaymentId", OtherKey="id", IsForeignKey=true)]
+		public Payment Payment
+		{
+			get
+			{
+				return this._Payment.Entity;
+			}
+			set
+			{
+				Payment previousValue = this._Payment.Entity;
+				if (((previousValue != value) 
+							|| (this._Payment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Payment.Entity = null;
+						previousValue.PaymentCCs.Remove(this);
+					}
+					this._Payment.Entity = value;
+					if ((value != null))
+					{
+						value.PaymentCCs.Add(this);
+						this._PaymentId = value.id;
+					}
+					else
+					{
+						this._PaymentId = default(int);
+					}
+					this.SendPropertyChanged("Payment");
 				}
 			}
 		}

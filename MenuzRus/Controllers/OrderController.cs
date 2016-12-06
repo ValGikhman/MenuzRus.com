@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using MenuzRus.Models;
@@ -59,6 +61,43 @@ namespace MenuzRus.Controllers {
 
             var retVal = new { Data = newId };
             return Json(retVal);
+        }
+
+        [HttpPost]
+        public Int32 AddPayment(Int32 checkId, String type, String account, String firstName, String lastName, Int32 expiredMonth, Int32 expiredYear, Decimal amount) {
+            Payment payment;
+            PaymentCC paymentCC = null;
+            Int32 id;
+
+            try {
+                CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+                TextInfo textInfo = cultureInfo.TextInfo;
+
+                payment = new Payment();
+
+                payment.CheckId = checkId;
+                payment.Type = ((Int32)(Common.Payments)Enum.Parse(typeof(Common.Payments), textInfo.ToTitleCase(type)));
+                payment.Amount = amount;
+
+                if ((Common.Payments)payment.Type != Common.Payments.Cash) {
+                    paymentCC = new PaymentCC();
+                    paymentCC.FirstName = firstName;
+                    paymentCC.LastName = lastName;
+                    paymentCC.Number = account;
+                    paymentCC.ExpiredMonth = expiredMonth;
+                    paymentCC.ExpiredYear = expiredYear;
+                }
+
+                id = _orderService.SavePayment(payment, paymentCC, SessionData.user.id);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return 0;
+            }
+            finally {
+            }
+
+            return id;
         }
 
         [HttpGet]
@@ -840,20 +879,8 @@ namespace MenuzRus.Controllers {
         }
 
         private PaymentModel GetPaymentModel(Int32 checkId) {
-            Payment payment;
             PaymentModel model = new PaymentModel();
-            model.Payments = _orderService.GetPayment(checkId);
-            payment = model.Payments.Take(1).FirstOrDefault();
-            if (payment != null) {
-                model.Amount = payment.Amount;
-                model.CheckId = payment.CheckId;
-                model.FirstName = payment.FirstName;
-                model.LastName = payment.LastName;
-                model.Type = (Common.Payments)payment.Type;
-                model.UserId = payment.UserId;
-                model.ExpiredMonth = payment.ExpiresMonth;
-                model.ExpiredYear = payment.ExpiresYear;
-            }
+            model.Payments = _orderService.GetPayments(checkId);
             return model;
         }
 

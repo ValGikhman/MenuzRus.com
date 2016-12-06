@@ -90,6 +90,17 @@ namespace MenuzRus {
             return true;
         }
 
+        public Boolean DeletePayment(Int32 id) {
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                }
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
+
         public Check GetCheck(Int32 checkId) {
             if (checkId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
@@ -123,10 +134,11 @@ namespace MenuzRus {
             return null;
         }
 
-        public List<Payment> GetPayment(Int32 checkId) {
+        public List<Payment> GetPayments(Int32 checkId) {
             if (checkId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-                List<Payment> query = db.Payments.Where(m => m.CheckId == checkId).ToList();
+                List<Payment> query = db.Payments.Where(m => m.CheckId == checkId).OrderByDescending(m => m.DateCreated).ToList();
+
                 if (query != default(List<Payment>)) {
                     return query;
                 }
@@ -339,6 +351,38 @@ namespace MenuzRus {
                 return null;
             }
             return orderCheckMenu;
+        }
+
+        public Int32 SavePayment(Payment payment, PaymentCC paymentCC, Int32 UserId) {
+            Payment queryPayment;
+            PaymentCC queryPaymentCC;
+            try {
+                using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    queryPayment = new Payment();
+                    queryPayment.CheckId = payment.CheckId;
+                    queryPayment.Type = payment.Type;
+                    queryPayment.Amount = payment.Amount;
+                    queryPayment.UserId = UserId;
+                    db.Payments.InsertOnSubmit(queryPayment);
+                    db.SubmitChanges();
+
+                    if (paymentCC != null) {
+                        queryPaymentCC = new PaymentCC();
+                        queryPaymentCC.PaymentId = queryPayment.id;
+                        queryPaymentCC.FirstName = paymentCC.FirstName;
+                        queryPaymentCC.LastName = paymentCC.LastName;
+                        queryPaymentCC.Number = paymentCC.Number;
+                        queryPaymentCC.ExpiredMonth = paymentCC.ExpiredMonth;
+                        queryPaymentCC.ExpiredYear = paymentCC.ExpiredYear;
+                        db.PaymentCCs.InsertOnSubmit(queryPaymentCC);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+            catch (Exception ex) {
+                return 0;
+            }
+            return queryPayment.id;
         }
 
         public Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {

@@ -41,6 +41,7 @@
             height: 2.2em;
             padding-right: 0.5em;
             border: 2px groove #888;
+            text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
         }
 
         .calc-row div {
@@ -52,6 +53,7 @@
             margin: 7px 5px;
             width: 70px;
             cursor: pointer;
+            text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
         }
 </style>
 <div class="modal-header">
@@ -69,6 +71,7 @@
             <div class="but-ton btn-default shadow">C</div>
             <div class="but-ton btn-default shadow">BS</div>
             <div id="add" class="btn-success shadow wide">ADD</div>
+            <div id="blank" class="btn-default shadow wide" style="display: none;">ADD</div>
         </div>
 
         <div class="calc-row">
@@ -143,6 +146,9 @@
             updateScreen(currentEntry);
 
             if (!$("#switch").prop("checked")) {
+                $(this).hide();
+                $("#blank").show();
+
                 $(template).find("#name").text("Swipe card please....");
                 // This in _PaymentsPartial
                 activateSwipe();
@@ -150,6 +156,9 @@
             else {
                 $(template).find("#name").text("CASH PAYMENT");
                 $(template).find("#cardType").addClass("cash");
+
+                var checkId = $(".check").find(".tab-pane.active").attr("data-value");
+                AddPayment(checkId, "cash", "", "", "", 0, 0, parseFloat($(".screen").html()), $(template));
             }
             $(template).find("#amountPay").text(currentEntry);
 
@@ -159,7 +168,7 @@
             $("#checkTotal").html(value);
             $("#payAmount").html(owe);
 
-            $("#target").append(template);
+            $("#target").prepend(template);
 
         });
 

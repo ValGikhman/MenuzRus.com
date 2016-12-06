@@ -7,6 +7,8 @@
 <style>
     .headerItem {
         text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .footerItem {
@@ -26,6 +28,8 @@
         text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
         font-size: 18px;
         font-weight: bold;
+        padding-left: 20px;
+        padding-right: 0px;
     }
 
     .cardItem {
@@ -40,11 +44,39 @@
     <div class="headerItem col-md-4">Name</div>
     <div class="headerItem col-md-2">CC#</div>
     <div class="headerItem col-md-2">Expired</div>
-    <div class="headerItem col-md-3">Amount</div>
+    <div class="headerItem col-md-1 centered">Amount</div>
+    <div class="headerItem col-md-2 centered">Delete</div>
 </div>
 
 <div class="clearfix"></div>
 <div id="target" style="height: 470px; overflow: auto;">
+    @foreach (Services.Payment payment in Model.Payments) {
+        <div data-value="@payment.id" class="clearfix">
+            @{
+        String _cc;
+        String _class = ((Common.Payments)payment.Type).ToString().ToLower();
+        String _card = payment.PaymentCCs.Select(m => m.Number).FirstOrDefault();
+        String _name = String.Format("{0} {1}", payment.PaymentCCs.Select(m => m.FirstName).FirstOrDefault(), payment.PaymentCCs.Select(m => m.LastName).FirstOrDefault());
+        String _exp = String.Format("{0}/{1}", payment.PaymentCCs.Select(m => m.ExpiredMonth).FirstOrDefault(), payment.PaymentCCs.Select(m => m.ExpiredYear).FirstOrDefault());
+
+        if (_card == null) {
+            _cc = String.Empty;
+            _name = "CASH PAYMENT";
+            _exp = String.Empty;
+        }
+        else {
+            _cc = String.Format("*****{0}", _card.Substring(_card.Length - 4));
+        }
+            }
+            <div id="cardType" class="cardItem col-md-1 @_class"></div>
+            <div id="name" class="payItem col-md-4">@_name</div>
+            <div id="number" class="payItem col-md-2">@_cc</div>
+            <div id="expiration" class="payItem col-md-2">@_exp</div>
+            <div id="amountPay" class="amountPay payItem col-md-1 pullRight">@payment.Amount</div>
+            <div class="payItem col-md-2 centered" style="top: 4px;">
+            </div>
+        </div>
+    }
 </div>
 
 <div id="hidden-template" style="display: none;" class="clearfix">
@@ -52,28 +84,22 @@
     <div id="name" class="payItem col-md-4"></div>
     <div id="number" class="payItem col-md-2"></div>
     <div id="expiration" class="payItem col-md-2"></div>
-    <div id="amountPay" class="amountPay payItem col-md-2"></div>
-    <div class="payItem col-md-1" style="top: 4px;">
+    <div id="amountPay" class="amountPay payItem col-md-1 pullRight"></div>
+    <div class="payItem col-md-2 centered" style="top: 4px;">
         <button class="btn btn-danger btn-lg shadow" onclick="javascript: deleteItself($(this).parent().parent());"><i class="glyphicon glyphicon-trash"></i></button>
     </div>
-</div>
-
-<div id="pagecontent" class="hide">
-    <span id="FirstName">@Model.FirstName</span>
-    <span id="LastName">@Model.LastName</span>
-    <div id="Number">@Model.Number</div>
-    <span id="ExpiredMonth">@Model.ExpiredMonth</span>/<span id="ExpiredYear">@Model.ExpiredYear</span>
-    <div id="Type">@Model.Type</div>
 </div>
 
 <div class="modal-footer" style="text-align: left! important;">
     <div class="footerItem col-md-1"></div>
     <div class="footerItem col-md-1">Pay: </div>
-    <div id="checkAmount" class="footerItem col-md-2">0.00</div>
-    <div class="footerItem col-md-1">Paid:</div>
-    <div id="checkTotal" class="footerItem col-md-2">0.00</div>
+    <div id="checkAmount" class="footerItem col-md-1">0.00</div>
+    <div class="footerItem col-md-1"></div>
     <div class="footerItem col-md-1">Owe:</div>
-    <div id="payAmount" class="footerItem col-md-2">0.00</div>
+    <div id="payAmount" class="footerItem col-md-1">0.00</div>
+    <div class="footerItem col-md-2"></div>
+    <div class="footerItem col-md-1">Paid:</div>
+    <div id="checkTotal" class="footerItem col-md-1">0.00</div>
 </div>
 
 <script type="text/javascript">
@@ -91,14 +117,19 @@
         if (data.type == "generic") {
             return;
         }
-
+        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
         $(template).find("#cardType").addClass(data.type);
         $(template).find("#name").text($.validator.format("{0} {1}", data.firstName, data.lastName));
         $(template).find("#number").text($.validator.format("*****{0}", data.account.substring(data.account.length - 4)));
         $(template).find("#expiration").text($.validator.format("{0}/{1}", data.expMonth, data.expYear));
+        $("#add").show();
+        $("#blank").hide();
+
+        AddPayment(checkId, data.type, data.account, data.firstName, data.lastName, parseInt(data.expMonth), parseInt(data.expYear), parseFloat($(".screen").html()), $(template));
     }
 
     var failure = function () {
+        $("#add").show();
     }
 
     function activateSwipe() {
@@ -130,8 +161,20 @@
 
         $("#checkTotal").html(parseFloat(sum).toFixed(2));
 
-
         owe = parseFloat(parseFloat($("#CheckAmount").val()) - parseFloat(sum)).toFixed(2);
         $("#payAmount").html(owe);
+    }
+
+    function AddPayment(checkId, type, account, firstName, lastName, expiredMonth, expiredYear, amount, object2update) {
+        var jqxhr = $.post($.validator.format("{0}Order/AddPayment", root)
+                , { "checkId": checkId, "type": type, "account": account, "firstName": firstName, "lastName": lastName, "expiredMonth": expiredMonth, "expiredYear": expiredYear, "amount": amount }, "json")
+        .done(function (result) {
+            $(object2update).attr("data-value", result)
+        })
+        .fail(function () {
+            message("::addPayment:: Failed.", "error", "topCenter");
+        })
+        .always(function () {
+        });
     }
 </script>

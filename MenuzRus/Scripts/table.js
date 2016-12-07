@@ -5,6 +5,17 @@ $(function () {
 
     tableId = $("#Table_id").val();
 
+    $("#btnSwitch").on("click", function () {
+        if ($(".menu").hasClass("pull-right")) {
+            $(".menu").removeClass("pull-right");
+            $(".order").addClass("pull-right");
+        }
+        else {
+            $(".order").removeClass("pull-right");
+            $(".menu").addClass("pull-right");
+        }
+    });
+
     if ($("#btnTableStatus").text() == "Closed") {
         $("#btnAdd").hide();
         $("#menuTab").remove();
@@ -99,7 +110,6 @@ $(function () {
 
         showCashier($("#total").html().replace(/[^\d.,-]/g, "").replace(",", "."));
         showPayments(checkId);
-
     });
 
     $("#menuTab").tab("show");

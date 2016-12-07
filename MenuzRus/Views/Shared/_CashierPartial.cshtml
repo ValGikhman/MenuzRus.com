@@ -33,15 +33,10 @@
     }
 
         .calc-row div.screen {
-            display: inline-block;
-            width: 325px;
+            width: 405px;
             text-align: right;
-            font-weight: bold;
-            font-size: xx-large;
-            height: 2.2em;
             padding-right: 0.5em;
             border: 2px groove #888;
-            text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
         }
 
         .calc-row div {
@@ -70,6 +65,7 @@
         <div class="calc-row">
             <div class="but-ton btn-default shadow">C</div>
             <div class="but-ton btn-default shadow">BS</div>
+            <div class="but-ton btn-default shadow">+/-</div>
             <div id="add" class="btn-success shadow wide">ADD</div>
             <div id="blank" class="btn-default shadow wide" style="display: none;">ADD</div>
         </div>
@@ -79,6 +75,7 @@
             <div class="but-ton btn-default shadow">8</div>
             <div class="but-ton btn-default shadow">9</div>
             <div class="but-ton btn-default shadow">/</div>
+            <div class="but-ton btn-default shadow">10%</div>
         </div>
 
         <div class="calc-row">
@@ -86,6 +83,7 @@
             <div class="but-ton btn-default shadow">5</div>
             <div class="but-ton btn-default shadow">6</div>
             <div class="but-ton btn-default shadow">*</div>
+            <div class="but-ton btn-default shadow">15%</div>
         </div>
 
         <div class="calc-row">
@@ -93,17 +91,18 @@
             <div class="but-ton btn-default shadow">2</div>
             <div class="but-ton btn-default shadow">3</div>
             <div class="but-ton btn-default shadow">-</div>
+            <div class="but-ton btn-default shadow">20%</div>
         </div>
 
         <div class="calc-row">
             <div class="but-ton btn-default shadow">0</div>
             <div class="but-ton btn-default shadow">.</div>
             <div class="but-ton btn-default shadow">+</div>
-            <div class="but-ton btn-success shadow">=</div>
+            <div class="but-ton btn-success shadow wide">=</div>
         </div>
     </div>
 </div>
-@Html.Hidden("CheckAmount", @Model);
+@Html.Hidden("CheckAmount", @Model)
 
 <script type="text/javascript">
     var updateScreen = function (displayValue) {
@@ -130,7 +129,7 @@
     }
 
     $(function () {
-        var result = @Model;
+        var result = @Model ;
         var prevEntry = 0;
         var operation = null;
         var currentEntry = "@Model.ToString()";
@@ -169,7 +168,6 @@
             $("#payAmount").html(owe);
 
             $("#target").prepend(template);
-
         });
 
         $(".but-ton").on("click", function (evt) {
@@ -182,6 +180,22 @@
 
             else if (buttonPressed === "BS") {
                 currentEntry = currentEntry.substring(0, currentEntry.length-1);
+            }
+
+            else if (buttonPressed == "+/-") {
+                currentEntry *= -1;
+            }
+
+            else if (buttonPressed == "10%") {
+                currentEntry =  operate(currentEntry * 0.10, currentEntry, "+");
+            }
+
+            else if (buttonPressed == "15%") {
+                currentEntry =  operate(currentEntry * 0.15, currentEntry, "+");
+            }
+
+            else if (buttonPressed == "20%") {
+                currentEntry =  operate(currentEntry * 0.20, currentEntry, "+");
             }
 
             else if (buttonPressed == ".") {

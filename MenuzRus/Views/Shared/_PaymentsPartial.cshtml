@@ -147,7 +147,25 @@
     }
 
     function deleteItself(obj) {
+        var id = $(obj).attr("data-value");
+        if (id) {
+            var container = $(".menu");
+            container.block();
+
+            var jqxhr = $.get($.validator.format("{0}Order/DeletePayment", root), { "id": id }, "json")
+            .done(function (result) {
+                message("Payment removed.", "success", "topCenter");
+            })
+            .fail(function () {
+                message("::deletePayment:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                container.unblock();
+            });
+        }
         $(obj).remove();
+        $("#add").show();
+        $("#blank").hide();
         updateTotal();
     }
 
@@ -166,6 +184,9 @@
     }
 
     function AddPayment(checkId, type, account, firstName, lastName, expiredMonth, expiredYear, amount, object2update) {
+        var container = $(".menu");
+        container.block();
+
         var jqxhr = $.post($.validator.format("{0}Order/AddPayment", root)
                 , { "checkId": checkId, "type": type, "account": account, "firstName": firstName, "lastName": lastName, "expiredMonth": expiredMonth, "expiredYear": expiredYear, "amount": amount }, "json")
         .done(function (result) {
@@ -175,6 +196,7 @@
             message("::addPayment:: Failed.", "error", "topCenter");
         })
         .always(function () {
+            container.unblock();
         });
     }
 </script>

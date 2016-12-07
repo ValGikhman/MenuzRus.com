@@ -93,6 +93,11 @@ namespace MenuzRus {
         public Boolean DeletePayment(Int32 id) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
+                    Payment payments = db.Payments.Where(m => m.id == id).FirstOrDefault();
+                    PaymentCC cards = db.PaymentCCs.Where(m => m.PaymentId == id).FirstOrDefault();
+                    db.PaymentCCs.DeleteOnSubmit(cards);
+                    db.Payments.DeleteOnSubmit(payments);
+                    db.SubmitChanges();
                 }
             }
             catch (Exception ex) {

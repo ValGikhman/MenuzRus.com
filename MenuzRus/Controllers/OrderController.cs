@@ -153,6 +153,21 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
+        public Boolean DeletePayment(Int32 id) {
+            try {
+                _orderService.DeletePayment(id);
+            }
+            catch (Exception ex) {
+                base.Log(ex);
+                return false;
+            }
+            finally {
+            }
+
+            return true;
+        }
+
+        [HttpGet]
         public String GetCurrentMenu(Int32 id) {
             OrderModel model;
             try {

@@ -4,9 +4,9 @@
         includeOther: false,
         flagDisabled: true,
         noMatchText: 'Nothing matched your filter, please click another letter.',
-        showCounts: false,
+        showCounts: true,
         cookieName: "my-main-list",
-        onClick: function (letter) { },
+        onClick: function (letter) { alert(letter) },
         prefixes: ["the", "a"]
     });
 

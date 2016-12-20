@@ -336,16 +336,16 @@ body {
     background: url(../images/Web/cards.jpg) -52px 8px no-repeat;
 }
 
-.mc {
-    background: url(../images/Web/mc.jpg) -105px 8px no-repeat;
+.mastercard {
+    background: url(../images/Web/cards.jpg) -105px 8px no-repeat;
 }
 
 .amex {
-    background: url(../images/Web/amex.jpg) -157px 8px no-repeat;
+    background: url(../images/Web/cards.jpg) -157px 8px no-repeat;
 }
 
 .discover {
-    background: url(../images/Web/discover.jpg) -210px 8px no-repeat;
+    background: url(../images/Web/cards.jpg) -210px 8px no-repeat;
 }
 
 .cash {

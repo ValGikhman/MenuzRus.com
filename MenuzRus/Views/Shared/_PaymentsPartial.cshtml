@@ -13,20 +13,20 @@
 
     .footerItem {
         text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
-        padding-left: 0px;
+        padding-left: 20px;
         padding-right: 0px;
     }
 
     .modal-footer {
-        padding: 10px 0 0 0 !important;
+        padding: 3px 0 3px 0 !important;
     }
 
     .payItem {
         line-height: 50px;
         text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         padding-left: 20px;
         padding-right: 0px;
@@ -37,6 +37,7 @@
         height: 50px;
     }
 </style>
+
 <script src="@Url.Content("~/Scripts/JQuery/jquery.cardswipe.js")" type="text/javascript"></script>
 
 <div class="modal-header">
@@ -45,11 +46,11 @@
     <div class="headerItem col-md-2">CC#</div>
     <div class="headerItem col-md-2">Expired</div>
     <div class="headerItem col-md-1 centered">Amount</div>
-    <div class="headerItem col-md-2 centered">Delete</div>
+    <div class="headerItem col-md-2 centered">Action</div>
 </div>
 
 <div class="clearfix"></div>
-<div id="target" style="height: 470px; overflow: auto;">
+<div id="target" style="height: auto; overflow: auto;">
     @foreach (Services.Payment payment in Model.Payments) {
         <div data-value="@payment.id" class="clearfix">
             @{
@@ -71,9 +72,10 @@
             <div id="cardType" class="cardItem col-md-1 @_class"></div>
             <div id="name" class="payItem col-md-4">@_name</div>
             <div id="number" class="payItem col-md-2">@_cc</div>
-            <div id="expiration" class="payItem col-md-2">@_exp</div>
-            <div id="amountPay" class="amountPay payItem col-md-1 pullRight">@payment.Amount</div>
+            <div id="expiration" class="payItem col-md-1">@_exp</div>
+            <div id="amountPay" class="amountPay payItem col-md-2 pullRight">@payment.Amount</div>
             <div class="payItem col-md-2 centered" style="top: 4px;">
+                <button id="btnDelete" class="btn btn-danger btn-lg shadow" onclick="javascript: deleteItself($(this).parent().parent());"><i class="glyphicon glyphicon-trash"></i></button>
             </div>
         </div>
     }
@@ -83,53 +85,57 @@
     <div id="cardType" class="cardItem col-md-1"></div>
     <div id="name" class="payItem col-md-4"></div>
     <div id="number" class="payItem col-md-2"></div>
-    <div id="expiration" class="payItem col-md-2"></div>
-    <div id="amountPay" class="amountPay payItem col-md-1 pullRight"></div>
+    <div id="expiration" class="payItem col-md-1"></div>
+    <div id="amountPay" class="amountPay payItem col-md-2 pullRight"></div>
     <div class="payItem col-md-2 centered" style="top: 4px;">
-        <button class="btn btn-danger btn-lg shadow" onclick="javascript: deleteItself($(this).parent().parent());"><i class="glyphicon glyphicon-trash"></i></button>
+        <button id="btnSave" class="btn btn-success btn-lg hide shadow" onclick="javascript: AddPayment();"><i class="glyphicon glyphicon-check"></i></button>
+        <button id="btnDelete" class="btn btn-danger btn-lg hide shadow" onclick="javascript: deleteItself($(this).parent().parent());"><i class="glyphicon glyphicon-trash"></i></button>
     </div>
 </div>
 
 <div class="modal-footer" style="text-align: left! important;">
-    <div class="footerItem col-md-1"></div>
     <div class="footerItem col-md-1">Pay: </div>
-    <div id="checkAmount" class="footerItem col-md-1">0.00</div>
-    <div class="footerItem col-md-1"></div>
+    <div id="checkAmount" class="footerItem col-md-2">0.00</div>
+     <div class="footerItem col-md-1"></div>
     <div class="footerItem col-md-1">Owe:</div>
-    <div id="payAmount" class="footerItem col-md-1">0.00</div>
-    <div class="footerItem col-md-2"></div>
+    <div id="payAmount" class="footerItem col-md-2">0.00</div>
     <div class="footerItem col-md-1">Paid:</div>
-    <div id="checkTotal" class="footerItem col-md-1">0.00</div>
+    <div id="checkTotal" class="footerItem col-md-2 pullRight">0.00</div>
+    <div class="footerItem col-md-2"></div>
 </div>
 
 <script type="text/javascript">
-    $("#checkAmount").html(parseFloat($("#CheckAmount").val()).toFixed(2));
+    $("#checkAmount").html(parseFloat(@Model.Total).toFixed(2));
     updateTotal();
 
     var template;
+    var templateData = { cardType: "", firstName: "", lastName: "", number: "", expirationMonth: 0, expirationYear: 0 };
+    var checkId = $(".check").find(".tab-pane.active").attr("data-value");
     var scanstart = function () {
     };
 
     var scanend = function () {
+        $("#btnAddPayment").show();
+        $("#blank").hide();
     };
 
     var success = function (event, data) {
         if (data.type == "generic") {
+            $(template).find("#name").text("Bad card, swipe another card");
             return;
         }
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
-        $(template).find("#cardType").addClass(data.type);
+        templateData = { cardType: data.type, firstName: data.firstName, lastName: data.lastName, number: data.account, expirationMonth: data.expMonth, expirationYear: data.expYear };
+        $(template).find("#cardType").addClass(data.type);
         $(template).find("#name").text($.validator.format("{0} {1}", data.firstName, data.lastName));
         $(template).find("#number").text($.validator.format("*****{0}", data.account.substring(data.account.length - 4)));
         $(template).find("#expiration").text($.validator.format("{0}/{1}", data.expMonth, data.expYear));
-        $("#add").show();
-        $("#blank").hide();
 
-        AddPayment(checkId, data.type, data.account, data.firstName, data.lastName, parseInt(data.expMonth), parseInt(data.expYear), parseFloat($(".screen").html()), $(template));
+        $(template).find("#btnSave").removeClass("hide");
+        $(template).find("#btnDelete").addClass("hide");
     }
 
     var failure = function () {
-        $("#add").show();
+        $("#btnAdd").show();
     }
 
     function activateSwipe() {
@@ -149,7 +155,7 @@
     function deleteItself(obj) {
         var id = $(obj).attr("data-value");
         if (id) {
-            var container = $(".menu");
+            var container = $(".payments");
             container.block();
 
             var jqxhr = $.get($.validator.format("{0}Order/DeletePayment", root), { "id": id }, "json")
@@ -164,7 +170,7 @@
             });
         }
         $(obj).remove();
-        $("#add").show();
+        $("#btnAddPayment").show();
         $("#blank").hide();
         updateTotal();
     }
@@ -179,24 +185,39 @@
 
         $("#checkTotal").html(parseFloat(sum).toFixed(2));
 
-        owe = parseFloat(parseFloat($("#CheckAmount").val()) - parseFloat(sum)).toFixed(2);
+        owe = parseFloat(parseFloat(@Model.Total) - parseFloat(sum)).toFixed(2);
         $("#payAmount").html(owe);
     }
 
-    function AddPayment(checkId, type, account, firstName, lastName, expiredMonth, expiredYear, amount, object2update) {
-        var container = $(".menu");
+    function AddPayment() {
+        var container = $(".payments");
         container.block();
 
         var jqxhr = $.post($.validator.format("{0}Order/AddPayment", root)
-                , { "checkId": checkId, "type": type, "account": account, "firstName": firstName, "lastName": lastName, "expiredMonth": expiredMonth, "expiredYear": expiredYear, "amount": amount }, "json")
+                , {
+                    "checkId": checkId
+                    , "type": templateData.cardType
+                    , "account": templateData.number
+                    , "firstName": templateData.firstName
+                    , "lastName": templateData.lastName
+                    , "expiredMonth": parseInt(templateData.expirationMonth)
+                    , "expiredYear": parseInt(templateData.expirationYear)
+                    , "amount": parseFloat($(".screen").html())
+                }, "json")
         .done(function (result) {
-            $(object2update).attr("data-value", result)
+            $(template).attr("data-value", result)
+            $(template).find("#btnSave").addClass("hide");
+            $(template).find("#btnDelete").removeClass("hide");
         })
         .fail(function () {
             message("::addPayment:: Failed.", "error", "topCenter");
         })
         .always(function () {
             container.unblock();
+
+            $("#btnAddPayment").show();
+            $("#blank").hide();
+
         });
     }
 </script>

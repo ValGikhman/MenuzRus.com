@@ -154,9 +154,9 @@ public static class Common {
 
     public enum Payments {
         Cash = 0,
-        MasterCard = 2,
+        Mastercard = 2,
         Visa = 4,
-        Dicscover = 8,
+        Discover = 8,
         Generic = 16
     }
 

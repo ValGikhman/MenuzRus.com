@@ -161,6 +161,7 @@
     <Compile Include="Controllers\ConfirmationsController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\KitchenOrderController.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CommentsModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
@@ -564,6 +566,7 @@
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\bootstrap.js" />
     <Content Include="Scripts\noty\themes\default.js" />
+    <Content Include="Scripts\register.js" />
     <Content Include="Scripts\table.js" />
     <Content Include="Scripts\tables.js" />
     <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.css" />
@@ -647,6 +650,7 @@
     <Content Include="Views\Shared\_Empty.cshtml" />
     <Content Include="Views\Shared\_CashierPartial.cshtml" />
     <Content Include="Views\Shared\_PaymentsPartial.cshtml" />
+    <Content Include="Views\Shared\_RegisterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

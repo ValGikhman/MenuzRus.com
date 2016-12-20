@@ -108,7 +108,7 @@ namespace MenuzRus.Controllers {
 
             foreach (Int32 id in Ids) {
                 check = _orderService.GetCheck(id);
-                retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), EnumHelper<Common.CheckStatus>.Parse(check.Status.ToString()).ToString(), split, adjustment);
+                retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), split, adjustment);
             }
             return retVal;
         }
@@ -305,8 +305,8 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public String PrintChecks(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
-            return RenderViewToString(this.ControllerContext, "Printouts/_SendChecks2PrinterPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
+        public String PrintChecks(Int32 checkId, String type, Int32 split, Decimal adjustment) {
+            return RenderViewToString(this.ControllerContext, "Printouts/_SendChecks2PrinterPartial", GetCheckPrintModel(checkId, type, split, adjustment));
         }
 
         [HttpGet]
@@ -332,19 +332,13 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public PartialViewResult ShowCashier(String total) {
-            Decimal summary = new JavaScriptSerializer().Deserialize<Decimal>(total);
-            return PartialView("_CashierPartial", summary);
-        }
-
-        [HttpGet]
         public String ShowCheck(Int32 checkId) {
             return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckModel(checkId));
         }
 
         [HttpGet]
         public String ShowCheckPrint(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
-            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckPrintModel(checkId, type, status, split, adjustment));
+            return RenderViewToString(this.ControllerContext, "_OrderCheckPrintPartial", GetCheckPrintModel(checkId, type, split, adjustment));
         }
 
         [HttpGet]
@@ -461,14 +455,6 @@ namespace MenuzRus.Controllers {
             return RenderViewToString(this.ControllerContext, "_OrderPartial", model);
         }
 
-        [HttpGet]
-        public PartialViewResult ShowPayments(String checkId) {
-            Int32 Id = new JavaScriptSerializer().Deserialize<Int32>(checkId);
-            PaymentModel model;
-            model = GetPaymentModel(Id);
-            return PartialView("_PaymentsPartial", model);
-        }
-
         [CheckUserSession]
         [HttpGet]
         public ActionResult Table(Int32 id) {
@@ -487,7 +473,7 @@ namespace MenuzRus.Controllers {
             CheckPrint model;
             try {
                 if (status == Common.CheckStatus.Paid) {
-                    model = GetCheckPrintModel(checkId, type.ToString(), status.ToString(), split, adjustment);
+                    model = GetCheckPrintModel(checkId, type.ToString(), split, adjustment);
                     if (model != null)
                         _orderService.UpdateCheckStatusPaid(checkId, model.Summary, model.Tax, model.Adjustment);
                 }
@@ -619,7 +605,7 @@ namespace MenuzRus.Controllers {
             return model;
         }
 
-        private CheckPrint GetCheckPrintModel(Int32 checkId, String type, String status, Int32 split, Decimal adjustment) {
+        private CheckPrint GetCheckPrintModel(Int32 checkId, String type, Int32 split, Decimal adjustment) {
             Services.Item item, itemMenu;
             CheckPrint model;
             Decimal tax = SessionData.customer.Tax.HasValue ? (Decimal)SessionData.customer.Tax / 100 : 0;
@@ -891,12 +877,6 @@ namespace MenuzRus.Controllers {
             }
 
             return null;
-        }
-
-        private PaymentModel GetPaymentModel(Int32 checkId) {
-            PaymentModel model = new PaymentModel();
-            model.Payments = _orderService.GetPayments(checkId);
-            return model;
         }
 
         private OrderModel GetTableModel(Int32 tableId) {

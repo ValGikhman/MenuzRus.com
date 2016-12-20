@@ -3,6 +3,18 @@
 @{
     System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.CurrentUICulture;
 }
+<style>
+    #btnRegister {
+        -webkit-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        transform: rotate(270deg);
+    }
+</style>
+
+<button id="btnRegister" type="button" class="btn btn-warning btn-lg desktopOnly" style="position: fixed; top: 260px; left: -35px;" onclick="javascript: showRegister(@Model.Check.id, @Model.Total)">Register</button>
+
 <div class="print-view-container" style="margin-top: 20px;">
     <table id="tableAddress" class="center">
         <tbody>
@@ -143,3 +155,24 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal registerForm" role="dialog">
+</div>
+
+<script>
+    function showRegister(checkId, total) {
+        var container = $("html");
+        container.block();
+
+        var jqxhr = $.get($.validator.format("{0}Register/Register", root), { "checkId": checkId, "total": total }, "json")
+            .done(function (result) {
+                $(".registerForm").html(result).modal("show");
+            })
+            .fail(function () {
+                message("::showRegister:: Failed.", "error", "topCenter");
+            })
+            .always(function () {
+                container.unblock();
+            });
+    }
+</script>

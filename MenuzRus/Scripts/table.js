@@ -104,14 +104,6 @@ $(function () {
         showCheckPrint();
     });
 
-    $("#registerTab").click(function () {
-        $(this).tab("show");
-        var checkId = $(".check").find(".tab-pane.active").attr("data-value");
-
-        showCashier($("#total").html().replace(/[^\d.,-]/g, "").replace(",", "."));
-        showPayments(checkId);
-    });
-
     $("#menuTab").tab("show");
 
     $("#Menus li a").click(function () {
@@ -231,6 +223,7 @@ function orderMenuItem(id) {
             $(active).attr("data-value", result.checkId);
             $(active).attr("data-type", type);
             $(active).attr("data-status", status);
+
             $(activeTab).attr("href", $.validator.format("#Check{0}", result.checkId));
             $(activeTab).attr("data-value", result.checkId);
             $(activeTab).attr("data-type", type);
@@ -345,7 +338,6 @@ function showCheckPrint() {
     var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": checkType, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(active).html(result);
-            $("#registerTab").show();
         })
         .fail(function () {
             message("::showCheckPrint:: Failed.", "error", "topCenter");
@@ -362,7 +354,7 @@ function getCheckPrint(checkId) {
     var type = $(".check").find(".tab-pane.active").attr("data-type");
     var status = $(".check").find(".tab-pane.active").attr("data-status");
 
-    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": type, "status": status, "split": split, "adjustment": adjustment }, "json")
+    var jqxhr = $.get($.validator.format("{0}Order/ShowCheckPrint", root), { "checkId": checkId, "type": type, "split": split, "adjustment": adjustment }, "json")
         .done(function (result) {
             $(tab).append($.validator.format("{0}", result));
         })
@@ -390,7 +382,6 @@ function showMenus(checkId) {
             var active = $(".checks li:last a");
             if ($(active).length > 0) {
                 toggleObjects($(active).attr("data-status"));
-                $("#registerTab").hide();
             }
         })
         .fail(function () {
@@ -489,28 +480,6 @@ function toggleObjects(text) {
     }
 }
 
-function BindEvents() {
-    $(".checks").on("click", "a", function (e) {
-        $(this).tab("show");
-        var checkId = $(this).attr("data-value");
-        $("#btnCheckType").text($(this).attr("data-type"));
-        $("#btnCheckStatus").text($(this).attr("data-status"));
-        toggleObjects($(this).attr("data-status"));
-        checkStatusManager($(this).attr("data-status"));
-
-        $(".chosen-select").val(checkId).trigger("chosen:updated");
-        var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
-        if (html == "") {
-            if ($("#actionsTab").parent().hasClass("active")) {
-                showCheckPrint();
-            }
-            else {
-                showMenus(checkId);
-            }
-        }
-    });
-}
-
 function checkStatusManager(status) {
     $("#checkStatus li").show();
 
@@ -574,34 +543,24 @@ function setMenu() {
     }
 }
 
-function showPayments(checkId) {
-    var container = $(".menu");
-    container.block();
+function BindEvents() {
+    $(".checks").on("click", "a", function (e) {
+        $(this).tab("show");
+        var checkId = $(this).attr("data-value");
+        $("#btnCheckType").text($(this).attr("data-type"));
+        $("#btnCheckStatus").text($(this).attr("data-status"));
+        toggleObjects($(this).attr("data-status"));
+        checkStatusManager($(this).attr("data-status"));
 
-    var jqxhr = $.get($.validator.format("{0}Order/ShowPayments", root), { "checkId": JSON.stringify(checkId) }, "json")
-        .done(function (result) {
-            $("#register-tab").html(result);
-        })
-        .fail(function () {
-            message("::showPayments:: Failed.", "error", "topCenter");
-        })
-        .always(function () {
-            container.unblock();
-        });
-}
-
-function showCashier(total) {
-    var container = $(".order");
-    container.block();
-
-    var jqxhr = $.get($.validator.format("{0}Order/ShowCashier", root), { "total": JSON.stringify(total) }, "json")
-        .done(function (result) {
-            $(".check").find(".tab-pane.active").html(result);
-        })
-        .fail(function () {
-            message("::showCashier:: Failed.", "error", "topCenter");
-        })
-        .always(function () {
-            container.unblock();
-        });
+        $(".chosen-select").val(checkId).trigger("chosen:updated");
+        var html = $(".check").find(".tab-pane.active").html().replace(/\n/g, "").replace(/\s/g, "");
+        if (html == "") {
+            if ($("#menuTab").parent().hasClass("active")) {
+                showMenus(checkId);
+            }
+            else if ($("#actionsTab").parent().hasClass("active")) {
+                showCheckPrint();
+            }
+        }
+    });
 }

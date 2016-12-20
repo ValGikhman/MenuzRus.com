@@ -123,13 +123,4 @@ namespace MenuzRus.Models {
 
         #endregion Public Properties
     }
-
-    public class PaymentModel : BaseModel {
-
-        #region Public Properties
-
-        public List<Payment> Payments { set; get; }
-
-        #endregion Public Properties
-    }
 }

@@ -161,8 +161,7 @@
 
 <script>
     function showRegister(checkId, total) {
-        var container = $("html");
-        container.block();
+        $("#btnRegister").hide();
 
         var jqxhr = $.get($.validator.format("{0}Register/Register", root), { "checkId": checkId, "total": total }, "json")
             .done(function (result) {
@@ -172,7 +171,6 @@
                 message("::showRegister:: Failed.", "error", "topCenter");
             })
             .always(function () {
-                container.unblock();
             });
     }
 </script>

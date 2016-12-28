@@ -50,7 +50,7 @@
 </div>
 
 <div class="clearfix"></div>
-<div id="target" style="height: auto; overflow: auto;">
+<div id="target" style="height: 50vh; overflow: auto;">
     @foreach (Services.Payment payment in Model.Payments) {
         <div data-value="@payment.id" class="clearfix">
             @{
@@ -66,7 +66,7 @@
             _exp = String.Empty;
         }
         else {
-            _cc = String.Format("*****{0}", _card.Substring(_card.Length - 4));
+            _cc = String.Format("***{0}", _card.Substring(_card.Length - 4));
         }
             }
             <div id="cardType" class="cardItem col-md-1 @_class"></div>
@@ -127,7 +127,7 @@
         templateData = { cardType: data.type, firstName: data.firstName, lastName: data.lastName, number: data.account, expirationMonth: data.expMonth, expirationYear: data.expYear };
         $(template).find("#cardType").addClass(data.type);
         $(template).find("#name").text($.validator.format("{0} {1}", data.firstName, data.lastName));
-        $(template).find("#number").text($.validator.format("*****{0}", data.account.substring(data.account.length - 4)));
+        $(template).find("#number").text($.validator.format("***{0}", data.account.substring(data.account.length - 4)));
         $(template).find("#expiration").text($.validator.format("{0}/{1}", data.expMonth, data.expYear));
 
         $(template).find("#btnSave").removeClass("hide");

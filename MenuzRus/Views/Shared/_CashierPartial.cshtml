@@ -29,58 +29,58 @@
             display: inline-block;
             font-weight: bold;
             font-size: x-large;
-            padding: 10px 0;
-            margin: 3px 5px;
+            padding: 2% 0;
+            margin: 1% 1%;
             cursor: pointer;
             text-shadow: 0px 0px 0 #FFFFFF, 1px 1px 0 #b5b3ac;
         }
 </style>
 
 <div class="calc-row">
-    <div class="col-lg-9 screen btn-default shadow">@Model.ToString()</div>
+    <div class="col-lg-11 screen btn-default shadow">@Model.ToString()</div>
 </div>
 
-<div class="center">
+<div  style="height:50vh;">
     <div class="calculator">
         <div class="calc-row">
-            <div id="btnCash" class="col-lg-4 btn btn-success shadow active">Cash</div>
-            <div id="btnCredit" class="col-lg-4 btn btn-warning shadow">Credit</div>
+            <div id="btnCash" class="col-lg-5 btn btn-success shadow active">Cash</div>
+            <div id="btnCredit" class="col-lg-5 btn btn-warning shadow">Credit</div>
         </div>
 
         <div class="calc-row">
             <div class="col-lg-2 but-ton btn-default shadow">C</div>
             <div class="col-lg-2 but-ton btn-default shadow">BS</div>
             <div class="col-lg-2 but-ton btn-default shadow">+/-</div>
-            <div id="btnAddPayment" class="col-lg-2 btn-success shadow">ADD</div>
-            <div id="blank" class="col-lg-2 btn-default shadow" style="display: none;">ADD</div>
+            <div id="btnAddPayment" class="col-lg-4 btn-success shadow">ADD</div>
+            <div id="blank" class="col-lg-4 btn-default shadow" style="display: none;">ADD</div>
         </div>
 
         <div class="calc-row">
             <div class="col-lg-2 but-ton btn-default shadow">7</div>
             <div class="col-lg-2 but-ton btn-default shadow">8</div>
             <div class="col-lg-2 but-ton btn-default shadow">9</div>
-            <div class="col-lg-2 but-ton btn-default shadow">/</div>
+            <div class="col-lg-4 but-ton btn-default shadow">/</div>
         </div>
 
         <div class="calc-row">
             <div class="col-lg-2 but-ton btn-default shadow">4</div>
             <div class="col-lg-2 but-ton btn-default shadow">5</div>
             <div class="col-lg-2 but-ton btn-default shadow">6</div>
-            <div class="col-lg-2 but-ton btn-default shadow">*</div>
+            <div class="col-lg-4 but-ton btn-default shadow">*</div>
         </div>
 
         <div class="calc-row">
             <div class="col-lg-2 but-ton btn-default shadow">1</div>
             <div class="col-lg-2 but-ton btn-default shadow">2</div>
             <div class="col-lg-2 but-ton btn-default shadow">3</div>
-            <div class="col-lg-2 but-ton btn-default shadow">-</div>
+            <div class="col-lg-4 but-ton btn-default shadow">-</div>
         </div>
 
         <div class="calc-row">
             <div class="col-lg-2 but-ton btn-default shadow">0</div>
             <div class="col-lg-2 but-ton btn-default shadow">.</div>
             <div class="col-lg-2 but-ton btn-default shadow">+</div>
-            <div id="btnEqual" class="col-lg-2 but-ton btn-success shadow">=</div>
+            <div id="btnEqual" class="col-lg-4 but-ton btn-success shadow">=</div>
         </div>
     </div>
 </div>
@@ -163,10 +163,11 @@
                 $(template).find("#btnSave").removeClass("hide");
                 $(template).find("#btnDelete").addClass("hide");
             }
+
             $(template).find("#amountPay").text(currentEntry);
 
             value = parseFloat(parseFloat($("#checkTotal").html()) + parseFloat(currentEntry)).toFixed(2);
-            owe = parseFloat(parseFloat($("#CheckAmount").val()) - value).toFixed(2);
+            owe = parseFloat(parseFloat($("#checkAmount").html()) - value).toFixed(2);
 
             $("#checkTotal").html(value);
             $("#payAmount").html(owe);

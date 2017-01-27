@@ -6,7 +6,7 @@
         noMatchText: 'Nothing matched your filter, please click another letter.',
         showCounts: true,
         cookieName: "my-main-list",
-        onClick: function (letter) { alert(letter) },
+        onClick: function (letter) { },
         prefixes: ["the", "a"]
     });
 

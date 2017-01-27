@@ -566,7 +566,6 @@
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\bootstrap.js" />
     <Content Include="Scripts\noty\themes\default.js" />
-    <Content Include="Scripts\register.js" />
     <Content Include="Scripts\table.js" />
     <Content Include="Scripts\tables.js" />
     <Content Include="Scripts\TouchSpin\jquery.bootstrap-touchspin.css" />

@@ -107,9 +107,9 @@
             colNames: ["Check#", "Price", "Tax", "Adjustment", "Total", "Date"],
             colModel: [
                 {
-                    name: "Check", align: "right", summaryType: "max", summaryTpl: "Subtotal:",
+                    name: "Check", align: "center", summaryType: "max", summaryTpl: "Subtotal:",
                     formatter: function (cellvalue, options, rowObject) {
-                        return $.validator.format("<a href='javascript: showCheck({0})'>{1}</a>", cellvalue.replace("#", ""), cellvalue);
+                        return $.validator.format("<strong><a href='javascript: showCheck({0})'>{1}</a></strong>", cellvalue.replace("#", ""), cellvalue);
                     }
                 },
                 { name: "Price", align: "right", formatter: "currency", formatoptions: { prefix: sign, suffix: "", thousandsSeparator: "," }, summaryType: "sum" },
@@ -259,6 +259,8 @@
         var jqxhr = $.get($.validator.format("{0}Order/ShowCheck", root), { "checkId": checkId }, "json")
          .done(function (result) {
              $("#checkViewForm").html(result);
+             $("#btnRegister").hide();
+
              $(".checkViewForm").modal("show");
          })
          .fail(function () {

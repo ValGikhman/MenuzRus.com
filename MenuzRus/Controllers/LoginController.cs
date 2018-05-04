@@ -54,15 +54,15 @@ namespace MenuzRus {
                 SessionData.SetSession(Constants.SESSION_USER, (Services.User)data.Item1);
                 SessionData.SetSession(Constants.SESSION_CUSTOMER, (Services.Customer)data.Item2);
 
-                SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(Common.Modules.Inventory.ToString()));
-                SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(Common.Modules.Reports.ToString()));
-                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()));
-                SessionData.SetSession(Constants.SESSION_PRINTABLE, (Boolean)data.Item3.Contains(Common.Modules.Print.ToString()) && SessionData.printers != null);
-                SessionData.SetSession(Constants.SESSION_LANGUAGE, _settingsService.GetSettings(SessionData.customer.id, Common.Settings.Language));
+                SessionData.SetSession(Constants.SESSION_MODULE_INVENTORY, (Boolean)data.Item3.Contains(CommonUnit.Modules.Inventory.ToString()));
+                SessionData.SetSession(Constants.SESSION_MODULE_REPORTS, (Boolean)data.Item3.Contains(CommonUnit.Modules.Reports.ToString()));
+                SessionData.SetSession(Constants.SESSION_MODULE_PRINT, (Boolean)data.Item3.Contains(CommonUnit.Modules.Print.ToString()));
+                SessionData.SetSession(Constants.SESSION_PRINTABLE, (Boolean)data.Item3.Contains(CommonUnit.Modules.Print.ToString()) && SessionData.printers != null);
+                SessionData.SetSession(Constants.SESSION_LANGUAGE, _settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.Language));
                 // Cook it as well. Will need for login view
                 HttpCookie cook = new HttpCookie("language");
 
-                cook.Value = EnumHelper<Common.Languages>.GetDisplayValue((Common.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                cook.Value = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
                 cook.Expires = DateTime.MaxValue;
                 Response.Cookies.Add(cook);
 
@@ -73,7 +73,7 @@ namespace MenuzRus {
                     pathToNavigate = Request.UrlReferrer.Query.Replace("?", String.Empty);
                 }
 
-                base.Log(Common.LogType.LogIn);
+                base.Log(CommonUnit.LogType.LogIn);
                 return Redirect(pathToNavigate);
             }
             catch (Exception ex) {

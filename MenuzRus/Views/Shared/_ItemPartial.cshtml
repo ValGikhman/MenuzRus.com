@@ -33,15 +33,15 @@
                     <div class="imagerow col-lg-4 col-md-4">
                         <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Items/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                         <input type="file" id="Image" name="Image" />
-                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">Delete Image</a>
+                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">@Resources.Resource.COMMON_DELETE_IMAGE</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 col-lg3">
-                        @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+                        @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(CommonUnit.Status))), new { @class = "form-control input-sm shadow" })
                     </div>
                     <div class="col-md-3 col-lg3">
-                        @Html.DropDownListFor(m => m.UOM, new SelectList(Enum.GetValues(typeof(Common.UOM))), new { @class = "form-control input-sm shadow" })
+                        @Html.DropDownListFor(m => m.UOM, new SelectList(Enum.GetValues(typeof(CommonUnit.UOM))), new { @class = "form-control input-sm shadow" })
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.id)
@@ -84,8 +84,8 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success btn-lg">Save changes</button>
+        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+        <button type="submit" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
     </div>
     @Html.HiddenFor(m => m.CategoryType)
 }

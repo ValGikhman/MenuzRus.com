@@ -13,12 +13,23 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class KitchenOrderController : BaseController {
+
+        #region Private Fields
+
         private IOrderService _orderService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public KitchenOrderController(ISessionData sessionData, IOrderService orderService)
             : base(sessionData) {
             _orderService = orderService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         [CheckUserSession]
         public ActionResult Index() {
@@ -38,7 +49,7 @@ namespace MenuzRus.Controllers {
                              id = order.id,
                              CheckId = order.CheckId,
                              DateCreated = order.DateCreated.ToLocalTime().ToString(),
-                             Status = ((Common.PrintStatus)order.Status).ToString()
+                             Status = ((CommonUnit.PrintStatus)order.Status).ToString()
                          }
                     ).ToArray()
                 };
@@ -52,6 +63,8 @@ namespace MenuzRus.Controllers {
 
             return new JsonResult() { Data = String.Empty, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        #endregion Public Methods
 
         #region private
 

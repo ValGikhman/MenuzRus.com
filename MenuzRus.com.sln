@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuzRus", "MenuzRus\MenuzRus.csproj", "{DCD63AAA-8FCD-4EE2-B18A-1DEDB8DF020D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CC5D0C80-9B30-4958-AB58-BC3E1939F91F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUnit", "Common\CommonUnit.csproj", "{CC5D0C80-9B30-4958-AB58-BC3E1939F91F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

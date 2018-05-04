@@ -7,7 +7,7 @@
         </div>
         <div class="col-lg-2 col-md-2">
             @Html.LabelFor(m => m.InventoryType)
-            @Html.DropDownListFor(m => m.InventoryType, new SelectList(Enum.GetValues(typeof(Common.InventoryType))), new { @class = "form-control shadow", @style = "width: 80px; height: 34px;" })
+            @Html.DropDownListFor(m => m.InventoryType, new SelectList(Enum.GetValues(typeof(CommonUnit.InventoryType))), new { @class = "form-control shadow", @style = "width: 80px; height: 34px;" })
         </div>
         <div class="col-lg-4 col-md-4">
             @Html.LabelFor(m => m.InventoryComment)

@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
-using Services;
 
 namespace MenuzRus.Models {
 
     public class CategoryModel : BaseModel {
 
-        [DisplayName("Description")]
+        #region Public Properties
+
+        [Display(Name = "CATEGORY_DESCRIPTION", ResourceType = typeof(Resources.Resource))]
         public String Description { get; set; }
 
         public Int32 id { get; set; }
@@ -24,13 +23,15 @@ namespace MenuzRus.Models {
         [DisplayName("Image")]
         public String ImageUrl { get; set; }
 
-        [DisplayName("Category Name")]
+        [Display(Name = "CATEGORY_NAME", ResourceType = typeof(Resources.Resource))]
         public String Name { get; set; }
 
-        [DisplayName("Status")]
-        public Common.Status Status { get; set; }
+        [Display(Name = "CATEGORY_STATUS", ResourceType = typeof(Resources.Resource))]
+        public CommonUnit.Status Status { get; set; }
 
-        [DisplayName("Type")]
-        public Common.CategoryType Type { get; set; }
+        [Display(Name = "CATEGORY_TYPE", ResourceType = typeof(Resources.Resource))]
+        public CommonUnit.CategoryType Type { get; set; }
+
+        #endregion Public Properties
     }
 }

@@ -14,21 +14,21 @@
             <h2>Table @Model.Table.Name</h2>
             <div class="dropdown tableStatus">
                 @{
-                    Common.TableOrderStatus currentStatus = Common.TableOrderStatus.Closed;
+                    CommonUnit.TableOrderStatus currentStatus = CommonUnit.TableOrderStatus.Closed;
                     if (Model.TableOrder != null) {
-                        currentStatus = (Common.TableOrderStatus)Model.TableOrder.Status;
+                        currentStatus = (CommonUnit.TableOrderStatus)Model.TableOrder.Status;
                     }
                 }
                 <button id="btnTableStatus" type="button" class="btn alert-warning btn-lg shadow" data-toggle="dropdown">@currentStatus.ToString()</button>
                 <ul id="tableStatus" class="dropdown-menu alert-warning" role="menu">
                     <li class="dropdown-header">Table Status:</li>
                     <li role="separator" class="divider"></li>
-                    @foreach (Common.TableOrderStatus status in (Common.TableOrderStatus[])Enum.GetValues(typeof(Common.TableOrderStatus))) {
+                    @foreach (CommonUnit.TableOrderStatus status in (CommonUnit.TableOrderStatus[])Enum.GetValues(typeof(CommonUnit.TableOrderStatus))) {
                         Int32 value = (Int32)status;
                         String disabled = String.Empty;
                         if (Model.TableOrder != null && value <= Model.TableOrder.Status) {
                             disabled = "hide";
-                            if (currentStatus == Common.TableOrderStatus.Closed && value == (Int32)Common.TableOrderStatus.Open) {
+                            if (currentStatus == CommonUnit.TableOrderStatus.Closed && value == (Int32)CommonUnit.TableOrderStatus.Open) {
                                 disabled = String.Empty;
                             }
                         }
@@ -61,22 +61,22 @@
                     &nbsp;Actions
                 </a></li>
                 <li style="float: right;">
-                    <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckType.Guest</button>
+                    <button id="btnCheckType" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@CommonUnit.CheckType.Guest</button>
                     <ul id="checkType" class="dropdown-menu alert-warning" role="menu">
                         <li class="dropdown-header">Check Type:</li>
                         <li role="separator" class="divider"></li>
-                        @foreach (Common.CheckType type in (Common.CheckType[])Enum.GetValues(typeof(Common.CheckType))) {
+                        @foreach (CommonUnit.CheckType type in (CommonUnit.CheckType[])Enum.GetValues(typeof(CommonUnit.CheckType))) {
                             <li><a href="#">@type</a></li>
                         }
                     </ul>
                 </li>
                 <li style="float: right;">
-                    <button id="btnCheckStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Common.CheckStatus.Active</button>
+                    <button id="btnCheckStatus" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@CommonUnit.CheckStatus.Active</button>
                     <ul id="checkStatus" class="dropdown-menu alert-warning" role="menu">
                         <li class="dropdown-header">Check Status:</li>
                         <li role="separator" class="divider"></li>
-                        @foreach (Common.CheckStatus status in (Common.CheckStatus[])Enum.GetValues(typeof(Common.CheckStatus))) {
-                            if (status != Common.CheckStatus.Ready) {
+                        @foreach (CommonUnit.CheckStatus status in (CommonUnit.CheckStatus[])Enum.GetValues(typeof(CommonUnit.CheckStatus))) {
+                            if (status != CommonUnit.CheckStatus.Ready) {
                             <li data-value="@status"><a href="#">@status</a></li>
                             }
                         }

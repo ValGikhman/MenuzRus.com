@@ -24,17 +24,17 @@
 @using (Html.BeginForm("SaveCustomer", "Customer", FormMethod.Post, new { @id = "form-customer", @class = "form-customer", role = "form", enctype = "multipart/form-data" })) {
     <div class="well container container-customer shadow">
         <div class="modal-header">
-            <h2>Company Form</h2>
+            <h2>@Resources.Resource.CUSTOMER_TITLE</h2>
         </div>
         <ul class="nav nav-pills btn-default  nav-justified settingsTab">
             <li class="active">
-                <a href="#Information" data-toggle="pill">General Information</a>
+                <a href="#Information" data-toggle="pill">@Resources.Resource.CUSTOMER_TAB_INFORMATION</a>
             </li>
             <li>
-                <a href="#Settings" data-toggle="pill">Settings</a>
+                <a href="#Settings" data-toggle="pill">@Resources.Resource.CUSTOMER_TAB_SETTINGS</a>
             </li>
             <li>
-                <a href="#Modules" data-toggle="pill">Modules</a>
+                <a href="#Modules" data-toggle="pill">@Resources.Resource.CUSTOMER_TAB_MODULES</a>
             </li>
         </ul>
 
@@ -43,49 +43,49 @@
                 <div class="col-lg-8 col-md-8">
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Company</div>
-                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control shadow", placeholder = "Enter your business name", required = "" })
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_COMPANY</div>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control shadow", placeholder = @Resources.Resource.CUSTOMER_COMPANY_PLACEHOLDER, required = "" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Address</div>
-                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control shadow", placeholder = "Enter your business address", required = "" })
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_ADDRESS</div>
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control shadow", placeholder = @Resources.Resource.CUSTOMER_ADDRESS_PLACEHOLDER, required = "" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Address</div>
-                            @Html.TextBoxFor(model => model.Address2, new { @class = "form-control shadow", placeholder = "Business address if needed" })
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_ADDRESS</div>
+                            @Html.TextBoxFor(model => model.Address2, new { @class = "form-control shadow", placeholder = @Resources.Resource.CUSTOMER_ADDRESS_PLACEHOLDER })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">City</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_CITY</div>
                             @Html.TextBoxFor(model => model.City, new { @class = "form-control shadow", placeholder = "Enter city", required = "" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">State</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_STATE</div>
                             @Html.DropDownListFor(m => m.State, Model.States, new { @class = "form-control shadow" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Zip</div>
-                            @Html.TextBoxFor(model => model.Zip, new { @class = "form-control shadow", placeholder = "Enter zip", required = "", pattern = "(^\\d{5}$)" })
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_ZIP</div>
+                            @Html.TextBoxFor(model => model.Zip, new { @class = "form-control shadow", placeholder = @Resources.Resource.CUSTOMER_ZIP_PLACEHOLDER, required = "", pattern = "(^\\d{5}$)" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Phone</div>
-                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control shadow", placeholder = "Enter phone number" })
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_PHONE</div>
+                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control shadow", placeholder = @Resources.Resource.CUSTOMER_PHONE_PLACEHOLDER })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Tax</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_TAX</div>
                             @Html.TextBoxFor(model => model.Tax, new { @class = "form-control shadow" })
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Customers/{1}?{2}", Model.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                     <input type="file" id="Image" name="Image" />
                     <div class="col-md-1 col-lg-1">
-                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">Delete Image</a>
+                        <a href="#" id="btnDeleteImage" class="btn btn-danger btn-mini shadow" onclick="deleteImage()">@Resources.Resource.COMMON_DELETE_IMAGE</a>
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.id)
@@ -104,21 +104,21 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">POS printer</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_POS_PRINTER</div>
                             @Html.DropDownListFor(m => m.PrinterPOS, Model.Printers, new { @class = "form-control shadow" })
                             @Html.DropDownListFor(m => m.PrinterPOSWidth, Model.PrinterWidth, new { @class = "form-control shadow" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Kitchen printer</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_KITCHEN_PRINTER</div>
                             @Html.DropDownListFor(m => m.PrinterKitchen, Model.Printers, new { @class = "form-control shadow" })
                             @Html.DropDownListFor(m => m.PrinterKitchenWidth, Model.PrinterWidth, new { @class = "form-control shadow" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Language</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_LANGUAGE</div>
                             @Html.DropDownListFor(m => m.SelectedLanguage, Model.Languages, new { @class = "form-control shadow" })
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon shadow leiba">Modules</div>
+                            <div class="input-group-addon shadow leiba">@Resources.Resource.CUSTOMER_MODULES</div>
                             <select id="modules" data-placeholder="Click to add applications modules" class="chosen-select" multiple>
                                 @foreach (Services.Module module in Model.Modules) {
                                     Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();

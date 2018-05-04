@@ -33,7 +33,7 @@ namespace MenuzRus.Models {
 
         public List<Services.Category> Categories { set; get; }
 
-        public Common.CategoryType CategoryType { set; get; }
+        public CommonUnit.CategoryType CategoryType { set; get; }
 
         public EntitySet<Services.ItemProduct> ItemProducts { set; get; }
 

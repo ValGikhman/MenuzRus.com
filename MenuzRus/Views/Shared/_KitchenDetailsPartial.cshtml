@@ -1,6 +1,6 @@
 ﻿@model MenuzRus.Models.KitchenOrderModel
 @using Services
-<div class="modal kithenDetailsForm" role="dialog" style="min-height:500px;">
+<div class="modal kithenDetailsForm" role="dialog" style="min-height: 500px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-new">
@@ -15,8 +15,8 @@
                             @String.Format("#{0}", check.Check.id)
                             @{
                             String color = "alert-info";
-                            String type = EnumHelper<Common.CheckType>.Parse(check.Check.Type.ToString()).ToString();
-                            if ((Common.CheckType)check.Check.Type == Common.CheckType.ToGo) {
+                            String type = EnumHelper<CommonUnit.CheckType>.Parse(check.Check.Type.ToString()).ToString();
+                            if ((CommonUnit.CheckType)check.Check.Type == CommonUnit.CheckType.ToGo) {
                                 color = "alert-danger";
                             }
                                 <span class="label @color " style="padding: 0;">@type</span>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelKitchenDetails" type="button" class="btn btn-lg btn-default" data-dismiss="modal">Close</button>
+                <button id="btnCancelKitchenDetails" type="button" class="btn btn-lg btn-default" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
                 <button id="btnStatusReady" type="button" class="btn btn-lg btn-primary" onclick="javascript:updateCheckStatus();">Status: Ready</button>
             </div>
         </div>

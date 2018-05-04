@@ -46,7 +46,7 @@ namespace MenuzRus {
         }
 
         [HttpGet]
-        public String EditCategory(Int32 id, Common.CategoryType type) {
+        public String EditCategory(Int32 id, CommonUnit.CategoryType type) {
             try {
                 return RenderViewToString(this.ControllerContext, "_CategoryPartial", GetModel(id, type));
             }
@@ -70,7 +70,7 @@ namespace MenuzRus {
                 category.id = model.id;
                 category.Name = model.Name;
                 category.Description = model.Description;
-                //category.Status = (Int32)Common.Status.Active;
+                //category.Status = (Int32)CommonUnit.Status.Active;
                 category.Status = (Int32)model.Status;
                 category.Type = (Int32)model.Type;
                 category.ImageUrl = model.ImageUrl;
@@ -108,14 +108,14 @@ namespace MenuzRus {
 
         #region private
 
-        private CategoryModel GetModel(Int32 id, Common.CategoryType type) {
+        private CategoryModel GetModel(Int32 id, CommonUnit.CategoryType type) {
             CategoryModel model;
             Services.Category category;
             try {
                 model = new CategoryModel();
                 model.id = id;
                 model.Type = type;
-                model.Status = Common.Status.Active;
+                model.Status = CommonUnit.Status.Active;
 
                 //set for new or existing category
                 category = _categoryService.GetCategory(id);
@@ -123,8 +123,8 @@ namespace MenuzRus {
                     model.id = category.id;
                     model.Name = category.Name;
                     model.Description = category.Description;
-                    model.Status = (Common.Status)category.Status;
-                    model.Type = (Common.CategoryType)category.Type;
+                    model.Status = (CommonUnit.Status)category.Status;
+                    model.Type = (CommonUnit.CategoryType)category.Type;
                     model.ImageUrl = category.ImageUrl;
                 }
                 return model;

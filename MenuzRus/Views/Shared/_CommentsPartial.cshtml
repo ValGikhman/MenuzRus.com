@@ -9,10 +9,10 @@
 </div>
 <ul class="nav nav-pills btn-default">
     <li class="active" onclick="javascript:toggleSaveButton('Active')">
-        <a href="#commentsList" data-toggle="pill">Comments</a>
+        <a href="#commentsList" data-toggle="pill">@Resources.Resource.COMMENTS_TITLE</a>
     </li>
     <li onclick="javascript:toggleSaveButton('AddNew')">
-        <a href="#AddNew" data-toggle="pill">Add new</a>
+        <a href="#AddNew" data-toggle="pill">@Resources.Resource.COMMENTS_ADD_NEW</a>
     </li>
 </ul>
 
@@ -34,11 +34,11 @@
         </div>
     </div>
     <div id="AddNew" class="row tab-pane">
-        @Html.TextArea("txtNewComment", String.Empty, new { @class = "form-control shadow", rows = 7, placeholder = "Enter comment" })
+        @Html.TextArea("txtNewComment", String.Empty, new { @class = "form-control shadow", rows = 7, placeholder = @Resources.Resource.COMMENTS_ENTER_COMMENT })
     </div>
 </div>
 
 <div class="modal-footer">
-    <button id="btnCancel" type="button" class="btn btn-default btn-lg">Cancel</button>
-    <button id="btnSave" class="btn btn-success btn-lg hide">Save changes</button>
+    <button id="btnCancel" type="button" class="btn btn-default btn-lg">@Resources.Resource.COMMON_CANCEL</button>
+    <button id="btnSave" class="btn btn-success btn-lg hide">@Resources.Resource.COMMON_SAVE_CHANGES</button>
 </div>

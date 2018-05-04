@@ -12,7 +12,7 @@ namespace MenuzRus.Models {
         #region Public Properties
 
         [DisplayName("Active")]
-        public Common.Status Active { get; set; }
+        public CommonUnit.Status Active { get; set; }
 
         [DisplayName("ConfirmPassword")]
         [DataType(DataType.Password)]
@@ -56,7 +56,7 @@ namespace MenuzRus.Models {
         public String Referer { get; set; }
 
         [DisplayName("Type")]
-        public Common.UserType Type { get; set; }
+        public CommonUnit.UserType Type { get; set; }
 
         [DisplayName("Work Phone#")]
         [DataType(DataType.PhoneNumber)]

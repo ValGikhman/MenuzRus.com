@@ -87,11 +87,11 @@ namespace MenuzRus {
                 else if (model.Image != null) {
                     model.Image.SaveAs(path);
                 }
-                SaveSetting(Common.Settings.Language, model.SelectedLanguage);
-                SaveSetting(Common.Settings.PrinterPOS, model.PrinterPOS);
-                SaveSetting(Common.Settings.PrinterKitchen, model.PrinterKitchen);
-                SaveSetting(Common.Settings.PrinterPOSWidth, ((Int32)(Common.PrinterWidth)Enum.Parse(typeof(Common.PrinterWidth), model.PrinterPOSWidth)).ToString());
-                SaveSetting(Common.Settings.PrinterKitchenWidth, ((Int32)(Common.PrinterWidth)Enum.Parse(typeof(Common.PrinterWidth), model.PrinterKitchenWidth)).ToString());
+                SaveSetting(CommonUnit.Settings.Language, model.SelectedLanguage);
+                SaveSetting(CommonUnit.Settings.PrinterPOS, model.PrinterPOS);
+                SaveSetting(CommonUnit.Settings.PrinterKitchen, model.PrinterKitchen);
+                SaveSetting(CommonUnit.Settings.PrinterPOSWidth, ((Int32)(CommonUnit.PrinterWidth)Enum.Parse(typeof(CommonUnit.PrinterWidth), model.PrinterPOSWidth)).ToString());
+                SaveSetting(CommonUnit.Settings.PrinterKitchenWidth, ((Int32)(CommonUnit.PrinterWidth)Enum.Parse(typeof(CommonUnit.PrinterWidth), model.PrinterKitchenWidth)).ToString());
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex) {
@@ -123,8 +123,8 @@ namespace MenuzRus {
                 }
 
                 model.Printers = SessionData.printers.Select(r => new SelectListItem { Text = r, Value = r });
-                model.PrinterWidth = Enum.GetValues(typeof(Common.PrinterWidth)).Cast<Common.PrinterWidth>().Select(r => new SelectListItem { Text = EnumHelper<Common.PrinterWidth>.GetDisplayValue(r), Value = r.ToString() });
-                model.Languages = Enum.GetValues(typeof(Common.Languages)).Cast<Common.Languages>().Select(r => new SelectListItem { Value = ((Int32)r).ToString(), Text = r.ToString() });
+                model.PrinterWidth = Enum.GetValues(typeof(CommonUnit.PrinterWidth)).Cast<CommonUnit.PrinterWidth>().Select(r => new SelectListItem { Text = EnumHelper<CommonUnit.PrinterWidth>.GetDisplayValue(r), Value = r.ToString() });
+                model.Languages = Enum.GetValues(typeof(CommonUnit.Languages)).Cast<CommonUnit.Languages>().Select(r => new SelectListItem { Value = ((Int32)r).ToString(), Text = r.ToString() });
                 if (id != null && id.HasValue) {
                     Customer customer = _customerService.GetCustomer(id.Value);
                     model.id = customer.id;
@@ -137,12 +137,12 @@ namespace MenuzRus {
                     model.Tax = customer.Tax.HasValue ? customer.Tax.Value : 0;
                     model.Phone = customer.Phone.FormatPhone();
                     model.ImageUrl = customer.ImageUrl;
-                    model.PrinterKitchen = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchen);
-                    model.PrinterPOS = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOS);
-                    model.PrinterKitchenWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterKitchenWidth))).ToString();
-                    model.PrinterPOSWidth = ((Common.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, Common.Settings.PrinterPOSWidth))).ToString();
+                    model.PrinterKitchen = _settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.PrinterKitchen);
+                    model.PrinterPOS = _settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.PrinterPOS);
+                    model.PrinterKitchenWidth = ((CommonUnit.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.PrinterKitchenWidth))).ToString();
+                    model.PrinterPOSWidth = ((CommonUnit.PrinterWidth)Convert.ToInt32(_settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.PrinterPOSWidth))).ToString();
                     model.Modules = _customerService.GetModulesAll();
-                    model.SelectedLanguage = _settingsService.GetSettings(SessionData.customer.id, Common.Settings.Language);
+                    model.SelectedLanguage = _settingsService.GetSettings(SessionData.customer.id, CommonUnit.Settings.Language);
                     model.CustomerModules = customer.CustomerModules.Where(cm => cm.EndDate == null).Select(m => m.ModulePriceId).ToArray();
                 }
                 return model;
@@ -155,7 +155,7 @@ namespace MenuzRus {
             return null;
         }
 
-        private Boolean SaveSetting(Common.Settings type, String value) {
+        private Boolean SaveSetting(CommonUnit.Settings type, String value) {
             Setting setting;
 
             try {

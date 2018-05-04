@@ -17,7 +17,7 @@ namespace MenuzRus {
 
         Boolean AddInventoryRegistryCheckMenu(Int32 registryId, Int32 checkMenuId);
 
-        Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment);
+        Boolean AddItemRegistry(Int32 id, Decimal qty, CommonUnit.InventoryType type, String comment);
 
         Boolean DeleteInventoryAssociation(Int32 id);
 

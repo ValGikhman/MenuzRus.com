@@ -11,6 +11,8 @@ namespace MenuzRus {
 
     public class ItemService : BaseService, IItemService {
 
+        #region Public Methods
+
         public Boolean AddItemPrice(Int32 id, Decimal price) {
             ItemPrice query = new ItemPrice();
             try {
@@ -35,7 +37,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Items.FirstOrDefault(m => m.id == id);
                     if (query != default(Item)) {
-                        query.Status = (Int32)Common.Status.NotActive;
+                        query.Status = (Int32)CommonUnit.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -152,6 +154,8 @@ namespace MenuzRus {
             }
             return query.id;
         }
+
+        #endregion Public Methods
 
         //public Int32 SaveMenuItem(Int32 id) {
         //    MenuDesign query = new MenuDesign();

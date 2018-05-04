@@ -69,7 +69,7 @@ namespace MenuzRus.Controllers {
                     culture = Server.HtmlEncode(Request.Cookies["language"].Value);
                 }
                 if (SessionData.customer != null) {
-                    culture = EnumHelper<Common.Languages>.GetDisplayValue((Common.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                    culture = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
                 }
                 if (!String.IsNullOrEmpty(culture)) {
                     Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
@@ -93,11 +93,11 @@ namespace MenuzRus.Controllers {
 
         #region public
 
-        public void Log(Common.LogType logType) {
+        public void Log(CommonUnit.LogType logType) {
             LogData(logType);
         }
 
-        public void Log(Common.LogType logType, String trace) {
+        public void Log(CommonUnit.LogType logType, String trace) {
             LogData(logType, trace);
         }
 
@@ -105,7 +105,7 @@ namespace MenuzRus.Controllers {
             LogData(exception);
         }
 
-        public void Log(Common.LogType type, String trace, String route) {
+        public void Log(CommonUnit.LogType type, String trace, String route) {
             LogData(type, trace, route);
         }
 
@@ -124,22 +124,22 @@ namespace MenuzRus.Controllers {
         }
 
         private void LogAcvitity(ActionExecutingContext filterContext) {
-            Log(Common.LogType.Activity
+            Log(CommonUnit.LogType.Activity
                 , "Navigating"
                 , SessionData.route
             );
         }
 
-        private void LogData(Common.LogType logType) {
+        private void LogData(CommonUnit.LogType logType) {
             try {
-                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, EnumHelper<Common.LogType>.Parse(logType.ToString()).ToString());
+                _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, EnumHelper<CommonUnit.LogType>.Parse(logType.ToString()).ToString());
             }
             catch (Exception ex) {
                 throw ex;
             }
         }
 
-        private void LogData(Common.LogType logType, String trace) {
+        private void LogData(CommonUnit.LogType logType, String trace) {
             try {
                 _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, trace);
             }
@@ -150,14 +150,14 @@ namespace MenuzRus.Controllers {
 
         private void LogData(Exception exception) {
             try {
-                _LogService.Log(Common.LogType.Exception, SessionData.user.id, SessionData.sessionId);
+                _LogService.Log(CommonUnit.LogType.Exception, SessionData.user.id, SessionData.sessionId);
             }
             catch (Exception ex) {
                 throw ex;
             }
         }
 
-        private void LogData(Common.LogType logType, String trace, String route) {
+        private void LogData(CommonUnit.LogType logType, String trace, String route) {
             try {
                 _LogService.Log(logType, SessionData.user.id, SessionData.sessionId, trace, route);
             }

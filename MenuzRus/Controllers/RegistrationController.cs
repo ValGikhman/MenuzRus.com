@@ -80,11 +80,11 @@ namespace MenuzRus {
                 user.Email = model.User.Email;
                 user.Active = false;
                 user.Hash = Utility.GetNewConfirmationNumber();
-                user.Type = (Int32)Common.UserType.Administrator;
+                user.Type = (Int32)CommonUnit.UserType.Administrator;
 
                 result = _userService.SaveUser(user);
                 SessionData.user = user;
-                base.Log(Common.LogType.Activity, "Registering", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
+                base.Log(CommonUnit.LogType.Activity, "Registering", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.User.FirstName, model.User.LastName, model.User.WorkPhone, model.User.MobilePhone));
 
                 EmailHelper.SendEmailConfirmation(this.ControllerContext, user);
                 return RedirectToAction("Index", "Login");

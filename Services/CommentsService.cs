@@ -11,7 +11,9 @@ namespace MenuzRus {
 
     public class CommentService : BaseService, ICommentService {
 
-        public Boolean DeleteComment(Int32 id, Int32 parentId, Common.CommentType type) {
+        #region Public Methods
+
+        public Boolean DeleteComment(Int32 id, Int32 parentId, CommonUnit.CommentType type) {
             CheckMenuComment query;
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -28,7 +30,7 @@ namespace MenuzRus {
             return true;
         }
 
-        public List<CommentUnion> GetComments(Int32 customerId, Int32 parentId, Common.CommentType type) {
+        public List<CommentUnion> GetComments(Int32 customerId, Int32 parentId, CommonUnit.CommentType type) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             CheckMenuComment checkMenuComment;
             List<CommentUnion> retVal = new List<CommentUnion>();
@@ -51,7 +53,7 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public String GetItemComment(Int32 parentId, Common.CommentType type, Int32 customerId) {
+        public String GetItemComment(Int32 parentId, CommonUnit.CommentType type, Int32 customerId) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             String[] query = (from com in db.Comments
                               join cmc in db.CheckMenuComments on com.id equals cmc.CommentId
@@ -78,7 +80,7 @@ namespace MenuzRus {
             return query.id;
         }
 
-        public Int32 SaveComment(Int32 id, Int32 parentId, Common.CommentType type) {
+        public Int32 SaveComment(Int32 id, Int32 parentId, CommonUnit.CommentType type) {
             CheckMenuComment query = new CheckMenuComment();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -93,10 +95,15 @@ namespace MenuzRus {
             }
             return query.id;
         }
+
+        #endregion Public Methods
     }
 }
 
 public class CommentUnion {
+
+    #region Public Properties
+
     public String CommentText { get; set; }
 
     public Int32 id { get; set; }
@@ -104,4 +111,6 @@ public class CommentUnion {
     public Int32 ParentId { get; set; }
 
     public Boolean Selected { get; set; }
+
+    #endregion Public Properties
 }

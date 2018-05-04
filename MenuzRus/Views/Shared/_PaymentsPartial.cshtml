@@ -55,7 +55,7 @@
         <div data-value="@payment.id" class="clearfix">
             @{
         String _cc;
-        String _class = ((Common.Payments)payment.Type).ToString().ToLower();
+        String _class = ((CommonUnit.Payments)payment.Type).ToString().ToLower();
         String _card = payment.PaymentCCs.Select(m => m.Number).FirstOrDefault();
         String _name = String.Format("{0} {1}", payment.PaymentCCs.Select(m => m.FirstName).FirstOrDefault(), payment.PaymentCCs.Select(m => m.LastName).FirstOrDefault());
         String _exp = String.Format("{0}/{1}", payment.PaymentCCs.Select(m => m.ExpiredMonth).FirstOrDefault(), payment.PaymentCCs.Select(m => m.ExpiredYear).FirstOrDefault());
@@ -96,7 +96,7 @@
 <div class="modal-footer" style="text-align: left! important;">
     <div class="footerItem col-md-1">Pay: </div>
     <div id="checkAmount" class="footerItem col-md-2">0.00</div>
-     <div class="footerItem col-md-1"></div>
+    <div class="footerItem col-md-1"></div>
     <div class="footerItem col-md-1">Owe:</div>
     <div id="payAmount" class="footerItem col-md-2">0.00</div>
     <div class="footerItem col-md-1">Paid:</div>

@@ -652,9 +652,9 @@
     <Content Include="Views\Shared\_RegisterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\CommonUnit.csproj">
       <Project>{cc5d0c80-9b30-4958-ab58-bc3e1939f91f}</Project>
-      <Name>Common</Name>
+      <Name>CommonUnit</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{7BEEB995-F97F-4B1B-9008-A3439445C624}</Project>

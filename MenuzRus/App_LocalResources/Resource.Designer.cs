@@ -61,6 +61,78 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string CATEGORY_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("CATEGORY_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category Name.
+        /// </summary>
+        public static string CATEGORY_NAME {
+            get {
+                return ResourceManager.GetString("CATEGORY_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string CATEGORY_STATUS {
+            get {
+                return ResourceManager.GetString("CATEGORY_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Category.
+        /// </summary>
+        public static string CATEGORY_TITLE {
+            get {
+                return ResourceManager.GetString("CATEGORY_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string CATEGORY_TYPE {
+            get {
+                return ResourceManager.GetString("CATEGORY_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new.
+        /// </summary>
+        public static string COMMENTS_ADD_NEW {
+            get {
+                return ResourceManager.GetString("COMMENTS_ADD_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter comment.
+        /// </summary>
+        public static string COMMENTS_ENTER_COMMENT {
+            get {
+                return ResourceManager.GetString("COMMENTS_ENTER_COMMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string COMMENTS_TITLE {
+            get {
+                return ResourceManager.GetString("COMMENTS_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string COMMON_ALL {
@@ -111,6 +183,321 @@ namespace Resources {
         public static string COMMON_TABLES {
             get {
                 return ResourceManager.GetString("COMMON_TABLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string CUSTOMER_ADDRESS {
+            get {
+                return ResourceManager.GetString("CUSTOMER_ADDRESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business address.
+        /// </summary>
+        public static string CUSTOMER_ADDRESS_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_ADDRESS_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string CUSTOMER_CITY {
+            get {
+                return ResourceManager.GetString("CUSTOMER_CITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business city.
+        /// </summary>
+        public static string CUSTOMER_CITY_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_CITY_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string CUSTOMER_COMPANY {
+            get {
+                return ResourceManager.GetString("CUSTOMER_COMPANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business company name.
+        /// </summary>
+        public static string CUSTOMER_COMPANY_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_COMPANY_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kitchen Printer.
+        /// </summary>
+        public static string CUSTOMER_KITCHEN_PRINTER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_KITCHEN_PRINTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string CUSTOMER_LANGUAGE {
+            get {
+                return ResourceManager.GetString("CUSTOMER_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modules.
+        /// </summary>
+        public static string CUSTOMER_MODULES {
+            get {
+                return ResourceManager.GetString("CUSTOMER_MODULES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        public static string CUSTOMER_PHONE {
+            get {
+                return ResourceManager.GetString("CUSTOMER_PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business phone number.
+        /// </summary>
+        public static string CUSTOMER_PHONE_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_PHONE_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POS Printer.
+        /// </summary>
+        public static string CUSTOMER_POS_PRINTER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_POS_PRINTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string CUSTOMER_STATE {
+            get {
+                return ResourceManager.GetString("CUSTOMER_STATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General information.
+        /// </summary>
+        public static string CUSTOMER_TAB_INFORMATION {
+            get {
+                return ResourceManager.GetString("CUSTOMER_TAB_INFORMATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modules.
+        /// </summary>
+        public static string CUSTOMER_TAB_MODULES {
+            get {
+                return ResourceManager.GetString("CUSTOMER_TAB_MODULES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string CUSTOMER_TAB_SETTINGS {
+            get {
+                return ResourceManager.GetString("CUSTOMER_TAB_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tax.
+        /// </summary>
+        public static string CUSTOMER_TAX {
+            get {
+                return ResourceManager.GetString("CUSTOMER_TAX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company form.
+        /// </summary>
+        public static string CUSTOMER_TITLE {
+            get {
+                return ResourceManager.GetString("CUSTOMER_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zip.
+        /// </summary>
+        public static string CUSTOMER_ZIP {
+            get {
+                return ResourceManager.GetString("CUSTOMER_ZIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your business zip.
+        /// </summary>
+        public static string CUSTOMER_ZIP_PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("CUSTOMER_ZIP_PLACEHOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change name.
+        /// </summary>
+        public static string FLOOR_CHANGE_NAME {
+            get {
+                return ResourceManager.GetString("FLOOR_CHANGE_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change shape.
+        /// </summary>
+        public static string FLOOR_CHANGE_SHAPE {
+            get {
+                return ResourceManager.GetString("FLOOR_CHANGE_SHAPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete floor.
+        /// </summary>
+        public static string FLOOR_DELETE {
+            get {
+                return ResourceManager.GetString("FLOOR_DELETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit floor.
+        /// </summary>
+        public static string FLOOR_EDIT {
+            get {
+                return ResourceManager.GetString("FLOOR_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter table dsescription.
+        /// </summary>
+        public static string FLOOR_ENTER_TABLE_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("FLOOR_ENTER_TABLE_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter table name.
+        /// </summary>
+        public static string FLOOR_ENTER_TABLE_NAME {
+            get {
+                return ResourceManager.GetString("FLOOR_ENTER_TABLE_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floors:.
+        /// </summary>
+        public static string FLOOR_FLOORS {
+            get {
+                return ResourceManager.GetString("FLOOR_FLOORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New floor.
+        /// </summary>
+        public static string FLOOR_NEW {
+            get {
+                return ResourceManager.GetString("FLOOR_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Circle.
+        /// </summary>
+        public static string FLOOR_TABLE_CIRCLE {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_CIRCLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit table.
+        /// </summary>
+        public static string FLOOR_TABLE_EDIT {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filler.
+        /// </summary>
+        public static string FLOOR_TABLE_FILLER {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_FILLER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Round.
+        /// </summary>
+        public static string FLOOR_TABLE_ROUND {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_ROUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table shape:.
+        /// </summary>
+        public static string FLOOR_TABLE_SHAPE {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_SHAPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Square.
+        /// </summary>
+        public static string FLOOR_TABLE_SQUARE {
+            get {
+                return ResourceManager.GetString("FLOOR_TABLE_SQUARE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floor setup.
+        /// </summary>
+        public static string FLOOR_TITLE {
+            get {
+                return ResourceManager.GetString("FLOOR_TITLE", resourceCulture);
             }
         }
         

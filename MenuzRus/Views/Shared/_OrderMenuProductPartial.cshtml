@@ -3,7 +3,7 @@
 @foreach (MenuzRus.Models.CheckMenuItemProduct itemProduct in Model.OrderBy(m => m.Type)) {
     String objectType = "checkbox";
     String pannelClass = "alert-success";
-    if (itemProduct.Type == Common.ProductType.Alternatives) {
+    if (itemProduct.Type == CommonUnit.ProductType.Alternatives) {
         objectType = "radio";
         pannelClass = "alert-info";
     }

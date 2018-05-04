@@ -13,7 +13,7 @@
     </div>
     <div id="category-@category.id" style="display:none">
         <div class="panel associationItem alert-success" data-toggle="buttons">
-            @foreach (Services.Item item in category.Items.Where(m => m.Status != (Int32)Common.Status.NotActive)) {
+            @foreach (Services.Item item in category.Items.Where(m => m.Status != (Int32)CommonUnit.Status.NotActive)) {
                 Decimal price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                 String selected = String.Empty;
                 if (Model.Selected.Any(m => m.ItemId == item.id)) {

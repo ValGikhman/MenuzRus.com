@@ -12,17 +12,28 @@ using Services;
 namespace MenuzRus {
 
     public class CommentsController : BaseController {
+
+        #region Private Fields
+
         private ICommentService _commentService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public CommentsController(ISessionData sessionData, ICommentService commentService)
             : base(sessionData) {
             _commentService = commentService;
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [HttpPost]
         public ActionResult DeleteComment(Int32 id, Int32 parentId, String type) {
             try {
-                _commentService.DeleteComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
+                _commentService.DeleteComment(id, parentId, EnumHelper<CommonUnit.CommentType>.Parse(type));
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -36,7 +47,7 @@ namespace MenuzRus {
 
         [HttpGet]
         public String GetComments(Int32 parentId, String type) {
-            return RenderViewToString(this.ControllerContext, "_CommentsPartial", GetModel(parentId, EnumHelper<Common.CommentType>.Parse(type)));
+            return RenderViewToString(this.ControllerContext, "_CommentsPartial", GetModel(parentId, EnumHelper<CommonUnit.CommentType>.Parse(type)));
         }
 
         [HttpPost]
@@ -54,7 +65,7 @@ namespace MenuzRus {
         [HttpPost]
         public void SaveComment(Int32 id, Int32 parentId, String type) {
             try {
-                _commentService.SaveComment(id, parentId, EnumHelper<Common.CommentType>.Parse(type));
+                _commentService.SaveComment(id, parentId, EnumHelper<CommonUnit.CommentType>.Parse(type));
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -63,7 +74,11 @@ namespace MenuzRus {
             }
         }
 
-        private CommentsModel GetModel(Int32 parentId, Common.CommentType type) {
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private CommentsModel GetModel(Int32 parentId, CommonUnit.CommentType type) {
             CommentsModel model = new CommentsModel();
             model.Comments = new List<Models.Comment>();
 
@@ -87,5 +102,7 @@ namespace MenuzRus {
 
             return model;
         }
+
+        #endregion Private Methods
     }
 }

@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelMenu" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                <button id="btnSaveMenu" type="button" class="btn btn-success btn-lg">Save changes</button>
+                <button id="btnCancelMenu" type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+                <button id="btnSaveMenu" type="button" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
             </div>
         </div>
     </div>
@@ -91,8 +91,8 @@
             }
         </div>
         <div class="tab-pane fade in" id="settingsTab">
-            @foreach (Common.SettingsItems item in Enum.GetValues(typeof(Common.SettingsItems))) {
-                var description = EnumHelper<Common.SettingsItems>.GetDisplayValue(item);
+            @foreach (CommonUnit.SettingsItems item in Enum.GetValues(typeof(CommonUnit.SettingsItems))) {
+                var description = EnumHelper<CommonUnit.SettingsItems>.GetDisplayValue(item);
                 var kolor = Model.Settings[String.Format("{0}{1}", item.ToString(), "Color")];
                 var fontsize = Model.Settings[String.Format("{0}{1}", item.ToString(), "FontSize")];
                 <div class="row settings">
@@ -183,16 +183,16 @@
 </div>
 @Html.HiddenFor(m => m.Menu.id)
 @Html.HiddenFor(m => m.Menu.Name)
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PageBackground.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PriceColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ShowHiddenItems.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PageBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PriceColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PriceFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.WallBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ShowHiddenItems.ToString()])

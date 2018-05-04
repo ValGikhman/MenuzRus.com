@@ -26,7 +26,7 @@
                 </div>
                 <div class="rm-back">
                     <div class="rm-content">
-                        @ShowPage(Model, Common.Side.Left)
+                        @ShowPage(Model, CommonUnit.Side.Left)
                     </div>
                     <div class="rm-overlay">
                     </div>
@@ -35,7 +35,7 @@
             <div class="rm-middle">
                 <div class="rm-inner">
                     <div class="rm-content">
-                        @ShowPage(Model, Common.Side.Center)
+                        @ShowPage(Model, CommonUnit.Side.Center)
                     </div>
                     <div class="rm-overlay">
                     </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="rm-back">
                     <div class="rm-content">
-                        @ShowPage(Model, Common.Side.Right)
+                        @ShowPage(Model, CommonUnit.Side.Right)
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
     </div>
 </div>
 
-@helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, Common.Side side) {
+@helper ShowPage(MenuzRus.Models.MenuDesignerModel Model, CommonUnit.Side side) {
     <div class="category-group">
         @foreach (MenuzRus.Models.Category category in Model.MenuCategories.Where(m => m.Side == side).ToList()) {
             if (!String.IsNullOrEmpty(category.Name)) {
@@ -94,19 +94,19 @@
     </div>
 }
 
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryDescriptionFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.CategoryFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemDescriptionFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ItemFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PageBackground.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PriceColor.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.PriceFontSize.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.WallBackground.ToString()])
-@Html.HiddenFor(m => m.Settings[Common.Settings.ShowHiddenItems.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.CategoryFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemDescriptionColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemDescriptionFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ItemFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PageBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PriceColor.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.PriceFontSize.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.WallBackground.ToString()])
+@Html.HiddenFor(m => m.Settings[CommonUnit.Settings.ShowHiddenItems.ToString()])
 
 <script src="@Url.Content("~/Scripts/JQuery/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/JQuery/jquery.validate.min.js")" type="text/javascript"></script>
@@ -114,11 +114,11 @@
 <script type="text/javascript">
     $(function () {
         Menu.init();
-        var url = "@Url.Content(String.Format("~/Images/Backgrounds/Pages/{0}", Model.Settings[Common.Settings.PageBackground.ToString()]))";
+        var url = "@Url.Content(String.Format("~/Images/Backgrounds/Pages/{0}", Model.Settings[CommonUnit.Settings.PageBackground.ToString()]))";
         var bg = "url(" + url + ") no-repeat";
         $(".rm-wrapper > div > div").css("background", bg);
 
-        url = "@Url.Content(String.Format("~/Images/Backgrounds/Wall/{0}", Model.Settings[Common.Settings.WallBackground.ToString()]))";
+        url = "@Url.Content(String.Format("~/Images/Backgrounds/Wall/{0}", Model.Settings[CommonUnit.Settings.WallBackground.ToString()]))";
         bg = "url(" + url + ") repeat";
         $("body").css("background", bg)
 

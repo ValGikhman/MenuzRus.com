@@ -11,7 +11,7 @@
             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_LAST_NAME, required = "" })
             @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_WORK_PHONE, required = "", pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
             @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_MOBILE_PHONE, pattern = Extensions.RegexPattern.PHONE_NUMBER, type = "phone" })
-            @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(Common.UserType))), new { @class = "form-control input-sm shadow" })
+            @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(CommonUnit.UserType))), new { @class = "form-control input-sm shadow" })
             @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_EMAIL, required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
             @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_PASSWORD, required = "", type = "password" })
             @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_CONFIRM_PASSWORD, required = "", type = "password" })

@@ -10,6 +10,8 @@ namespace MenuzRus {
 
     public class FloorService : BaseService, IFloorService {
 
+        #region Public Methods
+
         public Boolean DeleteFloor(Int32? id) {
             Floor query = new Floor();
             id = id.HasValue ? id : 0;
@@ -38,7 +40,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Tables.FirstOrDefault(m => m.id == id);
                     if (query != default(Table)) {
-                        query.Status = (Int32)Common.Status.NotActive;
+                        query.Status = (Int32)CommonUnit.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -83,12 +85,12 @@ namespace MenuzRus {
             if (tableOrder != default(TableOrder)) {
                 return tableOrder.Status;
             }
-            return (Int32)Common.TableOrderStatus.Closed;
+            return (Int32)CommonUnit.TableOrderStatus.Closed;
         }
 
         public List<Table> GetTables(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            return db.Tables.Where(m => m.FloorId == id && m.Status == (Int32)Common.Status.Active).ToList();
+            return db.Tables.Where(m => m.FloorId == id && m.Status == (Int32)CommonUnit.Status.Active).ToList();
         }
 
         public Int32 SaveFloor(Floor floor) {
@@ -137,7 +139,7 @@ namespace MenuzRus {
                             table.FloorId = floorId;
                             table.Name = t.Name;
                             table.Left = t.Left;
-                            table.Status = (Int32)Common.Status.Active;
+                            table.Status = (Int32)CommonUnit.Status.Active;
                             table.Type = t.Type;
                             table.Width = t.Width;
                             table.Height = t.Height;
@@ -154,5 +156,7 @@ namespace MenuzRus {
             }
             return true;
         }
+
+        #endregion Public Methods
     }
 }

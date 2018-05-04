@@ -24,7 +24,7 @@
                             if (Model.ItemInventoryAssociation.Any(m => m.id == itemInventoryAssociation.id && m.AssociatedItemId == item.id)) {
                                 select = "selected";
                             }
-                            <option id="item.@item.id" value="@item.id" @select>@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>
+                            <option id="item.@item.id" value="@item.id" @select>@String.Format("{0} : ({1})", item.Name, (CommonUnit.UOM)item.UOM)</option>
                         }
                     </optgroup>
                 }
@@ -37,8 +37,8 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveInventoryItems()">Save changes</button>
+    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveInventoryItems()">@Resources.Resource.COMMON_SAVE_CHANGES</button>
 </div>
 <div class="hide">
     <div class="items template">
@@ -48,7 +48,7 @@
                 <option value=""></option>
                 <optgroup label="@category.Name">
                     @foreach (Services.Item item in category.Items) {
-                        <option value="@item.id">@String.Format("{0} : ({1})", item.Name, (Common.UOM)item.UOM)</option>
+                        <option value="@item.id">@String.Format("{0} : ({1})", item.Name, (CommonUnit.UOM)item.UOM)</option>
                     }
                 </optgroup>
             }

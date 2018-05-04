@@ -52,23 +52,23 @@ namespace MenuzRus {
 
         Decimal LatestSale();
 
-        void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type);
+        void SaveItem(Int32 productId, Int32 knopaId, CommonUnit.ProductType type);
 
         ChecksMenu SaveMenuItem(Item menuItem, Int32 tableId, Int32 orderId, Int32 userId);
 
         Int32 SavePayment(Payment payment, PaymentCC paymentCC, Int32 UserId);
 
-        Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status);
+        Boolean UpdateCheckStatus(Int32 checkId, CommonUnit.CheckStatus status);
 
         Boolean UpdateCheckStatusPaid(Int32 checkId, Decimal price, Decimal tax, Decimal adjustment);
 
-        Boolean UpdateCheckType(Int32 checkId, Common.CheckType type);
+        Boolean UpdateCheckType(Int32 checkId, CommonUnit.CheckType type);
 
         Boolean UpdateKitchenOrderPrintStatus(Int32 id);
 
-        void UpdateMenuItemStatus(Int32 id, Common.MenuItemStatus status);
+        void UpdateMenuItemStatus(Int32 id, CommonUnit.MenuItemStatus status);
 
-        Boolean UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status);
+        Boolean UpdateTableStatus(Int32 tableOrderId, CommonUnit.TableOrderStatus status);
 
         #endregion Public Methods
     }

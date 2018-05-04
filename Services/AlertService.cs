@@ -48,7 +48,7 @@ namespace Services {
                       join checkMenu in db.ChecksMenus on check.id equals checkMenu.CheckId
                       join alert in db.Alerts on checkMenu.id equals alert.CheckMenuId
                       where check.UserId == userId
-                        && alert.Status == (Int32)Common.Status.Active
+                        && alert.Status == (Int32)CommonUnit.Status.Active
                       select alert).ToList();
 
             return alerts;

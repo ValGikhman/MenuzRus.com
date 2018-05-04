@@ -30,7 +30,7 @@
                 <ul id="categoryType" class="dropdown-menu alert-warning" role="menu">
                     <li class="dropdown-header">Item type:</li>
                     <li role="separator" class="divider"></li>
-                    @foreach (Common.CategoryType type in (Common.CategoryType[])Enum.GetValues(typeof(Common.CategoryType))) {
+                    @foreach (CommonUnit.CategoryType type in (CommonUnit.CategoryType[])Enum.GetValues(typeof(CommonUnit.CategoryType))) {
                         Int32 value = (Int32)type;
                         <li data-text="@type" data-value="@value"><a href="#">@type</a></li>
                     }

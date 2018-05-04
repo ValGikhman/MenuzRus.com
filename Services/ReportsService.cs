@@ -81,9 +81,9 @@ namespace Services {
                               TotalTotal = price * ib.Saldo
                           }).ToList();
 
-                // LINQ does not understand EnumHelper<Common.UOM>.Parse - need to do it manually
+                // LINQ does not understand EnumHelper<CommonUnit.UOM>.Parse - need to do it manually
                 foreach (Services.ReportsService.InventoryRecord var in retVal) {
-                    var.Item = String.Format("{0} ({1})", var.Item, EnumHelper<Common.UOM>.Parse(var.UOM).ToString());
+                    var.Item = String.Format("{0} ({1})", var.Item, EnumHelper<CommonUnit.UOM>.Parse(var.UOM).ToString());
                 }
 
                 return retVal;

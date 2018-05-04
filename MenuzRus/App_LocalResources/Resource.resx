@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CATEGORY_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CATEGORY_NAME" xml:space="preserve">
+    <value>Category Name</value>
+  </data>
+  <data name="CATEGORY_STATUS" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CATEGORY_TITLE" xml:space="preserve">
+    <value>Edit Category</value>
+  </data>
+  <data name="CATEGORY_TYPE" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="COMMENTS_ADD_NEW" xml:space="preserve">
+    <value>Add new</value>
+  </data>
+  <data name="COMMENTS_ENTER_COMMENT" xml:space="preserve">
+    <value>Enter comment</value>
+  </data>
+  <data name="COMMENTS_TITLE" xml:space="preserve">
+    <value>Comments</value>
+  </data>
   <data name="COMMON_ALL" xml:space="preserve">
     <value>All</value>
   </data>
@@ -134,6 +158,111 @@
   </data>
   <data name="COMMON_TABLES" xml:space="preserve">
     <value>Tables</value>
+  </data>
+  <data name="CUSTOMER_ADDRESS" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="CUSTOMER_ADDRESS_PLACEHOLDER" xml:space="preserve">
+    <value>Enter your business address</value>
+  </data>
+  <data name="CUSTOMER_CITY" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CUSTOMER_CITY_PLACEHOLDER" xml:space="preserve">
+    <value>Enter your business city</value>
+  </data>
+  <data name="CUSTOMER_COMPANY" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="CUSTOMER_COMPANY_PLACEHOLDER" xml:space="preserve">
+    <value>Enter your business company name</value>
+  </data>
+  <data name="CUSTOMER_KITCHEN_PRINTER" xml:space="preserve">
+    <value>Kitchen Printer</value>
+  </data>
+  <data name="CUSTOMER_LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="CUSTOMER_MODULES" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="CUSTOMER_PHONE" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="CUSTOMER_PHONE_PLACEHOLDER" xml:space="preserve">
+    <value>Enter your business phone number</value>
+  </data>
+  <data name="CUSTOMER_POS_PRINTER" xml:space="preserve">
+    <value>POS Printer</value>
+  </data>
+  <data name="CUSTOMER_STATE" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="CUSTOMER_TAB_INFORMATION" xml:space="preserve">
+    <value>General information</value>
+  </data>
+  <data name="CUSTOMER_TAB_MODULES" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="CUSTOMER_TAB_SETTINGS" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="CUSTOMER_TAX" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="CUSTOMER_TITLE" xml:space="preserve">
+    <value>Company form</value>
+  </data>
+  <data name="CUSTOMER_ZIP" xml:space="preserve">
+    <value>Zip</value>
+  </data>
+  <data name="CUSTOMER_ZIP_PLACEHOLDER" xml:space="preserve">
+    <value>Enter your business zip</value>
+  </data>
+  <data name="FLOOR_CHANGE_NAME" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="FLOOR_CHANGE_SHAPE" xml:space="preserve">
+    <value>Change shape</value>
+  </data>
+  <data name="FLOOR_DELETE" xml:space="preserve">
+    <value>Delete floor</value>
+  </data>
+  <data name="FLOOR_EDIT" xml:space="preserve">
+    <value>Edit floor</value>
+  </data>
+  <data name="FLOOR_ENTER_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>Enter table dsescription</value>
+  </data>
+  <data name="FLOOR_ENTER_TABLE_NAME" xml:space="preserve">
+    <value>Enter table name</value>
+  </data>
+  <data name="FLOOR_FLOORS" xml:space="preserve">
+    <value>Floors:</value>
+  </data>
+  <data name="FLOOR_NEW" xml:space="preserve">
+    <value>New floor</value>
+  </data>
+  <data name="FLOOR_TABLE_CIRCLE" xml:space="preserve">
+    <value>Circle</value>
+  </data>
+  <data name="FLOOR_TABLE_EDIT" xml:space="preserve">
+    <value>Edit table</value>
+  </data>
+  <data name="FLOOR_TABLE_FILLER" xml:space="preserve">
+    <value>Filler</value>
+  </data>
+  <data name="FLOOR_TABLE_ROUND" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="FLOOR_TABLE_SHAPE" xml:space="preserve">
+    <value>Table shape:</value>
+  </data>
+  <data name="FLOOR_TABLE_SQUARE" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="FLOOR_TITLE" xml:space="preserve">
+    <value>Floor setup</value>
   </data>
   <data name="LOGIN_BUTTON_REGISTER" xml:space="preserve">
     <value>Register</value>

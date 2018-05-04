@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using MenuzRus.Models;
@@ -7,8 +6,15 @@ using MenuzRus.Models;
 namespace MenuzRus.Controllers {
 
     public class MenuController : BaseController {
+
+        #region Private Fields
+
         private ICategoryService _categoryService;
         private ISettingsService _settingsService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public MenuController(ISessionData sessionData, ICategoryService categoryService, ISettingsService settingsService)
             : base(sessionData) {
@@ -16,10 +22,16 @@ namespace MenuzRus.Controllers {
             _settingsService = settingsService;
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [CheckUserSession]
         public ActionResult Index(Int32? id) {
             return View(GetModel(id));
         }
+
+        #endregion Public Methods
 
         #region private
 
@@ -35,65 +47,65 @@ namespace MenuzRus.Controllers {
                 }
 
                 model.Menu.id = id.HasValue ? id.Value : 1;
-                //model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                //model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, CommonUnit.CategoryType.Menu);
 
                 model.Settings = _settingsService.GetSettings(model.MyCompany.id);
                 model.Settings = _settingsService.GetSettings(SessionData.customer.id);
 
                 // Backgrounds
-                if (!model.Settings.ContainsKey(Common.Settings.PageBackground.ToString())) {
-                    model.Settings.Add(Common.Settings.PageBackground.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.PageBackground.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.PageBackground.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.WallBackground.ToString())) {
-                    model.Settings.Add(Common.Settings.WallBackground.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.WallBackground.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.WallBackground.ToString(), "");
                 }
 
                 //Color
-                if (!model.Settings.ContainsKey(Common.Settings.CategoryColor.ToString())) {
-                    model.Settings.Add(Common.Settings.CategoryColor.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.CategoryColor.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.CategoryColor.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.CategoryDescriptionColor.ToString())) {
-                    model.Settings.Add(Common.Settings.CategoryDescriptionColor.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.CategoryDescriptionColor.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.CategoryDescriptionColor.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.ItemColor.ToString())) {
-                    model.Settings.Add(Common.Settings.ItemColor.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.ItemColor.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.ItemColor.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.ItemDescriptionColor.ToString())) {
-                    model.Settings.Add(Common.Settings.ItemDescriptionColor.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.ItemDescriptionColor.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.ItemDescriptionColor.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.PriceColor.ToString())) {
-                    model.Settings.Add(Common.Settings.PriceColor.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.PriceColor.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.PriceColor.ToString(), "");
                 }
 
                 //Font Size
-                if (!model.Settings.ContainsKey(Common.Settings.CategoryFontSize.ToString())) {
-                    model.Settings.Add(Common.Settings.CategoryFontSize.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.CategoryFontSize.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.CategoryFontSize.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.CategoryDescriptionFontSize.ToString())) {
-                    model.Settings.Add(Common.Settings.CategoryDescriptionFontSize.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.CategoryDescriptionFontSize.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.CategoryDescriptionFontSize.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.ItemFontSize.ToString())) {
-                    model.Settings.Add(Common.Settings.ItemFontSize.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.ItemFontSize.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.ItemFontSize.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.ItemDescriptionFontSize.ToString())) {
-                    model.Settings.Add(Common.Settings.ItemDescriptionFontSize.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.ItemDescriptionFontSize.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.ItemDescriptionFontSize.ToString(), "");
                 }
 
-                if (!model.Settings.ContainsKey(Common.Settings.PriceFontSize.ToString())) {
-                    model.Settings.Add(Common.Settings.PriceFontSize.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.PriceFontSize.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.PriceFontSize.ToString(), "");
                 }
 
                 // Others
-                if (!model.Settings.ContainsKey(Common.Settings.ShowHiddenItems.ToString())) {
-                    model.Settings.Add(Common.Settings.ShowHiddenItems.ToString(), "");
+                if (!model.Settings.ContainsKey(CommonUnit.Settings.ShowHiddenItems.ToString())) {
+                    model.Settings.Add(CommonUnit.Settings.ShowHiddenItems.ToString(), "");
                 }
 
                 if (System.IO.Directory.Exists(wallDir)) {

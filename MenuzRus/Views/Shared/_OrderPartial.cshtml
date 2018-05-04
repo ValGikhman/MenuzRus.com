@@ -6,7 +6,7 @@
         foreach (MenuzRus.Models.Check check in Model.Checks) {
         <li><a href="@String.Format("#Check{0}", check.id)" data-value="@check.id" data-type="@check.Type" data-status="@check.Status" data-toggle="pill">
             @String.Format("#{0}", check.id)
-            @if (check.Status == Common.CheckStatus.Ordered) {
+            @if (check.Status == CommonUnit.CheckStatus.Ordered) {
                 <i class="glyphicon glyphicon-usd paid" />
             }
         </a></li>

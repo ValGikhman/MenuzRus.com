@@ -14,16 +14,16 @@
             <div id="floorEditForm" class="modal-body">
                 <div class="container">
                     <div class="row">
-                        @Html.TextBoxFor(m => m.Floor.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = "Enter new floor name" })
+                        @Html.TextBoxFor(m => m.Floor.Name, new { @class = "form-control input-sm shadow col-md-3", required = "", placeholder = @Resources.Resource.FLOOR_ENTER_TABLE_NAME })
                     </div>
                     <div class="row">
-                        @Html.TextAreaFor(m => m.Floor.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Item Name Description", type = "text" })
+                        @Html.TextAreaFor(m => m.Floor.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = @Resources.Resource.FLOOR_ENTER_TABLE_DESCRIPTION, type = "text" })
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelFloor" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                <button id="btnSaveFloor" type="button" class="btn btn-success btn-lg">Save changes</button>
+                <button id="btnCancelFloor" type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CANCEL</button>
+                <button id="btnSaveFloor" type="button" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
             </div>
         </div>
     </div>
@@ -42,23 +42,23 @@
                     <div class="row">
                         @{
                             List<SelectListItem> list = new List<SelectListItem>();
-                            list.Add(new SelectListItem() { Text = "Square", Value = "square" });
-                            list.Add(new SelectListItem() { Text = "Circle", Value = "circle" });
-                            list.Add(new SelectListItem() { Text = "Round", Value = "round" });
-                            list.Add(new SelectListItem() { Text = "Filler", Value = "filler" });
+                            list.Add(new SelectListItem() { Text = @Resources.Resource.FLOOR_TABLE_SQUARE, Value = "square" });
+                            list.Add(new SelectListItem() { Text = @Resources.Resource.FLOOR_TABLE_CIRCLE, Value = "circle" });
+                            list.Add(new SelectListItem() { Text = @Resources.Resource.FLOOR_TABLE_ROUND, Value = "round" });
+                            list.Add(new SelectListItem() { Text = @Resources.Resource.FLOOR_TABLE_FILLER, Value = "filler" });
                         }
 
-                        @Html.Label("Change shape")
+                        @Html.Label(@Resources.Resource.FLOOR_CHANGE_SHAPE)
                         @Html.DropDownList("ddlShape", list, new { @class = "form-control input-sm shadow" })
                         <br />
-                        @Html.Label("Change table name")
-                        @Html.TextBox("TableName", "", new { @class = "form-control input-sm shadow", required = "", placeholder = "Enter new table ID" })
+                        @Html.Label(@Resources.Resource.FLOOR_CHANGE_NAME)
+                        @Html.TextBox("TableName", "", new { @class = "form-control input-sm shadow", required = "", placeholder = @Resources.Resource.FLOOR_ENTER_TABLE_NAME })
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelTable" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-                <button id="btnSaveTable" type="button" class="btn btn-success btn-lg">Save</button>
+                <button id="btnCancelTable" type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+                <button id="btnSaveTable" type="button" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
             </div>
         </div>
     </div>
@@ -66,12 +66,12 @@
 
 <div class="well container container-floor shadow">
     <div class="modal-header main-header">
-        <h2>Floor Setup</h2>
-            <div class="clearfix">
-                <div class="pull-right" style="margin-top: -50px;">
-                    <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right shadow">Save changes</button>
-                </div>
+        <h2>@Resources.Resource.FLOOR_TITLE</h2>
+        <div class="clearfix">
+            <div class="pull-right" style="margin-top: -50px;">
+                <button id="btnSave" type="button" class="btn btn-success btn-lg pull-right shadow">@Resources.Resource.COMMON_SAVE_CHANGES</button>
             </div>
+        </div>
     </div>
     <div id="default" style="margin-top: 20px;">
         <div class="btn-group pull-left addMenu">
@@ -79,19 +79,19 @@
                 <span class="glyphicon glyphicon-plus" style="left: 10px;">&nbsp;</span>
             </button>
             <ul class="dropdown-menu alert-warning" role="menu">
-                <li class="dropdown-header">Table shape:</li>
+                <li class="dropdown-header">@Resources.Resource.FLOOR_TABLE_SHAPE</li>
                 <li role="separator" class="divider"></li>
-                <li><a href="javascript:addNewTable('square')">Square</a></li>
-                <li><a href="javascript:addNewTable('circle')">Circle</a></li>
-                <li><a href="javascript:addNewTable('round')">Round</a></li>
+                <li><a href="javascript:addNewTable('square')">@Resources.Resource.FLOOR_TABLE_SQUARE</a></li>
+                <li><a href="javascript:addNewTable('circle')">@Resources.Resource.FLOOR_TABLE_CIRCLE</a></li>
+                <li><a href="javascript:addNewTable('round')">@Resources.Resource.FLOOR_TABLE_ROUND</a></li>
                 <li class="divider"></li>
-                <li><a href="javascript:addNewTable('filler')">Filler</a></li>
+                <li><a href="javascript:addNewTable('filler')">@Resources.Resource.FLOOR_TABLE_FILLER</a></li>
             </ul>
 
             <div class="floor dropdown">
                 <button id="btnFloor" type="button" class="btn alert-warning btn-lg" data-toggle="dropdown">@Model.Floor.Name&nbsp;</button>
                 <ul id="floor" class="dropdown-menu alert-warning" role="menu">
-                    <li class="dropdown-header">Floors:</li>
+                    <li class="dropdown-header">@Resources.Resource.FLOOR_FLOORS</li>
                     <li role="separator" class="divider"></li>
                     @foreach (Floor floor in Model.Floors) {
                         <li><a href="#" data-value="@floor.id">@floor.Name</a></li>
@@ -99,15 +99,15 @@
                 </ul>
             </div>
         </div>
-        <button id="btnNewFloor" type="button" class="btn btn-primary btn-md btn-lg shadow" style="margin-left: 10px;">New floor</button>
-        <button id="btnEditFloor" type="button" class="btn btn-primary btn-md btn-lg  shadow">Edit floor</button>
-        <button id="btnDeleteFloor" type="button" class="btn btn-danger btn-md shadow btn-lg">Delete floor</button>
+        <button id="btnNewFloor" type="button" class="btn btn-primary btn-md btn-lg shadow" style="margin-left: 10px;">@Resources.Resource.FLOOR_NEW</button>
+        <button id="btnEditFloor" type="button" class="btn btn-primary btn-md btn-lg  shadow">@Resources.Resource.FLOOR_EDIT</button>
+        <button id="btnDeleteFloor" type="button" class="btn btn-danger btn-md shadow btn-lg">@Resources.Resource.FLOOR_DELETE</button>
     </div>
     <div class="floorArea shadow">
         <ul id="tables">
         </ul>
     </div>
-    <a href="#">Tables <span class="tables badge"></span></a>
+    <a href="#">@Resources.Resource.COMMON_TABLES<span class="tables badge"></span></a>
 </div>
 
 @Html.HiddenFor(m => m.Floor.id)

@@ -115,9 +115,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\CommonUnit.csproj">
       <Project>{cc5d0c80-9b30-4958-ab58-bc3e1939f91f}</Project>
-      <Name>Common</Name>
+      <Name>CommonUnit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

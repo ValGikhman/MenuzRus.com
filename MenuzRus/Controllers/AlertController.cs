@@ -75,7 +75,7 @@ namespace MenuzRus {
             try {
                 alert = _alertService.GetAlert(id);
                 if (alert != null) {
-                    alert.Status = (Int32)Common.Status.NotActive;
+                    alert.Status = (Int32)CommonUnit.Status.NotActive;
                     _alertService.SaveAlert(alert);
                 }
                 alertsCount = _alertService.GetAlertsCount(SessionData.user.id);
@@ -90,12 +90,12 @@ namespace MenuzRus {
         public void SaveAlert(Int32 checkMenuId, Boolean state) {
             Alert alert = new Alert();
             try {
-                alert.Status = (Int32)Common.Status.Active;
+                alert.Status = (Int32)CommonUnit.Status.Active;
                 alert.CheckMenuId = checkMenuId;
                 if (!state) {
-                    alert.Status = (Int32)Common.Status.NotActive;
+                    alert.Status = (Int32)CommonUnit.Status.NotActive;
                 }
-                alert.Type = (Int32)Common.Alert.DishIsReady;
+                alert.Type = (Int32)CommonUnit.Alert.DishIsReady;
                 _alertService.SaveAlert(alert);
             }
             catch (Exception ex) {

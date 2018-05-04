@@ -13,18 +13,18 @@ namespace Services {
         #region public
 
         public void Log(Exception exception, Int32 userId, String sessionId) {
-            Log(Common.LogType.Exception, userId, sessionId, String.Format("{1}{0}{2}{0}{3}", Environment.NewLine, exception.Message, "*****", exception.StackTrace));
+            Log(CommonUnit.LogType.Exception, userId, sessionId, String.Format("{1}{0}{2}{0}{3}", Environment.NewLine, exception.Message, "*****", exception.StackTrace));
         }
 
-        public void Log(Common.LogType logType, Int32 userId, String sessionId, params Object[] data) {
+        public void Log(CommonUnit.LogType logType, Int32 userId, String sessionId, params Object[] data) {
             SendToLogger(logType, userId, sessionId, null, null, data);
         }
 
-        public void Log(Common.LogType logType, Int32 userId, String sessionId, String trace, params Object[] data) {
+        public void Log(CommonUnit.LogType logType, Int32 userId, String sessionId, String trace, params Object[] data) {
             SendToLogger(logType, userId, sessionId, trace, null, data);
         }
 
-        public void Log(Common.LogType logType, Int32 userId, String sessionId, String trace, String route, params Object[] data) {
+        public void Log(CommonUnit.LogType logType, Int32 userId, String sessionId, String trace, String route, params Object[] data) {
             SendToLogger(logType, userId, sessionId, trace, route, data);
         }
 
@@ -62,11 +62,11 @@ namespace Services {
             return parameter;
         }
 
-        private void SendToLogger(Common.LogType type, Int32 userId, String sessionId, String trace, String route, params Object[] data) {
+        private void SendToLogger(CommonUnit.LogType type, Int32 userId, String sessionId, String trace, String route, params Object[] data) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     Log log = new Log();
-                    log.IP = Common.GetIP();
+                    log.IP = CommonUnit.GetIP();
                     log.LogType = (Int32)type;
                     log.UserId = userId;
                     log.SessionId = sessionId != null ? sessionId : "N/A";

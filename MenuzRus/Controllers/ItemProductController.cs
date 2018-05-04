@@ -12,9 +12,16 @@ using Services;
 namespace MenuzRus.Controllers {
 
     public class ItemProductController : BaseController {
+
+        #region Private Fields
+
         private ICategoryService _categoryService;
         private IItemProductService _itemProductService;
         private IItemService _itemService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ItemProductController(ISessionData sessionData, IItemProductService itemProductService, ICategoryService categoryService, IItemService itemService)
             : base(sessionData) {
@@ -23,6 +30,8 @@ namespace MenuzRus.Controllers {
             _itemService = itemService;
         }
 
+        #endregion Public Constructors
+
         #region item
 
         [HttpGet]
@@ -30,7 +39,7 @@ namespace MenuzRus.Controllers {
             DesignerModel model = new DesignerModel();
             try {
                 SessionData.item = _itemService.GetItem(id);
-                model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Product);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, CommonUnit.CategoryType.Product);
                 model.ItemProducts = SessionData.item.ItemProducts;
 
                 return PartialView("_ItemProductAssociatePartial", model);
@@ -116,7 +125,7 @@ namespace MenuzRus.Controllers {
                         Array vars = value.Split(colonDelimiter, StringSplitOptions.RemoveEmptyEntries);
 
                         itemProduct.id = Int32.Parse(vars.GetValue(0).ToString());
-                        itemProduct.Type = EnumHelper<Common.ProductType>.Parse(vars.GetValue(2).ToString());
+                        itemProduct.Type = EnumHelper<CommonUnit.ProductType>.Parse(vars.GetValue(2).ToString());
                         itemProductAssociation.ItemProductId = Int32.Parse(vars.GetValue(0).ToString());
                         itemProductAssociation.ItemId = Int32.Parse(vars.GetValue(1).ToString());
 

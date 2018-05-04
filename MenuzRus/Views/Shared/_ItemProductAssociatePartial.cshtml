@@ -16,7 +16,7 @@
         <div>
             <div style="margin: 12px 0 12px;">Product association #@itemProduct.id</div>
             @{
-            var description = EnumHelper<Common.ProductType>.GetDisplayValue((Common.ProductType)itemProduct.Type);
+            var description = EnumHelper<CommonUnit.ProductType>.GetDisplayValue((CommonUnit.ProductType)itemProduct.Type);
             }
             <button type="button" class="btn btn-default" style="width: 100px;" onclick="javascript:toggleProductType(this)">@description</button>
             <select id="itemProduct.@itemProduct.id" data-value="@itemProduct.id" data-placeholder="Click to add product assosiation" class="chosen-select items shadow" multiple>
@@ -40,8 +40,8 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveProductItems()">Save changes</button>
+    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+    <button type="button" class="btn btn-success btn-lg" onclick="javascript:saveProductItems()">@Resources.Resource.COMMON_SAVE_CHANGES</button>
 </div>
 <div class="hide">
     <div class="template">

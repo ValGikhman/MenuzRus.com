@@ -10,12 +10,14 @@ namespace MenuzRus {
 
     public class SettingsService : BaseService, ISettingsService {
 
+        #region Public Methods
+
         public Dictionary<String, String> GetSettings(Int32 id) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Settings.Where(m => m.CustomerId == id).ToDictionary(m => m.Type, m => m.Value);
         }
 
-        public String GetSettings(Int32 id, Common.Settings type) {
+        public String GetSettings(Int32 id, CommonUnit.Settings type) {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             return db.Settings.Where(m => m.CustomerId == id && m.Type == type.ToString()).Select(m => m.Value).FirstOrDefault();
         }
@@ -79,5 +81,7 @@ namespace MenuzRus {
             }
             return retVal;
         }
+
+        #endregion Public Methods
     }
 }

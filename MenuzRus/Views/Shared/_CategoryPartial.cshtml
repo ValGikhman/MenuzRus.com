@@ -2,35 +2,35 @@
 <link href="@Url.Content("~/Content/category.css")" rel="stylesheet" />
 <div class="modal-header  modal-new">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">Edit Category</h4>
+    <h4 class="modal-title">@Resources.Resource.CATEGORY_NAME</h4>
 </div>
 @using (Html.BeginForm("Save", "Category", FormMethod.Post, new { @id = "form-category", @class = "form-category", role = "form", enctype = "multipart/form-data" })) {
     <div class="container container-category">
         <div class="row">
             <div class="col-lg-8 col-md-8">
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = "Enter Category Name", required = "", type = "text", autofocus = "" })
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = "Enter Category Name Description", type = "text" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.CATEGORY_NAME, required = "", type = "text", autofocus = "" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-sm shadow", rows = 5, placeholder = Resources.Resource.CATEGORY_DESCRIPTION, type = "text" })
             </div>
             <div class="imagerow col-lg-4 col-md-4">
                 <img src="@Url.Content(String.Format("~/Images/Menus/{0}/Categories/{1}?{2}", Model.MyCompany.id, Model.ImageUrl, Guid.NewGuid().ToString("N")))" class="preview img-thumbnail shadow" />
                 <input type="file" id="Image" name="Image" />
-                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">Delete Image</a>
+                <a href="#" id="btnDeleteImage" class="btn btn-danger btn-sm shadow" onclick="deleteImage()">@Resources.Resource.COMMON_DELETE_IMAGE</a>
             </div>
         </div>
         <div class="row lastrow">
             <div class="col-md-4 col-lg-4">
                 @Html.LabelFor(m => m.Status)
-                @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(Common.Status))), new { @class = "form-control input-sm shadow" })
+                @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(CommonUnit.Status))), new { @class = "form-control input-sm shadow" })
             </div>
             <div class="col-md-4 col-lg-4">
                 @Html.LabelFor(m => m.Type)
-                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(Common.CategoryType))), new { @class = "form-control input-sm shadow", @disabled = "disabled" })
+                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(CommonUnit.CategoryType))), new { @class = "form-control input-sm shadow", @disabled = "disabled" })
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success btn-lg">Save changes</button>
+        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+        <button type="submit" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
     </div>
     @Html.HiddenFor(m => m.id)
     @Html.HiddenFor(m => m.Type)

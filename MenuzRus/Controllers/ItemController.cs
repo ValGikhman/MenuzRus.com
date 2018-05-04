@@ -52,7 +52,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpGet]
-        public ActionResult EditItem(Int32? id, Common.CategoryType type) {
+        public ActionResult EditItem(Int32? id, CommonUnit.CategoryType type) {
             try {
                 return PartialView("_ItemPartial", GetModel(id, type));
             }
@@ -73,7 +73,7 @@ namespace MenuzRus.Controllers {
                 item.Name = model.Name;
                 item.Description = model.Description;
                 item.ImageUrl = model.ImageUrl;
-                //item.Status = (Int32)Common.Status.Active;
+                //item.Status = (Int32)CommonUnit.Status.Active;
                 item.Status = (Int32)model.Status;
                 item.UOM = (Int32)model.UOM;
 
@@ -113,7 +113,7 @@ namespace MenuzRus.Controllers {
 
                 // No needs to add qty 0 records
                 if (model.Quantity > 0) {
-                    if (model.InventoryType == Common.InventoryType.Out) {
+                    if (model.InventoryType == CommonUnit.InventoryType.Out) {
                         // Out is always negative
                         model.Quantity = Math.Abs(model.Quantity) * -1;
                     }
@@ -121,7 +121,7 @@ namespace MenuzRus.Controllers {
                 }
 
                 // Default menuDesigner
-                return RedirectToAction("Index", "Designer", new { id = (Common.CategoryType)model.CategoryType });
+                return RedirectToAction("Index", "Designer", new { id = (CommonUnit.CategoryType)model.CategoryType });
             }
             catch (Exception ex) {
                 base.Log(ex);
@@ -146,7 +146,7 @@ namespace MenuzRus.Controllers {
             }
         }
 
-        private void AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
+        private void AddItemRegistry(Int32 id, Decimal qty, CommonUnit.InventoryType type, String comment) {
             try {
                 _inventoryService.AddItemRegistry(id, qty, type, comment);
             }
@@ -157,7 +157,7 @@ namespace MenuzRus.Controllers {
             }
         }
 
-        private ItemModel GetModel(Int32? id, Common.CategoryType type) {
+        private ItemModel GetModel(Int32? id, CommonUnit.CategoryType type) {
             ItemModel model = new ItemModel();
             Item item;
             try {
@@ -165,12 +165,12 @@ namespace MenuzRus.Controllers {
                 if (model.Categories.Any()) {
                     model.CategoryId = model.Categories[0].id;
                 }
-                model.Status = Common.Status.Active;
+                model.Status = CommonUnit.Status.Active;
                 model.CategoryType = type;
                 if (id.HasValue) {
                     item = _itemService.GetItem((Int32)id.Value);
                     if (item != null) {
-                        model.Status = (Common.Status)item.Status;
+                        model.Status = (CommonUnit.Status)item.Status;
                         model.id = item.id;
                         model.CategoryId = item.CategoryId;
                         model.Name = item.Name;
@@ -179,7 +179,7 @@ namespace MenuzRus.Controllers {
                         model.ItemPrices = _itemService.GetItemPrices(model.id);
                         model.InventoryRegistries = item.InventoryRegistries.Where(m => m.DateCreated > DateTime.Now.AddDays(-7)).ToList();
                         model.ItemInventoryAssociations = item.ItemInventoryAssociations.ToList();
-                        model.UOM = (Common.UOM)item.UOM;
+                        model.UOM = (CommonUnit.UOM)item.UOM;
                         model.Price2Add = (model.ItemPrices.Any() ? model.ItemPrices[0].Price : 0);
                     }
                 }

@@ -51,13 +51,13 @@ namespace MenuzRus.Controllers {
         [CheckUserSession]
         public ActionResult Index(String id) {
             DesignerModel model;
-            Common.CategoryType categoryType;
+            CommonUnit.CategoryType categoryType;
 
             if (String.IsNullOrEmpty(id)) {
-                categoryType = Common.CategoryType.Menu;
+                categoryType = CommonUnit.CategoryType.Menu;
             }
             else {
-                categoryType = EnumHelper<Common.CategoryType>.Parse(id);
+                categoryType = EnumHelper<CommonUnit.CategoryType>.Parse(id);
             }
             model = GetModel(categoryType, null);
 
@@ -72,7 +72,7 @@ namespace MenuzRus.Controllers {
 
             try {
                 gridData = new List<Tuple<Int32, String, Int32, String, String, Decimal, Boolean>>();
-                model = GetModel((Common.CategoryType)categoryType, search);
+                model = GetModel((CommonUnit.CategoryType)categoryType, search);
 
                 Tuple<Int32, String, Int32, String, String, Decimal, Boolean> gridRow;
                 foreach (Services.Category category in model.Categories) {
@@ -85,7 +85,7 @@ namespace MenuzRus.Controllers {
                                     , item.Name
                                     , item.Description
                                     , item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault()
-                                    , (item.Status == (Int32)Common.Status.Active)
+                                    , (item.Status == (Int32)CommonUnit.Status.Active)
                             );
                             gridData.Add(gridRow);
                         }
@@ -152,7 +152,7 @@ namespace MenuzRus.Controllers {
             }
 
             model.CurrentMenu = menu;
-            model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+            model.Categories = _categoryService.GetCategories(SessionData.customer.id, CommonUnit.CategoryType.Menu);
             return View("Menu", model);
         }
 
@@ -211,7 +211,7 @@ namespace MenuzRus.Controllers {
 
         #region private
 
-        private DesignerModel GetModel(Common.CategoryType type, String search) {
+        private DesignerModel GetModel(CommonUnit.CategoryType type, String search) {
             DesignerModel model = new DesignerModel();
 
             try {

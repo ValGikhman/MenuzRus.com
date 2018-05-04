@@ -10,12 +10,23 @@ using Services;
 namespace MenuzRus {
 
     public class UserController : BaseController {
+
+        #region Private Fields
+
         private IUserService _userService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public UserController(ISessionData sessionData, IUserService userService)
             : base(sessionData) {
             _userService = userService;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         [HttpPost]
         public ActionResult DeleteUser(Int32? id) {
@@ -63,7 +74,7 @@ namespace MenuzRus {
                 user.MobilePhone = model.MobilePhone.FormatPhone();
                 user.Password = model.Password;
                 user.Hash = model.LastName.ToHashMD5();
-                user.Active = (model.Active == Common.Status.Active);
+                user.Active = (model.Active == CommonUnit.Status.Active);
                 user.Type = (Int32)model.Type;
                 user.Email = model.Email;
                 user.ImageUrl = model.ImageUrl;
@@ -108,6 +119,8 @@ namespace MenuzRus {
             return null;
         }
 
+        #endregion Public Methods
+
         #region private
 
         private UserModel GetModel(Int32? id) {
@@ -119,7 +132,7 @@ namespace MenuzRus {
                 model = new UserModel();
                 model.id = id.HasValue ? id.Value : 0;
 
-                model.Active = Common.Status.Active;
+                model.Active = CommonUnit.Status.Active;
                 if (id.HasValue) {
                     user = _userService.GetUser((Int32)id.Value);
                     if (user != null) {
@@ -131,8 +144,8 @@ namespace MenuzRus {
                         model.MobilePhone = user.MobilePhone;
                         model.Email = user.Email;
                         model.Password = user.Password;
-                        model.Active = user.Active ? Common.Status.Active : Common.Status.NotActive;
-                        model.Type = (Common.UserType)user.Type;
+                        model.Active = user.Active ? CommonUnit.Status.Active : CommonUnit.Status.NotActive;
+                        model.Type = (CommonUnit.UserType)user.Type;
                         model.Hash = user.Hash;
                         model.ImageUrl = user.ImageUrl;
                     }

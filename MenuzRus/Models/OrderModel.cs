@@ -20,9 +20,9 @@ namespace MenuzRus.Models {
 
         public Decimal Price { get; set; }
 
-        public Common.CheckStatus Status { get; set; }
+        public CommonUnit.CheckStatus Status { get; set; }
 
-        public Common.CheckType Type { get; set; }
+        public CommonUnit.CheckType Type { get; set; }
 
         #endregion Public Properties
     }
@@ -64,7 +64,7 @@ namespace MenuzRus.Models {
 
         public Int32 ItemId { get; set; }
 
-        public Common.ProductType Type { get; set; }
+        public CommonUnit.ProductType Type { get; set; }
 
         #endregion Public Properties
     }

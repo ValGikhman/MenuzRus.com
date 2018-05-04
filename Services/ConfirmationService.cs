@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Extensions;
-using Newtonsoft.Json;
 using Services;
 
 namespace MenuzRus {
 
     public class ConfirmationService : BaseService, IConfirmationService {
+
+        #region Private Fields
+
         private User user;
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         public User Confirm(String hash) {
             try {
@@ -26,5 +29,7 @@ namespace MenuzRus {
             }
             return user;
         }
+
+        #endregion Public Methods
     }
 }

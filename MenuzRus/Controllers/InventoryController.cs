@@ -11,9 +11,16 @@ using Services;
 namespace MenuzRus {
 
     public class InventoryController : BaseController {
+
+        #region Private Fields
+
         private ICategoryService _categoryService;
         private IInventoryService _inventoryService;
         private IItemService _itemService;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public InventoryController(ISessionData sessionData, IItemService itemService, ICategoryService categoryService, IInventoryService inventoryService)
             : base(sessionData) {
@@ -22,12 +29,16 @@ namespace MenuzRus {
             _inventoryService = inventoryService;
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         [HttpGet]
         public ActionResult AssociateInventory(Int32 id) {
             InventoryAssosiationModel model = new InventoryAssosiationModel();
             try {
                 SessionData.item = _itemService.GetItem(id);
-                model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Inventory);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, CommonUnit.CategoryType.Inventory);
                 model.ItemInventoryAssociation = SessionData.item.ItemInventoryAssociations;
 
                 return PartialView("_InventoryAssociatePartial", model);
@@ -75,6 +86,8 @@ namespace MenuzRus {
             }
             return "OK";
         }
+
+        #endregion Public Methods
 
         #region private
 

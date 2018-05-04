@@ -14,13 +14,13 @@ namespace MenuzRus {
             TableOrder tableOrder = new TableOrder();
             if (tableId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed); // Нет открытых столов
+                    tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)CommonUnit.TableOrderStatus.Closed); // Нет открытых столов
                     if (tableOrder == default(TableOrder)) {
                         tableOrder = new TableOrder();
                         tableOrder.TableId = tableId;
                         db.TableOrders.InsertOnSubmit(tableOrder);
                     }
-                    tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                    tableOrder.Status = (Int32)CommonUnit.TableOrderStatus.Open;
                     tableOrder.DateModified = DateTime.UtcNow;
                     db.SubmitChanges();
                     retVal = tableOrder.id;
@@ -128,7 +128,7 @@ namespace MenuzRus {
         public List<TableOrder> GetKitchenOrders() {
             List<TableOrder> retVal = new List<TableOrder>();
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            return db.TableOrders.Where(m => m.Status != (Int32)Common.TableOrderStatus.Closed && m.Checks.Where(c => c.Status == (Int32)Common.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
+            return db.TableOrders.Where(m => m.Status != (Int32)CommonUnit.TableOrderStatus.Closed && m.Checks.Where(c => c.Status == (Int32)CommonUnit.CheckStatus.Ordered).Any()).OrderByDescending(m => m.DateModified).ToList();
         }
 
         public ChecksMenu GetMenuItem(Int32 id) {
@@ -179,7 +179,7 @@ namespace MenuzRus {
 
         public List<Printout> GetQueued4PrintKitchenOrders() {
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-            return db.Printouts.Where(m => m.Status == (Int32)Common.PrintStatus.Queued).ToList();
+            return db.Printouts.Where(m => m.Status == (Int32)CommonUnit.PrintStatus.Queued).ToList();
         }
 
         public Table GetTable(Int32 tableId) {
@@ -194,14 +194,14 @@ namespace MenuzRus {
             TableOrder tableOrder = GetTableOrder(tableId);
 
             String checksIds = String.Empty;
-            Int32 orderStatus = (Int32)Common.TableOrderStatus.Closed;
+            Int32 orderStatus = (Int32)CommonUnit.TableOrderStatus.Closed;
             String orderDate = String.Format("{0:M/d/yyyy HH:mm:ss}", DateTime.Now);
 
             // Grabbing checks
             if (tableOrder != default(TableOrder)) {
                 List<Check> checks;
                 if (!showPaidChecks) {
-                    checks = tableOrder.Checks.Where(m => m.Status != (Int32)Common.CheckStatus.Paid).ToList();
+                    checks = tableOrder.Checks.Where(m => m.Status != (Int32)CommonUnit.CheckStatus.Paid).ToList();
                 }
                 else {
                     checks = tableOrder.Checks.ToList();
@@ -223,9 +223,9 @@ namespace MenuzRus {
             TableOrder tableOrder = new TableOrder();
             if (tableId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-                tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed);
+                tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)CommonUnit.TableOrderStatus.Closed);
                 if (tableOrder == default(TableOrder)) {
-                    tableOrder = db.TableOrders.Where(m => m.TableId == tableId && m.Status == (Int32)Common.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).FirstOrDefault();
+                    tableOrder = db.TableOrders.Where(m => m.TableId == tableId && m.Status == (Int32)CommonUnit.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).FirstOrDefault();
                 }
                 return tableOrder;
             }
@@ -236,7 +236,7 @@ namespace MenuzRus {
             List<TableOrder> retVal = new List<TableOrder>();
             if (tableId != 0) {
                 menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
-                return db.TableOrders.Where(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).ToList();
+                return db.TableOrders.Where(m => m.TableId == tableId && m.Status != (Int32)CommonUnit.TableOrderStatus.Closed).OrderByDescending(m => m.DateModified).ToList();
             }
             return null;
         }
@@ -247,13 +247,13 @@ namespace MenuzRus {
             if (floorId == 0) {
                 retVal = (from table in db.Tables
                           join order in db.TableOrders on table.id equals order.TableId
-                          where table.Status == (Int32)Common.Status.Active && order.Status != (Int32)Common.TableOrderStatus.Closed
+                          where table.Status == (Int32)CommonUnit.Status.Active && order.Status != (Int32)CommonUnit.TableOrderStatus.Closed
                           select order).OrderByDescending(m => m.DateModified).ToList();
             }
             else {
                 retVal = (from table in db.Tables
                           join order in db.TableOrders on table.id equals order.TableId
-                          where table.FloorId == floorId && table.Status == (Int32)Common.Status.Active && order.Status != (Int32)Common.TableOrderStatus.Closed
+                          where table.FloorId == floorId && table.Status == (Int32)CommonUnit.Status.Active && order.Status != (Int32)CommonUnit.TableOrderStatus.Closed
                           select order).OrderByDescending(m => m.DateModified).ToList();
             }
             return retVal;
@@ -279,20 +279,20 @@ namespace MenuzRus {
             return price.HasValue ? price.Value : 0;
         }
 
-        public void SaveItem(Int32 productId, Int32 knopaId, Common.ProductType type) {
+        public void SaveItem(Int32 productId, Int32 knopaId, CommonUnit.ProductType type) {
             ItemService _itemService = new ItemService();
             InventoryService _inventoryService = new InventoryService();
 
             ChecksMenuProductItem query = null;
             if (productId != 0 && knopaId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    if (type == Common.ProductType.Alternatives) {
+                    if (type == CommonUnit.ProductType.Alternatives) {
                         query = db.ChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId);
                         if (query != default(ChecksMenuProductItem)) {
                             query.ItemId = knopaId;
                         }
                     }
-                    else if (type == Common.ProductType.Addons) {
+                    else if (type == CommonUnit.ProductType.Addons) {
                         query = db.ChecksMenuProductItems.FirstOrDefault(m => m.ProductId == productId && m.ItemId == knopaId);
                         if (query == default(ChecksMenuProductItem)) {
                             query = new ChecksMenuProductItem();
@@ -317,11 +317,11 @@ namespace MenuzRus {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     // New order
-                    TableOrder tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)Common.TableOrderStatus.Closed);
+                    TableOrder tableOrder = db.TableOrders.FirstOrDefault(m => m.TableId == tableId && m.Status != (Int32)CommonUnit.TableOrderStatus.Closed);
                     if (tableOrder == default(TableOrder)) {
                         tableOrder = new TableOrder();
                         tableOrder.TableId = tableId;
-                        tableOrder.Status = (Int32)Common.TableOrderStatus.Open;
+                        tableOrder.Status = (Int32)CommonUnit.TableOrderStatus.Open;
                         db.TableOrders.InsertOnSubmit(tableOrder);
                         db.SubmitChanges();
                     }
@@ -330,8 +330,8 @@ namespace MenuzRus {
                     if (orderCheck == default(Check)) {
                         orderCheck = new Check();
                         orderCheck.TableOrderId = tableOrder.id;
-                        orderCheck.Type = (Int32)Common.CheckType.Guest;
-                        orderCheck.Status = (Int32)Common.CheckStatus.Active;
+                        orderCheck.Type = (Int32)CommonUnit.CheckType.Guest;
+                        orderCheck.Status = (Int32)CommonUnit.CheckStatus.Active;
                         orderCheck.UserId = userId;
                         db.Checks.InsertOnSubmit(orderCheck);
                         db.SubmitChanges();
@@ -340,7 +340,7 @@ namespace MenuzRus {
                     orderCheckMenu = new ChecksMenu();
                     orderCheckMenu.CheckId = orderCheck.id;
                     orderCheckMenu.MenuId = menuItem.id;
-                    orderCheckMenu.Status = (Int32)Common.MenuItemStatus.Active;
+                    orderCheckMenu.Status = (Int32)CommonUnit.MenuItemStatus.Active;
                     db.ChecksMenus.InsertOnSubmit(orderCheckMenu);
                     db.SubmitChanges();
 
@@ -398,7 +398,7 @@ namespace MenuzRus {
             return queryPayment.id;
         }
 
-        public Boolean UpdateCheckStatus(Int32 checkId, Common.CheckStatus status) {
+        public Boolean UpdateCheckStatus(Int32 checkId, CommonUnit.CheckStatus status) {
             Check query = new Check();
             Printout kitchenOrder;
             if (checkId != 0) {
@@ -406,7 +406,7 @@ namespace MenuzRus {
                     query = db.Checks.FirstOrDefault(m => m.id == checkId);
                     if (query != default(Check)) {
                         query.Status = (Int32)status;
-                        if (status == Common.CheckStatus.Ordered) {
+                        if (status == CommonUnit.CheckStatus.Ordered) {
                             // Run Inventory
                             UpdateInventory(checkId);
 
@@ -414,8 +414,8 @@ namespace MenuzRus {
                             if (kitchenOrder == default(Printout)) {
                                 kitchenOrder = new Printout();
                             }
-                            kitchenOrder.Status = (Int32)Common.PrintStatus.Queued;
-                            kitchenOrder.Type = (Int32)Common.PrintType.KitchenOrder;
+                            kitchenOrder.Status = (Int32)CommonUnit.PrintStatus.Queued;
+                            kitchenOrder.Type = (Int32)CommonUnit.PrintType.KitchenOrder;
                             kitchenOrder.CheckId = checkId;
                             if (kitchenOrder.id == 0) {
                                 db.Printouts.InsertOnSubmit(kitchenOrder);
@@ -435,7 +435,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Checks.FirstOrDefault(m => m.id == checkId);
                     if (query != default(Check)) {
-                        query.Status = (Int32)Common.CheckStatus.Paid;
+                        query.Status = (Int32)CommonUnit.CheckStatus.Paid;
                         query.Adjustment = adjustment;
                         query.Price = price;
                         query.Tax = tax;
@@ -447,7 +447,7 @@ namespace MenuzRus {
             return false;
         }
 
-        public Boolean UpdateCheckType(Int32 checkId, Common.CheckType type) {
+        public Boolean UpdateCheckType(Int32 checkId, CommonUnit.CheckType type) {
             Check query = new Check();
             if (checkId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -509,7 +509,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Printouts.FirstOrDefault(m => m.id == id);
                     if (query != default(Printout)) {
-                        query.Status = (Int32)Common.PrintStatus.Printed;
+                        query.Status = (Int32)CommonUnit.PrintStatus.Printed;
                         db.SubmitChanges();
                         return true;
                     }
@@ -518,7 +518,7 @@ namespace MenuzRus {
             return false;
         }
 
-        public void UpdateMenuItemStatus(Int32 id, Common.MenuItemStatus status) {
+        public void UpdateMenuItemStatus(Int32 id, CommonUnit.MenuItemStatus status) {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     ChecksMenu menuItem = db.ChecksMenus.FirstOrDefault(m => m.id == id);
@@ -534,7 +534,7 @@ namespace MenuzRus {
             }
         }
 
-        public Boolean UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
+        public Boolean UpdateTableStatus(Int32 tableOrderId, CommonUnit.TableOrderStatus status) {
             TableOrder query = new TableOrder();
             if (tableOrderId != 0) {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {

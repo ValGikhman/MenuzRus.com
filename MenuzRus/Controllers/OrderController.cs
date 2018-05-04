@@ -76,10 +76,10 @@ namespace MenuzRus.Controllers {
                 payment = new Payment();
 
                 payment.CheckId = checkId;
-                payment.Type = ((Int32)(Common.Payments)Enum.Parse(typeof(Common.Payments), textInfo.ToTitleCase(type)));
+                payment.Type = ((Int32)(CommonUnit.Payments)Enum.Parse(typeof(CommonUnit.Payments), textInfo.ToTitleCase(type)));
                 payment.Amount = amount;
 
-                if ((Common.Payments)payment.Type != Common.Payments.Cash) {
+                if ((CommonUnit.Payments)payment.Type != CommonUnit.Payments.Cash) {
                     paymentCC = new PaymentCC();
                     paymentCC.FirstName = firstName;
                     paymentCC.LastName = lastName;
@@ -108,7 +108,7 @@ namespace MenuzRus.Controllers {
 
             foreach (Int32 id in Ids) {
                 check = _orderService.GetCheck(id);
-                retVal += PrintChecks(id, EnumHelper<Common.CheckType>.Parse(check.Type.ToString()).ToString(), split, adjustment);
+                retVal += PrintChecks(id, EnumHelper<CommonUnit.CheckType>.Parse(check.Type.ToString()).ToString(), split, adjustment);
             }
             return retVal;
         }
@@ -172,7 +172,7 @@ namespace MenuzRus.Controllers {
             OrderModel model;
             try {
                 model = new OrderModel();
-                model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, Common.CategoryType.Menu, id);
+                model.Categories = _categoryService.GetMenuCategories(SessionData.customer.id, CommonUnit.CategoryType.Menu, id);
                 return RenderViewToString(this.ControllerContext, "_OrderMenuPartial", model);
             }
             catch (Exception ex) {
@@ -316,7 +316,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, Common.ProductType type) {
+        public JsonResult SaveItem(Int32 checkId, Int32 productId, Int32 knopaId, CommonUnit.ProductType type) {
             try {
                 _orderService.SaveItem(productId, knopaId, type);
             }
@@ -378,7 +378,7 @@ namespace MenuzRus.Controllers {
                     product.id = productItem.id;
                     product.ItemId = productItem.ItemId;
                     product.CheckMenuItemProductAssociations = new List<CheckMenuItemProductAssociation>();
-                    product.Type = (Common.ProductType)itemProduct.Type;
+                    product.Type = (CommonUnit.ProductType)itemProduct.Type;
 
                     foreach (Services.ItemProductAssociation associatedItem in itemProduct.ItemProductAssociations) {
                         CheckMenuItemProductAssociation association = new CheckMenuItemProductAssociation();
@@ -421,7 +421,7 @@ namespace MenuzRus.Controllers {
                     menu.Description = item.Description;
                     menu.Price = (Decimal)item.ItemPrices.OrderByDescending(m => m.DateCreated).Take(1).Select(m => m.Price).FirstOrDefault();
                     menu.HasProducts = (_orderService.GetProducts(menu.id).Count() > 0);
-                    menu.Ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
+                    menu.Ordered = ((CommonUnit.MenuItemStatus)menuItem.Status == CommonUnit.MenuItemStatus.Ordered);
                     Menus.Add(menu);
                 }
             }
@@ -469,10 +469,10 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult UpdateCheckStatus(Int32 checkId, Common.CheckType type, Common.CheckStatus status, Decimal adjustment, Int32 split) {
+        public JsonResult UpdateCheckStatus(Int32 checkId, CommonUnit.CheckType type, CommonUnit.CheckStatus status, Decimal adjustment, Int32 split) {
             CheckPrint model;
             try {
-                if (status == Common.CheckStatus.Paid) {
+                if (status == CommonUnit.CheckStatus.Paid) {
                     model = GetCheckPrintModel(checkId, type.ToString(), split, adjustment);
                     if (model != null)
                         _orderService.UpdateCheckStatusPaid(checkId, model.Summary, model.Tax, model.Adjustment);
@@ -493,7 +493,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult UpdateCheckType(Int32 checkId, Common.CheckType type) {
+        public JsonResult UpdateCheckType(Int32 checkId, CommonUnit.CheckType type) {
             try {
                 _orderService.UpdateCheckType(checkId, type);
             }
@@ -525,7 +525,7 @@ namespace MenuzRus.Controllers {
         }
 
         [HttpPost]
-        public JsonResult UpdateTableStatus(Int32 tableOrderId, Common.TableOrderStatus status) {
+        public JsonResult UpdateTableStatus(Int32 tableOrderId, CommonUnit.TableOrderStatus status) {
             try {
                 _orderService.UpdateTableStatus(tableOrderId, status);
             }
@@ -586,7 +586,7 @@ namespace MenuzRus.Controllers {
                 }
 
                 model.TaxPercent = 0;
-                if ((Common.CheckType)model.Check.Type == Common.CheckType.Guest) {
+                if ((CommonUnit.CheckType)model.Check.Type == CommonUnit.CheckType.Guest) {
                     model.TaxPercent = tax;
                 }
                 model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
@@ -646,7 +646,7 @@ namespace MenuzRus.Controllers {
                 }
 
                 model.TaxPercent = 0;
-                if (EnumHelper<Common.CheckType>.Parse(type) == Common.CheckType.Guest) {
+                if (EnumHelper<CommonUnit.CheckType>.Parse(type) == CommonUnit.CheckType.Guest) {
                     model.TaxPercent = tax;
                 }
                 model.Tax = Math.Round(model.Summary * model.TaxPercent, 2);
@@ -704,7 +704,7 @@ namespace MenuzRus.Controllers {
                 model.Check = _orderService.GetCheck(order.CheckId);
                 model.id = order.id;
                 model.CreatedDate = model.Check.DateCreated;
-                model.Comments = _commentService.GetItemComment(order.CheckId, Common.CommentType.Check, SessionData.customer.id);
+                model.Comments = _commentService.GetItemComment(order.CheckId, CommonUnit.CommentType.Check, SessionData.customer.id);
 
                 // If no printers - webSocket not running, or no connection to webSocket
                 if (SessionData.printers != null) {
@@ -716,7 +716,7 @@ namespace MenuzRus.Controllers {
                 Boolean ordered;
                 foreach (Services.ChecksMenu menuItem in menus) {
                     itemMenu = _itemService.GetItem(menuItem.MenuId);
-                    ordered = ((Common.MenuItemStatus)menuItem.Status == Common.MenuItemStatus.Ordered);
+                    ordered = ((CommonUnit.MenuItemStatus)menuItem.Status == CommonUnit.MenuItemStatus.Ordered);
                     products = _orderService.GetProducts(menuItem.id);
                     subItems = new List<LineItem>();
                     foreach (Services.ChecksMenuProduct productItem in products) {
@@ -727,8 +727,8 @@ namespace MenuzRus.Controllers {
                             }
                         }
                     }
-                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = _commentService.GetItemComment(menuItem.id, Common.CommentType.MenuItem, SessionData.customer.id), SubItems = subItems });
-                    _orderService.UpdateMenuItemStatus(menuItem.id, Common.MenuItemStatus.Ordered);
+                    model.Items.Add(new LineItem() { Description = itemMenu.Name, Ordered = ordered, id = itemMenu.id, Comments = _commentService.GetItemComment(menuItem.id, CommonUnit.CommentType.MenuItem, SessionData.customer.id), SubItems = subItems });
+                    _orderService.UpdateMenuItemStatus(menuItem.id, CommonUnit.MenuItemStatus.Ordered);
                 }
             }
             catch (Exception ex) {
@@ -755,7 +755,7 @@ namespace MenuzRus.Controllers {
 
                 if (model.TableOrder != null && model.TableOrder.Checks != null) {
                     model.Checks = new List<CheckPrint>();
-                    IEnumerable<Services.Check> checks = model.TableOrder.Checks.Where(m => m.Status == (Int32)Common.CheckStatus.Ordered);
+                    IEnumerable<Services.Check> checks = model.TableOrder.Checks.Where(m => m.Status == (Int32)CommonUnit.CheckStatus.Ordered);
                     foreach (Services.Check checkItem in checks) {
                         orderModel = new CheckPrint();
                         orderModel.Check = checkItem;
@@ -886,7 +886,7 @@ namespace MenuzRus.Controllers {
                 if (Request.UrlReferrer != null && Request.UrlReferrer.LocalPath.IndexOf("Order/Monitor") > -1) {
                     model.Referer = "Monitor";
                 }
-                model.Categories = _categoryService.GetCategories(SessionData.customer.id, Common.CategoryType.Menu);
+                model.Categories = _categoryService.GetCategories(SessionData.customer.id, CommonUnit.CategoryType.Menu);
                 model.Table = _orderService.GetTable(tableId);
                 model.TableOrder = _orderService.GetTableOrder(tableId);
                 model.TableId = model.Table.id;
@@ -898,8 +898,8 @@ namespace MenuzRus.Controllers {
                         Models.Check check = new Models.Check();
                         check.id = checkItem.id;
                         check.Price = 0;
-                        check.Status = (Common.CheckStatus)checkItem.Status;
-                        check.Type = (Common.CheckType)checkItem.Type;
+                        check.Status = (CommonUnit.CheckStatus)checkItem.Status;
+                        check.Type = (CommonUnit.CheckType)checkItem.Type;
                         check.CheckMenuItems = new List<CheckMenuItem>();
                         model.Checks.Add(check);
                     }

@@ -20,7 +20,7 @@ namespace MenuzRus {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     query = db.Categories.Where(m => m.id == id).FirstOrDefault();
                     if (query != default(Category)) {
-                        query.Status = (Int32)Common.Status.NotActive;
+                        query.Status = (Int32)CommonUnit.Status.NotActive;
                         db.SubmitChanges();
                     }
                 }
@@ -31,15 +31,15 @@ namespace MenuzRus {
             return true;
         }
 
-        public List<Category> GetCategories(Int32 customerId, Common.CategoryType type) {
+        public List<Category> GetCategories(Int32 customerId, CommonUnit.CategoryType type) {
             return GetCategories(customerId, type, null);
         }
 
-        public List<Category> GetCategories(Int32 customerId, Common.CategoryType type, String search) {
+        public List<Category> GetCategories(Int32 customerId, CommonUnit.CategoryType type, String search) {
             List<Category> retVal;
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             try {
-                retVal = db.Categories.Where(m => m.CustomerId == customerId && m.Status == (Int32)Common.Status.Active && m.Type == (Int32)type).ToList();
+                retVal = db.Categories.Where(m => m.CustomerId == customerId && m.Status == (Int32)CommonUnit.Status.Active && m.Type == (Int32)type).ToList();
 
                 if (!String.IsNullOrEmpty(search)) {
                     retVal = (from c in retVal
@@ -60,7 +60,7 @@ namespace MenuzRus {
             return db.Categories.Where(m => m.id == id).FirstOrDefault();
         }
 
-        public List<Category> GetMenuCategories(Int32 customerId, Common.CategoryType type, Int32 menuId) {
+        public List<Category> GetMenuCategories(Int32 customerId, CommonUnit.CategoryType type, Int32 menuId) {
             List<CategoryView> retVal;
             menuzRusDataContext db;
             try {
@@ -96,7 +96,7 @@ namespace MenuzRus {
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
                     if (category.id != 0)
-                        query = db.Categories.Where(m => m.id == category.id && m.Status != (Int32)Common.Status.NotActive).FirstOrDefault();
+                        query = db.Categories.Where(m => m.id == category.id && m.Status != (Int32)CommonUnit.Status.NotActive).FirstOrDefault();
                     if (query != default(Category)) {
                         query.Status = category.Status;
                         query.CustomerId = category.CustomerId;

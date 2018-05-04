@@ -32,10 +32,10 @@ namespace MenuzRus {
             try {
                 model = _confirmationService.Confirm(id);
                 if (model != null) {
-                    base.Log(Common.LogType.Activity, "Email confirmation successful", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.FirstName, model.LastName, model.WorkPhone, model.MobilePhone));
+                    base.Log(CommonUnit.LogType.Activity, "Email confirmation successful", String.Format("{0} {1}, phone#{2}, mobile#{3}", model.FirstName, model.LastName, model.WorkPhone, model.MobilePhone));
                 }
                 else {
-                    base.Log(Common.LogType.Activity, "Email confirmation failed. Hash", id);
+                    base.Log(CommonUnit.LogType.Activity, "Email confirmation failed. Hash", id);
                 }
             }
             catch (Exception ex) {

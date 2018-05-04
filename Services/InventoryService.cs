@@ -11,12 +11,12 @@ namespace MenuzRus {
         public Boolean AddInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu) {
             String comment;
             Int32 associatedItemId;
-            Common.InventoryType type;
+            CommonUnit.InventoryType type;
             Decimal quantity;
             try {
                 comment = String.Format("Taken [{0}] from: [{1}]. Check# {2}", association.Quantity, association.Item.Name, checkMenu.CheckId);
                 associatedItemId = association.AssociatedItemId;
-                type = Common.InventoryType.Out; ;
+                type = CommonUnit.InventoryType.Out; ;
                 quantity = Math.Abs(association.Quantity) * -1;
 
                 AddItemRegistry(associatedItemId, quantity, type, comment);
@@ -46,7 +46,7 @@ namespace MenuzRus {
             return true;
         }
 
-        public Boolean AddItemRegistry(Int32 id, Decimal qty, Common.InventoryType type, String comment) {
+        public Boolean AddItemRegistry(Int32 id, Decimal qty, CommonUnit.InventoryType type, String comment) {
             InventoryRegistry query = new InventoryRegistry();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
@@ -84,13 +84,13 @@ namespace MenuzRus {
         public Boolean DeleteInventoryRegistry(ItemInventoryAssociation association, ChecksMenu checkMenu, String name) {
             String comment;
             Int32 associatedItemId;
-            Common.InventoryType type;
+            CommonUnit.InventoryType type;
             Decimal quantity;
 
             try {
                 comment = String.Format("Added [{0}] of [{1}] for: [{2}]. Check# {3}", association.Quantity, name, association.Item.Name, checkMenu.CheckId);
                 associatedItemId = association.AssociatedItemId;
-                type = Common.InventoryType.In; ;
+                type = CommonUnit.InventoryType.In; ;
                 quantity = Math.Abs(association.Quantity);
 
                 AddItemRegistry(associatedItemId, quantity, type, comment);

@@ -11,7 +11,14 @@ using Services;
 namespace MenuzRus.Models {
 
     public class ItemModel : BaseModel {
+
+        #region Private Fields
+
         private Decimal _Price;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         [DisplayName("Category")]
         public List<Services.Category> Categories { get; set; }
@@ -19,7 +26,7 @@ namespace MenuzRus.Models {
         public Int32 CategoryId { get; set; }
 
         [DisplayName("Category Type")]
-        public Common.CategoryType CategoryType { get; set; }
+        public CommonUnit.CategoryType CategoryType { get; set; }
 
         [DisplayName("Description")]
         public String Description { get; set; }
@@ -40,7 +47,7 @@ namespace MenuzRus.Models {
 
         [DisplayName("Type")]
         [Required]
-        public Common.InventoryType InventoryType { get; set; }
+        public CommonUnit.InventoryType InventoryType { get; set; }
 
         [DisplayName("ItemInventoryAssociations")]
         public List<ItemInventoryAssociation> ItemInventoryAssociations { get; set; }
@@ -72,10 +79,12 @@ namespace MenuzRus.Models {
 
         [DisplayName("Status")]
         [Required]
-        public Common.Status Status { get; set; }
+        public CommonUnit.Status Status { get; set; }
 
         [DisplayName("UOM")]
         [Required]
-        public Common.UOM UOM { get; set; }
+        public CommonUnit.UOM UOM { get; set; }
+
+        #endregion Public Properties
     }
 }

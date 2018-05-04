@@ -36,12 +36,12 @@ $(function () {
     $("#btnNewFloor").click(function () {
         $("#Floor_id").val(0);
         $("#Floor_Name").val("");
-        $(".floorTitle").html("New floor");
+        $(".floorTitle").html($(this).html());
         $(".floorEditForm").modal("show");
     })
 
     $("#btnEditFloor").click(function () {
-        $(".floorTitle").html("Edit floor");
+        $(".floorTitle").html($(this).html());
         $(".floorEditForm").modal("show");
     })
 

@@ -21,7 +21,7 @@ namespace MenuzRus {
 
         [CheckUserSession]
         public ActionResult Index() {
-            base.Log(Common.LogType.LogOut);
+            base.Log(CommonUnit.LogType.LogOut);
             Session.Abandon();
             return RedirectToAction("Index", "Login");
         }

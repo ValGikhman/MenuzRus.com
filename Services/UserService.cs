@@ -51,8 +51,9 @@ namespace MenuzRus {
             User query = new User();
             try {
                 using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
-                    if (user.id != 0)
+                    if (user.id != 0) {
                         query = db.Users.Where(m => m.id == user.id).FirstOrDefault();
+                    }
 
                     if (query != default(User)) {
                         query.CustomerId = user.CustomerId;

@@ -67,6 +67,7 @@ namespace MenuzRus {
                 // Save registered modules
                 _customerService.SaveModulesByCustomer(result, model.Modules.Split(',').Select(Int32.Parse).ToArray());
 
+                customer.id = result;
                 SessionData.customer = customer;
 
                 // Save user personal info

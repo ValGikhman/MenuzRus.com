@@ -68,8 +68,11 @@ namespace MenuzRus.Controllers {
                 if (Request.Cookies["language"] != null) {
                     culture = Server.HtmlEncode(Request.Cookies["language"].Value);
                 }
+
                 if (SessionData.customer != null) {
-                    culture = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                    if (SessionData.GetSession<String>(Constants.SESSION_LANGUAGE) != null) {
+                        culture = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                    }
                 }
                 if (!String.IsNullOrEmpty(culture)) {
                     Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);

@@ -187,8 +187,8 @@ namespace MenuzRus.Controllers {
         public JsonResult GraphRefresh() {
             try {
                 var retVal = new {
-                    inventory = _orderService.LatestInventory(),
-                    sales = _orderService.LatestSale()
+                    inventory = _orderService.LatestInventory(SessionData.customer.id),
+                    sales = _orderService.LatestSale(SessionData.customer.id)
                 };
                 return new JsonResult() { Data = retVal, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
@@ -841,7 +841,7 @@ namespace MenuzRus.Controllers {
                     SessionData.floor = floor;
                     model.Floor.id = floor.id;
                     model.Floor.Name = floor.Name;
-                    alltables = _orderService.GetTableOrdersByFloorId(model.Floor.id);
+                    alltables = _orderService.GetTableOrdersByFloorId(model.Floor.id, SessionData.customer.id);
                     if (alltables != null) {
                         foreach (Services.TableOrder tab in alltables) {
                             order = new Models.TableOrder();
@@ -852,8 +852,8 @@ namespace MenuzRus.Controllers {
                         }
                     }
                     model.Floor.Tables = tables;
-                    model.Inventory = _orderService.LatestInventory();
-                    model.Sales = _orderService.LatestSale();
+                    model.Inventory = _orderService.LatestInventory(SessionData.customer.id);
+                    model.Sales = _orderService.LatestSale(SessionData.customer.id);
                 }
                 return model;
             }

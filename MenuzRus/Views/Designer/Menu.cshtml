@@ -26,6 +26,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCancelMenu" type="button" class="btn btn-default btn-lg" data-dismiss="modal">@Resources.Resource.COMMON_CLOSE</button>
+                <button id="btnSaveMenu" type="button" class="btn btn-success btn-lg">@Resources.Resource.COMMON_SAVE_CHANGES</button>
             </div>
         </div>
     </div>
@@ -65,8 +66,10 @@
                     <optgroup label="@category.Name">
                         @foreach (Services.Item item in category.Items) {
                             String select = String.Empty;
-                            if (Model.CurrentMenu.MenuItems.Any(m => m.ItemId == item.id)) {
-                                select = "selected";
+                            if (Model.CurrentMenu != null) {
+                                if (Model.CurrentMenu.MenuItems.Any(m => m.ItemId == item.id)) {
+                                    select = "selected";
+                                }
                             }
                             <option id="@item.id" value="@item.id" @select>@String.Format("{0}", item.Name)</option>
                         }

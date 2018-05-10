@@ -35,6 +35,10 @@ h2, h5 {
     height: 35px;
 }
 
+.chosen-container-multi .chosen-choices {
+    border: 0px;
+}
+
 .chosen-container-multi .chosen-choices li.search-choice {
     height: 30px;
     line-height: unset;
@@ -43,6 +47,10 @@ h2, h5 {
     .chosen-container-multi .chosen-choices li.search-choice span {
         margin-top: 5px;
     }
+
+.chosen-choices {
+        border-radius: 6px;
+}
 
 .leiba {
     font-weight: bold;

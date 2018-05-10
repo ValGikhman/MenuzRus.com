@@ -62,7 +62,12 @@ namespace MenuzRus {
                 // Cook it as well. Will need for login view
                 HttpCookie cook = new HttpCookie("language");
 
-                cook.Value = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                if (SessionData.customer != null) {
+                    if (SessionData.GetSession<String>(Constants.SESSION_LANGUAGE) != null) {
+                        cook.Value = EnumHelper<CommonUnit.Languages>.GetDisplayValue((CommonUnit.Languages)Convert.ToInt32(SessionData.GetSession<String>(Constants.SESSION_LANGUAGE)));
+                    }
+                }
+
                 cook.Expires = DateTime.MaxValue;
                 Response.Cookies.Add(cook);
 

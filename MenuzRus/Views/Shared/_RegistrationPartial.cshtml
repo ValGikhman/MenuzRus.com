@@ -51,7 +51,7 @@
                 @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_EMAIL, required = "", type = "email", pattern = Extensions.RegexPattern.EMAIL })
                 @Html.TextBoxFor(model => model.User.Password, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_PASSWORD, required = "", type = "password" })
                 @Html.TextBoxFor(model => model.User.ConfirmPassword, new { @class = "form-control input-sm shadow", placeholder = Resources.Resource.REGISTRATION_CONFIRM_PASSWORD, required = "", type = "password" })
-                <select id="modules" data-placeholder=@Resources.Resource.REGISTRATION_APPLICATION_MODULES class="chosen-select" multiple>
+                <select id="modules" data-placeholder="@Resources.Resource.REGISTRATION_APPLICATION_MODULES" class="chosen-select" multiple>
                     @foreach (Services.Module module in Model.Customer.Modules) {
                         Services.ModulePrice modulePrice = module.ModulePrices.OrderByDescending(m => m.DateCreated).Take(1).FirstOrDefault();
                         <option value="@modulePrice.id" data-value="@modulePrice.Price">@String.Format("{0} (+${1})", module.Name, modulePrice.Price)</option>
@@ -101,7 +101,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $(".chosen-select").chosen({ width: "310px", display_disabled_options: false }).change(function (event) {
+        $(".chosen-select").chosen({ width: "340px", display_disabled_options: false }).change(function (event) {
             var all2Pay = 0;
             $.each(this.selectedOptions, function (i, e) {
                 all2Pay += parseInt($(e).attr("data-value"));

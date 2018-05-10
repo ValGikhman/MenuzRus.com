@@ -46,11 +46,11 @@ namespace MenuzRus {
 
         List<TableOrder> GetTableOrders(Int32 tableId);
 
-        List<TableOrder> GetTableOrdersByFloorId(Int32 floorId);
+        List<TableOrder> GetTableOrdersByFloorId(Int32 floorId, Int32 customerId);
 
-        Decimal LatestInventory();
+        Decimal LatestInventory(Int32 customerId);
 
-        Decimal LatestSale();
+        Decimal LatestSale(Int32 customerId);
 
         void SaveItem(Int32 productId, Int32 knopaId, CommonUnit.ProductType type);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MenuzRus;
 using Services;
 
 namespace MenuzRus {
@@ -241,13 +242,14 @@ namespace MenuzRus {
             return null;
         }
 
-        public List<TableOrder> GetTableOrdersByFloorId(Int32 floorId) {
+        public List<TableOrder> GetTableOrdersByFloorId(Int32 floorId, Int32 customerId) {
             List<TableOrder> retVal = new List<TableOrder>();
             menuzRusDataContext db = new menuzRusDataContext(base.connectionString);
             if (floorId == 0) {
                 retVal = (from table in db.Tables
+                          join floor in db.Floors on table.FloorId equals floor.id
                           join order in db.TableOrders on table.id equals order.TableId
-                          where table.Status == (Int32)CommonUnit.Status.Active && order.Status != (Int32)CommonUnit.TableOrderStatus.Closed
+                          where floor.CustomerId == customerId && table.Status == (Int32)CommonUnit.Status.Active && order.Status != (Int32)CommonUnit.TableOrderStatus.Closed
                           select order).OrderByDescending(m => m.DateModified).ToList();
             }
             else {
@@ -259,7 +261,7 @@ namespace MenuzRus {
             return retVal;
         }
 
-        public Decimal LatestInventory() {
+        public Decimal LatestInventory(Int32 customerId) {
             Decimal? saldo;
             DateTime maxDate;
 
@@ -270,7 +272,7 @@ namespace MenuzRus {
             return saldo.HasValue ? saldo.Value : 0;
         }
 
-        public Decimal LatestSale() {
+        public Decimal LatestSale(Int32 customerId) {
             Decimal? price;
 
             using (menuzRusDataContext db = new menuzRusDataContext(base.connectionString)) {
